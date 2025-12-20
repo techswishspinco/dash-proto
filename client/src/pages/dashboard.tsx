@@ -65,13 +65,13 @@ function StatusIndicator({ status }: { status: "verified" | "active" | "found" |
 function SidebarItem({ icon: Icon, label, active = false }: { icon: any, label: string, active?: boolean }) {
   return (
     <button className={cn(
-      "h-10 flex items-center transition-all duration-300 mb-2 rounded-md mx-2",
-      "justify-center group-hover:justify-start group-hover:px-3",
+      "h-10 flex items-center transition-all duration-300 mb-2 rounded-md mx-2 px-2.5", // Fixed padding
+      "justify-start", // Always start align to keep icon stable
       "w-10 group-hover:w-[calc(100%-1rem)]", 
       active ? "bg-black text-white" : "text-gray-400 hover:text-black hover:bg-gray-100"
     )}>
       <Icon className="h-5 w-5 flex-shrink-0" />
-      <span className="ml-3 whitespace-nowrap overflow-hidden opacity-0 w-0 group-hover:w-auto group-hover:opacity-100 transition-all duration-300 delay-75">
+      <span className="ml-3 whitespace-nowrap overflow-hidden opacity-0 w-0 group-hover:w-auto group-hover:opacity-100 transition-all duration-300 delay-75 text-sm font-medium">
         {label}
       </span>
     </button>
