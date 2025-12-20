@@ -142,6 +142,7 @@ export default function Home() {
                   <input 
                     type="text" 
                     value={query}
+                    autoFocus
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Ask anything about your restaurant..." 
                     className="w-full text-center text-xl py-6 px-8 bg-white border border-gray-200 rounded-xl shadow-xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all font-serif placeholder:text-muted-foreground/50"

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Layout from "@/components/layout";
-import { useLocation } from "wouter";
+import { useLocation } from "wouter"; // Import useLocation
 import { 
   Send, 
   User, 
@@ -93,7 +93,7 @@ export default function Assistant() {
     if (initialQuery && messages.length === 0) {
       handleSend(initialQuery);
     }
-  }, [location]);
+  }, [location]); // Depend on location to re-run when location changes
 
   // Auto-scroll
   useEffect(() => {
