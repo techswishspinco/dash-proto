@@ -1,0 +1,216 @@
+Perfect — below is a **clean, AI-first homepage wireframe** you can hand directly to design or start implementing yourself. This is optimized for **restaurant operators**, not analysts.
+
+Think: **Command Center → Decisions → Actions → Outcomes**
+
+---
+
+# 🧠 Munch Insights — Home Page Wireframe (Desktop)
+
+---
+
+## 1️⃣ Top Navigation (Minimal, Trust-Focused)
+
+```
+[Munch Insights]        Locations ▾   Bonuses   Reports   Settings   👤
+```
+
+* No clutter
+* No feature dumping
+* The homepage *is* the product
+
+---
+
+## 2️⃣ Hero / AI Command Feed (Above the Fold)
+
+> This replaces a traditional hero section.
+
+```
+──────────────────────────────────────────────────────
+📍 Little Mo BK — Today
+
+AI Summary:
+• Labor is +2.1% over target → $312 risk tonight
+• Upsell compliance at 68% → $420 missed revenue
+• Bonus pool: $1,260 available this week
+• Cash runway: 9 days at current margin
+
+[ Fix Labor ]   [ Launch Bonus ]   [ Boost Upsell ]
+──────────────────────────────────────────────────────
+```
+
+**Design notes**
+
+* Natural language
+* Feels *live*
+* Buttons are outcome-based, not feature-based
+
+---
+
+## 3️⃣ “What Should I Do Today?” (Primary Focus)
+
+```
+──────────────────────────────────────────────────────
+🔥 Top Actions for Today
+
+1️⃣ Cut 1 server at 3:30pm
+   → Saves $312 | Confidence: High
+   [ Apply Change ]
+
+2️⃣ Launch Dessert Upsell Bonus
+   → +$540 projected | ROI 3.2x
+   [ Assign Bonus ]
+
+3️⃣ Vendor price variance detected
+   → $180 weekly leak
+   [ Review Details ]
+──────────────────────────────────────────────────────
+```
+
+**This section should feel unavoidable.**
+If they do nothing else, they do *this*.
+
+---
+
+## 4️⃣ Core Pillars (Labor / P&L / Bonus / Upsell)
+
+### 4-Card Intelligence Grid (Not Dashboards)
+
+```
+──────────────────────────────────────────────────────
+LABOR              P&L
+Confidence: 74%    Net Margin: 8.6%
+
+• Overstaffed 5–7  • Labor +0.8%
+• 1 shift at risk  • Food cost –1.3%
+
+[ Adjust Staffing ]   [ Simulate Impact ]
+
+──────────────────────────────────────────────────────
+BONUSES            UPSELL
+2 Active Missions  Conversion: 29%
+
+• $1,260 available • 12 missed desserts
+• 68% complete     • $610 left behind
+
+[ View Bonuses ]     [ Fix Upsell ]
+──────────────────────────────────────────────────────
+```
+
+Each card answers:
+
+* Is this healthy?
+* Why / why not?
+* What should I do?
+
+---
+
+## 5️⃣ Bonus Missions (Gamified, But Adult)
+
+```
+──────────────────────────────────────────────────────
+🎯 Active Bonus Missions
+
+[■■■■■■■■□□] 68%
+Upsell Compliance → 75%
+Reward: $480 | ROI: +$1,900
+Eligible: Servers (8)
+
+[ View Details ]   [ Notify Team ]
+──────────────────────────────────────────────────────
+```
+
+**Key rule:**
+Bonuses always show **ROI**, never just rewards.
+
+---
+
+## 6️⃣ Labor Intelligence (Shift-Level, Predictive)
+
+```
+──────────────────────────────────────────────────────
+📆 Upcoming Shifts
+
+Tonight — Dinner
+Labor Risk: Medium
+
+• Forecast demand lower than staffing
+• Alex below upsell avg
+• Bonus opportunity unlocked
+
+[ Auto-Adjust ]   [ Assign Bonus ]
+──────────────────────────────────────────────────────
+```
+
+Feels like:
+
+> “I’ve already checked this for you.”
+
+---
+
+## 7️⃣ Upsell Performance (Behavior-First)
+
+```
+──────────────────────────────────────────────────────
+🍰 Upsell Moments (Yesterday)
+
+Opportunities: 42
+Attempts: 18
+Conversions: 12
+Missed Revenue: $610
+
+[ Send Coaching Tip ]   [ Attach Bonus ]
+──────────────────────────────────────────────────────
+```
+
+No menu PDFs.
+No POS junk.
+Just **behavior → money**.
+
+---
+
+## 8️⃣ Time & Money Saved (Sticky Footer / Sidebar)
+
+```
+──────────────────────────────────────────────────────
+⏱ Time Saved This Month: 17.4 hrs
+💰 Profit Impact: +$4,230
+──────────────────────────────────────────────────────
+```
+
+This reinforces:
+
+> “This tool paid for itself.”
+
+---
+
+# 🧭 Mobile Adaptation (Quick Note)
+
+Mobile should collapse into:
+
+1. AI Summary
+2. Top 3 Actions
+3. One-tap fixes
+
+Everything else is secondary.
+
+---
+
+# 🔑 Design Principles to Hand to Your Designer
+
+* No empty states → always show *example intelligence*
+* No charts unless they answer a decision
+* Every insight has a button
+* Every button has a dollar impact
+* AI speaks in **complete sentences**
+* Homepage works even before full setup
+
+---
+
+If you want next:
+
+* A **Figma-ready component list**
+* Copy for every block
+* A **Lite / Pro / Suite** homepage variant
+* Or a **dark-mode “mission control” aesthetic**
+
+Say the word and I’ll go deeper.
