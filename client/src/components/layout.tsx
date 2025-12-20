@@ -1,6 +1,13 @@
 import React from "react";
 import { Link, useLocation } from "wouter";
 import { 
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { 
+  CheckCircle2, 
+  RefreshCw,
   Home, 
   Sparkles, 
   LayoutDashboard, 
@@ -15,7 +22,7 @@ import {
   FileText,
   Users,
   Search,
-  ArrowUpRight
+  ArrowUpRight 
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -90,12 +97,53 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {/* Header */}
         <header className="h-16 px-8 flex items-center justify-between bg-white border-b border-border sticky top-0 z-10">
            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-             <span className="font-serif text-foreground text-lg italic">Restaurant Intelligence</span>
+             <Popover>
+               <PopoverTrigger asChild>
+                 <button className="flex items-center gap-2 px-3 py-1.5 hover:bg-gray-100 rounded-md transition-colors group">
+                   <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                   <span className="font-medium text-foreground text-sm group-hover:text-black">Synced: 2/2</span>
+                   <ChevronDown className="h-3 w-3 text-muted-foreground group-hover:text-black" />
+                 </button>
+               </PopoverTrigger>
+               <PopoverContent className="w-64 p-2" align="start">
+                 <div className="space-y-1">
+                   <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Integrations</div>
+                   
+                   <div className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-50 cursor-default">
+                      <div className="flex items-center gap-3">
+                        <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
+                        <div className="flex flex-col">
+                           <span className="text-sm font-medium">POS System</span>
+                           <span className="text-[10px] text-muted-foreground">Toast API • Live</span>
+                        </div>
+                      </div>
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                   </div>
+
+                   <div className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-50 cursor-default">
+                      <div className="flex items-center gap-3">
+                        <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
+                        <div className="flex flex-col">
+                           <span className="text-sm font-medium">Accounting</span>
+                           <span className="text-[10px] text-muted-foreground">QuickBooks • Synced 2m ago</span>
+                        </div>
+                      </div>
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                   </div>
+                 </div>
+                 
+                 <div className="mt-2 pt-2 border-t border-border px-2">
+                    <button className="w-full flex items-center justify-center gap-2 text-xs text-muted-foreground hover:text-foreground py-1.5 hover:bg-gray-50 rounded transition-colors">
+                       <RefreshCw className="h-3 w-3" /> Sync Now
+                    </button>
+                 </div>
+               </PopoverContent>
+             </Popover>
            </div>
            
            <div className="flex items-center gap-6">
              <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">Help</button>
-             <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">Documentation</button>
+             <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">Settings</button>
              <Link href="/settings">
                <button className="h-8 w-8 bg-secondary rounded-full flex items-center justify-center text-xs font-medium hover:bg-secondary/70 transition-colors" title="Settings">
                  JD
