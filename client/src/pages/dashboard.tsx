@@ -62,14 +62,18 @@ function StatusIndicator({ status }: { status: "verified" | "active" | "found" |
   );
 }
 
-function SidebarItem({ icon: Icon, label, active = false }: { icon: any, label?: string, active?: boolean }) {
+function SidebarItem({ icon: Icon, label, active = false }: { icon: any, label: string, active?: boolean }) {
   return (
     <button className={cn(
-      "w-10 h-10 flex items-center justify-center transition-colors mb-2",
+      "h-10 flex items-center transition-all duration-300 mb-2 rounded-md mx-2",
+      "justify-center group-hover:justify-start group-hover:px-3",
+      "w-10 group-hover:w-[calc(100%-1rem)]", 
       active ? "bg-black text-white" : "text-gray-400 hover:text-black hover:bg-gray-100"
     )}>
-      <Icon className="h-5 w-5" />
-      {label && <span className="sr-only">{label}</span>}
+      <Icon className="h-5 w-5 flex-shrink-0" />
+      <span className="ml-3 whitespace-nowrap overflow-hidden opacity-0 w-0 group-hover:w-auto group-hover:opacity-100 transition-all duration-300 delay-75">
+        {label}
+      </span>
     </button>
   );
 }
@@ -80,18 +84,22 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background flex font-sans text-foreground">
       {/* Sidebar - Minimalist strip */}
-      <aside className="w-16 flex-shrink-0 bg-white border-r border-border flex flex-col items-center py-6 sticky top-0 h-screen z-10">
-        <div className="mb-8">
-          <div className="h-8 w-8 bg-black text-white flex items-center justify-center font-serif font-bold text-lg">
+      <aside className="group w-16 hover:w-64 flex-shrink-0 bg-white border-r border-border flex flex-col transition-all duration-500 ease-in-out py-6 sticky top-0 h-screen z-20 shadow-[1px_0_20px_rgba(0,0,0,0)] hover:shadow-[1px_0_40px_rgba(0,0,0,0.05)]">
+        <div className="mb-8 flex items-center justify-center group-hover:justify-start group-hover:px-6 transition-all duration-300">
+          <div className="h-8 w-8 bg-black text-white flex items-center justify-center font-serif font-bold text-lg flex-shrink-0 rounded-sm">
             M
           </div>
+          <span className="ml-3 font-serif text-xl font-bold opacity-0 w-0 group-hover:w-auto group-hover:opacity-100 overflow-hidden whitespace-nowrap transition-all duration-500 delay-100">
+            Mosaic
+          </span>
         </div>
         
-        <nav className="flex-1 flex flex-col gap-2">
-          <SidebarItem icon={Check} active />
-          <SidebarItem icon={ArrowUpRight} />
-          <SidebarItem icon={Settings} />
-          <SidebarItem icon={FileText} />
+        <nav className="flex-1 flex flex-col gap-1 w-full">
+          <SidebarItem icon={Check} label="Verification" active />
+          <SidebarItem icon={ArrowUpRight} label="Analytics" />
+          <SidebarItem icon={FileText} label="Reports" />
+          <SidebarItem icon={Users} label="Team" />
+          <SidebarItem icon={Settings} label="Settings" />
         </nav>
       </aside>
 
