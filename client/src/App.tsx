@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/home";
 import Settings from "@/pages/settings";
 import GenericPage from "@/pages/generic";
+import Assistant from "@/pages/assistant";
 
 function Router() {
   return (
@@ -16,7 +17,7 @@ function Router() {
       
       {/* Insight Module */}
       <Route path="/insight/home" component={Dashboard} />
-      <Route path="/insight/assistant" component={() => <GenericPage title="Assistant" />} />
+      <Route path="/insight/assistant" component={Assistant} />
       <Route path="/insight/dashboards" component={() => <GenericPage title="Dashboards" />} />
       
       {/* Operate Module */}

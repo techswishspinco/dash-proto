@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useLocation } from "wouter";
 import Layout from "@/components/layout";
 import { cn } from "@/lib/utils";
 import { 
@@ -59,6 +60,20 @@ function MissionProgressBar({ value }: { value: number }) {
 }
 
 export default function Home() {
+  const [, setLocation] = useLocation();
+  const [query, setQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) {
+      setLocation(`/insight/assistant?q=${encodeURIComponent(query)}`);
+    }
+  };
+
+  const handleQuickAsk = (q: string) => {
+    setLocation(`/insight/assistant?q=${encodeURIComponent(q)}`);
+  };
+
   return (
     <Layout>
       <div className="p-8 max-w-7xl mx-auto space-y-12">
@@ -123,27 +138,31 @@ export default function Home() {
            <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-emerald-100 via-sky-100 to-amber-100 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative">
-                <input 
-                  type="text" 
-                  placeholder="Ask anything about your restaurant..." 
-                  className="w-full text-center text-xl py-6 px-8 bg-white border border-gray-200 rounded-xl shadow-xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all font-serif placeholder:text-muted-foreground/50"
-                />
-                <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                   <button className="bg-black text-white p-3 rounded-full hover:bg-gray-800 transition-colors shadow-lg hover:scale-105 active:scale-95">
-                      <ArrowUpRight className="h-5 w-5" />
-                   </button>
-                </div>
+                <form onSubmit={handleSearch}>
+                  <input 
+                    type="text" 
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Ask anything about your restaurant..." 
+                    className="w-full text-center text-xl py-6 px-8 bg-white border border-gray-200 rounded-xl shadow-xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all font-serif placeholder:text-muted-foreground/50"
+                  />
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                    <button type="submit" className="bg-black text-white p-3 rounded-full hover:bg-gray-800 transition-colors shadow-lg hover:scale-105 active:scale-95">
+                        <ArrowUpRight className="h-5 w-5" />
+                    </button>
+                  </div>
+                </form>
               </div>
            </div>
            
            <div className="flex flex-wrap justify-center gap-3">
-              <button className="text-sm font-medium text-muted-foreground hover:text-black hover:bg-white hover:shadow-sm hover:border-black/20 bg-gray-50/80 border border-border/60 px-4 py-2 rounded-full transition-all">
+              <button onClick={() => handleQuickAsk("Who's my top performer this week?")} className="text-sm font-medium text-muted-foreground hover:text-black hover:bg-white hover:shadow-sm hover:border-black/20 bg-gray-50/80 border border-border/60 px-4 py-2 rounded-full transition-all">
                  "Who's my top performer this week?"
               </button>
-              <button className="text-sm font-medium text-muted-foreground hover:text-black hover:bg-white hover:shadow-sm hover:border-black/20 bg-gray-50/80 border border-border/60 px-4 py-2 rounded-full transition-all">
+              <button onClick={() => handleQuickAsk("Am I overstaffed tonight?")} className="text-sm font-medium text-muted-foreground hover:text-black hover:bg-white hover:shadow-sm hover:border-black/20 bg-gray-50/80 border border-border/60 px-4 py-2 rounded-full transition-all">
                  "Am I overstaffed tonight?"
               </button>
-              <button className="text-sm font-medium text-muted-foreground hover:text-black hover:bg-white hover:shadow-sm hover:border-black/20 bg-gray-50/80 border border-border/60 px-4 py-2 rounded-full transition-all">
+              <button onClick={() => handleQuickAsk("Why did labor spike on Tuesday?")} className="text-sm font-medium text-muted-foreground hover:text-black hover:bg-white hover:shadow-sm hover:border-black/20 bg-gray-50/80 border border-border/60 px-4 py-2 rounded-full transition-all">
                  "Why did labor spike on Tuesday?"
               </button>
            </div>
