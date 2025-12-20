@@ -9,35 +9,34 @@ import {
   Sun, 
   DollarSign, 
   TrendingUp,
-  Check,
-  ChevronDown,
   Settings,
-  FileText,
-  Users,
-  Search,
-  ArrowUpRight
+  LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-function SidebarItem({ icon: Icon, label, href }: { icon: any, label: string, href: string }) {
+function SidebarItem({ icon: Icon, label, href, onClick }: { icon: any, label: string, href?: string, onClick?: () => void }) {
   const [location] = useLocation();
-  const active = location === href;
+  const active = href ? location === href : false;
 
-  return (
-    <Link href={href}>
-      <a className={cn(
-        "h-10 flex items-center transition-all duration-300 mb-2 rounded-md mx-2 px-2.5",
-        "justify-start",
-        "w-10 group-hover:w-[calc(100%-1rem)]", 
-        active ? "bg-black text-white" : "text-gray-400 hover:text-black hover:bg-gray-100"
-      )}>
-        <Icon className="h-5 w-5 flex-shrink-0" />
-        <span className="ml-3 whitespace-nowrap overflow-hidden opacity-0 w-0 group-hover:w-auto group-hover:opacity-100 transition-all duration-300 delay-75 text-sm font-medium">
-          {label}
-        </span>
-      </a>
-    </Link>
+  const content = (
+    <div className={cn(
+      "h-10 flex items-center transition-all duration-300 mb-2 rounded-md mx-2 px-2.5 cursor-pointer",
+      "justify-start",
+      "w-10 group-hover:w-[calc(100%-1rem)]", 
+      active ? "bg-black text-white" : "text-gray-400 hover:text-black hover:bg-gray-100"
+    )}>
+      <Icon className="h-5 w-5 flex-shrink-0" />
+      <span className="ml-3 whitespace-nowrap overflow-hidden opacity-0 w-0 group-hover:w-auto group-hover:opacity-100 transition-all duration-300 delay-75 text-sm font-medium">
+        {label}
+      </span>
+    </div>
   );
+
+  if (href) {
+    return <Link href={href}>{content}</Link>;
+  }
+
+  return <button onClick={onClick} className="w-full text-left">{content}</button>;
 }
 
 function SidebarSection({ title, children }: { title: string, children: React.ReactNode }) {
@@ -83,27 +82,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <SidebarItem icon={TrendingUp} label="Upsell" href="/motivate/upsell" />
           </SidebarSection>
         </nav>
+
+        {/* Footer Settings & Logout */}
+        <div className="mt-auto pt-4 border-t border-border mx-2">
+           <SidebarItem icon={Settings} label="Settings" href="/settings" />
+           <SidebarItem 
+             icon={LogOut} 
+             label="Logout" 
+             onClick={() => console.log("Logging out...")} 
+           />
+        </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        {/* Header */}
-        <header className="h-16 px-8 flex items-center justify-between bg-white border-b border-border sticky top-0 z-10">
-           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-             <span className="font-serif text-foreground text-lg italic">Restaurant Intelligence</span>
-           </div>
-           
-           <div className="flex items-center gap-6">
-             <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">Help</button>
-             <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">Documentation</button>
-             <Link href="/settings">
-               <button className="h-8 w-8 bg-secondary rounded-full flex items-center justify-center text-xs font-medium hover:bg-secondary/70 transition-colors" title="Settings">
-                 JD
-               </button>
-             </Link>
-           </div>
-        </header>
-
+      <main className="flex-1 overflow-auto bg-gray-50/30">
         {children}
       </main>
     </div>
