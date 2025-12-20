@@ -24,10 +24,11 @@ type Message = {
   role: "user" | "assistant";
   content: string;
   toolCall?: {
-    state: "running" | "completed";
+    state: "running" | "completed" | "pending_confirmation" | "denied";
     toolName: string;
     args?: any;
     result?: any;
+    denialReason?: string;
   };
   artifact?: boolean;
 };
@@ -124,21 +125,32 @@ export default function Assistant() {
     const toolMsg: Message = {
       id: toolMsgId,
       role: "assistant",
-      content: "I'll check the performance data for this week. Analyzing shift reports...",
+      content: "I'll check the performance data for this week.",
       toolCall: {
-        state: "running",
+        state: "pending_confirmation",
         toolName: "analyze_staff_performance",
-        args: { timeRange: "this_week", metric: "sales_volume" }
+        args: { timeRange: "this_week", metric: "sales_volume", staff_member: "Michael Richards" }
       }
     };
     setMessages(prev => [...prev, toolMsg]);
-    
+    setIsTyping(false);
+  };
+
+  const handleConfirmTool = async (msgId: string) => {
+    // Update to running
+    setMessages(prev => prev.map(m => 
+      m.id === msgId 
+        ? { ...m, toolCall: { ...m.toolCall!, state: "running" } }
+        : m
+    ));
+    setIsTyping(true);
+
     // 3. Tool "running" pause
     await new Promise(r => setTimeout(r, 2000));
 
     // 4. Update tool to completed
     setMessages(prev => prev.map(m => 
-      m.id === toolMsgId 
+      m.id === msgId 
         ? { ...m, toolCall: { ...m.toolCall!, state: "completed", result: "Analysis complete. Top performer identified." } }
         : m
     ));
@@ -155,6 +167,14 @@ export default function Assistant() {
     
     setMessages(prev => [...prev, finalMsg]);
     setIsTyping(false);
+  };
+
+  const handleDenyTool = (msgId: string) => {
+    setMessages(prev => prev.map(m => 
+      m.id === msgId 
+        ? { ...m, toolCall: { ...m.toolCall!, state: "denied", denialReason: "User cancelled action" } }
+        : m
+    ));
   };
 
   return (
@@ -223,21 +243,77 @@ export default function Assistant() {
                                animate={{ opacity: 1, height: "auto" }}
                                className="mt-2 mb-2"
                              >
-                                <div className="inline-flex items-center gap-2 text-xs font-mono bg-white border border-border px-3 py-2 rounded-md shadow-sm">
-                                   {msg.toolCall.state === "running" ? (
-                                      <>
-                                         <Wand /> 
-                                         <span className="text-muted-foreground">Running tool:</span> 
-                                         <span className="font-medium text-black">{msg.toolCall.toolName}</span>
-                                      </>
-                                   ) : (
-                                      <>
-                                         <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                                         <span className="text-muted-foreground">Completed:</span>
-                                         <span className="font-medium text-black">{msg.toolCall.toolName}</span>
-                                      </>
-                                   )}
-                                </div>
+                                {msg.toolCall.state === "pending_confirmation" ? (
+                                    <div className="border border-border rounded-lg p-4 bg-white shadow-sm max-w-sm">
+                                      <div className="flex items-center justify-between mb-3">
+                                          <div className="flex items-center gap-2">
+                                            <Wand />
+                                            <span className="font-medium text-sm">Confirm Action</span>
+                                          </div>
+                                          <span className="bg-amber-100 text-amber-800 text-[10px] uppercase font-bold px-2 py-0.5 rounded-full">Pending</span>
+                                      </div>
+                                      
+                                      <div className="space-y-3 mb-4">
+                                         <div className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Tool</div>
+                                         <div className="font-mono text-xs bg-gray-50 p-1.5 rounded border border-border">{msg.toolCall.toolName}</div>
+
+                                         <div className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Parameters</div>
+                                         <div className="space-y-2">
+                                            {Object.entries(msg.toolCall.args || {}).map(([key, value]) => (
+                                               <div key={key} className="flex flex-col gap-1">
+                                                  <span className="text-xs text-muted-foreground">{key}</span>
+                                                  {key === "staff_member" ? (
+                                                      <select className="text-sm border border-border rounded px-2 py-1 bg-white focus:ring-2 focus:ring-black/5 outline-none">
+                                                          <option>{value as string}</option>
+                                                          <option>Sarah Jenkins</option>
+                                                          <option>David Chen</option>
+                                                          <option>Entire Team</option>
+                                                      </select>
+                                                  ) : (
+                                                      <div className="text-sm font-medium">{value as string}</div>
+                                                  )}
+                                               </div>
+                                            ))}
+                                         </div>
+                                      </div>
+
+                                      <div className="flex gap-2 pt-2 border-t border-border">
+                                          <button 
+                                            onClick={() => handleDenyTool(msg.id)}
+                                            className="flex-1 py-2 text-xs font-medium border border-border rounded hover:bg-gray-50 transition-colors"
+                                          >
+                                            Deny
+                                          </button>
+                                          <button 
+                                            onClick={() => handleConfirmTool(msg.id)}
+                                            className="flex-1 py-2 text-xs font-medium bg-black text-white rounded hover:bg-gray-800 transition-colors shadow-sm"
+                                          >
+                                            Allow
+                                          </button>
+                                      </div>
+                                    </div>
+                                ) : msg.toolCall.state === "denied" ? (
+                                    <div className="inline-flex items-center gap-2 text-xs font-mono bg-gray-50 border border-border px-3 py-2 rounded-md opacity-70">
+                                       <div className="h-2 w-2 rounded-full bg-red-400" />
+                                       <span className="text-muted-foreground decoration-line-through">Action cancelled</span>
+                                    </div>
+                                ) : (
+                                   <div className="inline-flex items-center gap-2 text-xs font-mono bg-white border border-border px-3 py-2 rounded-md shadow-sm">
+                                      {msg.toolCall.state === "running" ? (
+                                         <>
+                                            <Wand /> 
+                                            <span className="text-muted-foreground">Running tool:</span> 
+                                            <span className="font-medium text-black">{msg.toolCall.toolName}</span>
+                                         </>
+                                      ) : (
+                                         <>
+                                            <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                                            <span className="text-muted-foreground">Completed:</span>
+                                            <span className="font-medium text-black">{msg.toolCall.toolName}</span>
+                                         </>
+                                      )}
+                                   </div>
+                                )}
                              </motion.div>
                           )}
 
