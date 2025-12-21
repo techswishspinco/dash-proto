@@ -32,42 +32,34 @@ function AuthenticatedRoutes() {
   
   return (
     <Layout>
-      <AnimatePresence mode="wait">
-        <Switch location={location} key={location}>
-          <Route path="/insight/home">
-            <PageTransition><Dashboard /></PageTransition>
-          </Route>
-          <Route path="/insight/assistant">
-             <PageTransition><Assistant /></PageTransition>
-          </Route>
+        <Switch>
+          <Route path="/insight/home" component={Dashboard} />
+          <Route path="/insight/assistant" component={Assistant} />
           <Route path="/insight/dashboards">
-             <PageTransition><GenericPage title="Dashboards" /></PageTransition>
+             <GenericPage title="Dashboards" />
           </Route>
           
           <Route path="/operate/schedule">
-             <PageTransition><GenericPage title="Schedule" /></PageTransition>
+             <GenericPage title="Schedule" />
           </Route>
           <Route path="/operate/end-of-day">
-             <PageTransition><GenericPage title="End of Day" /></PageTransition>
+             <GenericPage title="End of Day" />
           </Route>
           <Route path="/operate/start-of-day">
-             <PageTransition><GenericPage title="Start of Day" /></PageTransition>
+             <GenericPage title="Start of Day" />
           </Route>
           
           <Route path="/motivate/bonus">
-             <PageTransition><GenericPage title="Bonus" /></PageTransition>
+             <GenericPage title="Bonus" />
           </Route>
           <Route path="/motivate/upsell">
-             <PageTransition><GenericPage title="Upsell" /></PageTransition>
+             <GenericPage title="Upsell" />
           </Route>
           
-          <Route path="/settings">
-             <PageTransition><Settings /></PageTransition>
-          </Route>
+          <Route path="/settings" component={Settings} />
 
           <Route component={NotFound} />
         </Switch>
-      </AnimatePresence>
     </Layout>
   );
 }
@@ -79,7 +71,11 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/onboarding" component={Onboarding} />
       
-      {/* Catch-all for authenticated routes to wrap them in Layout */}
+      <Route path="/insight/home">
+        <Layout><Dashboard /></Layout>
+      </Route>
+      
+      {/* Catch-all for other authenticated routes */}
       <Route path="/:rest*" component={AuthenticatedRoutes} />
     </Switch>
   );
