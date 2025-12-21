@@ -167,6 +167,97 @@ export default function Onboarding() {
              </div>
            )}
 
+           {/* --- Analyzing State --- */}
+           {currentStep === "analyzing" && (
+             <div className="bg-white rounded-xl border border-gray-200 p-12 shadow-sm animate-in fade-in zoom-in-95 duration-500 flex flex-col items-center text-center max-w-md w-full">
+                <div className="relative mb-8">
+                  <div className="absolute inset-0 bg-emerald-100 rounded-full animate-ping opacity-75"></div>
+                  <div className="relative h-16 w-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center border border-emerald-100">
+                     <Sparkles className="h-8 w-8 animate-pulse" />
+                  </div>
+                </div>
+                <h2 className="text-2xl font-serif font-medium mb-3">Analyzing your reviews...</h2>
+                <p className="text-muted-foreground mb-6">We're scanning public data to understand what your customers love (and what they don't).</p>
+                
+                <div className="w-full bg-gray-100 rounded-full h-2 mb-2 overflow-hidden">
+                  <div className="bg-emerald-500 h-full rounded-full animate-[progress_2s_ease-in-out_infinite]" style={{width: '70%'}}></div>
+                </div>
+                <p className="text-xs text-muted-foreground">Gathering insights from Google, Yelp, and TripAdvisor</p>
+             </div>
+           )}
+
+           {/* --- Confirm Restaurant & Analysis --- */}
+           {currentStep === "confirm_restaurant" && (
+             <div className="bg-white rounded-xl border border-gray-200 p-0 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-hidden w-full max-w-lg">
+                <div className="h-32 bg-gray-100 relative">
+                  <img 
+                    src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070&auto=format&fit=crop" 
+                    alt="Restaurant Interior" 
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h2 className="text-xl font-bold drop-shadow-md">{restaurantName || "Little Mo's Diner"}</h2>
+                    <p className="text-sm opacity-90 drop-shadow-md flex items-center gap-1"><MapPin className="h-3 w-3" /> {address || "Brooklyn, NY"}</p>
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-6 pb-6 border-b border-gray-100">
+                    <div className="flex items-center gap-2">
+                       <span className="text-2xl font-bold text-gray-900">4.8</span>
+                       <div className="flex text-amber-400">
+                          <Star className="h-4 w-4 fill-current" />
+                          <Star className="h-4 w-4 fill-current" />
+                          <Star className="h-4 w-4 fill-current" />
+                          <Star className="h-4 w-4 fill-current" />
+                          <Star className="h-4 w-4 fill-current" />
+                       </div>
+                       <span className="text-sm text-muted-foreground">(324 reviews)</span>
+                    </div>
+                    <div className="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full border border-emerald-100">
+                       Top Rated
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 mb-8">
+                     <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">AI Review Analysis</h3>
+                     
+                     <div className="p-3 bg-emerald-50/50 rounded-lg border border-emerald-100 flex gap-3">
+                        <div className="mt-0.5 text-emerald-600"><CheckCircle2 className="h-4 w-4" /></div>
+                        <div>
+                           <p className="text-sm font-medium text-gray-900">Brunch is a hit</p>
+                           <p className="text-xs text-muted-foreground mt-0.5">"Customers consistently praise the avocado toast and bottomless mimosas deal on weekends."</p>
+                        </div>
+                     </div>
+
+                     <div className="p-3 bg-amber-50/50 rounded-lg border border-amber-100 flex gap-3">
+                        <div className="mt-0.5 text-amber-600"><Users className="h-4 w-4" /></div>
+                        <div>
+                           <p className="text-sm font-medium text-gray-900">Wait times are an issue</p>
+                           <p className="text-xs text-muted-foreground mt-0.5">"Several reviews mention 45+ minute waits even with reservations during peak hours."</p>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="space-y-3">
+                     <button 
+                       onClick={() => nextStep("goals")}
+                       className="w-full bg-black text-white py-2.5 rounded-md font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+                     >
+                        Yes, this is my restaurant <ArrowRight className="h-4 w-4" />
+                     </button>
+                     <button 
+                       onClick={() => prevStep()}
+                       className="w-full bg-white text-muted-foreground py-2.5 rounded-md text-sm hover:text-foreground transition-colors border border-gray-200 hover:border-gray-300"
+                     >
+                        No, search again
+                     </button>
+                  </div>
+                </div>
+             </div>
+           )}
+
            {/* --- Step 2: POS Connection --- */}
            {currentStep === "pos_connect" && (
              <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
