@@ -31,7 +31,8 @@ import {
   FileText,
   Users,
   Search,
-  ArrowUpRight 
+  ArrowUpRight,
+  LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -177,12 +178,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
            
            <div className="flex items-center gap-6">
              <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">Help</button>
-             <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">Settings</button>
              <Link href="/settings">
-               <button className="h-8 w-8 bg-secondary rounded-full flex items-center justify-center text-xs font-medium hover:bg-secondary/70 transition-colors" title="Settings">
-                 JD
-               </button>
+                <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">Settings</button>
              </Link>
+             
+             <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="h-8 w-8 bg-secondary rounded-full flex items-center justify-center text-xs font-medium hover:bg-secondary/70 transition-colors outline-none" title="Profile">
+                    JD
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                   <DropdownMenuSeparator />
+                   <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                   </DropdownMenuItem>
+                </DropdownMenuContent>
+             </DropdownMenu>
            </div>
         </header>
 
