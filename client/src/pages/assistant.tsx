@@ -178,8 +178,7 @@ export default function Assistant() {
   };
 
   return (
-    <Layout>
-      <div className="flex h-[calc(100vh-64px)] overflow-hidden bg-white">
+    <div className="flex h-[calc(100vh-64px)] overflow-hidden bg-white">
         
         {/* Sidebar (History) */}
         <div className="w-64 border-r border-border bg-gray-50/50 hidden md:flex flex-col">
@@ -375,6 +374,5 @@ export default function Assistant() {
 
         </div>
       </div>
-    </Layout>
   );
 }

@@ -58,8 +58,7 @@ function StatusIndicator({ status }: { status: "verified" | "active" | "found" |
 
 export default function Settings() {
   return (
-    <Layout>
-      <div className="p-8 max-w-7xl mx-auto grid grid-cols-12 gap-8">
+    <div className="p-8 max-w-7xl mx-auto grid grid-cols-12 gap-8">
         
         {/* Left Column: Insights Summary */}
         <div className="col-span-12 lg:col-span-3 space-y-8">
@@ -216,6 +215,5 @@ export default function Settings() {
 
         </div>
       </div>
-    </Layout>
   );
 }
