@@ -24,7 +24,7 @@ export default function Onboarding() {
 
   // Form State
   const [restaurantName, setRestaurantName] = useState("");
-  const [zipCode, setZipCode] = useState("");
+  const [address, setAddress] = useState("");
   const [posSystem, setPosSystem] = useState("");
   const [accountingSystem, setAccountingSystem] = useState("");
   const [biggestHeadache, setBiggestHeadache] = useState("");
@@ -100,22 +100,22 @@ export default function Onboarding() {
                 
                 <div className="space-y-4 mb-8">
                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Address</label>
+                      <input 
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" 
+                        placeholder="123 Main St, Brooklyn, NY" 
+                        autoFocus
+                      />
+                   </div>
+                   <div className="space-y-2">
                       <label className="text-sm font-medium">Restaurant Name</label>
                       <input 
                         value={restaurantName}
                         onChange={(e) => setRestaurantName(e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" 
                         placeholder="e.g. Little Mo's Diner" 
-                        autoFocus
-                      />
-                   </div>
-                   <div className="space-y-2">
-                      <label className="text-sm font-medium">Zip Code</label>
-                      <input 
-                        value={zipCode}
-                        onChange={(e) => setZipCode(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" 
-                        placeholder="11211" 
                       />
                    </div>
                 </div>
