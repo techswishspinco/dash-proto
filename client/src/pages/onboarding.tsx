@@ -10,6 +10,7 @@ import {
   Target,
   Users,
   Check,
+  CheckCircle2,
   ChevronRight,
   Calculator
 } from "lucide-react";
