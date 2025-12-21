@@ -50,6 +50,14 @@ export default function Onboarding() {
     }, 1500);
   };
 
+  const prevStep = () => {
+    const steps: Step[] = ["restaurant_info", "pos_connect", "accounting_connect", "goals", "team_invite"];
+    const currentIndex = steps.indexOf(currentStep);
+    if (currentIndex > 0) {
+      setCurrentStep(steps[currentIndex - 1]);
+    }
+  };
+
   const renderStepIndicator = () => {
     const steps = ["restaurant_info", "pos_connect", "accounting_connect", "goals", "team_invite"];
     const currentIndex = steps.indexOf(currentStep);
@@ -91,11 +99,11 @@ export default function Onboarding() {
            {currentStep === "restaurant_info" && (
              <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="mb-6">
-                   <div className="h-10 w-10 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mb-4">
+                   <div className="h-10 w-10 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mb-4 mx-auto">
                       <Store className="h-5 w-5" />
                    </div>
-                   <h2 className="text-2xl font-serif font-medium mb-2">Tell us about your restaurant</h2>
-                   <p className="text-muted-foreground">Let's get your workspace set up.</p>
+                   <h2 className="text-2xl font-serif font-medium mb-2 text-center">Tell us about your restaurant</h2>
+                   <p className="text-muted-foreground text-center">Let's get your workspace set up.</p>
                 </div>
                 
                 <div className="space-y-4 mb-8">
@@ -133,12 +141,19 @@ export default function Onboarding() {
            {/* --- Step 2: POS Connection --- */}
            {currentStep === "pos_connect" && (
              <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="mb-6">
-                   <div className="h-10 w-10 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center mb-4">
+                <div className="mb-6 relative">
+                   <button 
+                     onClick={prevStep}
+                     className="absolute -left-2 top-0 p-2 text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-full transition-colors"
+                     title="Go back"
+                   >
+                      <ArrowLeft className="h-4 w-4" />
+                   </button>
+                   <div className="h-10 w-10 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center mb-4 mx-auto">
                       <Receipt className="h-5 w-5" />
                    </div>
-                   <h2 className="text-2xl font-serif font-medium mb-2">Connect your Point of Sale</h2>
-                   <p className="text-muted-foreground">This allows us to track sales and labor in real-time.</p>
+                   <h2 className="text-2xl font-serif font-medium mb-2 text-center">Connect your Point of Sale</h2>
+                   <p className="text-muted-foreground text-center">This allows us to track sales and labor in real-time.</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-8">
@@ -178,12 +193,19 @@ export default function Onboarding() {
            {/* --- Step 3: Accounting Connection --- */}
            {currentStep === "accounting_connect" && (
              <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="mb-6">
-                   <div className="h-10 w-10 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mb-4">
+                <div className="mb-6 relative">
+                   <button 
+                     onClick={prevStep}
+                     className="absolute -left-2 top-0 p-2 text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-full transition-colors"
+                     title="Go back"
+                   >
+                      <ArrowLeft className="h-4 w-4" />
+                   </button>
+                   <div className="h-10 w-10 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mb-4 mx-auto">
                       <CreditCard className="h-5 w-5" />
                    </div>
-                   <h2 className="text-2xl font-serif font-medium mb-2">Connect Accounting Software</h2>
-                   <p className="text-muted-foreground">Automate your P&L and expense tracking.</p>
+                   <h2 className="text-2xl font-serif font-medium mb-2 text-center">Connect Accounting Software</h2>
+                   <p className="text-muted-foreground text-center">Automate your P&L and expense tracking.</p>
                 </div>
 
                 <div className="space-y-3 mb-8">
@@ -237,12 +259,19 @@ export default function Onboarding() {
            {/* --- Step 4: Goals & Customization --- */}
            {currentStep === "goals" && (
              <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="mb-6">
-                   <div className="h-10 w-10 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mb-4">
+                <div className="mb-6 relative">
+                   <button 
+                     onClick={prevStep}
+                     className="absolute -left-2 top-0 p-2 text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-full transition-colors"
+                     title="Go back"
+                   >
+                      <ArrowLeft className="h-4 w-4" />
+                   </button>
+                   <div className="h-10 w-10 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mb-4 mx-auto">
                       <Target className="h-5 w-5" />
                    </div>
-                   <h2 className="text-2xl font-serif font-medium mb-2">Customize your experience</h2>
-                   <p className="text-muted-foreground">Help us tailor your dashboard to your needs.</p>
+                   <h2 className="text-2xl font-serif font-medium mb-2 text-center">Customize your experience</h2>
+                   <p className="text-muted-foreground text-center">Help us tailor your dashboard to your needs.</p>
                 </div>
 
                 <div className="space-y-6 mb-8">
@@ -337,12 +366,19 @@ export default function Onboarding() {
            {/* --- Step 5: Team & Invites --- */}
            {currentStep === "team_invite" && (
              <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="mb-6">
-                   <div className="h-10 w-10 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center mb-4">
+                <div className="mb-6 relative">
+                   <button 
+                     onClick={prevStep}
+                     className="absolute -left-2 top-0 p-2 text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-full transition-colors"
+                     title="Go back"
+                   >
+                      <ArrowLeft className="h-4 w-4" />
+                   </button>
+                   <div className="h-10 w-10 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center mb-4 mx-auto">
                       <Users className="h-5 w-5" />
                    </div>
-                   <h2 className="text-2xl font-serif font-medium mb-2">Invite your Accounting Team</h2>
-                   <p className="text-muted-foreground">Collaborate seamlessly on your P&Ls.</p>
+                   <h2 className="text-2xl font-serif font-medium mb-2 text-center">Invite your Accounting Team</h2>
+                   <p className="text-muted-foreground text-center">Collaborate seamlessly on your P&Ls.</p>
                 </div>
 
                 <div className="space-y-6 mb-8">
