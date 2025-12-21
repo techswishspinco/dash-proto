@@ -13,7 +13,7 @@ export default function Login() {
     setIsLoading(true);
     // Simulate login delay
     setTimeout(() => {
-      setLocation("/insight/home");
+      setLocation("/onboarding");
     }, 1500);
   };
 

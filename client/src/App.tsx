@@ -9,6 +9,7 @@ import Settings from "@/pages/settings";
 import GenericPage from "@/pages/generic";
 import Assistant from "@/pages/assistant";
 import Login from "@/pages/login";
+import Onboarding from "@/pages/onboarding";
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
       {/* Redirect root to the main dashboard view */}
       <Route path="/" component={() => <Redirect to="/login" />} />
       <Route path="/login" component={Login} />
+      <Route path="/onboarding" component={Onboarding} />
       
       {/* Insight Module */}
       <Route path="/insight/home" component={Dashboard} />
