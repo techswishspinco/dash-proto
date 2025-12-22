@@ -39,7 +39,16 @@ const laborData = [
 
 // --- Components ---
 
-function MetricCard({ title, value, trend, trendValue, icon: Icon, color = "emerald" }: any) {
+function AIExplanation({ text }: { text: string }) {
+  return (
+    <div className="flex items-start gap-3 p-4 bg-emerald-50/50 border border-emerald-100 rounded-lg text-sm text-emerald-900 mt-2">
+      <Sparkles className="h-4 w-4 text-emerald-600 mt-0.5 shrink-0" />
+      <p className="leading-relaxed">{text}</p>
+    </div>
+  );
+}
+
+function MetricCard({ title, value, trend, trendValue, icon: Icon, color = "emerald", explanation }: any) {
   const colors = {
     emerald: "text-emerald-600 bg-emerald-50 border-emerald-100",
     red: "text-red-600 bg-red-50 border-red-100",
@@ -48,22 +57,25 @@ function MetricCard({ title, value, trend, trendValue, icon: Icon, color = "emer
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-      <div className="flex justify-between items-start mb-4">
-        <div>
-          <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <h3 className="text-2xl font-serif font-medium mt-1">{value}</h3>
+    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm h-full flex flex-col justify-between">
+      <div>
+        <div className="flex justify-between items-start mb-4">
+          <div>
+            <p className="text-sm font-medium text-muted-foreground">{title}</p>
+            <h3 className="text-2xl font-serif font-medium mt-1">{value}</h3>
+          </div>
+          <div className={cn("p-2 rounded-lg", colors[color as keyof typeof colors])}>
+            <Icon className="h-5 w-5" />
+          </div>
         </div>
-        <div className={cn("p-2 rounded-lg", colors[color as keyof typeof colors])}>
-          <Icon className="h-5 w-5" />
+        <div className="flex items-center gap-2 text-sm mb-4">
+          <span className={cn("font-medium", trend === "up" ? "text-emerald-600" : "text-red-600")}>
+            {trend === "up" ? "↑" : "↓"} {trendValue}
+          </span>
+          <span className="text-muted-foreground">vs last week</span>
         </div>
       </div>
-      <div className="flex items-center gap-2 text-sm">
-        <span className={cn("font-medium", trend === "up" ? "text-emerald-600" : "text-red-600")}>
-          {trend === "up" ? "↑" : "↓"} {trendValue}
-        </span>
-        <span className="text-muted-foreground">vs last week</span>
-      </div>
+      {explanation && <AIExplanation text={explanation} />}
     </div>
   );
 }
@@ -117,6 +129,7 @@ export default function Dashboards() {
   const [filterRole, setFilterRole] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generationStep, setGenerationStep] = useState<string>("");
   const [customDashboard, setCustomDashboard] = useState<any>(null);
 
   const presets = [
@@ -159,8 +172,21 @@ export default function Dashboards() {
     if (!searchQuery.trim()) return;
 
     setIsGenerating(true);
+    setGenerationStep("Analyzing your query...");
     
-    // Simulate AI generation
+    // Simulate AI generation sequence
+    setTimeout(() => {
+      setGenerationStep("Identifying key metrics...");
+    }, 800);
+
+    setTimeout(() => {
+      setGenerationStep("Fetching relevant data sources...");
+    }, 1600);
+
+    setTimeout(() => {
+      setGenerationStep("Constructing visualizations...");
+    }, 2400);
+
     setTimeout(() => {
       setCustomDashboard({
         id: "custom_generated",
@@ -172,8 +198,9 @@ export default function Dashboards() {
       });
       setSelectedDashboard("custom_generated");
       setIsGenerating(false);
+      setGenerationStep("");
       setSearchQuery("");
-    }, 1500);
+    }, 3200);
   };
 
   const filteredPresets = presets.filter(p => filterRole === "all" || p.role === filterRole);
@@ -205,11 +232,17 @@ export default function Dashboards() {
                  <button 
                     type="submit" 
                     disabled={isGenerating}
-                    className="bg-black text-white px-3 py-2 rounded-r-lg hover:bg-gray-800 disabled:opacity-70"
+                    className="bg-black text-white px-3 py-2 rounded-r-lg hover:bg-gray-800 disabled:opacity-70 flex items-center gap-2"
                  >
                    {isGenerating ? <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <ArrowRight className="h-4 w-4" />}
                  </button>
                </form>
+               {isGenerating && (
+                 <div className="absolute top-full left-0 right-0 mt-2 bg-white/90 backdrop-blur-sm border border-emerald-100 p-3 rounded-lg text-xs font-medium text-emerald-800 flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
+                   <Sparkles className="h-3 w-3 animate-pulse" />
+                   {generationStep}
+                 </div>
+               )}
              </div>
 
              {/* Filters */}
@@ -354,8 +387,106 @@ export default function Dashboards() {
                 </div>
               )}
 
+              {currentDashboard.layout === "custom" && (
+                <div className="space-y-6 animate-in fade-in duration-700">
+                   <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl mb-6">
+                      <div className="flex items-start gap-3">
+                         <div className="p-2 bg-emerald-100 rounded-lg shrink-0">
+                            <Sparkles className="h-5 w-5 text-emerald-700" />
+                         </div>
+                         <div>
+                            <h3 className="font-medium text-emerald-900">AI Analysis</h3>
+                            <p className="text-sm text-emerald-800/80 mt-1 leading-relaxed">
+                               I've analyzed your data focusing on the query. Here are the most relevant metrics that impact this problem area, along with explanations of why they matter for your specific situation.
+                            </p>
+                         </div>
+                      </div>
+                   </div>
+
+                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <MetricCard 
+                        title="Impact Metric" 
+                        value="High" 
+                        trend="up" 
+                        trendValue="Critical" 
+                        icon={AlertCircle} 
+                        color="red"
+                        explanation="This metric is directly correlated with the problem you described. It's trending upward, indicating the issue is worsening."
+                      />
+                      <MetricCard 
+                        title="Related Cost" 
+                        value="$1,240" 
+                        trend="up" 
+                        trendValue="$420" 
+                        icon={DollarSign} 
+                        color="amber"
+                        explanation="The financial impact of this inefficiency over the last 30 days. Addressing this could save approx. $300/week."
+                      />
+                      <MetricCard 
+                        title="Efficiency Score" 
+                        value="68%" 
+                        trend="down" 
+                        trendValue="4%" 
+                        icon={TrendingUp} 
+                        color="blue"
+                        explanation="Your operational efficiency in this specific area is lagging behind the industry benchmark of 75%."
+                      />
+                   </div>
+                   
+                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col">
+                         <h3 className="font-medium text-lg mb-4">Trend Analysis</h3>
+                         <div className="flex-1 min-h-[300px]">
+                           <ResponsiveContainer width="100%" height="100%">
+                             <AreaChart data={dailySales}>
+                               <defs>
+                                 <linearGradient id="colorCustom" x1="0" y1="0" x2="0" y2="1">
+                                   <stop offset="5%" stopColor="#ef4444" stopOpacity={0.1}/>
+                                   <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                                 </linearGradient>
+                               </defs>
+                               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                               <XAxis dataKey="name" axisLine={false} tickLine={false} dy={10} />
+                               <YAxis axisLine={false} tickLine={false} />
+                               <Tooltip contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}} />
+                               <Area type="monotone" dataKey="value" stroke="#ef4444" strokeWidth={2} fillOpacity={1} fill="url(#colorCustom)" />
+                             </AreaChart>
+                           </ResponsiveContainer>
+                         </div>
+                         <AIExplanation text="I've plotted the problem variance over the last week. Notice the spikes on Wednesday and Friday? These correlate with your busiest shifts, suggesting a capacity bottleneck rather than a chronic issue." />
+                      </div>
+
+                      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col">
+                         <h3 className="font-medium text-lg mb-4">Root Cause Breakdown</h3>
+                         <div className="flex-1 flex items-center justify-center min-h-[300px]">
+                            {/* Simple visualization for breakdown */}
+                            <div className="w-full space-y-4">
+                               {[
+                                 { label: "Staffing Inefficiency", value: 45, color: "bg-red-500" },
+                                 { label: "Inventory Waste", value: 30, color: "bg-amber-500" },
+                                 { label: "Process Delay", value: 15, color: "bg-blue-500" },
+                                 { label: "Other", value: 10, color: "bg-gray-300" }
+                               ].map((item, i) => (
+                                 <div key={i}>
+                                   <div className="flex justify-between text-sm mb-1 font-medium">
+                                     <span>{item.label}</span>
+                                     <span>{item.value}%</span>
+                                   </div>
+                                   <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
+                                     <div className={cn("h-full", item.color)} style={{ width: `${item.value}%` }} />
+                                   </div>
+                                 </div>
+                               ))}
+                            </div>
+                         </div>
+                         <AIExplanation text="Based on your operational logs, nearly half of the issue stems from staffing inefficiencies during peak hours. Fixing your schedule could resolve 45% of this problem immediately." />
+                      </div>
+                   </div>
+                </div>
+              )}
+
               {/* Fallback for other layouts */}
-              {(currentDashboard.layout !== "profit" && currentDashboard.layout !== "labor") && (
+              {(currentDashboard.layout !== "profit" && currentDashboard.layout !== "labor" && currentDashboard.layout !== "custom") && (
                  <div className="bg-white border border-gray-200 rounded-xl p-12 text-center animate-in fade-in duration-500">
                     <div className="h-16 w-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-4">
                        <LayoutDashboard className="h-8 w-8" />
