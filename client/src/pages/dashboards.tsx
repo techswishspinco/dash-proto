@@ -118,6 +118,7 @@ export default function Dashboards() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationStep, setGenerationStep] = useState(0);
+  const [customDashboard, setCustomDashboard] = useState<any>(null);
 
   const presets = [
     {
