@@ -170,78 +170,7 @@ export default function Home() {
 
         {/* 3. Top Actions for Today (REMOVED) */}
 
-        {/* 4. Core Pillars Intelligence Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-auto items-stretch">
-           
-           <IntelligenceCard title="Labor" confidence="74%" actions={<ActionButton variant="outline">Adjust Staffing</ActionButton>}>
-              <div className="space-y-3">
-                 <div className="flex justify-between items-baseline">
-                    <span className="text-3xl font-serif text-red-600">+2.1%</span>
-                    <span className="text-sm text-muted-foreground">vs target</span>
-                 </div>
-                 <ul className="text-sm space-y-2 text-foreground/80">
-                    <li className="flex items-center gap-2">
-                       <TrendingUp className="h-4 w-4 text-red-500" /> Overstaffed 5–7pm
-                    </li>
-                    <li className="flex items-center gap-2">
-                       <AlertCircle className="h-4 w-4 text-amber-500" /> 1 shift at risk
-                    </li>
-                 </ul>
-              </div>
-           </IntelligenceCard>
-
-           <IntelligenceCard title="P&L" actions={<ActionButton variant="outline">Simulate Impact</ActionButton>}>
-              <div className="space-y-3">
-                 <div className="flex justify-between items-baseline">
-                    <span className="text-3xl font-serif">8.6%</span>
-                    <span className="text-sm text-muted-foreground">Net Margin</span>
-                 </div>
-                 <ul className="text-sm space-y-2 text-foreground/80">
-                    <li className="flex items-center gap-2">
-                       <TrendingUp className="h-4 w-4 text-red-500" /> Labor +0.8%
-                    </li>
-                    <li className="flex items-center gap-2">
-                       <TrendingDown className="h-4 w-4 text-emerald-500" /> Food Cost -1.3%
-                    </li>
-                 </ul>
-              </div>
-           </IntelligenceCard>
-
-           <IntelligenceCard title="Bonuses" actions={<ActionButton variant="outline">View Bonuses</ActionButton>}>
-              <div className="space-y-3">
-                 <div className="flex justify-between items-baseline">
-                    <span className="text-3xl font-serif">2</span>
-                    <span className="text-sm text-muted-foreground">Active Missions</span>
-                 </div>
-                 <ul className="text-sm space-y-2 text-foreground/80">
-                    <li className="flex items-center gap-2">
-                       <DollarSign className="h-4 w-4 text-emerald-500" /> $1,260 available
-                    </li>
-                    <li className="flex items-center gap-2">
-                       <Target className="h-4 w-4 text-blue-500" /> 68% complete
-                    </li>
-                 </ul>
-              </div>
-           </IntelligenceCard>
-
-           <IntelligenceCard title="Upsell" actions={<ActionButton variant="outline">Fix Upsell</ActionButton>}>
-              <div className="space-y-3">
-                 <div className="flex justify-between items-baseline">
-                    <span className="text-3xl font-serif text-amber-600">29%</span>
-                    <span className="text-sm text-muted-foreground">Conversion</span>
-                 </div>
-                 <ul className="text-sm space-y-2 text-foreground/80">
-                    <li className="flex items-center gap-2">
-                       <AlertCircle className="h-4 w-4 text-amber-500" /> 12 missed desserts
-                    </li>
-                    <li className="flex items-center gap-2">
-                       <DollarSign className="h-4 w-4 text-muted-foreground" /> $610 left behind
-                    </li>
-                 </ul>
-              </div>
-           </IntelligenceCard>
-
-        </div>
+        {/* 4. Core Pillars Intelligence Grid (REMOVED) */}
 
         {/* 5. Relevant Stats */}
         <div>
