@@ -14,6 +14,8 @@ import Onboarding from "@/pages/onboarding";
 import Journals from "@/pages/journals";
 import PnlRelease from "@/pages/pnl-release";
 
+import BonusRelease from "@/pages/bonus-release";
+
 function Router() {
   return (
     <Switch>
@@ -27,7 +29,7 @@ function Router() {
       <Route path="/accounting/journals" component={Journals} />
       <Route path="/accounting/pnl" component={PnlRelease} />
       <Route path="/finance/pnl-release" component={PnlRelease} />
-      <Route path="/accounting/bonus" component={() => <GenericPage title="Bonus Release" />} />
+      <Route path="/accounting/bonus" component={BonusRelease} />
 
       {/* Insight Module */}
       <Route path="/insight/home" component={Dashboard} />
