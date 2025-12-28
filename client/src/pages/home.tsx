@@ -155,24 +155,9 @@ export default function Home() {
                  {/* Tab Content */}
                  {summaryTab === "summary" && (
                      <div className="animate-in fade-in slide-in-from-left-4 duration-300">
-                        <ul className="space-y-2 text-base text-foreground/80 mb-6 font-medium">
-                            <li className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 bg-red-500 rounded-full" />
-                            Labor is <span className="font-bold text-red-600">+2.1%</span> over target → <span className="text-foreground">$312 risk tonight</span>
-                            </li>
-                            <li className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 bg-amber-500 rounded-full" />
-                            Upsell compliance at <span className="font-bold text-amber-600">68%</span> → <span className="text-foreground">$420 missed revenue</span>
-                            </li>
-                            <li className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 bg-emerald-500 rounded-full" />
-                            Bonus pool: <span className="font-bold text-emerald-600">$1,260</span> available this week
-                            </li>
-                            <li className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 bg-blue-500 rounded-full" />
-                            Cash runway: <span className="font-bold text-blue-600">9 days</span> at current margin
-                            </li>
-                        </ul>
+                        <h1 className="text-3xl md:text-4xl font-serif font-medium leading-tight mb-8">
+                           Revenue is tracking <span className="bg-emerald-50 text-emerald-700 px-1 border border-emerald-100 rounded">12% ahead of forecast</span>, but labor costs are <span className="bg-red-50 text-red-700 px-1 border border-red-100 rounded">trending high</span> for the dinner shift.
+                        </h1>
                         
                         <div className="flex gap-3">
                             <ActionButton>Fix Labor Risk</ActionButton>
