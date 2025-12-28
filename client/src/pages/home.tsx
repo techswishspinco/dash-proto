@@ -120,7 +120,10 @@ export default function Home() {
         </div>
 
         {/* 2. Hero / AI Command Feed */}
-        <div className="bg-gray-50 border border-border p-8 relative overflow-hidden min-h-[220px]">
+        <div className={cn(
+           "bg-gray-50 border border-border relative overflow-hidden min-h-[220px] transition-all duration-300", 
+           showPnlBanner ? "pt-20 px-8 pb-8" : "p-8"
+        )}>
            {/* P&L Banner */}
            {showPnlBanner && (
               <div className="absolute top-0 left-0 right-0 bg-black text-white px-4 py-2 flex items-center justify-between z-20 animate-in slide-in-from-top duration-500">
