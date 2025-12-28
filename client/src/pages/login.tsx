@@ -130,9 +130,15 @@ export default function Login() {
                </button>
             </div>
 
-            <div className="pt-2">
+            <div className="pt-2 flex justify-between items-center">
                <button className="text-xs text-muted-foreground hover:text-[#1a4731] hover:underline transition-colors">
                   Show enterprise options
+               </button>
+               <button 
+                  onClick={() => setLocation("/insight/home")}
+                  className="text-xs font-medium text-emerald-700 hover:text-emerald-900 hover:underline transition-colors flex items-center gap-1"
+               >
+                  Continue with Demo Account <ArrowRight className="h-3 w-3" />
                </button>
             </div>
           </div>
