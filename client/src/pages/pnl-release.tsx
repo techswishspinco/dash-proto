@@ -78,6 +78,120 @@ const trendData = [
 
 // --- Components ---
 
+function ReleaseModal({ isOpen, onClose, data, onConfirm }: { isOpen: boolean, onClose: () => void, data: any, onConfirm: () => void }) {
+   const [message, setMessage] = useState("Here is your P&L report for the period. Highlights included below.");
+   
+   if (!isOpen) return null;
+
+   return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+         <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full h-[80vh] flex overflow-hidden animate-in zoom-in-95 duration-200">
+            
+            {/* Left Col: Settings */}
+            <div className="w-1/2 p-8 border-r border-gray-200 flex flex-col">
+               <div className="mb-6">
+                  <h2 className="font-serif text-2xl font-medium mb-2">Finalize Release</h2>
+                  <p className="text-muted-foreground text-sm">Review the notification message before sending to the owner.</p>
+               </div>
+
+               <div className="space-y-6 flex-1">
+                  <div>
+                     <label className="block text-sm font-medium text-gray-900 mb-2">Recipients</label>
+                     <div className="flex gap-2">
+                        <div className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-2">
+                           <div className="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center text-[8px]">JD</div>
+                           John Doe (Owner)
+                        </div>
+                        <div className="border border-dashed border-gray-300 text-gray-400 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 cursor-pointer hover:border-gray-400 hover:text-gray-500">
+                           <Plus className="h-3 w-3" /> Add
+                        </div>
+                     </div>
+                  </div>
+
+                  <div>
+                     <label className="block text-sm font-medium text-gray-900 mb-2">Notification Message</label>
+                     <textarea 
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="w-full text-sm border-gray-200 rounded-lg focus:ring-black focus:border-black p-3 min-h-[120px]"
+                        placeholder="Add a personal message..."
+                     />
+                     <p className="text-xs text-muted-foreground mt-2">This message will appear in the email body and push notification.</p>
+                  </div>
+               </div>
+
+               <div className="mt-8 pt-6 border-t border-gray-100 flex gap-3">
+                  <button 
+                     onClick={onClose}
+                     className="flex-1 py-2.5 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                     Cancel
+                  </button>
+                  <button 
+                     onClick={onConfirm}
+                     className="flex-1 py-2.5 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-lg flex items-center justify-center gap-2"
+                  >
+                     Send & Release <Send className="h-3 w-3" />
+                  </button>
+               </div>
+            </div>
+
+            {/* Right Col: Preview */}
+            <div className="w-1/2 bg-gray-50 p-8 flex flex-col items-center justify-center relative overflow-hidden">
+               <div className="absolute top-4 right-4 bg-white/80 px-2 py-1 rounded text-[10px] font-medium text-gray-500 uppercase tracking-wider">
+                  Live Preview
+               </div>
+
+               {/* Email Card Preview */}
+               <div className="bg-white rounded-xl shadow-lg w-full max-w-sm overflow-hidden border border-gray-200 transform scale-95 origin-center">
+                   {/* Email Header */}
+                   <div className="bg-gray-900 text-white p-4 flex items-center justify-between">
+                     <div className="flex items-center gap-2">
+                        <div className="h-6 w-6 bg-white text-black rounded-full flex items-center justify-center font-serif font-bold text-xs">M</div>
+                        <span className="font-medium text-sm">Munch Insights</span>
+                     </div>
+                     <span className="text-xs text-gray-400">Now</span>
+                   </div>
+                   
+                   <div className="p-6">
+                     <div className="mb-4">
+                        <h3 className="text-lg font-serif font-medium text-gray-900 mb-1">P&L Ready: {data.period}</h3>
+                        <p className="text-sm text-gray-600 leading-relaxed">{message}</p>
+                     </div>
+
+                     <div className="bg-gray-50 rounded-lg border border-gray-100 p-4 mb-4">
+                        <div className="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-2">Executive Summary</div>
+                        <p className="text-sm font-medium text-gray-900 leading-snug mb-3">{data.headline}</p>
+                        
+                        <div className="space-y-2">
+                           {data.insights.slice(0, 2).map((insight: any) => (
+                              <div key={insight.id} className="flex gap-2 items-start">
+                                 <div className={cn(
+                                    "mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0",
+                                    insight.tag === "Positive" ? "bg-emerald-500" : 
+                                    insight.tag === "Negative" ? "bg-red-500" : "bg-gray-400"
+                                 )} />
+                                 <p className="text-xs text-gray-600 leading-snug line-clamp-2">{insight.text}</p>
+                              </div>
+                           ))}
+                           {data.insights.length > 2 && (
+                              <p className="text-[10px] text-muted-foreground pl-3.5">+ {data.insights.length - 2} more insights</p>
+                           )}
+                        </div>
+                     </div>
+
+                     <button className="w-full bg-black text-white py-2.5 rounded-lg text-sm font-medium">
+                        View Full Report
+                     </button>
+                   </div>
+               </div>
+            </div>
+
+         </div>
+      </div>
+   );
+}
+
 function PreviewModal({ isOpen, onClose, data }: { isOpen: boolean, onClose: () => void, data: any }) {
    if (!isOpen) return null;
 
@@ -249,6 +363,7 @@ export default function PnlRelease() {
   });
   const [showFullPnl, setShowFullPnl] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [showReleaseModal, setShowReleaseModal] = useState(false);
   
   // Handlers
   const handlePeriodClick = (p: typeof pnlPeriods[0]) => {
@@ -278,10 +393,11 @@ export default function PnlRelease() {
   };
 
   const handleRelease = () => {
-    setStep(3);
+    setShowReleaseModal(true);
   };
 
   const confirmRelease = () => {
+    setShowReleaseModal(false);
     toast({
       title: "P&L Released",
       description: "Owner has been notified via email and app.",
@@ -447,7 +563,20 @@ export default function PnlRelease() {
           </div>
         </header>
 
-        {/* Preview Modal */}
+        {/* Release Modal (New) */}
+        <ReleaseModal 
+           isOpen={showReleaseModal} 
+           onClose={() => setShowReleaseModal(false)} 
+           onConfirm={confirmRelease}
+           data={{
+              period,
+              headline,
+              insights,
+              note
+           }} 
+        />
+
+        {/* Preview Modal (Existing) */}
         <PreviewModal 
            isOpen={showPreview} 
            onClose={() => setShowPreview(false)} 
@@ -647,38 +776,7 @@ export default function PnlRelease() {
         </div>
       </div>
 
-      {/* Step 3: Release Confirmation Modal */}
-      {step === 3 && (
-         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 animate-in zoom-in-95 duration-200">
-               <div className="text-center mb-6">
-                  <div className="h-12 w-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                     <Send className="h-6 w-6" />
-                  </div>
-                  <h2 className="text-xl font-serif font-medium mb-2">Release {period} P&L?</h2>
-                  <p className="text-muted-foreground text-sm">
-                     You are about to release the financial package for <strong>{locationName}</strong>. The owner will receive a notification immediately.
-                  </p>
-               </div>
-               
-               <div className="flex gap-3">
-                  <button 
-                    onClick={() => setStep(2)}
-                    className="flex-1 py-2.5 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                     Cancel
-                  </button>
-                  <button 
-                    onClick={confirmRelease}
-                    className="flex-1 py-2.5 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors shadow-lg"
-                  >
-                     Release P&L
-                  </button>
-               </div>
-            </div>
-         </div>
-      )}
-
+      {/* Step 3: Release Confirmation Modal (REMOVED - Replaced by ReleaseModal) */}
     </Layout>
   );
 }
