@@ -738,10 +738,11 @@ export default function PnlRelease() {
                  </div>
               </div>
            </div>
-
+           
            {/* Split Screen Chat Interface */}
            {showChat && <OwnerChat isOpen={showChat} onClose={() => setShowChat(false)} />}
-        </Layout>
+        </div>
+      </Layout>
      );
   }
 
