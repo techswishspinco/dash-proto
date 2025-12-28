@@ -168,42 +168,7 @@ export default function Home() {
            </div>
         </div>
 
-        {/* 3. Top Actions for Today */}
-        <div>
-           <h3 className="font-serif text-lg font-medium mb-6 flex items-center gap-2">
-              <Zap className="h-5 w-5 text-amber-500 fill-amber-500" /> Top Actions for Today
-           </h3>
-           
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              
-              {/* Action 1 */}
-              <div className="bg-white border border-border p-6 shadow-sm hover:shadow-md transition-shadow relative group">
-                 <div className="absolute top-4 right-4 text-xs font-mono text-muted-foreground border border-border px-1.5 py-0.5 bg-secondary/50">HIGH CONFIDENCE</div>
-                 <div className="text-3xl font-serif mb-4 text-muted-foreground group-hover:text-black transition-colors">1.</div>
-                 <h4 className="font-medium text-lg mb-2">Cut 1 server at 3:30pm</h4>
-                 <p className="text-sm text-muted-foreground mb-6">Based on forecasted demand drop. Saves <span className="text-emerald-700 font-medium">$312</span> in labor.</p>
-                 <ActionButton>Apply Change</ActionButton>
-              </div>
-
-              {/* Action 2 */}
-              <div className="bg-white border border-border p-6 shadow-sm hover:shadow-md transition-shadow relative group">
-                 <div className="absolute top-4 right-4 text-xs font-mono text-muted-foreground border border-border px-1.5 py-0.5 bg-secondary/50">ROI 3.2x</div>
-                 <div className="text-3xl font-serif mb-4 text-muted-foreground group-hover:text-black transition-colors">2.</div>
-                 <h4 className="font-medium text-lg mb-2">Launch Dessert Upsell Bonus</h4>
-                 <p className="text-sm text-muted-foreground mb-6">Team performance lagging. Projected impact <span className="text-emerald-700 font-medium">+$540</span> revenue.</p>
-                 <ActionButton>Assign Bonus</ActionButton>
-              </div>
-
-              {/* Action 3 */}
-              <div className="bg-white border border-border p-6 shadow-sm hover:shadow-md transition-shadow relative group">
-                 <div className="text-3xl font-serif mb-4 text-muted-foreground group-hover:text-black transition-colors">3.</div>
-                 <h4 className="font-medium text-lg mb-2">Vendor price variance</h4>
-                 <p className="text-sm text-muted-foreground mb-6">Sysco invoice #9921 shows chicken price hike. <span className="text-red-600 font-medium">$180</span> weekly leak.</p>
-                 <ActionButton>Review Details</ActionButton>
-              </div>
-
-           </div>
-        </div>
+        {/* 3. Top Actions for Today (REMOVED) */}
 
         {/* 4. Core Pillars Intelligence Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-auto items-stretch">
@@ -278,9 +243,9 @@ export default function Home() {
 
         </div>
 
-        {/* 5. Active Bonus Missions (Gamified) */}
+        {/* 5. Relevant Stats */}
         <div>
-           <h3 className="font-serif text-lg font-medium mb-6">🎯 Active Bonus Missions</h3>
+           <h3 className="font-serif text-lg font-medium mb-6">Relevant Stats</h3>
            <div className="bg-white border border-border p-8 flex flex-col md:flex-row gap-8 items-center justify-between">
               <div className="flex-1 w-full">
                  <div className="flex justify-between items-end mb-2">
