@@ -206,37 +206,46 @@ export default function AccountingHome() {
 
         {/* 4. Core Pillars Intelligence Grid (REMOVED) */}
 
-        {/* 5. Relevant Stats */}
+        {/* 5. Portfolio Overview */}
         <div>
            <h3 className="font-serif text-lg font-medium mb-6 flex items-center gap-2">
-              <Zap className="h-5 w-5 text-amber-500 fill-amber-500" /> Relevant Stats
+              <Zap className="h-5 w-5 text-amber-500 fill-amber-500" /> Portfolio Overview
            </h3>
-           <div className="bg-white border border-border p-8 flex flex-col md:flex-row gap-8 items-center justify-between">
-              <div className="flex-1 w-full">
-                 <div className="flex justify-between items-end mb-2">
-                    <h4 className="font-medium text-lg">Upsell Compliance</h4>
-                    <span className="text-2xl font-serif">68%</span>
-                 </div>
-                 <MissionProgressBar value={6.8} />
-                 <div className="flex gap-8 text-sm">
-                    <div>
-                       <span className="text-muted-foreground block text-xs uppercase tracking-wider mb-1">Reward</span>
-                       <span className="font-medium">$480</span>
-                    </div>
-                    <div>
-                       <span className="text-muted-foreground block text-xs uppercase tracking-wider mb-1">ROI</span>
-                       <span className="font-medium text-emerald-700">+$1,900</span>
-                    </div>
-                    <div>
-                       <span className="text-muted-foreground block text-xs uppercase tracking-wider mb-1">Eligible</span>
-                       <span className="font-medium">Servers (8)</span>
-                    </div>
-                 </div>
-              </div>
-              <div className="flex gap-3 flex-shrink-0">
-                 <ActionButton variant="outline">View Details</ActionButton>
-                 <ActionButton>Notify Team</ActionButton>
-              </div>
+           <div className="bg-white border border-border rounded-lg overflow-hidden">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 border-b border-border">
+                  <tr>
+                    <th className="px-6 py-4 text-left font-medium text-muted-foreground uppercase tracking-wider text-xs">Location</th>
+                    <th className="px-6 py-4 text-left font-medium text-muted-foreground uppercase tracking-wider text-xs">Payroll</th>
+                    <th className="px-6 py-4 text-left font-medium text-muted-foreground uppercase tracking-wider text-xs">P&L</th>
+                    <th className="px-6 py-4 text-left font-medium text-muted-foreground uppercase tracking-wider text-xs">Journals</th>
+                    <th className="px-6 py-4 text-left font-medium text-muted-foreground uppercase tracking-wider text-xs">Bonuses</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  <tr className="hover:bg-gray-50/50 transition-colors">
+                    <td className="px-6 py-4 font-medium">Little Mo BK</td>
+                    <td className="px-6 py-4"><span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">Up to date</span></td>
+                    <td className="px-6 py-4"><span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-100">Needs Review</span></td>
+                    <td className="px-6 py-4"><span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">Up to date</span></td>
+                    <td className="px-6 py-4 text-muted-foreground">-</td>
+                  </tr>
+                  <tr className="hover:bg-gray-50/50 transition-colors">
+                    <td className="px-6 py-4 font-medium">Little Mo DC</td>
+                    <td className="px-6 py-4"><span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">Up to date</span></td>
+                    <td className="px-6 py-4"><span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">Up to date</span></td>
+                    <td className="px-6 py-4 text-muted-foreground">-</td>
+                    <td className="px-6 py-4"><span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700 border border-red-100">Flagged</span></td>
+                  </tr>
+                  <tr className="hover:bg-gray-50/50 transition-colors">
+                    <td className="px-6 py-4 font-medium">KOQ LLC</td>
+                    <td className="px-6 py-4 text-muted-foreground">-</td>
+                    <td className="px-6 py-4"><span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">Up to date</span></td>
+                    <td className="px-6 py-4"><span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">Up to date</span></td>
+                    <td className="px-6 py-4"><span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">Up to date</span></td>
+                  </tr>
+                </tbody>
+              </table>
            </div>
         </div>
 
