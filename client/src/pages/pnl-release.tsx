@@ -367,7 +367,7 @@ export default function PnlRelease() {
     
     // Redirect to home page after a short delay
     setTimeout(() => {
-      setLocation("/");
+      setLocation("/insight/home");
     }, 1000);
   };
 
