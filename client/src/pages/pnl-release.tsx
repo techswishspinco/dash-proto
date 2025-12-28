@@ -78,6 +78,75 @@ const trendData = [
 
 // --- Components ---
 
+function PreviewModal({ isOpen, onClose, data }: { isOpen: boolean, onClose: () => void, data: any }) {
+   if (!isOpen) return null;
+
+   return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+         <div className="bg-white rounded-xl shadow-xl max-w-sm w-full max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-200 relative">
+            <button 
+               onClick={onClose}
+               className="absolute top-4 right-4 p-2 bg-white/80 rounded-full hover:bg-gray-100 transition-colors z-10"
+            >
+               <X className="h-5 w-5" />
+            </button>
+            
+            {/* Email / Mobile Preview Header */}
+            <div className="bg-gray-100 p-4 border-b border-gray-200 flex items-center gap-3">
+               <div className="h-8 w-8 bg-black text-white rounded-full flex items-center justify-center font-serif font-bold text-xs">M</div>
+               <div>
+                  <div className="text-xs font-bold text-gray-900">Munch Insights</div>
+                  <div className="text-[10px] text-muted-foreground">To: Owner</div>
+               </div>
+            </div>
+
+            <div className="p-6 space-y-6">
+               <div className="text-center">
+                  <div className="inline-block px-3 py-1 bg-gray-100 rounded-full text-[10px] font-bold uppercase tracking-wider text-gray-600 mb-3">
+                     {data.period}
+                  </div>
+                  <h2 className="font-serif text-2xl font-medium leading-tight text-gray-900 mb-4">
+                     {data.headline}
+                  </h2>
+               </div>
+
+               <div className="space-y-3">
+                  {data.insights.map((insight: any) => (
+                     <div key={insight.id} className="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                        <div className={cn(
+                           "text-[10px] font-bold uppercase tracking-wider mb-1",
+                           insight.tag === "Positive" ? "text-emerald-600" : 
+                           insight.tag === "Negative" ? "text-red-600" : "text-gray-500"
+                        )}>
+                           {insight.tag}
+                        </div>
+                        <p className="text-sm text-gray-800 leading-snug">{insight.text}</p>
+                     </div>
+                  ))}
+               </div>
+
+               {data.note && (
+                  <div className="bg-emerald-50 p-4 rounded-lg border border-emerald-100">
+                     <div className="flex items-center gap-2 mb-2">
+                        <div className="h-5 w-5 bg-emerald-200 text-emerald-800 rounded-full flex items-center justify-center text-[10px] font-bold">H</div>
+                        <span className="text-xs font-bold text-emerald-900">Note from Henry</span>
+                     </div>
+                     <p className="text-xs text-emerald-800 leading-relaxed italic">"{data.note}"</p>
+                  </div>
+               )}
+
+               <div className="border-t border-gray-100 pt-4 text-center">
+                  <button className="w-full bg-black text-white py-3 rounded-lg text-sm font-medium shadow-lg mb-2">
+                     View Full P&L
+                  </button>
+                  <p className="text-[10px] text-muted-foreground">Powered by Munch Insights</p>
+               </div>
+            </div>
+         </div>
+      </div>
+   );
+}
+
 function InsightCard({ insight, onDelete, onUpdate }: { insight: any, onDelete: () => void, onUpdate: (val: string) => void }) {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(insight.text);
@@ -179,6 +248,7 @@ export default function PnlRelease() {
     variance: true
   });
   const [showFullPnl, setShowFullPnl] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   
   // Handlers
   const handlePeriodClick = (p: typeof pnlPeriods[0]) => {
@@ -362,7 +432,10 @@ export default function PnlRelease() {
           </div>
           <div className="flex items-center gap-3">
              <button className="text-sm text-muted-foreground hover:text-black font-medium px-3 py-2">Save Draft</button>
-             <button className="text-sm text-black border border-gray-300 bg-white hover:bg-gray-50 font-medium px-4 py-2 rounded-md flex items-center gap-2">
+             <button 
+               onClick={() => setShowPreview(true)}
+               className="text-sm text-black border border-gray-300 bg-white hover:bg-gray-50 font-medium px-4 py-2 rounded-md flex items-center gap-2"
+             >
                 <Search className="h-4 w-4" /> Preview
              </button>
              <button 
@@ -373,6 +446,18 @@ export default function PnlRelease() {
              </button>
           </div>
         </header>
+
+        {/* Preview Modal */}
+        <PreviewModal 
+           isOpen={showPreview} 
+           onClose={() => setShowPreview(false)} 
+           data={{
+              period,
+              headline,
+              insights,
+              note
+           }} 
+        />
 
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto p-8">
