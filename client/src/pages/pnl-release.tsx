@@ -410,16 +410,34 @@ export default function PnlRelease() {
                     </div>
 
                     {/* Key Stats Grid */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-3 gap-3">
+                       <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                          <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Net Revenue</div>
+                          <div className="text-2xl font-serif text-gray-900">$124.5k</div>
+                          <div className="text-xs text-emerald-600 font-medium mt-1">↑ 5.3% vs forecast</div>
+                       </div>
                        <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
                           <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Net Margin</div>
                           <div className="text-2xl font-serif text-emerald-600">9.2%</div>
                           <div className="text-xs text-emerald-600 font-medium mt-1">↑ 2.1% vs last month</div>
                        </div>
                        <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                          <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Total Revenue</div>
-                          <div className="text-2xl font-serif text-gray-900">$124.5k</div>
-                          <div className="text-xs text-emerald-600 font-medium mt-1">↑ 5.3% vs forecast</div>
+                          <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Vs Last Month</div>
+                          <div className="text-2xl font-serif text-emerald-600">+$5.4k</div>
+                          <div className="text-xs text-gray-500 font-medium mt-1">Net Income Growth</div>
+                       </div>
+                    </div>
+
+                    {/* Note */}
+                    <div className="bg-emerald-50/50 p-6 rounded-xl border border-emerald-100 flex gap-4">
+                       <div className="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold font-serif flex-shrink-0">
+                          H
+                       </div>
+                       <div>
+                          <div className="font-bold text-sm text-emerald-900 mb-1">Note from Henry</div>
+                          <p className="text-emerald-800 text-sm leading-relaxed italic">
+                             "{note || "Great work keeping labor in check this month. Let's keep an eye on food costs next period."}"
+                          </p>
                        </div>
                     </div>
 
@@ -442,23 +460,6 @@ export default function PnlRelease() {
 
                     {/* Visualizations (Read Only) */}
                     <div className="space-y-6">
-                       {visualizations.trend && (
-                          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                             <h3 className="font-medium text-sm text-gray-900 mb-6">Margin Trend (6 Mo)</h3>
-                             <div className="h-48 w-full">
-                                <ResponsiveContainer width="100%" height="100%">
-                                   <LineChart data={trendData}>
-                                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-                                      <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fontSize: 12}} />
-                                      <YAxis axisLine={false} tickLine={false} tickFormatter={(val) => `${val}%`} tick={{fontSize: 12}} />
-                                      <Tooltip />
-                                      <Line type="monotone" dataKey="margin" stroke="#10b981" strokeWidth={3} dot={{r: 4, fill: '#10b981'}} />
-                                   </LineChart>
-                                </ResponsiveContainer>
-                             </div>
-                          </div>
-                       )}
-                       
                        {visualizations.breakdown && (
                           <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
                              <h3 className="font-medium text-sm text-gray-900 mb-4">Cost Breakdown</h3>
@@ -491,19 +492,54 @@ export default function PnlRelease() {
                              </div>
                           </div>
                        )}
-                    </div>
 
-                    {/* Note */}
-                    <div className="bg-emerald-50/50 p-6 rounded-xl border border-emerald-100 flex gap-4">
-                       <div className="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold font-serif flex-shrink-0">
-                          H
-                       </div>
-                       <div>
-                          <div className="font-bold text-sm text-emerald-900 mb-1">Note from Henry</div>
-                          <p className="text-emerald-800 text-sm leading-relaxed italic">
-                             "{note || "Great work keeping labor in check this month. Let's keep an eye on food costs next period."}"
-                          </p>
-                       </div>
+                       {visualizations.trend && (
+                          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                             <h3 className="font-medium text-sm text-gray-900 mb-6">Margin Trend (6 Mo)</h3>
+                             <div className="h-48 w-full">
+                                <ResponsiveContainer width="100%" height="100%">
+                                   <LineChart data={trendData}>
+                                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                                      <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fontSize: 12}} />
+                                      <YAxis axisLine={false} tickLine={false} tickFormatter={(val) => `${val}%`} tick={{fontSize: 12}} />
+                                      <Tooltip />
+                                      <Line type="monotone" dataKey="margin" stroke="#10b981" strokeWidth={3} dot={{r: 4, fill: '#10b981'}} />
+                                   </LineChart>
+                                </ResponsiveContainer>
+                             </div>
+                          </div>
+                       )}
+
+                       {visualizations.variance && (
+                          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                             <h3 className="font-medium text-sm text-gray-900 mb-6">Variance Highlights</h3>
+                             <div className="h-48 w-full">
+                                <ResponsiveContainer width="100%" height="100%">
+                                   <BarChart data={[
+                                      { name: "Labor", val: 2649 },
+                                      { name: "COGS", val: -3135 },
+                                      { name: "Revenue", val: 6300 },
+                                   ]} layout="vertical" margin={{ left: 40 }}>
+                                      <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f3f4f6" />
+                                      <XAxis type="number" hide />
+                                      <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{fontSize: 12}} width={60} />
+                                      <Tooltip cursor={{fill: 'transparent'}} />
+                                      <Bar dataKey="val" radius={[0, 4, 4, 0]} barSize={20}>
+                                        {
+                                          [
+                                            { name: "Labor", val: 2649 },
+                                            { name: "COGS", val: -3135 },
+                                            { name: "Revenue", val: 6300 },
+                                          ].map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={entry.val > 0 ? "#10b981" : "#ef4444"} />
+                                          ))
+                                        }
+                                      </Bar>
+                                   </BarChart>
+                                </ResponsiveContainer>
+                             </div>
+                          </div>
+                       )}
                     </div>
 
                     {/* Full Table */}
