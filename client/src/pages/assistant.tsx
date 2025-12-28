@@ -202,12 +202,65 @@ export default function Assistant() {
            {/* Messages */}
            <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-8" ref={scrollRef}>
               {messages.length === 0 ? (
-                 <div className="h-full flex flex-col items-center justify-center text-center p-8 opacity-50">
-                    <div className="bg-gray-100 p-4 rounded-full mb-4">
-                       <Bot className="h-8 w-8 text-gray-400" />
+                 <div className="h-full flex flex-col items-center justify-center max-w-2xl mx-auto w-full">
+                    
+                    {/* Proactive Insight Card */}
+                    <div className="w-full bg-white border border-border rounded-xl shadow-sm overflow-hidden mb-12 transform hover:scale-[1.01] transition-transform duration-300">
+                       <div className="bg-gradient-to-r from-emerald-50 to-teal-50 p-6 border-b border-emerald-100">
+                          <div className="flex items-start gap-4">
+                             <div className="h-10 w-10 bg-white rounded-full shadow-sm flex items-center justify-center text-emerald-600 flex-shrink-0">
+                                <Sparkles className="h-5 w-5" />
+                             </div>
+                             <div>
+                                <h3 className="font-serif text-lg font-medium text-emerald-900 mb-1">I noticed something from last night's close</h3>
+                                <p className="text-emerald-800/80 leading-relaxed">
+                                   You're <span className="font-medium text-emerald-900">$180 over on labor</span> vs. forecast. Want me to break down why?
+                                </p>
+                             </div>
+                          </div>
+                       </div>
+                       <div className="p-4 bg-white flex gap-3 justify-end">
+                          <button className="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+                             Dismiss
+                          </button>
+                          <button 
+                             onClick={() => handleSend("Break down why labor was over by $180 last night")}
+                             className="px-4 py-2 text-sm font-medium bg-black text-white rounded-lg hover:bg-gray-800 shadow-sm transition-all flex items-center gap-2"
+                          >
+                             Yes, show me <ArrowRight className="h-3 w-3" />
+                          </button>
+                       </div>
                     </div>
-                    <h2 className="font-serif text-2xl font-medium mb-2">Munch Assistant</h2>
-                    <p className="max-w-md text-muted-foreground">Ask me anything about your restaurant's performance, staff, or inventory.</p>
+
+                    {/* Suggested Prompts */}
+                    <div className="w-full space-y-4">
+                       <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider text-center mb-6">Suggested Actions</h4>
+                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <button 
+                             onClick={() => handleSend("Why was Tuesday slower than last week?")}
+                             className="p-4 text-left bg-gray-50 hover:bg-white border border-transparent hover:border-gray-200 rounded-xl transition-all shadow-sm hover:shadow group"
+                          >
+                             <div className="text-sm font-medium text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Why was Tuesday slower?</div>
+                             <div className="text-xs text-muted-foreground">Compare vs last week</div>
+                          </button>
+                          
+                          <button 
+                             onClick={() => handleSend("Who's at risk of overtime this week?")}
+                             className="p-4 text-left bg-gray-50 hover:bg-white border border-transparent hover:border-gray-200 rounded-xl transition-all shadow-sm hover:shadow group"
+                          >
+                             <div className="text-sm font-medium text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Overtime Risk</div>
+                             <div className="text-xs text-muted-foreground">Check staff hours</div>
+                          </button>
+                          
+                          <button 
+                             onClick={() => handleSend("Show me my best-selling items this month")}
+                             className="p-4 text-left bg-gray-50 hover:bg-white border border-transparent hover:border-gray-200 rounded-xl transition-all shadow-sm hover:shadow group"
+                          >
+                             <div className="text-sm font-medium text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Best Sellers</div>
+                             <div className="text-xs text-muted-foreground">View top menu items</div>
+                          </button>
+                       </div>
+                    </div>
                  </div>
               ) : (
                  messages.map((msg) => (
