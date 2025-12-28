@@ -63,6 +63,21 @@ function MissionProgressBar({ value }: { value: number }) {
 export default function Home() {
   const [, setLocation] = useLocation();
   const [query, setQuery] = useState("");
+  const [showPnlBanner, setShowPnlBanner] = useState(false);
+  const [pnlPeriod, setPnlPeriod] = useState("");
+
+  // Check for released P&L on mount
+  React.useEffect(() => {
+    const released = localStorage.getItem("munch_pnl_released");
+    const period = localStorage.getItem("munch_pnl_period");
+    
+    if (released === "true" && period) {
+       setShowPnlBanner(true);
+       setPnlPeriod(period);
+       // Clear it so it doesn't persist forever in this prototype session
+       localStorage.removeItem("munch_pnl_released");
+    }
+  }, []);
 
   const dailyData = [
     { day: 'Mon', sales: 2400, labor: 800 },
@@ -106,6 +121,22 @@ export default function Home() {
 
         {/* 2. Hero / AI Command Feed */}
         <div className="bg-gray-50 border border-border p-8 relative overflow-hidden min-h-[220px]">
+           {/* P&L Banner */}
+           {showPnlBanner && (
+              <div className="absolute top-0 left-0 right-0 bg-black text-white px-4 py-2 flex items-center justify-between z-20 animate-in slide-in-from-top duration-500">
+                 <div className="flex items-center gap-2 text-sm font-medium">
+                    <span className="text-emerald-400">📊</span>
+                    <span>{pnlPeriod} P&L available · Net margin: 9.2%</span>
+                 </div>
+                 <button 
+                   onClick={() => setLocation("/finance/pnl-release")}
+                   className="text-xs font-medium hover:text-gray-300 transition-colors flex items-center gap-1"
+                 >
+                    View <ArrowUpRight className="h-3 w-3" />
+                 </button>
+              </div>
+           )}
+
            <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
               <Sparkles size={200} />
            </div>

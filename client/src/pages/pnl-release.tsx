@@ -349,14 +349,20 @@ export default function PnlRelease() {
 
   const confirmRelease = () => {
     setShowReleaseModal(false);
+    
+    // Simulate release by setting a flag (in a real app this would be a backend call)
+    localStorage.setItem("munch_pnl_released", "true");
+    localStorage.setItem("munch_pnl_period", period);
+    
     toast({
       title: "P&L Released",
       description: "Owner has been notified via email and app.",
     });
-    // Reset or redirect logic here
+    
+    // Redirect to home page after a short delay
     setTimeout(() => {
-      setStep(1); // Go back to list
-    }, 1500);
+      setLocation("/");
+    }, 1000);
   };
 
   // --- Step 1: P&L List Table ---
