@@ -116,7 +116,7 @@ export default function Home() {
               </div>
               <div className="w-full">
                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="font-serif text-xl font-medium">AI Summary</h2>
+                    <h2 className="font-serif text-xl font-medium">Quick Overview</h2>
                  </div>
 
                  <div className="animate-in fade-in slide-in-from-left-4 duration-300">
