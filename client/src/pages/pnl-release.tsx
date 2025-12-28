@@ -42,6 +42,14 @@ import { useToast } from "@/hooks/use-toast";
 
 // --- Mock Data ---
 
+const pnlPeriods = [
+  { id: "oct-24", period: "October 2024", location: "Little Mo BK", status: "Ready to Sync", sentDate: null, viewed: false },
+  { id: "sep-24", period: "September 2024", location: "Little Mo BK", status: "Sent", sentDate: "Oct 15, 2024", viewed: true },
+  { id: "aug-24", period: "August 2024", location: "Little Mo BK", status: "Sent", sentDate: "Sep 12, 2024", viewed: true },
+  { id: "jul-24", period: "July 2024", location: "Little Mo BK", status: "Sent", sentDate: "Aug 14, 2024", viewed: true },
+  { id: "jun-24", period: "June 2024", location: "Little Mo BK", status: "Sent", sentDate: "Jul 10, 2024", viewed: false },
+];
+
 const pnlData = [
   { category: "Revenue", current: 124500, prior: 118200, variance: 6300, pct: 5.3 },
   { category: "COGS", current: 38595, prior: 35460, variance: 3135, pct: 8.8 },
@@ -173,6 +181,20 @@ export default function PnlRelease() {
   const [showFullPnl, setShowFullPnl] = useState(false);
   
   // Handlers
+  const handlePeriodClick = (p: typeof pnlPeriods[0]) => {
+     if (p.status === "Ready to Sync") {
+        setPeriod(p.period);
+        setLocationName(p.location);
+        setStep(2); // In real flow, usually triggers sync first, but assuming we jump to draft for this period
+     } else {
+        // Read only view for sent items - for prototype, we'll just open the same view but maybe read-only? 
+        // Or just let them edit it again for the prototype sake.
+        setPeriod(p.period);
+        setLocationName(p.location);
+        setStep(2);
+     }
+  };
+
   const handleSync = () => {
     setIsSyncing(true);
     setTimeout(() => {
@@ -196,78 +218,130 @@ export default function PnlRelease() {
     });
     // Reset or redirect logic here
     setTimeout(() => {
-      setLocation("/accounting/home"); // Go back to home or list
+      setStep(1); // Go back to list
     }, 1500);
   };
 
-  // --- Step 1: Select & Sync ---
+  // --- Step 1: P&L List Table ---
   if (step === 1) {
     return (
       <Layout>
-        <div className="max-w-xl mx-auto py-24 px-8">
-          <div className="text-center mb-12">
-            <h1 className="font-serif text-3xl font-medium mb-4">New P&L Release</h1>
-            <p className="text-muted-foreground">Select a period and location to generate the monthly financial package.</p>
-          </div>
+         <div className="flex flex-col h-full bg-gray-50/30">
+            {/* Header Section */}
+            <div className="bg-white border-b border-gray-200 px-8 py-6">
+               <div className="flex justify-between items-start mb-6">
+                  <div>
+                     <h1 className="text-2xl font-serif font-bold text-gray-900 mb-1">P&L Release</h1>
+                     <p className="text-sm text-muted-foreground">Manage and release monthly financial packages to location owners.</p>
+                  </div>
+                  <button 
+                     onClick={() => {
+                        setPeriod("November 2024");
+                        setStep(2);
+                     }}
+                     className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors shadow-sm"
+                  >
+                     <Plus className="h-4 w-4" /> Start New Release
+                  </button>
+               </div>
 
-          <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm space-y-6">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-900">Location</label>
-              <div className="relative">
-                <select 
-                  className="w-full appearance-none bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-3 pr-8"
-                  value={locationName}
-                  onChange={(e) => setLocationName(e.target.value)}
-                >
-                  <option>Little Mo BK</option>
-                  <option>Little Mo DC</option>
-                  <option>Little Mo Philly</option>
-                </select>
-                <ChevronDown className="absolute right-3 top-3.5 h-4 w-4 text-gray-500 pointer-events-none" />
-              </div>
+               {/* Filters Bar */}
+               <div className="flex flex-wrap gap-3 items-center">
+                  <button className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md text-sm hover:bg-gray-50 text-gray-700">
+                     <span>Little Mo BK</span>
+                     <ChevronDown className="h-3 w-3 opacity-50" />
+                  </button>
+                  
+                  <button className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md text-sm hover:bg-gray-50 text-gray-700">
+                     <Calendar className="h-4 w-4 text-gray-500" />
+                     <span>Last 6 Months</span>
+                     <ChevronDown className="h-3 w-3 opacity-50" />
+                  </button>
+
+                  <div className="ml-auto flex gap-3">
+                     <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <input 
+                           type="text" 
+                           placeholder="Search periods..." 
+                           className="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-md w-64 focus:outline-none focus:ring-1 focus:ring-black"
+                        />
+                     </div>
+                  </div>
+               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-900">Period</label>
-              <div className="relative">
-                <select 
-                  className="w-full appearance-none bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-3 pr-8"
-                  value={period}
-                  onChange={(e) => setPeriod(e.target.value)}
-                >
-                  <option>October 2024</option>
-                  <option>September 2024</option>
-                  <option>August 2024</option>
-                </select>
-                <Calendar className="absolute right-3 top-3.5 h-4 w-4 text-gray-500 pointer-events-none" />
-              </div>
+            {/* Table Content */}
+            <div className="flex-1 overflow-auto p-8">
+               <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                  <table className="w-full text-sm text-left">
+                     <thead className="bg-gray-50 text-gray-500 font-medium border-b border-gray-200">
+                        <tr>
+                           <th className="px-6 py-4 font-semibold text-gray-900">Period</th>
+                           <th className="px-6 py-4 font-semibold text-gray-900">Location</th>
+                           <th className="px-6 py-4 font-semibold text-gray-900">Status</th>
+                           <th className="px-6 py-4 font-semibold text-gray-900">Sent Date</th>
+                           <th className="px-6 py-4 font-semibold text-gray-900">Owner Status</th>
+                           <th className="px-6 py-4"></th>
+                        </tr>
+                     </thead>
+                     <tbody className="divide-y divide-gray-100">
+                        {pnlPeriods.map((item) => (
+                           <tr 
+                              key={item.id} 
+                              onClick={() => handlePeriodClick(item)}
+                              className="hover:bg-gray-50 transition-colors cursor-pointer group"
+                           >
+                              <td className="px-6 py-4 font-medium text-gray-900">{item.period}</td>
+                              <td className="px-6 py-4 text-gray-600">{item.location}</td>
+                              <td className="px-6 py-4">
+                                 {item.status === "Sent" ? (
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-medium border border-emerald-100">
+                                       <Check className="h-3 w-3" /> Sent
+                                    </span>
+                                 ) : (
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-medium border border-amber-100">
+                                       <Sparkles className="h-3 w-3" /> Ready to Sync
+                                    </span>
+                                 )}
+                              </td>
+                              <td className="px-6 py-4 text-gray-500">
+                                 {item.sentDate || "—"}
+                              </td>
+                              <td className="px-6 py-4">
+                                 {item.viewed ? (
+                                    <span className="text-xs text-gray-500 flex items-center gap-1">
+                                       <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Viewed
+                                    </span>
+                                 ) : item.status === "Sent" ? (
+                                    <span className="text-xs text-gray-400 flex items-center gap-1">
+                                       <div className="h-1.5 w-1.5 rounded-full bg-gray-300" /> Unread
+                                    </span>
+                                 ) : (
+                                    <span className="text-gray-300">—</span>
+                                 )}
+                              </td>
+                              <td className="px-6 py-4 text-right">
+                                 <button className="opacity-0 group-hover:opacity-100 p-2 hover:bg-gray-100 rounded-md transition-all text-gray-400 hover:text-black">
+                                    <ChevronRight className="h-4 w-4" />
+                                 </button>
+                              </td>
+                           </tr>
+                        ))}
+                     </tbody>
+                  </table>
+               </div>
+               
+               <div className="mt-4 flex justify-between text-xs text-gray-500 px-2">
+                  <span>Showing {pnlPeriods.length} entries</span>
+                  <div className="flex gap-2">
+                     <button className="hover:text-gray-900 disabled:opacity-50">Previous</button>
+                     <span>Page 1 of 1</span>
+                     <button className="hover:text-gray-900 disabled:opacity-50">Next</button>
+                  </div>
+               </div>
             </div>
-
-            <div className="pt-4">
-              <button 
-                onClick={handleSync}
-                disabled={isSyncing}
-                className="w-full bg-black text-white font-medium py-3 rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                {isSyncing ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" /> Analyzing P&L...
-                  </>
-                ) : (
-                  <>
-                    <RefreshCw className="h-4 w-4" /> Sync & Generate Package
-                  </>
-                )}
-              </button>
-            </div>
-            
-            <div className="text-center pt-2">
-              <button className="text-xs text-muted-foreground hover:text-black hover:underline">
-                Upload manually
-              </button>
-            </div>
-          </div>
-        </div>
+         </div>
       </Layout>
     );
   }
