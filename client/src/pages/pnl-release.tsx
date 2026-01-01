@@ -299,6 +299,37 @@ function GoalProgress({ label, current, target, unit = "%", inverted = false }: 
   );
 }
 
+function VisualizationCard({ title, children, active, onToggle }: { title: string, children: React.ReactNode, active: boolean, onToggle: () => void }) {
+  return (
+    <div className={cn(
+      "border rounded-xl transition-all duration-300 overflow-hidden",
+      active ? "bg-white border-gray-200 shadow-sm" : "bg-gray-50 border-gray-200 opacity-60 grayscale"
+    )}>
+      <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+        <h3 className="font-medium text-sm text-gray-900">{title}</h3>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted-foreground">{active ? "Included" : "Excluded"}</span>
+          <button 
+            onClick={onToggle}
+            className={cn(
+              "w-10 h-5 rounded-full transition-colors relative",
+              active ? "bg-black" : "bg-gray-300"
+            )}
+          >
+            <div className={cn(
+              "absolute top-1 w-3 h-3 rounded-full bg-white transition-transform duration-200",
+              active ? "left-6" : "left-1"
+            )} />
+          </button>
+        </div>
+      </div>
+      <div className="p-4 h-64 flex items-center justify-center">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 // --- Chat Component for Owner View ---
 function OwnerChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [messages, setMessages] = useState<{ id: string; role: "user" | "assistant"; content: string }[]>([]);
