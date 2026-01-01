@@ -75,6 +75,23 @@ const pnlData = [
   { category: "Net Income", current: 22120, prior: 16706, variance: 5414, pct: 32.4 },
 ];
 
+const trendData = [
+  { month: 'May', margin: 6.2 },
+  { month: 'Jun', margin: 7.1 },
+  { month: 'Jul', margin: 5.8 },
+  { month: 'Aug', margin: 8.4 },
+  { month: 'Sep', margin: 7.9 },
+  { month: 'Oct', margin: 9.2 },
+  ];
+
+const categoryData = [
+  { name: 'Labor', value: 33, color: '#ef4444' },
+  { name: 'COGS', value: 31, color: '#3b82f6' },
+  { name: 'Rent', value: 7, color: '#eab308' },
+  { name: 'Other', value: 11, color: '#6b7280' },
+  { name: 'Margin', value: 18, color: '#10b981' },
+];
+
 const navigationYears = [
   { year: 2024, months: ["October", "September", "August", "July", "June", "May"] },
   { year: 2023, months: ["December", "November", "October", "September"] }
