@@ -933,42 +933,47 @@ export default function PnlRelease() {
         <div className="flex-1 overflow-y-auto p-8">
           <div className="max-w-4xl mx-auto space-y-8">
             
-            {/* Section A: AI Headline */}
-            <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm group relative">
-               <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span className="text-xs text-muted-foreground bg-gray-100 px-2 py-1 rounded flex items-center gap-1">
-                    <Sparkles className="h-3 w-3 text-emerald-600" /> AI Generated
-                  </span>
+            {/* Section A: Executive Summary */}
+            <div>
+               <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Executive Summary</h3>
+               <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm group relative">
+                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                     <span className="text-xs text-muted-foreground bg-gray-100 px-2 py-1 rounded flex items-center gap-1">
+                       <Sparkles className="h-3 w-3 text-emerald-600" /> AI Generated
+                     </span>
+                  </div>
+                  <textarea 
+                     value={headline}
+                     onChange={(e) => setHeadline(e.target.value)}
+                     className="w-full text-3xl md:text-4xl font-serif font-medium leading-tight border-none p-0 focus:ring-0 resize-none bg-transparent placeholder:text-gray-300"
+                     rows={2}
+                  />
                </div>
-               <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Executive Summary</label>
-               <textarea 
-                  value={headline}
-                  onChange={(e) => setHeadline(e.target.value)}
-                  className="w-full text-3xl md:text-4xl font-serif font-medium leading-tight border-none p-0 focus:ring-0 resize-none bg-transparent placeholder:text-gray-300"
-                  rows={2}
-               />
             </div>
             
-            {/* Stats Cards (Added to Draft View) */}
-            <div className="grid grid-cols-3 gap-6">
-                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                   <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Net Revenue</div>
-                   <div className="text-3xl font-serif text-gray-900">$124.5k</div>
-                   <div className="text-sm text-emerald-600 font-medium mt-1">↑ 5.3% vs forecast</div>
-                </div>
-                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                   <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Net Margin</div>
-                   <div className="text-3xl font-serif text-emerald-600">9.2%</div>
-                   <div className="text-sm text-emerald-600 font-medium mt-1">↑ 2.1% vs last month</div>
-                </div>
-                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                   <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Vs Last Month</div>
-                   <div className="text-3xl font-serif text-emerald-600">+$5.4k</div>
-                   <div className="text-sm text-gray-500 font-medium mt-1">Net Income Growth</div>
-                </div>
+            {/* Section B: Key Stats */}
+            <div>
+               <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Key Stats</h3>
+               <div className="grid grid-cols-3 gap-6">
+                   <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                      <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Net Revenue</div>
+                      <div className="text-3xl font-serif text-gray-900">$124.5k</div>
+                      <div className="text-sm text-emerald-600 font-medium mt-1">↑ 5.3% vs forecast</div>
+                   </div>
+                   <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                      <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Net Margin</div>
+                      <div className="text-3xl font-serif text-emerald-600">9.2%</div>
+                      <div className="text-sm text-emerald-600 font-medium mt-1">↑ 2.1% vs last month</div>
+                   </div>
+                   <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                      <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Vs Last Month</div>
+                      <div className="text-3xl font-serif text-emerald-600">+$5.4k</div>
+                      <div className="text-sm text-gray-500 font-medium mt-1">Net Income Growth</div>
+                   </div>
+               </div>
             </div>
 
-            {/* Section B: Key Insights */}
+            {/* Section C: Key Insights */}
             <div>
                <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Key Insights</h3>
@@ -995,17 +1000,19 @@ export default function PnlRelease() {
                </div>
             </div>
 
-            {/* Section C: Accountant's Note */}
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-               <label className="block text-sm font-medium text-gray-900 mb-2">Add a note for the owner</label>
-               <textarea 
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  placeholder="Any strategic context or recommendations..."
-                  className="w-full text-sm border-gray-200 rounded-lg focus:ring-black focus:border-black p-3 min-h-[100px]"
-               />
-               <div className="flex justify-between items-center mt-2">
-                  <span className="text-xs text-muted-foreground">Will appear as "Note from Henry at Chubby Group"</span>
+            {/* Section D: Accountant's Note */}
+            <div>
+               <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Note from Accountant</h3>
+               <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <textarea 
+                     value={note}
+                     onChange={(e) => setNote(e.target.value)}
+                     placeholder="Any strategic context or recommendations..."
+                     className="w-full text-sm border-gray-200 rounded-lg focus:ring-black focus:border-black p-3 min-h-[100px]"
+                  />
+                  <div className="flex justify-between items-center mt-2">
+                     <span className="text-xs text-muted-foreground">Will appear as "Note from Henry at Chubby Group"</span>
+                  </div>
                </div>
             </div>
 
