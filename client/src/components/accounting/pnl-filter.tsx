@@ -70,16 +70,8 @@ export function PnLFilter({
   selectedOwners,
   onOwnerChange
 }: PnLFilterProps) {
-  const [isCalendarOpen, setIsCalendarOpen] = React.useState(false);
-
-  const handlePresetSelect = (presetLabel: string) => {
-    const preset = PRESETS.find(p => p.label === presetLabel);
-    if (preset) {
-      onDateRangeChange(preset.getValue());
-      onPresetChange?.(presetLabel);
-      setIsCalendarOpen(false);
-    }
-  };
+  const [isFromOpen, setIsFromOpen] = React.useState(false);
+  const [isToOpen, setIsToOpen] = React.useState(false);
 
   const handleStatusToggle = (value: string) => {
     if (selectedStatuses.includes(value)) {
@@ -99,75 +91,66 @@ export function PnLFilter({
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {/* 1. Calendar Filter */}
-      <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className={cn(
-              "justify-start text-left font-normal h-10 px-3 border-gray-200 hover:bg-gray-50",
-              !dateRange && "text-muted-foreground"
-            )}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
-            {dateRange?.from ? (
-              dateRange.to ? (
-                <>
-                  {format(dateRange.from, "MM/dd/yyyy")} - {format(dateRange.to, "MM/dd/yyyy")}
-                </>
-              ) : (
-                format(dateRange.from, "MM/dd/yyyy")
-              )
-            ) : (
-              <span>Pick a date</span>
-            )}
-            <div className="h-4 w-[1px] bg-gray-200 mx-2" />
-            <span className="text-gray-500 text-xs uppercase tracking-wide font-medium">
-              {activePreset || "Custom"}
-            </span>
-            <ChevronDown className="ml-auto h-4 w-4 opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
-          <div className="p-0">
-            <Calendar
-              initialFocus
-              mode="range"
-              defaultMonth={dateRange?.from}
-              selected={dateRange}
-              onSelect={(range) => {
-                onDateRangeChange(range);
-                if (activePreset !== "Custom") {
-                  onPresetChange?.("Custom");
-                }
-              }}
-              numberOfMonths={1}
-            />
-            <div className="flex items-center justify-between p-3 border-t border-gray-100">
-               <button 
-                  onClick={() => {
-                     onDateRangeChange(undefined);
-                     setIsCalendarOpen(false);
-                  }}
-                  className="text-sm text-blue-600 hover:text-blue-800 font-medium px-2 py-1 rounded hover:bg-blue-50 transition-colors"
-               >
-                  Clear
-               </button>
-               <button 
-                  onClick={() => {
-                     const today = new Date();
-                     onDateRangeChange({ from: today, to: today });
-                     onPresetChange?.("Custom"); // Or create a "Today" preset
-                     setIsCalendarOpen(false);
-                  }}
-                  className="text-sm text-blue-600 hover:text-blue-800 font-medium px-2 py-1 rounded hover:bg-blue-50 transition-colors"
-               >
-                  Today
-               </button>
-            </div>
-          </div>
-        </PopoverContent>
-      </Popover>
+      {/* 1. Date Range Split Filter */}
+      <div className="flex items-center gap-1 bg-white rounded-md">
+        <Popover open={isFromOpen} onOpenChange={setIsFromOpen}>
+            <PopoverTrigger asChild>
+                <Button 
+                    variant="ghost" 
+                    className={cn(
+                        "h-9 px-3 font-normal hover:bg-gray-50 border border-transparent hover:border-gray-200 transition-all", 
+                        !dateRange?.from && "text-muted-foreground"
+                    )}
+                >
+                    <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+                    {dateRange?.from ? format(dateRange.from, "MM/dd/yyyy") : <span>Start Date</span>}
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                    mode="single"
+                    selected={dateRange?.from}
+                    onSelect={(date) => {
+                        onDateRangeChange({ from: date, to: dateRange?.to });
+                        setIsFromOpen(false);
+                        if (activePreset !== "Custom") onPresetChange?.("Custom");
+                    }}
+                    initialFocus
+                />
+            </PopoverContent>
+        </Popover>
+
+        <span className="text-gray-300 px-1">-</span>
+
+        <Popover open={isToOpen} onOpenChange={setIsToOpen}>
+            <PopoverTrigger asChild>
+                <Button 
+                    variant="ghost" 
+                    className={cn(
+                        "h-9 px-3 font-normal hover:bg-gray-50 border border-transparent hover:border-gray-200 transition-all", 
+                        !dateRange?.to && "text-muted-foreground"
+                    )}
+                >
+                    <CalendarIcon className="mr-2 h-4 w-4 text-gray-500" />
+                    {dateRange?.to ? format(dateRange.to, "MM/dd/yyyy") : <span>End Date</span>}
+                </Button>
+            </PopoverTrigger>
+             <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                    mode="single"
+                    selected={dateRange?.to}
+                    onSelect={(date) => {
+                        onDateRangeChange({ from: dateRange?.from, to: date });
+                        setIsToOpen(false);
+                        if (activePreset !== "Custom") onPresetChange?.("Custom");
+                    }}
+                    initialFocus
+                />
+            </PopoverContent>
+        </Popover>
+      </div>
+
+      <div className="h-4 w-[1px] bg-gray-200 mx-2" />
 
       {/* 2. Status Filter */}
       <Popover>
