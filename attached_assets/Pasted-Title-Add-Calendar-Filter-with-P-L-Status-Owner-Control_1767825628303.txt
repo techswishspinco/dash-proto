@@ -1,0 +1,116 @@
+Title
+Add Calendar Filter with P&L Status & Owner Controls on P&L Release Page
+
+Context
+On the /accounting/pnl route, specifically on the P&L Release page, users currently lack a structured calendar-style filter to manage reporting periods alongside P&L status and owner attribution.
+
+We want to introduce a calendar filter UI similar to the attached reference, allowing users to quickly filter and understand P&L reports by date range, status, and owner in a single, intuitive control.
+
+Objective
+Build a calendar-based filter component that enables users to filter P&L data by:
+
+Reporting period (via calendar/date picker)
+
+P&L status (e.g. Draft, Reviewed, Finalized, Released)
+
+Owner (e.g. Accountant, Manager, Owner, System)
+
+This filter should be visually compact, easy to scan, and consistent with the rest of the Accounting UI.
+
+Scope / Requirements
+
+1. Calendar Filter
+
+Date range selector (month-based by default, with custom range support)
+
+Presets:
+
+This Month
+
+Last Month
+
+Quarter to Date
+
+Year to Date
+
+Custom Range
+
+Selected range should persist across navigation and refresh (URL params or state)
+
+2. P&L Status Filter
+
+Multi-select dropdown or pill-based filter
+
+Status options (exact labels TBD, but include):
+
+Draft
+
+In Review
+
+Finalized
+
+Released
+
+Ability to select multiple statuses at once
+
+Visual indicator when filters are active
+
+3. Owner Filter
+
+Filter P&L entries by owner/responsible party
+
+Example owners:
+
+Accountant
+
+Manager
+
+Owner
+
+System / Auto-generated
+
+Should support multi-select
+
+4. UI / UX
+
+Filter should live near the top of the P&L Release page (above the table/list)
+
+Calendar + status + owner should feel like one cohesive control (not scattered filters)
+
+Active filters should be clearly visible and removable
+
+Matches existing design system (spacing, typography, dropdown behavior)
+
+5. Data Behavior
+
+Filters should update the P&L list/table in real time
+
+Backend/API queries should respect:
+
+date_start / date_end
+
+status[]
+
+owner[]
+
+Empty states should clearly indicate when no results match the filters
+
+Acceptance Criteria
+
+User can filter P&Ls by date range using a calendar UI
+
+User can filter by one or more P&L statuses
+
+User can filter by one or more owners
+
+Filters persist when navigating within Accounting
+
+Clear visual indication when filters are applied
+
+No regression to existing P&L functionality
+
+Notes
+
+Reference image shows the intended UX direction (calendar-centric filter with status context)
+
+This is part of the broader P&L Release experience and should be reusable for future Accounting views
