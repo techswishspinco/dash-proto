@@ -132,7 +132,33 @@ export function PnLFilter({
                       dropdown: "flex h-8 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 appearance-none",
                       dropdown_root: "relative flex items-center"
                     }}
+                    formatters={{
+                      formatWeekdayName: (date) => date.toLocaleDateString("en-US", { weekday: "narrow" }),
+                    }}
                 />
+                <div className="flex items-center justify-between border-t border-border p-3">
+                  <Button
+                    variant="ghost"
+                    className="h-auto p-0 text-xs font-medium text-muted-foreground hover:bg-transparent hover:text-foreground"
+                    onClick={() => {
+                      onDateRangeChange({ from: undefined, to: dateRange?.to });
+                      setIsFromOpen(false);
+                    }}
+                  >
+                    Clear
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="h-auto p-0 text-xs font-medium text-blue-600 hover:bg-transparent hover:text-blue-700"
+                    onClick={() => {
+                      onDateRangeChange({ from: new Date(), to: dateRange?.to });
+                      setIsFromOpen(false);
+                      if (activePreset !== "Custom") onPresetChange?.("Custom");
+                    }}
+                  >
+                    Today
+                  </Button>
+                </div>
             </PopoverContent>
         </Popover>
 
@@ -172,7 +198,33 @@ export function PnLFilter({
                       dropdown: "flex h-8 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 appearance-none",
                       dropdown_root: "relative flex items-center"
                     }}
+                    formatters={{
+                      formatWeekdayName: (date) => date.toLocaleDateString("en-US", { weekday: "narrow" }),
+                    }}
                 />
+                <div className="flex items-center justify-between border-t border-border p-3">
+                  <Button
+                    variant="ghost"
+                    className="h-auto p-0 text-xs font-medium text-muted-foreground hover:bg-transparent hover:text-foreground"
+                    onClick={() => {
+                      onDateRangeChange({ from: dateRange?.from, to: undefined });
+                      setIsToOpen(false);
+                    }}
+                  >
+                    Clear
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="h-auto p-0 text-xs font-medium text-blue-600 hover:bg-transparent hover:text-blue-700"
+                    onClick={() => {
+                      onDateRangeChange({ from: dateRange?.from, to: new Date() });
+                      setIsToOpen(false);
+                      if (activePreset !== "Custom") onPresetChange?.("Custom");
+                    }}
+                  >
+                    Today
+                  </Button>
+                </div>
             </PopoverContent>
         </Popover>
       </div>
