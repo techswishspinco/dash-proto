@@ -96,6 +96,266 @@ const trendData = [
 
 // --- Components ---
 
+// --- Collapsible P&L Dashboard Components ---
+
+type PnLItemType = "section" | "group" | "account";
+
+interface PnLItem {
+  id: string;
+  name: string;
+  current: number;
+  prior: number;
+  variance: number;
+  pct: number;
+  type: PnLItemType;
+  children?: PnLItem[];
+  tag?: "Critical" | "Attention" | "Favorable";
+}
+
+const detailedPnLData: PnLItem[] = [
+  {
+    id: "rev", name: "Revenue", current: 133041.81, prior: 154351.46, variance: -21309.65, pct: -13.8, type: "section", tag: "Critical",
+    children: [
+      { id: "rev-food", name: "Food Sales", current: 98450.20, prior: 112300.50, variance: -13850.30, pct: -12.3, type: "group", children: [
+         { id: "rev-food-din", name: "Dinner", current: 65200.00, prior: 72000.00, variance: -6800.00, pct: -9.4, type: "account" },
+         { id: "rev-food-lun", name: "Lunch", current: 22100.00, prior: 28500.00, variance: -6400.00, pct: -22.5, type: "account", tag: "Critical" },
+         { id: "rev-food-bru", name: "Brunch", current: 11150.20, prior: 11800.50, variance: -650.30, pct: -5.5, type: "account" },
+      ]},
+      { id: "rev-bev", name: "Beverage Sales", current: 34591.61, prior: 42050.96, variance: -7459.35, pct: -17.7, type: "group", children: [
+         { id: "rev-bev-alc", name: "Alcohol", current: 28500.00, prior: 35000.00, variance: -6500.00, pct: -18.6, type: "account", tag: "Attention" },
+         { id: "rev-bev-na", name: "Non-Alcoholic", current: 6091.61, prior: 7050.96, variance: -959.35, pct: -13.6, type: "account" },
+      ]}
+    ]
+  },
+  {
+    id: "cogs", name: "Cost of Goods Sold", current: 55669.86, prior: 57494.34, variance: -1824.48, pct: -3.2, type: "section", tag: "Favorable",
+    children: [
+       { id: "cogs-food", name: "Food Cost", current: 28500.40, prior: 26800.50, variance: 1699.90, pct: 6.3, type: "group", tag: "Attention", children: [
+          { id: "cogs-food-meat", name: "Meat & Poultry", current: 12400.00, prior: 11200.00, variance: 1200.00, pct: 10.7, type: "account", tag: "Attention" },
+          { id: "cogs-food-prod", name: "Produce", current: 5184.83, prior: 4937.50, variance: 247.33, pct: 5.0, type: "account", tag: "Critical" },
+          { id: "cogs-food-dry", name: "Dry Goods", current: 3500.00, prior: 3800.00, variance: -300.00, pct: -7.9, type: "account", tag: "Favorable" },
+       ]},
+       { id: "cogs-bev", name: "Beverage Cost", current: 8500.00, prior: 9200.00, variance: -700.00, pct: -7.6, type: "group", tag: "Favorable", children: [
+          { id: "cogs-bev-liq", name: "Liquor", current: 4200.00, prior: 4500.00, variance: -300.00, pct: -6.7, type: "account" },
+          { id: "cogs-bev-beer", name: "Beer", current: 2393.45, prior: 1195.39, variance: 1198.06, pct: 100.2, type: "account", tag: "Attention" },
+          { id: "cogs-bev-wine", name: "Wine", current: 1906.55, prior: 3504.61, variance: -1598.06, pct: -45.6, type: "account", tag: "Favorable" },
+       ]},
+       { id: "cogs-comm", name: "Commissary Food", current: 19847.40, prior: 23938.32, variance: -4090.92, pct: -17.1, type: "account", tag: "Favorable" }
+    ]
+  },
+  {
+    id: "labor", name: "Labor", current: 45156.05, prior: 48200.13, variance: -3044.08, pct: -6.3, type: "section", tag: "Favorable",
+    children: [
+       { id: "lab-direct", name: "Direct Labor Cost", current: 16156.05, prior: 18408.13, variance: -2252.08, pct: -12.2, type: "group", tag: "Favorable", children: [
+          { id: "lab-foh", name: "FOH Hourly", current: 8500.00, prior: 9800.00, variance: -1300.00, pct: -13.3, type: "account", tag: "Favorable" },
+          { id: "lab-boh", name: "BOH Hourly", current: 7656.05, prior: 8608.13, variance: -952.08, pct: -11.1, type: "account" }
+       ]},
+       { id: "lab-mgmt", name: "Management Salaries", current: 24000.00, prior: 24000.00, variance: 0, pct: 0, type: "account" },
+       { id: "lab-taxes", name: "Payroll Taxes", current: 5000.00, prior: 5792.00, variance: -792.00, pct: -13.7, type: "account" }
+    ]
+  },
+  {
+     id: "opex", name: "Operating Expenses", current: 18500.00, prior: 17200.00, variance: 1300.00, pct: 7.6, type: "section", tag: "Attention",
+     children: [
+        { id: "opex-rent", name: "Rent", current: 8500.00, prior: 8500.00, variance: 0, pct: 0, type: "account" },
+        { id: "opex-repairs", name: "Repairs & Maintenance", current: 4200.00, prior: 2500.00, variance: 1700.00, pct: 68.0, type: "account", tag: "Critical" },
+        { id: "opex-util", name: "Utilities", current: 3200.00, prior: 3100.00, variance: 100.00, pct: 3.2, type: "account" },
+        { id: "opex-supplies", name: "Operating Supplies", current: 2600.00, prior: 3100.00, variance: -500.00, pct: -16.1, type: "account", tag: "Favorable" }
+     ]
+  },
+  { id: "ni", name: "Net Income", current: 13715.90, prior: 31456.99, variance: -17741.09, pct: -56.4, type: "section", tag: "Critical" }
+];
+
+function PnLRow({ item, level = 0, searchTerm, filterTag }: { item: PnLItem, level?: number, searchTerm: string, filterTag: string }) {
+  const [isExpanded, setIsExpanded] = useState(level < 1); // Expand top level by default
+  const hasChildren = item.children && item.children.length > 0;
+  
+  // Search & Filter Logic
+  const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+  const matchesTag = filterTag === "All" || item.tag === filterTag;
+  
+  // Recursively check if children match
+  const childMatches = item.children ? item.children.some(child => {
+     const childNameMatch = child.name.toLowerCase().includes(searchTerm.toLowerCase());
+     const childTagMatch = filterTag === "All" || child.tag === filterTag;
+     // Deep check
+     const deepMatch = child.children ? child.children.some(grandChild => 
+        (grandChild.name.toLowerCase().includes(searchTerm.toLowerCase()) && (filterTag === "All" || grandChild.tag === filterTag))
+     ) : false;
+     
+     return (childNameMatch && childTagMatch) || deepMatch;
+  }) : false;
+
+  const shouldShow = (matchesSearch && matchesTag) || childMatches;
+
+  // Auto-expand if searching or filtering
+  useEffect(() => {
+     if ((searchTerm || filterTag !== "All") && childMatches) {
+        setIsExpanded(true);
+     }
+  }, [searchTerm, filterTag, childMatches]);
+
+  if (!shouldShow) return null;
+
+  return (
+    <div className="border-b border-gray-50 last:border-0">
+      <div 
+         className={cn(
+            "flex items-center py-3 px-4 hover:bg-gray-50 transition-colors cursor-pointer select-none",
+            level === 0 ? "bg-white font-medium text-gray-900" : "text-gray-700 text-sm",
+            level > 0 && "border-l border-gray-100"
+         )}
+         style={{ paddingLeft: `${(level * 1.5) + 1}rem` }}
+         onClick={() => hasChildren && setIsExpanded(!isExpanded)}
+      >
+         <div className="flex-1 flex items-center gap-3">
+            {hasChildren ? (
+               <div className={cn("text-gray-400 transition-transform duration-200", isExpanded ? "rotate-90" : "")}>
+                  <ChevronRight className="h-4 w-4" />
+               </div>
+            ) : <div className="w-4" />}
+            
+            <span>{item.name}</span>
+            
+            {item.tag && (
+               <span className={cn(
+                  "text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-full ml-2",
+                  item.tag === "Critical" ? "bg-red-100 text-red-700" :
+                  item.tag === "Attention" ? "bg-amber-100 text-amber-700" :
+                  "bg-emerald-100 text-emerald-700"
+               )}>
+                  {item.tag === "Critical" ? <div className="h-1.5 w-1.5 rounded-full bg-red-500 inline-block mr-1" /> : null}
+                  {item.tag === "Attention" ? <div className="h-1.5 w-1.5 rounded-full bg-amber-500 inline-block mr-1" /> : null}
+                  {item.tag === "Favorable" ? <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block mr-1" /> : null}
+                  {item.tag === "Favorable" ? "" : item.tag}
+               </span>
+            )}
+         </div>
+         
+         <div className="flex items-center gap-8 text-right font-mono text-xs md:text-sm">
+            <div className="w-24 font-medium">${item.current.toLocaleString()}</div>
+            <div className="w-24 text-gray-500">${item.prior.toLocaleString()}</div>
+            <div className={cn("w-16 font-medium", item.variance > 0 ? (item.type === "section" && (item.name === "Cost of Goods Sold" || item.name === "Labor" || item.name === "Operating Expenses") ? "text-red-600" : "text-emerald-600") : (item.type === "section" && (item.name === "Cost of Goods Sold" || item.name === "Labor" || item.name === "Operating Expenses") ? "text-emerald-600" : "text-red-600"))}>
+               {item.pct > 0 ? "+" : ""}{item.pct.toFixed(1)}%
+            </div>
+         </div>
+      </div>
+      
+      {isExpanded && hasChildren && (
+         <div className="animate-in slide-in-from-top-1 duration-200 fade-in-50">
+            {item.children?.map(child => (
+               <PnLRow key={child.id} item={child} level={level + 1} searchTerm={searchTerm} filterTag={filterTag} />
+            ))}
+         </div>
+      )}
+    </div>
+  );
+}
+
+function PnLDashboard() {
+   const [searchTerm, setSearchTerm] = useState("");
+   const [filterTag, setFilterTag] = useState("All"); // All, Critical, Attention, Favorable
+   
+   // Calculate counts for filters
+   const countTags = (tag: string) => {
+      let count = 0;
+      const traverse = (items: PnLItem[]) => {
+         items.forEach(item => {
+            if (item.tag === tag) count++;
+            if (item.children) traverse(item.children);
+         });
+      };
+      traverse(detailedPnLData);
+      return count;
+   };
+   
+   const criticalCount = countTags("Critical");
+   const attentionCount = countTags("Attention");
+   const favorableCount = countTags("Favorable");
+
+   return (
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+         {/* Header / Toolbar */}
+         <div className="p-4 border-b border-gray-200 bg-gray-50/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+               <h3 className="font-serif font-bold text-lg text-gray-900">P&L Dashboard</h3>
+            </div>
+            
+            <div className="flex flex-col md:flex-row gap-4">
+               {/* Search */}
+               <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input 
+                     type="text" 
+                     placeholder="Search line items..." 
+                     value={searchTerm}
+                     onChange={(e) => setSearchTerm(e.target.value)}
+                     className="pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm w-full md:w-64 focus:outline-none focus:ring-1 focus:ring-black"
+                  />
+               </div>
+               
+               {/* Filter Tags */}
+               <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+                  <button 
+                     onClick={() => setFilterTag("All")}
+                     className={cn(
+                        "px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors",
+                        filterTag === "All" ? "bg-gray-900 text-white" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+                     )}
+                  >
+                     All Items
+                  </button>
+                  <button 
+                     onClick={() => setFilterTag("Critical")}
+                     className={cn(
+                        "px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1.5",
+                        filterTag === "Critical" ? "bg-red-100 text-red-800 border border-red-200" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+                     )}
+                  >
+                     <div className="h-1.5 w-1.5 rounded-full bg-red-500" /> {criticalCount} Critical
+                  </button>
+                  <button 
+                     onClick={() => setFilterTag("Attention")}
+                     className={cn(
+                        "px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1.5",
+                        filterTag === "Attention" ? "bg-amber-100 text-amber-800 border border-amber-200" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+                     )}
+                  >
+                     <div className="h-1.5 w-1.5 rounded-full bg-amber-500" /> {attentionCount} Attention
+                  </button>
+                  <button 
+                     onClick={() => setFilterTag("Favorable")}
+                     className={cn(
+                        "px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1.5",
+                        filterTag === "Favorable" ? "bg-emerald-100 text-emerald-800 border border-emerald-200" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+                     )}
+                  >
+                     <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> {favorableCount} Favorable
+                  </button>
+               </div>
+            </div>
+         </div>
+         
+         {/* Column Headers */}
+         <div className="bg-white border-b border-gray-100 flex items-center py-2 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+            <div className="flex-1">Line Item</div>
+            <div className="flex items-center gap-8 text-right">
+               <div className="w-24">Current</div>
+               <div className="w-24">Prior</div>
+               <div className="w-16">Variance</div>
+            </div>
+         </div>
+
+         {/* Rows */}
+         <div className="divide-y divide-gray-50">
+            {detailedPnLData.map(item => (
+               <PnLRow key={item.id} item={item} searchTerm={searchTerm} filterTag={filterTag} />
+            ))}
+         </div>
+      </div>
+   );
+}
+
 function ReleaseModal({ isOpen, onClose, data, onConfirm }: { isOpen: boolean, onClose: () => void, data: any, onConfirm: () => void }) {
    const [message, setMessage] = useState("Here is your P&L report for the period. Highlights included below.");
    const [scheduleDate, setScheduleDate] = useState("");
@@ -1564,46 +1824,9 @@ export default function PnlRelease() {
                </div>
             </div>
 
-            {/* Section E: Full P&L Table */}
-            <div id="section-full-pnl" className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-               <button 
-                 onClick={() => setShowFullPnl(!showFullPnl)}
-                 className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
-               >
-                  <span className="font-medium text-sm flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-gray-500" /> View Full P&L Details
-                  </span>
-                  {showFullPnl ? <ChevronUp className="h-4 w-4 text-gray-500" /> : <ChevronDown className="h-4 w-4 text-gray-500" />}
-               </button>
-               
-               {showFullPnl && (
-                 <div className="p-0 overflow-x-auto">
-                    <table className="w-full text-sm text-left">
-                       <thead className="bg-white border-b border-gray-100 text-xs uppercase text-gray-500 font-medium">
-                          <tr>
-                             <th className="px-6 py-4">Category</th>
-                             <th className="px-6 py-4 text-right">Current</th>
-                             <th className="px-6 py-4 text-right">Prior Period</th>
-                             <th className="px-6 py-4 text-right">Variance</th>
-                             <th className="px-6 py-4 text-right">%</th>
-                          </tr>
-                       </thead>
-                       <tbody className="divide-y divide-gray-50">
-                          {pnlData.map((row) => (
-                             <tr key={row.category} className={cn("hover:bg-gray-50 transition-colors", row.category === "Net Income" ? "bg-gray-50 font-bold" : "")}>
-                                <td className="px-6 py-4 font-medium">{row.category}</td>
-                                <td className="px-6 py-4 text-right">${row.current.toLocaleString()}</td>
-                                <td className="px-6 py-4 text-right text-gray-500">${row.prior.toLocaleString()}</td>
-                                <td className={cn("px-6 py-4 text-right font-medium", row.variance > 0 ? (row.category === "Revenue" || row.category === "Net Income" ? "text-emerald-600" : "text-red-600") : (row.category === "Revenue" || row.category === "Net Income" ? "text-red-600" : "text-emerald-600"))}>
-                                   {row.variance > 0 ? "+" : ""}{row.variance.toLocaleString()}
-                                </td>
-                                <td className="px-6 py-4 text-right text-gray-500">{row.pct}%</td>
-                             </tr>
-                          ))}
-                       </tbody>
-                    </table>
-                 </div>
-               )}
+            {/* Section E: Fully Collapsible P&L Dashboard */}
+            <div id="section-full-pnl">
+               <PnLDashboard />
             </div>
             
             <div className="h-12"></div> {/* Spacer */}

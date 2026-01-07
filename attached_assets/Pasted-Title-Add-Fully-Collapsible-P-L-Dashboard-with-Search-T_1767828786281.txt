@@ -1,0 +1,202 @@
+Title
+Add Fully Collapsible P&L Dashboard with Search, Tags, and Granular Drilldowns (Detailed View)
+
+Context
+The Detailed View in /accounting/pnl presents a full P&L, but as reports grow in size and complexity, users need faster ways to:
+
+Find specific line items
+
+Identify issues that require attention
+
+Understand favorable vs unfavorable performance
+
+Drill into granular data without losing context
+
+We want to introduce a fully collapsible P&L dashboard that is searchable, tag-aware, and tightly mapped to the uploaded P&L Excel source.
+
+Objective
+
+Enhance the Detailed View with a collapsible, searchable, and data-aware P&L dashboard where each line item:
+
+Maps 1:1 to the uploaded P&L Excel
+
+Can expand into progressively more granular data
+
+Is automatically tagged based on performance signals (critical vs favorable)
+
+Scope / Requirements
+1. Fully Collapsible P&L Structure
+
+Each major P&L section is collapsible:
+
+Revenue
+
+Cost of Goods Sold
+
+Labor
+
+Operating Expenses
+
+Other Income / Expense
+
+Each section can be:
+
+Expanded
+
+Collapsed
+
+“Collapse all / Expand all” supported
+
+Default state should prioritize readability (e.g. collapsed sections except Revenue + Net)
+
+2. Line-Item Level Collapsibility
+
+Every P&L line item must:
+
+Correspond directly to a row or group in the uploaded P&L Excel
+
+Expand to show:
+
+Sub-accounts
+
+Category rollups
+
+Vendor or source breakdowns (when available)
+
+Drilldown depth should be progressive (no overwhelming data dump)
+
+3. Search Line Item Bar
+
+Add a search bar at the top of the P&L dashboard
+
+Search should match:
+
+Line item names
+
+Sub-accounts
+
+Tags (see below)
+
+Search results should:
+
+Auto-expand relevant sections
+
+Highlight matched line items
+
+Preserve hierarchy context
+
+4. Performance Tags (Auto-Generated)
+
+Each line item should support dynamic tags generated from P&L data analysis.
+
+Core Tags (v1)
+
+Critical Attention
+
+Material negative variance
+
+Margin deterioration
+
+Unusual spikes vs historical baseline
+
+Favorable
+
+Positive variance
+
+Margin improvement
+
+Cost reductions or efficiency gains
+
+Tag Behavior
+
+Tags are:
+
+Computed automatically
+
+Non-editable in v1
+
+Tag thresholds should be configurable (internal)
+
+Tags must update when:
+
+Date range changes
+
+Comparison period changes
+
+New data is synced
+
+5. Tag-Based Filtering
+
+Add tag filters above the dashboard:
+
+Show all
+
+Critical Attention
+
+Favorable
+
+Filtering should:
+
+Collapse unrelated sections
+
+Surface only tagged line items
+
+Maintain parent/child hierarchy for context
+
+6. Data Integrity & Mapping
+
+Every displayed line item must:
+
+Map directly to the uploaded P&L Excel
+
+Respect original account naming and hierarchy
+
+No synthetic or re-labeled line items unless explicitly defined in mapping logic
+
+Drilldowns must reconcile back to the total shown at the parent level
+
+7. UX / Performance
+
+Expanding/collapsing must feel instant
+
+No full page reloads
+
+Clear visual hierarchy between:
+
+Section totals
+
+Line items
+
+Sub-items
+
+Favor clarity over density
+
+Acceptance Criteria
+
+P&L sections and line items are fully collapsible
+
+Search bar finds and highlights line items accurately
+
+Line items auto-tag as Critical Attention or Favorable
+
+Tag filters dynamically narrow visible items
+
+Each line item maps cleanly to the uploaded Excel
+
+Drilldowns reconcile correctly to parent totals
+
+No regressions to existing P&L calculations
+
+Notes
+
+This feature is foundational for:
+
+AI insights
+
+Manager scorecards
+
+Exportable executive reports
+
+This remains part of Detailed View, not Curated View
+
+Tag logic should be extensible for future labels (e.g. “Watchlist,” “Seasonal”)
