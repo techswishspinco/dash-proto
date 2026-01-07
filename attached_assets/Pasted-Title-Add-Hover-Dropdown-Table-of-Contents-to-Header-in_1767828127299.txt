@@ -1,0 +1,86 @@
+Title
+Add Hover Dropdown Table of Contents to Header in P&L Detailed View
+
+Context
+In /accounting/pnl, the Detailed View page contains multiple sections with distinct headers (e.g. Revenue, COGS, Labor, Operating Expenses, etc.). Currently, users must scroll to navigate between these sections, which becomes inefficient for long P&L reports.
+
+To improve navigability and scanning, we want to add a dropdown table of contents in the page header where it currently says “Detailed View”.
+
+Objective
+Replace or enhance the “Detailed View” header label with a hover-activated dropdown table of contents that allows users to quickly jump to any section on the page.
+
+Scope / Requirements
+
+1. Header Interaction
+
+The text “Detailed View” in the header should act as a hover trigger
+
+On hover, display a dropdown menu containing a list of sections
+
+Dropdown should close on mouse leave or outside click
+
+2. Table of Contents Structure
+
+Each dropdown item must correspond to a section header on the Detailed View page
+
+Examples (exact list should be dynamically generated):
+
+Overview
+
+Revenue
+
+Cost of Goods Sold
+
+Labor
+
+Operating Expenses
+
+Other Income / Expense
+
+Net Income
+
+Section labels should match the visible header text exactly
+
+3. Navigation Behavior
+
+Clicking a section in the dropdown scrolls the user smoothly to that section
+
+URL hash may update (optional but preferred) to support deep linking
+
+Scrolling manually should not break dropdown behavior
+
+4. Dynamic & Resilient
+
+TOC should be generated dynamically from the page’s section headers
+
+Adding/removing sections in the Detailed View should automatically update the dropdown
+
+Avoid hardcoding section names
+
+5. UI / UX
+
+Dropdown should be visually lightweight and consistent with existing header styling
+
+Current section (based on scroll position) may optionally be highlighted
+
+Should work across screen sizes (desktop first, graceful degradation on smaller screens)
+
+Acceptance Criteria
+
+Hovering over “Detailed View” shows a dropdown TOC
+
+Dropdown lists all sections present on the page
+
+Clicking an item scrolls to the correct section
+
+No layout shift or header flicker on hover
+
+No regression to existing P&L Detailed View functionality
+
+Notes
+
+This feature is meant to act as a fast navigation aid, not a sidebar replacement
+
+Should feel instant and discoverable without adding visual clutter
+
+Align behavior with other hover-based controls in Accounting where possible

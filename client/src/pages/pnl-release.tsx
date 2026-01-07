@@ -306,6 +306,52 @@ function VisualizationCard({ title, children, active, onToggle }: { title: strin
   );
 }
 
+// --- Table of Contents Component ---
+
+function HoverTOC({ children, targetIds }: { children: React.ReactNode, targetIds: { id: string, label: string }[] }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setIsHovered(false);
+  };
+
+  return (
+    <div 
+      className="relative group inline-block"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="cursor-pointer">
+        {children}
+      </div>
+      
+      {isHovered && (
+        <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-2 z-50 animate-in fade-in zoom-in-95 duration-200">
+           <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider px-3 py-2">
+              Jump to Section
+           </div>
+           <div className="space-y-0.5">
+              {targetIds.map((item) => (
+                 <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-black rounded-lg transition-colors flex items-center justify-between group/item"
+                 >
+                    {item.label}
+                    <ArrowRight className="h-3 w-3 opacity-0 group-hover/item:opacity-100 transition-opacity text-gray-400" />
+                 </button>
+              ))}
+           </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // --- Curated View Components ---
 
 function MetricCard({ title, value, subtext, trend, trendVal, icon: Icon, alert }: any) {
@@ -1280,15 +1326,24 @@ export default function PnlRelease() {
 
           {/* View Switcher */}
           <div className="flex items-center gap-6">
-            <button 
-                onClick={() => setActiveView('detailed')}
-                className={cn(
-                    "pb-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2", 
-                    activeView === 'detailed' ? "border-black text-black" : "border-transparent text-gray-500 hover:text-gray-900"
-                )}
-            >
-                <FileText className="h-4 w-4" /> Detailed View
-            </button>
+            <HoverTOC targetIds={[
+               { id: "section-executive-summary", label: "Executive Summary" },
+               { id: "section-key-stats", label: "Key Stats" },
+               { id: "section-key-insights", label: "Key Insights" },
+               { id: "section-accountant-note", label: "Accountant's Note" },
+               { id: "section-visualizations", label: "Visualizations" },
+               { id: "section-full-pnl", label: "Full P&L Details" },
+            ]}>
+              <button 
+                  onClick={() => setActiveView('detailed')}
+                  className={cn(
+                      "pb-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2", 
+                      activeView === 'detailed' ? "border-black text-black" : "border-transparent text-gray-500 hover:text-gray-900"
+                  )}
+              >
+                  <FileText className="h-4 w-4" /> Detailed View <ChevronDown className="h-3 w-3 text-gray-400" />
+              </button>
+            </HoverTOC>
             <button 
                 onClick={() => setActiveView('curated')}
                 className={cn(
@@ -1323,7 +1378,7 @@ export default function PnlRelease() {
                <>
             
             {/* Section A: Executive Summary */}
-            <div>
+            <div id="section-executive-summary">
                <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Executive Summary</h3>
                <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm group relative">
                   <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1341,7 +1396,7 @@ export default function PnlRelease() {
             </div>
             
             {/* Section B: Key Stats */}
-            <div>
+            <div id="section-key-stats">
                <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Key Stats</h3>
                <div className="grid grid-cols-3 gap-6">
                    <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
@@ -1363,7 +1418,7 @@ export default function PnlRelease() {
             </div>
 
             {/* Section C: Key Insights */}
-            <div>
+            <div id="section-key-insights">
                <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Key Insights</h3>
                   <button 
@@ -1390,7 +1445,7 @@ export default function PnlRelease() {
             </div>
 
             {/* Section D: Accountant's Note */}
-            <div>
+            <div id="section-accountant-note">
                <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Note from Accountant</h3>
                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
                   <textarea 
@@ -1406,7 +1461,7 @@ export default function PnlRelease() {
             </div>
 
             {/* Section D: Visualizations */}
-            <div>
+            <div id="section-visualizations">
                <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Visualizations</h3>
                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   
@@ -1485,7 +1540,7 @@ export default function PnlRelease() {
             </div>
 
             {/* Section E: Full P&L Table */}
-            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+            <div id="section-full-pnl" className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
                <button 
                  onClick={() => setShowFullPnl(!showFullPnl)}
                  className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
