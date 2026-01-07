@@ -129,49 +129,41 @@ export function PnLFilter({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
-          <div className="flex">
-            <div className="p-2 w-40 border-r border-gray-100 flex flex-col gap-1">
-              {PRESETS.map((preset) => (
-                <button
-                  key={preset.label}
-                  onClick={() => handlePresetSelect(preset.label)}
-                  className={cn(
-                    "w-full text-left px-3 py-2 text-sm rounded-md transition-colors",
-                    activePreset === preset.label
-                      ? "bg-black text-white"
-                      : "hover:bg-gray-100 text-gray-700"
-                  )}
-                >
-                  {preset.label}
-                </button>
-              ))}
-              <div className="my-1 h-[1px] bg-gray-100" />
-              <button
-                onClick={() => onPresetChange?.("Custom")}
-                className={cn(
-                  "w-full text-left px-3 py-2 text-sm rounded-md transition-colors",
-                  activePreset === "Custom"
-                    ? "bg-black text-white"
-                    : "hover:bg-gray-100 text-gray-700"
-                )}
-              >
-                Custom Range
-              </button>
-            </div>
-            <div className="p-3">
-              <Calendar
-                initialFocus
-                mode="range"
-                defaultMonth={dateRange?.from}
-                selected={dateRange}
-                onSelect={(range) => {
-                  onDateRangeChange(range);
-                  if (activePreset !== "Custom") {
-                    onPresetChange?.("Custom");
-                  }
-                }}
-                numberOfMonths={2}
-              />
+          <div className="p-0">
+            <Calendar
+              initialFocus
+              mode="range"
+              defaultMonth={dateRange?.from}
+              selected={dateRange}
+              onSelect={(range) => {
+                onDateRangeChange(range);
+                if (activePreset !== "Custom") {
+                  onPresetChange?.("Custom");
+                }
+              }}
+              numberOfMonths={1}
+            />
+            <div className="flex items-center justify-between p-3 border-t border-gray-100">
+               <button 
+                  onClick={() => {
+                     onDateRangeChange(undefined);
+                     setIsCalendarOpen(false);
+                  }}
+                  className="text-sm text-blue-600 hover:text-blue-800 font-medium px-2 py-1 rounded hover:bg-blue-50 transition-colors"
+               >
+                  Clear
+               </button>
+               <button 
+                  onClick={() => {
+                     const today = new Date();
+                     onDateRangeChange({ from: today, to: today });
+                     onPresetChange?.("Custom"); // Or create a "Today" preset
+                     setIsCalendarOpen(false);
+                  }}
+                  className="text-sm text-blue-600 hover:text-blue-800 font-medium px-2 py-1 rounded hover:bg-blue-50 transition-colors"
+               >
+                  Today
+               </button>
             </div>
           </div>
         </PopoverContent>
