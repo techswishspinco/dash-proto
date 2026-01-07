@@ -1327,7 +1327,7 @@ export default function PnlRelease() {
           {/* View Switcher */}
           <div className="flex items-center gap-6">
             <HoverTOC targetIds={[
-               { id: "section-executive-summary", label: "Executive Summary" },
+               { id: "section-executive-summary", label: "Executive Narrative" },
                { id: "section-key-stats", label: "Key Stats" },
                { id: "section-key-insights", label: "Key Insights" },
                { id: "section-accountant-note", label: "Accountant's Note" },
@@ -1377,21 +1377,46 @@ export default function PnlRelease() {
             ) : (
                <>
             
-            {/* Section A: Executive Summary */}
+            {/* Section A: Executive Narrative */}
             <div id="section-executive-summary">
-               <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Executive Summary</h3>
-               <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm group relative">
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                     <span className="text-xs text-muted-foreground bg-gray-100 px-2 py-1 rounded flex items-center gap-1">
-                       <Sparkles className="h-3 w-3 text-emerald-600" /> AI Generated
-                     </span>
+               <div className="flex items-center justify-between mb-4">
+                 <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Executive Narrative</h3>
+                 <button className="text-xs text-amber-600 bg-amber-50 px-2 py-1 rounded-md font-medium flex items-center gap-1 hover:bg-amber-100 transition-colors">
+                    <div className="h-3 w-3 rounded-full border border-current flex items-center justify-center text-[8px] font-bold">?</div> Learn
+                 </button>
+               </div>
+               
+               <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <div className="flex gap-4">
+                     <div className="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center flex-shrink-0">
+                        <Sparkles className="h-5 w-5 text-gray-500" />
+                     </div>
+                     <div>
+                        <h4 className="font-serif text-lg font-medium text-gray-900 mb-2">Performance Summary</h4>
+                        <p className="text-gray-600 leading-relaxed text-sm">
+                           {(() => {
+                              const rev = pnlData.find(d => d.category === "Revenue");
+                              const ni = pnlData.find(d => d.category === "Net Income");
+                              const lab = pnlData.find(d => d.category === "Labor");
+                              const cogs = pnlData.find(d => d.category === "COGS");
+                              
+                              if (!rev || !ni || !lab || !cogs) return "Data incomplete.";
+
+                              const margin = (ni.current / rev.current) * 100;
+                              const prime = ((lab.current + cogs.current) / rev.current) * 100;
+                              
+                              return (
+                                 <>
+                                    {period.split(' ')[0]} net income came in at <span className="font-medium text-gray-900">${ni.current.toLocaleString()}</span> ({margin.toFixed(1)}% margin), {ni.variance > 0 ? "beating" : "missing"} budget by ${Math.abs(ni.variance).toLocaleString()}. 
+                                    Strong holiday traffic drove <span className="font-medium text-amber-700">revenue</span> {rev.pct}% {rev.pct > 0 ? "above" : "below"} forecast, 
+                                    though <span className="font-medium text-amber-700">labor costs</span> ran {lab.variance > 0 ? "hot" : "efficiently"} during the final two weeks. 
+                                    <span className="font-medium text-amber-700">Prime cost</span> landed at {prime.toFixed(1)}%—{prime < 60 ? "within target" : "slightly elevated"} but worth watching as January staffing decisions are made.
+                                 </>
+                              );
+                           })()}
+                        </p>
+                     </div>
                   </div>
-                  <textarea 
-                     value={headline}
-                     onChange={(e) => setHeadline(e.target.value)}
-                     className="w-full text-3xl md:text-4xl font-serif font-medium leading-tight border-none p-0 focus:ring-0 resize-none bg-transparent placeholder:text-gray-300"
-                     rows={2}
-                  />
                </div>
             </div>
             

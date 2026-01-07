@@ -1,0 +1,130 @@
+Title
+Rename Executive Summary to Executive Narrative with Data-Driven Performance Summary (Detailed View)
+
+Context
+In /accounting/pnl → Detailed View, there is currently a section labeled “Executive Summary.” As the product evolves, this label no longer accurately reflects the intent of the section.
+
+We want to reposition this section as an Executive Narrative — a data-driven, automatically generated performance explanation that helps users understand what happened and why, based on actual P&L data.
+
+This section should feel analytical and narrative-driven, not static or manually written.
+
+Objective
+
+Replace Executive Summary with Executive Narrative, and introduce a Performance Summary that is dynamically generated from P&L data in the Detailed View.
+
+Scope / Requirements
+1. Rename Section
+
+Change header text:
+
+From: Executive Summary
+
+To: Executive Narrative
+
+Update all references in:
+
+UI labels
+
+Internal naming
+
+Analytics / tracking (if applicable)
+
+2. Executive Narrative Content
+
+The section should present a plain-language narrative explaining P&L performance
+
+Narrative must be:
+
+Generated from real financial data
+
+Period-aware (current period vs comparison period)
+
+Concise, professional, and neutral in tone
+
+Example themes (not hardcoded):
+
+Revenue growth/decline and primary drivers
+
+Margin movement and cost pressure
+
+Labor and prime cost behavior
+
+Notable variances vs prior period or budget (if available)
+
+3. Performance Summary (Data-Backed)
+
+Directly below or within the Executive Narrative, include a Performance Summary composed of structured insights, such as:
+
+Revenue ▲/▼ vs prior period
+
+Net income ▲/▼ and margin change
+
+Labor % trend
+
+Food cost % trend
+
+Largest positive and negative variances
+
+Rules:
+
+Insights must be derived from actual P&L line items
+
+Numbers should be contextualized (%, $ delta, direction)
+
+Avoid generic statements like “performance improved”
+
+4. Data Logic (High-Level)
+
+Performance Summary should compute:
+
+Period-over-period deltas
+
+Percentage change
+
+Materiality thresholds (e.g. only surface meaningful changes)
+
+Narrative should update automatically when:
+
+Date range changes
+
+Filters change
+
+New data is synced
+
+5. UI / UX
+
+Executive Narrative should live at the top of the Detailed View
+
+Read-only (no manual editing in v1)
+
+Clear separation between:
+
+Narrative text
+
+Structured performance bullets or callouts
+
+Should feel authoritative and CFO-grade, not marketing copy
+
+Acceptance Criteria
+
+“Executive Summary” is fully replaced with “Executive Narrative”
+
+Narrative text is dynamically generated from P&L data
+
+Performance Summary reflects real period-over-period metrics
+
+Content updates when filters/date ranges change
+
+No regressions to existing Detailed View sections
+
+Notes
+
+This is not the Curated View summary — this remains part of Detailed View
+
+This section sets the groundwork for future:
+
+AI-assisted explanations
+
+Exported executive reports
+
+Stakeholder-facing narratives
