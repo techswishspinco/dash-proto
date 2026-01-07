@@ -116,6 +116,16 @@ export function PnLFilter({
                         if (activePreset !== "Custom") onPresetChange?.("Custom");
                     }}
                     initialFocus
+                    captionLayout="dropdown"
+                    fromYear={2020}
+                    toYear={2030}
+                    className="p-3 pointer-events-auto"
+                    classNames={{
+                      caption_label: "hidden", // Hide the default caption label to use dropdowns
+                      dropdowns: "flex w-full items-center gap-1.5",
+                      dropdown: "flex h-8 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 appearance-none",
+                      dropdown_root: "relative flex items-center"
+                    }}
                 />
             </PopoverContent>
         </Popover>
@@ -145,6 +155,16 @@ export function PnLFilter({
                         if (activePreset !== "Custom") onPresetChange?.("Custom");
                     }}
                     initialFocus
+                    captionLayout="dropdown"
+                    fromYear={2020}
+                    toYear={2030}
+                    className="p-3 pointer-events-auto"
+                    classNames={{
+                      caption_label: "hidden", 
+                      dropdowns: "flex w-full items-center gap-1.5",
+                      dropdown: "flex h-8 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 appearance-none",
+                      dropdown_root: "relative flex items-center"
+                    }}
                 />
             </PopoverContent>
         </Popover>
