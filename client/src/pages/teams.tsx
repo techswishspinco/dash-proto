@@ -46,14 +46,26 @@ export default function Teams() {
 
           {/* Tab Content */}
           {activeTab === "departments" && (
-            <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg min-h-[400px] flex items-center justify-center" data-testid="content-departments">
-              <span className="text-xl text-muted-foreground">Department content goes here</span>
+            <div className="border border-border rounded-lg min-h-[400px] flex flex-col items-center justify-center py-16 bg-[#fafafa]" data-testid="content-departments">
+              <h2 className="font-serif text-2xl font-medium text-foreground mb-3">Departments</h2>
+              <p className="text-muted-foreground text-center max-w-md mb-6">
+                This module is currently under development. Check back soon for updates.
+              </p>
+              <span className="px-4 py-1.5 text-sm text-muted-foreground border border-border rounded-full">
+                Status: Development Preview
+              </span>
             </div>
           )}
 
           {activeTab === "staff" && (
-            <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg min-h-[400px] flex items-center justify-center" data-testid="content-staff">
-              <span className="text-xl text-muted-foreground">Staff content goes here</span>
+            <div className="border border-border rounded-lg min-h-[400px] flex flex-col items-center justify-center py-16 bg-[#fafafa]" data-testid="content-staff">
+              <h2 className="font-serif text-2xl font-medium text-foreground mb-3">Staff</h2>
+              <p className="text-muted-foreground text-center max-w-md mb-6">
+                This module is currently under development. Check back soon for updates.
+              </p>
+              <span className="px-4 py-1.5 text-sm text-muted-foreground border border-border rounded-full">
+                Status: Development Preview
+              </span>
             </div>
           )}
 
