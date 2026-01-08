@@ -251,14 +251,14 @@ export default function Teams() {
                   <div className="px-6 py-3 border-b bg-gray-50">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Departments</span>
                   </div>
-                  <div className="px-3 py-2 border-b">
+                  <div className="p-3 border-b">
                     <div className="relative">
-                      <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         placeholder="Search departments..."
                         value={deptSearch}
                         onChange={(e) => setDeptSearch(e.target.value)}
-                        className="h-8 pl-7 text-xs"
+                        className="h-10 pl-10 text-sm w-full"
                         data-testid="input-search-departments"
                       />
                     </div>
@@ -290,14 +290,14 @@ export default function Teams() {
                   <div className="px-6 py-3 border-b bg-gray-50">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Jobs</span>
                   </div>
-                  <div className="px-3 py-2 border-b">
+                  <div className="p-3 border-b">
                     <div className="relative">
-                      <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         placeholder="Search jobs..."
                         value={deptJobSearch}
                         onChange={(e) => setDeptJobSearch(e.target.value)}
-                        className="h-8 pl-7 text-xs"
+                        className="h-10 pl-10 text-sm w-full"
                         data-testid="input-search-dept-jobs"
                       />
                     </div>
@@ -342,14 +342,14 @@ export default function Teams() {
                   <div className="px-6 py-3 border-b bg-gray-50">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Jobs</span>
                   </div>
-                  <div className="px-3 py-2 border-b">
+                  <div className="p-3 border-b">
                     <div className="relative">
-                      <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         placeholder="Search jobs..."
                         value={jobSearch}
                         onChange={(e) => setJobSearch(e.target.value)}
-                        className="h-8 pl-7 text-xs"
+                        className="h-10 pl-10 text-sm w-full"
                         data-testid="input-search-jobs"
                       />
                     </div>
@@ -386,14 +386,14 @@ export default function Teams() {
                   <div className="px-6 py-3 border-b bg-gray-50">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Staff</span>
                   </div>
-                  <div className="px-3 py-2 border-b">
+                  <div className="p-3 border-b">
                     <div className="relative">
-                      <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         placeholder="Search staff..."
                         value={personnelSearch}
                         onChange={(e) => setPersonnelSearch(e.target.value)}
-                        className="h-8 pl-7 text-xs"
+                        className="h-10 pl-10 text-sm w-full"
                         data-testid="input-search-personnel"
                       />
                     </div>
