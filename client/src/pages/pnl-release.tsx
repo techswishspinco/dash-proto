@@ -6179,6 +6179,21 @@ export default function PnlRelease() {
                               <span className="text-sm font-medium text-gray-600">Total Bonus Earned</span>
                               <span className="text-lg font-bold text-gray-900">{getScoreboardData().totalBonus}</span>
                             </div>
+
+                            {/* CTA Button */}
+                            <div className="pt-4">
+                              <button
+                                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors"
+                                data-testid="button-view-pnl-cta"
+                              >
+                                <Target className="h-4 w-4" />
+                                Maximize Your Next Bonus
+                                <ArrowRight className="h-4 w-4" />
+                              </button>
+                              <p className="text-xs text-gray-500 text-center mt-2">
+                                View your personalized P&L breakdown
+                              </p>
+                            </div>
                           </div>
 
                           <div className="bg-gray-50 p-3 text-center text-xs text-gray-500 border-t border-gray-100">
