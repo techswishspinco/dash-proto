@@ -162,7 +162,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                  <button className="flex items-center gap-2 px-3 py-1.5 hover:bg-gray-100 rounded-md transition-colors group">
                    <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
                    <span className="font-medium text-foreground text-sm group-hover:text-black">Synced: 2/2</span>
-                   <span className="text-muted-foreground text-sm">· Today, Jan 8</span>
+                   <span className="text-muted-foreground text-sm">· Thu, Jan 8</span>
                    <ChevronDown className="h-3 w-3 text-muted-foreground group-hover:text-black" />
                  </button>
                </PopoverTrigger>
