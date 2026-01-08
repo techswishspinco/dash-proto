@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import { 
   Sheet, 
   SheetContent, 
@@ -21,7 +22,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, ChevronRight, Search } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Plus, ChevronRight, Search, UserPlus, Mail, Phone, MapPin, Briefcase, Shield, Link2, AlertCircle, Check, X, Edit2, UserX, ChevronLeft } from "lucide-react";
 
 interface Department {
   id: string;
@@ -41,7 +61,72 @@ interface Staff {
   id: string;
   name: string;
   initials: string;
+  email: string;
+  phone: string;
+  status: "active" | "invited" | "inactive";
+  role: "admin" | "manager" | "employee";
+  jobRoles: string[];
+  locations: string[];
+  posEmployeeId: string | null;
+  payrollEmployeeId: string | null;
+  startDate: string;
+  avatarColor: string;
 }
+
+interface Location {
+  id: string;
+  name: string;
+  address: string;
+}
+
+interface POSEmployee {
+  id: string;
+  name: string;
+  posSystem: string;
+}
+
+interface PayrollEmployee {
+  id: string;
+  name: string;
+  payrollSystem: string;
+}
+
+const initialLocations: Location[] = [
+  { id: "1", name: "Downtown", address: "123 Main St, Seattle, WA" },
+  { id: "2", name: "Capitol Hill", address: "456 Pine St, Seattle, WA" },
+  { id: "3", name: "Ballard", address: "789 Market St, Seattle, WA" },
+];
+
+const mockPOSEmployees: POSEmployee[] = [
+  { id: "pos-1", name: "Alice J.", posSystem: "Toast" },
+  { id: "pos-2", name: "Bob Smith", posSystem: "Toast" },
+  { id: "pos-3", name: "Charlie D.", posSystem: "Toast" },
+  { id: "pos-4", name: "Diana M.", posSystem: "Toast" },
+  { id: "pos-5", name: "Eric T.", posSystem: "Toast" },
+  { id: "pos-6", name: "F. Garcia", posSystem: "Toast" },
+  { id: "pos-7", name: "G. Wilson", posSystem: "Toast" },
+  { id: "pos-8", name: "Hannah B.", posSystem: "Toast" },
+  { id: "pos-unmatched-1", name: "John Doe (Unmatched)", posSystem: "Toast" },
+  { id: "pos-unmatched-2", name: "Jane Smith (Unmatched)", posSystem: "Toast" },
+];
+
+const mockPayrollEmployees: PayrollEmployee[] = [
+  { id: "pay-1", name: "Johnson, Alice", payrollSystem: "Gusto" },
+  { id: "pay-2", name: "Smith, Robert", payrollSystem: "Gusto" },
+  { id: "pay-3", name: "Davis, Charles", payrollSystem: "Gusto" },
+  { id: "pay-4", name: "Martinez, Diana", payrollSystem: "Gusto" },
+  { id: "pay-5", name: "Thompson, Eric", payrollSystem: "Gusto" },
+  { id: "pay-6", name: "Garcia, Fiona", payrollSystem: "Gusto" },
+  { id: "pay-7", name: "Wilson, George", payrollSystem: "Gusto" },
+  { id: "pay-8", name: "Brown, Hannah", payrollSystem: "Gusto" },
+  { id: "pay-unmatched-1", name: "Williams, Mark (Unmatched)", payrollSystem: "Gusto" },
+  { id: "pay-unmatched-2", name: "Anderson, Lisa (Unmatched)", payrollSystem: "Gusto" },
+];
+
+const avatarColors = [
+  "bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500", 
+  "bg-rose-500", "bg-cyan-500", "bg-indigo-500", "bg-pink-500"
+];
 
 const initialDepartments: Department[] = [
   { id: "1", name: "Front of House" },
@@ -69,21 +154,22 @@ const initialJobRoles: JobRole[] = [
 ];
 
 const initialStaff: Staff[] = [
-  { id: "1", name: "Alice Johnson", initials: "AJ" },
-  { id: "2", name: "Bob Smith", initials: "BS" },
-  { id: "3", name: "Charlie Davis", initials: "CD" },
-  { id: "4", name: "Diana Martinez", initials: "DM" },
-  { id: "5", name: "Eric Thompson", initials: "ET" },
-  { id: "6", name: "Fiona Garcia", initials: "FG" },
-  { id: "7", name: "George Wilson", initials: "GW" },
-  { id: "8", name: "Hannah Brown", initials: "HB" },
+  { id: "1", name: "Alice Johnson", initials: "AJ", email: "alice@example.com", phone: "(206) 555-0101", status: "active", role: "manager", jobRoles: ["1"], locations: ["1", "2"], posEmployeeId: "pos-1", payrollEmployeeId: "pay-1", startDate: "2023-03-15", avatarColor: avatarColors[0] },
+  { id: "2", name: "Bob Smith", initials: "BS", email: "bob@example.com", phone: "(206) 555-0102", status: "active", role: "employee", jobRoles: ["5"], locations: ["1"], posEmployeeId: "pos-2", payrollEmployeeId: "pay-2", startDate: "2023-06-01", avatarColor: avatarColors[1] },
+  { id: "3", name: "Charlie Davis", initials: "CD", email: "charlie@example.com", phone: "(206) 555-0103", status: "active", role: "employee", jobRoles: ["3"], locations: ["2"], posEmployeeId: "pos-3", payrollEmployeeId: "pay-3", startDate: "2023-07-20", avatarColor: avatarColors[2] },
+  { id: "4", name: "Diana Martinez", initials: "DM", email: "diana@example.com", phone: "(206) 555-0104", status: "invited", role: "employee", jobRoles: ["9"], locations: ["3"], posEmployeeId: null, payrollEmployeeId: "pay-4", startDate: "2024-01-10", avatarColor: avatarColors[3] },
+  { id: "5", name: "Eric Thompson", initials: "ET", email: "eric@example.com", phone: "(206) 555-0105", status: "active", role: "employee", jobRoles: ["5", "6"], locations: ["1", "3"], posEmployeeId: "pos-5", payrollEmployeeId: null, startDate: "2022-11-05", avatarColor: avatarColors[4] },
+  { id: "6", name: "Fiona Garcia", initials: "FG", email: "fiona@example.com", phone: "(206) 555-0106", status: "active", role: "admin", jobRoles: ["11"], locations: ["1", "2", "3"], posEmployeeId: "pos-6", payrollEmployeeId: "pay-6", startDate: "2021-01-15", avatarColor: avatarColors[5] },
+  { id: "7", name: "George Wilson", initials: "GW", email: "george@example.com", phone: "(206) 555-0107", status: "inactive", role: "employee", jobRoles: ["7"], locations: ["2"], posEmployeeId: "pos-7", payrollEmployeeId: "pay-7", startDate: "2023-04-01", avatarColor: avatarColors[6] },
+  { id: "8", name: "Hannah Brown", initials: "HB", email: "hannah@example.com", phone: "(206) 555-0108", status: "active", role: "employee", jobRoles: ["1", "2"], locations: ["1"], posEmployeeId: null, payrollEmployeeId: null, startDate: "2024-02-01", avatarColor: avatarColors[7] },
 ];
 
 export default function Teams() {
   const [activeTab, setActiveTab] = useState<"departments" | "staff">("departments");
   const [departments, setDepartments] = useState<Department[]>(initialDepartments);
   const [jobRoles, setJobRoles] = useState<JobRole[]>(initialJobRoles);
-  const [staff] = useState<Staff[]>(initialStaff);
+  const [staff, setStaff] = useState<Staff[]>(initialStaff);
+  const [locations] = useState<Location[]>(initialLocations);
   const [selectedDepartment, setSelectedDepartment] = useState<string>("1");
   const [selectedJob, setSelectedJob] = useState<string>("1");
   const [assignedStaff, setAssignedStaff] = useState<Record<string, string[]>>({
@@ -118,6 +204,38 @@ export default function Teams() {
   const [deptJobScrolledToBottom, setDeptJobScrolledToBottom] = useState(false);
   const [jobScrolledToBottom, setJobScrolledToBottom] = useState(false);
   const [staffScrolledToBottom, setStaffScrolledToBottom] = useState(false);
+
+  // Staff tab state
+  const [staffSearch, setStaffSearch] = useState("");
+  const [staffStatusFilter, setStaffStatusFilter] = useState<"all" | "active" | "invited" | "inactive">("all");
+  const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
+  const [showStaffDetail, setShowStaffDetail] = useState(false);
+  const [showInviteDialog, setShowInviteDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [showRevokeDialog, setShowRevokeDialog] = useState(false);
+  const [staffDetailTab, setStaffDetailTab] = useState("overview");
+
+  // Invite form state
+  const [inviteForm, setInviteForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    role: "employee" as "admin" | "manager" | "employee",
+    jobRoles: [] as string[],
+    locations: [] as string[],
+  });
+
+  // Edit form state
+  const [editForm, setEditForm] = useState({
+    email: "",
+    phone: "",
+    role: "employee" as "admin" | "manager" | "employee",
+    jobRoles: [] as string[],
+    locations: [] as string[],
+    posEmployeeId: null as string | null,
+    payrollEmployeeId: null as string | null,
+  });
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>, setter: (v: boolean) => void) => {
     const target = e.currentTarget;
@@ -186,6 +304,147 @@ export default function Teams() {
       setNewJobPayType("hourly");
       setNewJobRate("");
       setShowAddJobSheet(false);
+    }
+  };
+
+  // Staff tab handlers
+  const filteredStaff = staff.filter((person) => {
+    const matchesSearch = person.name.toLowerCase().includes(staffSearch.toLowerCase()) ||
+      person.email.toLowerCase().includes(staffSearch.toLowerCase());
+    const matchesStatus = staffStatusFilter === "all" || person.status === staffStatusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  const openStaffDetail = (person: Staff) => {
+    setSelectedStaff(person);
+    setShowStaffDetail(true);
+    setStaffDetailTab("overview");
+  };
+
+  const openEditDialog = (person: Staff) => {
+    setEditForm({
+      email: person.email,
+      phone: person.phone,
+      role: person.role,
+      jobRoles: [...person.jobRoles],
+      locations: [...person.locations],
+      posEmployeeId: person.posEmployeeId,
+      payrollEmployeeId: person.payrollEmployeeId,
+    });
+    setSelectedStaff(person);
+    setShowEditDialog(true);
+  };
+
+  const handleInviteStaff = () => {
+    if (inviteForm.firstName && inviteForm.lastName && inviteForm.email) {
+      const initials = `${inviteForm.firstName[0]}${inviteForm.lastName[0]}`.toUpperCase();
+      const newStaff: Staff = {
+        id: (staff.length + 1).toString(),
+        name: `${inviteForm.firstName} ${inviteForm.lastName}`,
+        initials,
+        email: inviteForm.email,
+        phone: inviteForm.phone,
+        status: "invited",
+        role: inviteForm.role,
+        jobRoles: inviteForm.jobRoles,
+        locations: inviteForm.locations,
+        posEmployeeId: null,
+        payrollEmployeeId: null,
+        startDate: new Date().toISOString().split('T')[0],
+        avatarColor: avatarColors[staff.length % avatarColors.length],
+      };
+      setStaff([...staff, newStaff]);
+      setInviteForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        role: "employee",
+        jobRoles: [],
+        locations: [],
+      });
+      setShowInviteDialog(false);
+    }
+  };
+
+  const handleSaveEdit = () => {
+    if (selectedStaff) {
+      setStaff(staff.map(s => 
+        s.id === selectedStaff.id 
+          ? { ...s, ...editForm }
+          : s
+      ));
+      setSelectedStaff({ ...selectedStaff, ...editForm });
+      setShowEditDialog(false);
+    }
+  };
+
+  const handleRevokeAccess = () => {
+    if (selectedStaff) {
+      setStaff(staff.map(s => 
+        s.id === selectedStaff.id 
+          ? { ...s, status: "inactive" as const }
+          : s
+      ));
+      setSelectedStaff({ ...selectedStaff, status: "inactive" });
+      setShowRevokeDialog(false);
+    }
+  };
+
+  const handleReactivateAccess = () => {
+    if (selectedStaff) {
+      setStaff(staff.map(s => 
+        s.id === selectedStaff.id 
+          ? { ...s, status: "active" as const }
+          : s
+      ));
+      setSelectedStaff({ ...selectedStaff, status: "active" });
+    }
+  };
+
+  const updatePOSMapping = (posId: string | null) => {
+    if (selectedStaff) {
+      setStaff(staff.map(s => 
+        s.id === selectedStaff.id 
+          ? { ...s, posEmployeeId: posId }
+          : s
+      ));
+      setSelectedStaff({ ...selectedStaff, posEmployeeId: posId });
+    }
+  };
+
+  const updatePayrollMapping = (payrollId: string | null) => {
+    if (selectedStaff) {
+      setStaff(staff.map(s => 
+        s.id === selectedStaff.id 
+          ? { ...s, payrollEmployeeId: payrollId }
+          : s
+      ));
+      setSelectedStaff({ ...selectedStaff, payrollEmployeeId: payrollId });
+    }
+  };
+
+  const getJobRoleNames = (roleIds: string[]) => {
+    return roleIds.map(id => jobRoles.find(j => j.id === id)?.name || "Unknown").join(", ");
+  };
+
+  const getLocationNames = (locIds: string[]) => {
+    return locIds.map(id => locations.find(l => l.id === id)?.name || "Unknown").join(", ");
+  };
+
+  const getStatusBadgeColor = (status: Staff["status"]) => {
+    switch (status) {
+      case "active": return "bg-emerald-100 text-emerald-700 border-emerald-200";
+      case "invited": return "bg-amber-100 text-amber-700 border-amber-200";
+      case "inactive": return "bg-gray-100 text-gray-600 border-gray-200";
+    }
+  };
+
+  const getRoleBadgeColor = (role: Staff["role"]) => {
+    switch (role) {
+      case "admin": return "bg-purple-100 text-purple-700 border-purple-200";
+      case "manager": return "bg-blue-100 text-blue-700 border-blue-200";
+      case "employee": return "bg-gray-100 text-gray-600 border-gray-200";
     }
   };
 
@@ -481,14 +740,86 @@ export default function Teams() {
         )}
 
         {activeTab === "staff" && (
-          <div className="border border-border rounded-lg min-h-[400px] flex flex-col items-center justify-center py-16 bg-[#fafafa]" data-testid="content-staff">
-            <h2 className="font-serif text-2xl font-medium text-foreground mb-3">Staff</h2>
-            <p className="text-muted-foreground text-center max-w-md mb-6">
-              This module is currently under development. Check back soon for updates.
-            </p>
-            <span className="px-4 py-1.5 text-sm text-muted-foreground border border-border rounded-full">
-              Status: Development Preview
-            </span>
+          <div className="space-y-6" data-testid="content-staff">
+            {/* Header with invite button */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="relative w-80">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search staff by name or email..."
+                    value={staffSearch}
+                    onChange={(e) => setStaffSearch(e.target.value)}
+                    className="pl-9"
+                    data-testid="input-search-staff"
+                  />
+                </div>
+                <Select value={staffStatusFilter} onValueChange={(v) => setStaffStatusFilter(v as typeof staffStatusFilter)}>
+                  <SelectTrigger className="w-36" data-testid="select-staff-status-filter">
+                    <SelectValue placeholder="Filter by status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="invited">Invited</SelectItem>
+                    <SelectItem value="inactive">Inactive</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button onClick={() => setShowInviteDialog(true)} className="gap-2" data-testid="button-invite-staff">
+                <UserPlus className="h-4 w-4" />
+                Invite Staff
+              </Button>
+            </div>
+
+            {/* Staff list */}
+            <Card>
+              <CardContent className="p-0">
+                <div className="divide-y">
+                  {filteredStaff.length === 0 ? (
+                    <div className="py-12 text-center text-muted-foreground">
+                      No staff members found matching your criteria.
+                    </div>
+                  ) : (
+                    filteredStaff.map((person) => (
+                      <button
+                        key={person.id}
+                        onClick={() => openStaffDetail(person)}
+                        className="w-full flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors text-left"
+                        data-testid={`button-staff-${person.id}`}
+                      >
+                        <div className={cn("w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-medium", person.avatarColor)}>
+                          {person.initials}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-sm">{person.name}</span>
+                            <span className={cn("text-xs px-2 py-0.5 rounded-full border capitalize", getStatusBadgeColor(person.status))}>
+                              {person.status}
+                            </span>
+                            <span className={cn("text-xs px-2 py-0.5 rounded-full border capitalize", getRoleBadgeColor(person.role))}>
+                              {person.role}
+                            </span>
+                          </div>
+                          <div className="text-xs text-muted-foreground mt-0.5">
+                            {person.email} • {getJobRoleNames(person.jobRoles) || "No jobs assigned"}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          {(person.posEmployeeId === null || person.payrollEmployeeId === null) && (
+                            <span className="flex items-center gap-1 text-xs text-amber-600">
+                              <AlertCircle className="h-3.5 w-3.5" />
+                              Mapping needed
+                            </span>
+                          )}
+                          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                      </button>
+                    ))
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </div>
         )}
       </div>
@@ -606,6 +937,400 @@ export default function Teams() {
           </SheetFooter>
         </SheetContent>
       </Sheet>
+
+      {/* Staff Detail Sheet */}
+      <Sheet open={showStaffDetail} onOpenChange={setShowStaffDetail}>
+        <SheetContent className="sm:max-w-lg overflow-y-auto">
+          {selectedStaff && (
+            <>
+              <SheetHeader className="pb-4">
+                <div className="flex items-start gap-4">
+                  <div className={cn("w-14 h-14 rounded-full flex items-center justify-center text-white text-lg font-medium", selectedStaff.avatarColor)}>
+                    {selectedStaff.initials}
+                  </div>
+                  <div className="flex-1">
+                    <SheetTitle className="text-xl">{selectedStaff.name}</SheetTitle>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className={cn("text-xs px-2 py-0.5 rounded-full border capitalize", getStatusBadgeColor(selectedStaff.status))}>
+                        {selectedStaff.status}
+                      </span>
+                      <span className={cn("text-xs px-2 py-0.5 rounded-full border capitalize", getRoleBadgeColor(selectedStaff.role))}>
+                        {selectedStaff.role}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </SheetHeader>
+
+              <Tabs value={staffDetailTab} onValueChange={setStaffDetailTab} className="mt-4">
+                <TabsList className="w-full">
+                  <TabsTrigger value="overview" className="flex-1" data-testid="tab-staff-overview">Overview</TabsTrigger>
+                  <TabsTrigger value="mappings" className="flex-1" data-testid="tab-staff-mappings">Mappings</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="overview" className="mt-4 space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 text-sm">
+                      <Mail className="h-4 w-4 text-muted-foreground" />
+                      <span>{selectedStaff.email}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <Phone className="h-4 w-4 text-muted-foreground" />
+                      <span>{selectedStaff.phone}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <Briefcase className="h-4 w-4 text-muted-foreground" />
+                      <span>{getJobRoleNames(selectedStaff.jobRoles) || "No jobs assigned"}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                      <span>{getLocationNames(selectedStaff.locations) || "No locations assigned"}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <Shield className="h-4 w-4 text-muted-foreground" />
+                      <span className="capitalize">{selectedStaff.role} Access</span>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t space-y-3">
+                    <Button variant="outline" className="w-full gap-2" onClick={() => openEditDialog(selectedStaff)} data-testid="button-edit-staff">
+                      <Edit2 className="h-4 w-4" />
+                      Edit Staff Details
+                    </Button>
+                    {selectedStaff.status !== "inactive" ? (
+                      <Button variant="outline" className="w-full gap-2 text-red-600 hover:text-red-700 hover:bg-red-50" onClick={() => setShowRevokeDialog(true)} data-testid="button-revoke-access">
+                        <UserX className="h-4 w-4" />
+                        Revoke Access
+                      </Button>
+                    ) : (
+                      <Button variant="outline" className="w-full gap-2 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50" onClick={handleReactivateAccess} data-testid="button-reactivate-access">
+                        <Check className="h-4 w-4" />
+                        Reactivate Access
+                      </Button>
+                    )}
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="mappings" className="mt-4 space-y-6">
+                  {/* POS Mapping */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-medium">POS Employee Mapping</Label>
+                      {selectedStaff.posEmployeeId ? (
+                        <span className="flex items-center gap-1 text-xs text-emerald-600">
+                          <Check className="h-3 w-3" />
+                          Mapped
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 text-xs text-amber-600">
+                          <AlertCircle className="h-3 w-3" />
+                          Not mapped
+                        </span>
+                      )}
+                    </div>
+                    <Select 
+                      value={selectedStaff.posEmployeeId || "none"} 
+                      onValueChange={(v) => updatePOSMapping(v === "none" ? null : v)}
+                    >
+                      <SelectTrigger data-testid="select-pos-mapping">
+                        <SelectValue placeholder="Select POS employee" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">Not mapped</SelectItem>
+                        {mockPOSEmployees.map((emp) => (
+                          <SelectItem key={emp.id} value={emp.id}>
+                            {emp.name} ({emp.posSystem})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-muted-foreground">
+                      Link this staff member to their POS employee record for time tracking and sales attribution.
+                    </p>
+                  </div>
+
+                  {/* Payroll Mapping */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-medium">Payroll Employee Mapping</Label>
+                      {selectedStaff.payrollEmployeeId ? (
+                        <span className="flex items-center gap-1 text-xs text-emerald-600">
+                          <Check className="h-3 w-3" />
+                          Mapped
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 text-xs text-amber-600">
+                          <AlertCircle className="h-3 w-3" />
+                          Not mapped
+                        </span>
+                      )}
+                    </div>
+                    <Select 
+                      value={selectedStaff.payrollEmployeeId || "none"} 
+                      onValueChange={(v) => updatePayrollMapping(v === "none" ? null : v)}
+                    >
+                      <SelectTrigger data-testid="select-payroll-mapping">
+                        <SelectValue placeholder="Select payroll employee" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">Not mapped</SelectItem>
+                        {mockPayrollEmployees.map((emp) => (
+                          <SelectItem key={emp.id} value={emp.id}>
+                            {emp.name} ({emp.payrollSystem})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-muted-foreground">
+                      Link this staff member to their payroll record for wage calculations and tax filings.
+                    </p>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
+
+      {/* Invite Staff Dialog */}
+      <Dialog open={showInviteDialog} onOpenChange={setShowInviteDialog}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Invite Staff Member</DialogTitle>
+            <DialogDescription>
+              Send an invitation to join your team. They will receive an email to set up their account.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="invite-first-name">First Name</Label>
+                <Input
+                  id="invite-first-name"
+                  placeholder="John"
+                  value={inviteForm.firstName}
+                  onChange={(e) => setInviteForm({ ...inviteForm, firstName: e.target.value })}
+                  data-testid="input-invite-first-name"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="invite-last-name">Last Name</Label>
+                <Input
+                  id="invite-last-name"
+                  placeholder="Doe"
+                  value={inviteForm.lastName}
+                  onChange={(e) => setInviteForm({ ...inviteForm, lastName: e.target.value })}
+                  data-testid="input-invite-last-name"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="invite-email">Email</Label>
+              <Input
+                id="invite-email"
+                type="email"
+                placeholder="john@example.com"
+                value={inviteForm.email}
+                onChange={(e) => setInviteForm({ ...inviteForm, email: e.target.value })}
+                data-testid="input-invite-email"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="invite-phone">Phone (optional)</Label>
+              <Input
+                id="invite-phone"
+                type="tel"
+                placeholder="(206) 555-0100"
+                value={inviteForm.phone}
+                onChange={(e) => setInviteForm({ ...inviteForm, phone: e.target.value })}
+                data-testid="input-invite-phone"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Role</Label>
+              <Select value={inviteForm.role} onValueChange={(v) => setInviteForm({ ...inviteForm, role: v as typeof inviteForm.role })}>
+                <SelectTrigger data-testid="select-invite-role">
+                  <SelectValue placeholder="Select role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="employee">Employee</SelectItem>
+                  <SelectItem value="manager">Manager</SelectItem>
+                  <SelectItem value="admin">Admin</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Locations</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {locations.map((loc) => (
+                  <label key={loc.id} className="flex items-center gap-2 text-sm cursor-pointer">
+                    <Checkbox
+                      checked={inviteForm.locations.includes(loc.id)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setInviteForm({ ...inviteForm, locations: [...inviteForm.locations, loc.id] });
+                        } else {
+                          setInviteForm({ ...inviteForm, locations: inviteForm.locations.filter(l => l !== loc.id) });
+                        }
+                      }}
+                      data-testid={`checkbox-invite-location-${loc.id}`}
+                    />
+                    {loc.name}
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Job Roles</Label>
+              <div className="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto">
+                {jobRoles.map((job) => (
+                  <label key={job.id} className="flex items-center gap-2 text-sm cursor-pointer">
+                    <Checkbox
+                      checked={inviteForm.jobRoles.includes(job.id)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setInviteForm({ ...inviteForm, jobRoles: [...inviteForm.jobRoles, job.id] });
+                        } else {
+                          setInviteForm({ ...inviteForm, jobRoles: inviteForm.jobRoles.filter(j => j !== job.id) });
+                        }
+                      }}
+                      data-testid={`checkbox-invite-job-${job.id}`}
+                    />
+                    {job.name}
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowInviteDialog(false)}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleInviteStaff} 
+              disabled={!inviteForm.firstName || !inviteForm.lastName || !inviteForm.email}
+              data-testid="button-send-invite"
+            >
+              Send Invitation
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Staff Dialog */}
+      <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Edit Staff Details</DialogTitle>
+            <DialogDescription>
+              Update information for {selectedStaff?.name}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="edit-email">Email</Label>
+              <Input
+                id="edit-email"
+                type="email"
+                value={editForm.email}
+                onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                data-testid="input-edit-email"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-phone">Phone</Label>
+              <Input
+                id="edit-phone"
+                type="tel"
+                value={editForm.phone}
+                onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                data-testid="input-edit-phone"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Role</Label>
+              <Select value={editForm.role} onValueChange={(v) => setEditForm({ ...editForm, role: v as typeof editForm.role })}>
+                <SelectTrigger data-testid="select-edit-role">
+                  <SelectValue placeholder="Select role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="employee">Employee</SelectItem>
+                  <SelectItem value="manager">Manager</SelectItem>
+                  <SelectItem value="admin">Admin</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Locations</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {locations.map((loc) => (
+                  <label key={loc.id} className="flex items-center gap-2 text-sm cursor-pointer">
+                    <Checkbox
+                      checked={editForm.locations.includes(loc.id)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setEditForm({ ...editForm, locations: [...editForm.locations, loc.id] });
+                        } else {
+                          setEditForm({ ...editForm, locations: editForm.locations.filter(l => l !== loc.id) });
+                        }
+                      }}
+                      data-testid={`checkbox-edit-location-${loc.id}`}
+                    />
+                    {loc.name}
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Job Roles</Label>
+              <div className="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto">
+                {jobRoles.map((job) => (
+                  <label key={job.id} className="flex items-center gap-2 text-sm cursor-pointer">
+                    <Checkbox
+                      checked={editForm.jobRoles.includes(job.id)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setEditForm({ ...editForm, jobRoles: [...editForm.jobRoles, job.id] });
+                        } else {
+                          setEditForm({ ...editForm, jobRoles: editForm.jobRoles.filter(j => j !== job.id) });
+                        }
+                      }}
+                      data-testid={`checkbox-edit-job-${job.id}`}
+                    />
+                    {job.name}
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowEditDialog(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveEdit} data-testid="button-save-edit">
+              Save Changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Revoke Access Confirmation */}
+      <AlertDialog open={showRevokeDialog} onOpenChange={setShowRevokeDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Revoke Access</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to revoke access for {selectedStaff?.name}? They will no longer be able to log in or access any systems. This action can be undone by reactivating their account.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleRevokeAccess} className="bg-red-600 hover:bg-red-700" data-testid="button-confirm-revoke">
+              Revoke Access
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Layout>
   );
 }
