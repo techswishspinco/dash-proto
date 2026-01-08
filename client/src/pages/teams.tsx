@@ -93,7 +93,16 @@ export default function Teams() {
     );
   };
 
+  const isStaffAssignedElsewhere = (staffId: string) => {
+    return Object.entries(assignedStaff).some(
+      ([jobId, staffIds]) => jobId !== selectedJob && staffIds.includes(staffId)
+    );
+  };
+
   const toggleStaffAssignment = (staffId: string) => {
+    if (isStaffAssignedElsewhere(staffId)) {
+      return;
+    }
     setAssignedStaff((prev) => {
       const current = prev[selectedJob] || [];
       if (current.includes(staffId)) {
@@ -299,11 +308,18 @@ export default function Teams() {
                   </div>
                   {staff.map((person, index) => {
                     const isAssigned = assignedToSelectedJob.includes(person.id);
+                    const assignedElsewhere = isStaffAssignedElsewhere(person.id);
+                    const assignedToJobId = Object.entries(assignedStaff).find(
+                      ([_, staffIds]) => staffIds.includes(person.id)
+                    )?.[0];
+                    const assignedToJob = assignedToJobId ? jobRoles.find(j => j.id === assignedToJobId) : null;
+                    
                     return (
                       <div
                         key={person.id}
                         className={cn(
-                          "flex items-center gap-3 px-6 py-4 hover:bg-gray-50 transition-colors",
+                          "flex items-center gap-3 px-6 py-4 transition-colors",
+                          assignedElsewhere ? "opacity-50" : "hover:bg-gray-50",
                           index !== staff.length - 1 && "border-b"
                         )}
                         data-testid={`staff-row-${person.id}`}
@@ -311,6 +327,7 @@ export default function Teams() {
                         <Checkbox
                           checked={isAssigned}
                           onCheckedChange={() => toggleStaffAssignment(person.id)}
+                          disabled={assignedElsewhere}
                           data-testid={`checkbox-staff-${person.id}`}
                         />
                         <div className={cn(
@@ -332,6 +349,8 @@ export default function Teams() {
                                   View Earning Rates →
                                 </button>
                               </>
+                            ) : assignedElsewhere ? (
+                              <span className="text-xs text-muted-foreground">Assigned to {assignedToJob?.name}</span>
                             ) : (
                               <span className="text-xs text-transparent">Placeholder</span>
                             )}
