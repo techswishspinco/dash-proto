@@ -5,7 +5,6 @@
 .scrollable-list {
   scrollbar-width: thin;
   scrollbar-color: #d1d5db transparent;
-  overflow-y: scroll;
 }
 
 .scrollable-list::-webkit-scrollbar {
