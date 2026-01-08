@@ -14,17 +14,17 @@ export default function Teams() {
           <div className="flex items-center justify-between border-b border-border pb-4">
             <div className="flex items-center gap-6">
               <span className="font-serif text-2xl font-medium" data-testid="text-chain-name">KOQ LLC</span>
-              <span className="text-sm text-muted-foreground bg-secondary px-3 py-1 rounded-full" data-testid="text-date">Jan 8, 2026</span>
+              <span className="text-sm text-muted-foreground bg-secondary px-3 py-1 rounded-full" data-testid="text-date">Today, Jan 8</span>
             </div>
             
-            <nav className="flex gap-1" data-testid="teams-tabs">
+            <div className="flex gap-6 text-sm font-medium text-muted-foreground">
               <button
                 onClick={() => setActiveTab("departments")}
                 className={cn(
-                  "px-4 py-2 text-sm font-medium rounded-md transition-colors",
+                  "pb-1 transition-colors",
                   activeTab === "departments"
-                    ? "bg-black text-white"
-                    : "text-muted-foreground hover:text-foreground hover:bg-gray-100"
+                    ? "text-foreground border-b-2 border-foreground"
+                    : "hover:text-foreground"
                 )}
                 data-testid="tab-departments"
               >
@@ -33,16 +33,16 @@ export default function Teams() {
               <button
                 onClick={() => setActiveTab("staff")}
                 className={cn(
-                  "px-4 py-2 text-sm font-medium rounded-md transition-colors",
+                  "pb-1 transition-colors",
                   activeTab === "staff"
-                    ? "bg-black text-white"
-                    : "text-muted-foreground hover:text-foreground hover:bg-gray-100"
+                    ? "text-foreground border-b-2 border-foreground"
+                    : "hover:text-foreground"
                 )}
                 data-testid="tab-staff"
               >
                 Staff
               </button>
-            </nav>
+            </div>
           </div>
 
         </div>
