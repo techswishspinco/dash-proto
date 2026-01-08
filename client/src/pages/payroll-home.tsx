@@ -185,19 +185,26 @@ export default function PayrollHome() {
 
   return (
     <Layout>
-      <div className="p-8">
-        <div className="flex items-center justify-between mb-6">
-          <Select value={selectedEntity} onValueChange={setSelectedEntity}>
-            <SelectTrigger className="w-[280px]" data-testid="select-entity">
-              <Building2 className="h-4 w-4 mr-2" />
-              <SelectValue placeholder="Select entity" />
-            </SelectTrigger>
-            <SelectContent>
-              {entities.map((ent) => (
-                <SelectItem key={ent.id} value={ent.id}>{ent.name}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <div className="p-8 max-w-7xl mx-auto">
+        <div className="flex items-center justify-between border-b border-border pb-4 mb-8">
+          <div className="flex items-center gap-6">
+            <span className="font-serif text-2xl font-medium" data-testid="text-location-name">{currentEntity?.name || "Select Entity"}</span>
+            <span className="text-sm text-muted-foreground bg-secondary px-3 py-1 rounded-full" data-testid="text-date">Jan 8, 2026</span>
+          </div>
+          
+          <div className="flex gap-6 text-sm font-medium text-muted-foreground">
+            <Select value={selectedEntity} onValueChange={setSelectedEntity}>
+              <SelectTrigger className="w-[200px] border-0 bg-transparent hover:bg-gray-100 transition-colors" data-testid="select-entity">
+                <SelectValue placeholder="Select entity" />
+                <span className="text-[10px] ml-1">▼</span>
+              </SelectTrigger>
+              <SelectContent>
+                {entities.map((ent) => (
+                  <SelectItem key={ent.id} value={ent.id}>{ent.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <div className="flex gap-8">
