@@ -103,38 +103,6 @@ export default function AccountingHome() {
   return (
     <Layout>
       <div className="flex flex-col min-h-full">
-        {/* Staff Navigation */}
-        <div className="bg-white border-b border-border sticky top-0 z-40">
-          <div className="max-w-7xl mx-auto px-8">
-            <nav className="flex items-center gap-1 py-2" data-testid="staff-nav">
-              <a href="/staff" className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-md transition-colors" data-testid="nav-staff">
-                Staff
-              </a>
-              <a href="/department" className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-md transition-colors" data-testid="nav-department">
-                Department
-              </a>
-              <a href="/accounting" className="px-4 py-2 text-sm font-medium bg-black text-white rounded-md transition-colors" data-testid="nav-accounting">
-                Accounting
-              </a>
-              <a href="/payroll" className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-md transition-colors" data-testid="nav-payroll">
-                Payroll
-              </a>
-              <a href="/journals" className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-md transition-colors" data-testid="nav-journals">
-                Journals
-              </a>
-              <a href="/reports" className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-md transition-colors" data-testid="nav-reports">
-                Reports
-              </a>
-              <a href="/bonuses" className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-md transition-colors" data-testid="nav-bonuses">
-                Bonuses
-              </a>
-              <a href="/settings" className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-md transition-colors" data-testid="nav-settings">
-                Settings
-              </a>
-            </nav>
-          </div>
-        </div>
-
         <div className="flex-1 p-8 max-w-7xl mx-auto space-y-12 w-full">
           
           {/* 1. Top Navigation Context */}
