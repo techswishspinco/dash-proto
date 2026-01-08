@@ -5962,17 +5962,17 @@ export default function PnlRelease() {
                   exit={{ opacity: 0, scale: 0.95, y: 20 }}
                   transition={{ duration: 0.2 }}
                   onClick={(e) => e.stopPropagation()}
-                  className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden"
+                  className="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden border border-gray-200"
                 >
                   {/* Modal Header */}
-                  <div className="flex items-center justify-between p-5 border-b border-gray-200">
+                  <div className="flex items-center justify-between p-5 border-b border-gray-100">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                        <Mail className="h-5 w-5 text-blue-600" />
+                      <div className="h-10 w-10 rounded-full bg-gray-900 flex items-center justify-center">
+                        <Mail className="h-5 w-5 text-white" />
                       </div>
                       <div>
                         <h3 className="font-semibold text-gray-900">Email Report</h3>
-                        <p className="text-xs text-gray-500">Send Manager Scoreboard summary</p>
+                        <p className="text-sm text-gray-500">Send Manager Scoreboard summary</p>
                       </div>
                     </div>
                     <button
@@ -5980,7 +5980,7 @@ export default function PnlRelease() {
                         setShowEmailReportModal(false);
                         setShowEmailPreview(false);
                       }}
-                      className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                       data-testid="button-close-email-modal"
                     >
                       <X className="h-5 w-5 text-gray-400" />
@@ -5997,12 +5997,12 @@ export default function PnlRelease() {
                             {emailRecipients.map((email) => (
                               <span
                                 key={email}
-                                className="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 text-sm rounded-full"
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg"
                               >
                                 {email}
                                 <button
                                   onClick={() => removeRecipient(email)}
-                                  className="hover:text-blue-900"
+                                  className="hover:text-gray-900"
                                   data-testid={`button-remove-${email}`}
                                 >
                                   <X className="h-3 w-3" />
@@ -6017,12 +6017,12 @@ export default function PnlRelease() {
                               value={newRecipient}
                               onChange={(e) => setNewRecipient(e.target.value)}
                               onKeyDown={(e) => e.key === "Enter" && addRecipient()}
-                              className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                               data-testid="input-new-recipient"
                             />
                             <button
                               onClick={addRecipient}
-                              className="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
+                              className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
                               data-testid="button-add-recipient"
                             >
                               <Plus className="h-4 w-4" />
@@ -6037,7 +6037,7 @@ export default function PnlRelease() {
                             type="text"
                             value={emailSubject}
                             onChange={(e) => setEmailSubject(e.target.value)}
-                            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                             data-testid="input-email-subject"
                           />
                         </div>
@@ -6050,25 +6050,25 @@ export default function PnlRelease() {
                             onChange={(e) => setEmailMessage(e.target.value)}
                             placeholder="Add a personal note..."
                             rows={3}
-                            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent resize-none"
                             data-testid="textarea-email-message"
                           />
                         </div>
 
                         {/* Report Preview Summary */}
-                        <div className="bg-gray-50 rounded-lg p-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-gray-700">Report Summary</span>
+                        <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-sm font-medium text-gray-900">Report Summary</span>
                             <button
                               onClick={() => setShowEmailPreview(true)}
-                              className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
+                              className="text-xs text-gray-600 hover:text-gray-900 font-medium flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-200 transition-colors"
                               data-testid="button-preview-report"
                             >
                               <Eye className="h-3 w-3" />
                               Preview
                             </button>
                           </div>
-                          <div className="text-xs text-gray-600 space-y-1">
+                          <div className="text-sm text-gray-600 space-y-1">
                             <p>• Manager Scoreboard - {getScoreboardData().quarter}</p>
                             <p>• Location: {getScoreboardData().location}</p>
                             <p>• {getScoreboardData().manager}'s Goals & Bonus Summary</p>
@@ -6077,13 +6077,13 @@ export default function PnlRelease() {
                       </div>
 
                       {/* Footer */}
-                      <div className="flex items-center justify-end gap-3 p-5 border-t border-gray-200 bg-gray-50">
+                      <div className="flex items-center justify-end gap-3 p-5 border-t border-gray-100 bg-gray-50">
                         <button
                           onClick={() => {
                             setShowEmailReportModal(false);
                             setShowEmailPreview(false);
                           }}
-                          className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                          className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 rounded-lg transition-colors"
                           data-testid="button-cancel-email"
                         >
                           Cancel
@@ -6091,7 +6091,7 @@ export default function PnlRelease() {
                         <button
                           onClick={sendEmailReport}
                           disabled={emailSending || emailRecipients.length === 0}
-                          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           data-testid="button-send-email"
                         >
                           {emailSending ? (
@@ -6112,84 +6112,86 @@ export default function PnlRelease() {
                     <>
                       {/* Full Preview */}
                       <div className="p-5 max-h-[60vh] overflow-y-auto">
-                        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
                           {/* Email Header Preview */}
-                          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 text-white">
-                            <h4 className="font-bold text-lg">Manager Scoreboard Report</h4>
-                            <p className="text-blue-100 text-sm">{getScoreboardData().quarter} • {getScoreboardData().location}</p>
+                          <div className="bg-gray-900 p-5">
+                            <h4 className="font-bold text-lg text-white">Manager Scoreboard Report</h4>
+                            <p className="text-gray-400 text-sm">{getScoreboardData().quarter} • {getScoreboardData().location}</p>
                           </div>
 
                           {/* Email Body Preview */}
-                          <div className="p-4 space-y-4">
+                          <div className="p-5 space-y-4">
                             {emailMessage && (
-                              <div className="bg-blue-50 rounded-lg p-3 text-sm text-blue-800 italic">
+                              <div className="bg-gray-50 rounded-lg p-3 text-sm text-gray-700 italic border border-gray-100">
                                 "{emailMessage}"
                               </div>
                             )}
 
-                            <div className="flex items-center gap-3 pb-3 border-b border-gray-100">
-                              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold">
-                                SM
+                            <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+                              <div className="flex items-center gap-3">
+                                <div className="h-11 w-11 rounded-full bg-gray-900 flex items-center justify-center text-white font-semibold">
+                                  SM
+                                </div>
+                                <div>
+                                  <h5 className="font-semibold text-gray-900">{getScoreboardData().manager}</h5>
+                                  <p className="text-sm text-gray-500">{getScoreboardData().role}</p>
+                                </div>
                               </div>
-                              <div>
-                                <h5 className="font-semibold text-gray-900">{getScoreboardData().manager}</h5>
-                                <p className="text-sm text-gray-500">{getScoreboardData().role}</p>
-                              </div>
-                              <div className="ml-auto flex items-center gap-2">
+                              <div className="flex items-center gap-3 px-4 py-2 bg-amber-50 rounded-lg border border-amber-100">
                                 <Trophy className="h-5 w-5 text-amber-500" />
-                                <span className="font-bold text-emerald-600">{getScoreboardData().goalsHit} Goals Hit</span>
+                                <div className="text-right">
+                                  <span className="text-lg font-bold text-gray-900">{getScoreboardData().goalsHit}</span>
+                                  <p className="text-xs text-gray-500">Goals Hit</p>
+                                </div>
                               </div>
                             </div>
 
-                            <div className="space-y-2">
+                            <div className="divide-y divide-gray-100">
                               {getScoreboardData().goals.map((goal, i) => (
-                                <div key={i} className={cn(
-                                  "flex items-center justify-between p-3 rounded-lg",
-                                  goal.achieved ? "bg-emerald-50" : "bg-amber-50"
-                                )}>
-                                  <div className="flex items-center gap-2">
-                                    {goal.achieved ? (
-                                      <Check className="h-4 w-4 text-emerald-600" />
-                                    ) : (
-                                      <X className="h-4 w-4 text-amber-600" />
-                                    )}
-                                    <span className="text-sm text-gray-700">{goal.name}</span>
-                                  </div>
-                                  <div className="text-right">
-                                    <span className={cn(
-                                      "text-sm font-medium",
-                                      goal.achieved ? "text-emerald-600" : "text-amber-600"
+                                <div key={i} className="flex items-center justify-between py-3">
+                                  <div className="flex items-center gap-3">
+                                    <div className={cn(
+                                      "h-8 w-8 rounded-full flex items-center justify-center",
+                                      goal.achieved ? "bg-emerald-100" : "bg-red-100"
                                     )}>
-                                      {goal.value} {!goal.achieved && "(missed)"}
-                                    </span>
-                                    <span className={cn(
-                                      "text-xs block",
-                                      goal.achieved ? "text-emerald-700" : "text-gray-500"
-                                    )}>
-                                      {goal.bonus} bonus
-                                    </span>
+                                      {goal.achieved ? (
+                                        <Check className="h-4 w-4 text-emerald-600" />
+                                      ) : (
+                                        <X className="h-4 w-4 text-red-500" />
+                                      )}
+                                    </div>
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-900">{goal.name}</p>
+                                      <p className="text-xs text-gray-500">{goal.value} {!goal.achieved && "(missed)"}</p>
+                                    </div>
                                   </div>
+                                  <span className={cn(
+                                    "text-sm font-semibold",
+                                    goal.achieved ? "text-emerald-600" : "text-gray-400"
+                                  )}>
+                                    {goal.achieved ? goal.bonus : "—"}
+                                  </span>
                                 </div>
                               ))}
                             </div>
 
-                            <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                              <span className="font-medium text-gray-700">Total Bonus Earned</span>
-                              <span className="text-xl font-bold text-emerald-600">{getScoreboardData().totalBonus}</span>
+                            <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                              <span className="text-sm font-medium text-gray-600">Total Bonus Earned</span>
+                              <span className="text-lg font-bold text-gray-900">{getScoreboardData().totalBonus}</span>
                             </div>
                           </div>
 
-                          <div className="bg-gray-50 p-3 text-center text-xs text-gray-500">
+                          <div className="bg-gray-50 p-3 text-center text-xs text-gray-500 border-t border-gray-100">
                             Generated on {getScoreboardData().generatedAt} via Munch Insights
                           </div>
                         </div>
                       </div>
 
                       {/* Preview Footer */}
-                      <div className="flex items-center justify-between p-5 border-t border-gray-200 bg-gray-50">
+                      <div className="flex items-center justify-between p-5 border-t border-gray-100 bg-gray-50">
                         <button
                           onClick={() => setShowEmailPreview(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 rounded-lg transition-colors"
                           data-testid="button-back-from-preview"
                         >
                           <ArrowLeft className="h-4 w-4" />
@@ -6198,7 +6200,7 @@ export default function PnlRelease() {
                         <button
                           onClick={sendEmailReport}
                           disabled={emailSending || emailRecipients.length === 0}
-                          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           data-testid="button-send-email-preview"
                         >
                           {emailSending ? (
