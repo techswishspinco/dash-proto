@@ -79,6 +79,7 @@ export default function Teams() {
   const [newJobName, setNewJobName] = useState("");
   const [newJobDepartment, setNewJobDepartment] = useState("");
   const [newJobRate, setNewJobRate] = useState("");
+  const [newJobPayType, setNewJobPayType] = useState("hourly");
   const [newJobEarningCode, setNewJobEarningCode] = useState("");
   const [newJobWorkersComp, setNewJobWorkersComp] = useState("");
   const [newJobLaborCategory, setNewJobLaborCategory] = useState("");
@@ -140,6 +141,7 @@ export default function Teams() {
       setAssignedStaff(prev => ({ ...prev, [newId]: [] }));
       setNewJobName("");
       setNewJobDepartment("");
+      setNewJobPayType("hourly");
       setNewJobRate("");
       setNewJobEarningCode("");
       setNewJobWorkersComp("");
@@ -412,7 +414,6 @@ export default function Teams() {
                 onChange={(e) => setNewDepartmentWageExpense(e.target.value)}
                 data-testid="input-department-wage-expense"
               />
-              <p className="text-xs text-muted-foreground">Maps 1:1 to GL account for wage expenses</p>
             </div>
           </div>
           <SheetFooter>
@@ -444,7 +445,6 @@ export default function Teams() {
                 onChange={(e) => setNewJobName(e.target.value)}
                 data-testid="input-job-name"
               />
-              <p className="text-xs text-muted-foreground">Appears on paystubs and labor reports</p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="job-department">Department</Label>
@@ -462,16 +462,27 @@ export default function Teams() {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="job-rate">Base Hourly Rate ($)</Label>
+              <Label>Pay Type</Label>
+              <Select value={newJobPayType} onValueChange={setNewJobPayType}>
+                <SelectTrigger data-testid="select-job-pay-type">
+                  <SelectValue placeholder="Select pay type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="hourly">Hourly</SelectItem>
+                  <SelectItem value="salaried">Salaried</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="job-rate">{newJobPayType === "salaried" ? "Annual Salary ($)" : "Base Hourly Rate ($)"}</Label>
               <Input
                 id="job-rate"
                 type="number"
-                placeholder="e.g., 18.00"
+                placeholder={newJobPayType === "salaried" ? "e.g., 65000" : "e.g., 18.00"}
                 value={newJobRate}
                 onChange={(e) => setNewJobRate(e.target.value)}
                 data-testid="input-job-rate"
               />
-              <p className="text-xs text-muted-foreground">Default rate for employees in this role</p>
             </div>
             
             <div className="pt-4 border-t">
@@ -487,7 +498,6 @@ export default function Teams() {
                     onChange={(e) => setNewJobEarningCode(e.target.value)}
                     data-testid="input-job-earning-code"
                   />
-                  <p className="text-xs text-muted-foreground">Maps to Check HQ earning code</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="job-workers-comp">Workers Comp Code</Label>
