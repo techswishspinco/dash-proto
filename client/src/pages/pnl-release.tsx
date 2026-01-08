@@ -2378,11 +2378,11 @@ function FloatingAssistantBar({ triggerQuery }: { triggerQuery?: string | null }
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 25 }}
           onClick={() => setIsExpanded(true)}
-          className="fixed bottom-6 right-6 z-50 h-14 w-14 bg-gray-900 rounded-full shadow-xl flex items-center justify-center cursor-pointer"
+          className="fixed bottom-6 right-6 z-50 h-14 w-14 bg-white rounded-full shadow-xl flex items-center justify-center cursor-pointer border border-gray-200"
           data-testid="floating-chat-icon"
           title="Open Munch Assistant"
         >
-          <img src="/src/assets/munch-logo.png" alt="Munch" className="h-9 w-9 object-contain invert" />
+          <img src="/src/assets/munch-logo.png" alt="Munch" className="h-9 w-9 object-contain" />
         </motion.button>
       ) : (
         <>
@@ -2408,8 +2408,8 @@ function FloatingAssistantBar({ triggerQuery }: { triggerQuery?: string | null }
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 bg-gray-900 rounded-xl flex items-center justify-center">
-                  <img src="/src/assets/munch-logo.png" alt="Munch" className="h-7 w-7 object-contain invert" />
+                <div className="h-10 w-10 bg-gray-50 rounded-xl flex items-center justify-center border border-gray-100">
+                  <img src="/src/assets/munch-logo.png" alt="Munch" className="h-7 w-7 object-contain" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-sm text-gray-900">Munch Assistant</h3>
