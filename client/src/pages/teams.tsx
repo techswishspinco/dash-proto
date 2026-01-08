@@ -67,7 +67,7 @@ interface Staff {
   role: "admin" | "manager" | "employee";
   jobRoles: string[];
   locations: string[];
-  posEmployeeId: string | null;
+  posEmployeeIds: string[];
   payrollEmployeeId: string | null;
   startDate: string;
   avatarColor: string;
@@ -154,14 +154,14 @@ const initialJobRoles: JobRole[] = [
 ];
 
 const initialStaff: Staff[] = [
-  { id: "1", name: "Alice Johnson", initials: "AJ", email: "alice@example.com", phone: "(206) 555-0101", status: "active", role: "manager", jobRoles: ["1"], locations: ["1", "2"], posEmployeeId: "pos-1", payrollEmployeeId: "pay-1", startDate: "2023-03-15", avatarColor: avatarColors[0] },
-  { id: "2", name: "Bob Smith", initials: "BS", email: "bob@example.com", phone: "(206) 555-0102", status: "active", role: "employee", jobRoles: ["5"], locations: ["1"], posEmployeeId: "pos-2", payrollEmployeeId: "pay-2", startDate: "2023-06-01", avatarColor: avatarColors[1] },
-  { id: "3", name: "Charlie Davis", initials: "CD", email: "charlie@example.com", phone: "(206) 555-0103", status: "active", role: "employee", jobRoles: ["3"], locations: ["2"], posEmployeeId: "pos-3", payrollEmployeeId: "pay-3", startDate: "2023-07-20", avatarColor: avatarColors[2] },
-  { id: "4", name: "Diana Martinez", initials: "DM", email: "diana@example.com", phone: "(206) 555-0104", status: "invited", role: "employee", jobRoles: ["9"], locations: ["3"], posEmployeeId: null, payrollEmployeeId: "pay-4", startDate: "2024-01-10", avatarColor: avatarColors[3] },
-  { id: "5", name: "Eric Thompson", initials: "ET", email: "eric@example.com", phone: "(206) 555-0105", status: "active", role: "employee", jobRoles: ["5", "6"], locations: ["1", "3"], posEmployeeId: "pos-5", payrollEmployeeId: null, startDate: "2022-11-05", avatarColor: avatarColors[4] },
-  { id: "6", name: "Fiona Garcia", initials: "FG", email: "fiona@example.com", phone: "(206) 555-0106", status: "active", role: "admin", jobRoles: ["11"], locations: ["1", "2", "3"], posEmployeeId: "pos-6", payrollEmployeeId: "pay-6", startDate: "2021-01-15", avatarColor: avatarColors[5] },
-  { id: "7", name: "George Wilson", initials: "GW", email: "george@example.com", phone: "(206) 555-0107", status: "inactive", role: "employee", jobRoles: ["7"], locations: ["2"], posEmployeeId: "pos-7", payrollEmployeeId: "pay-7", startDate: "2023-04-01", avatarColor: avatarColors[6] },
-  { id: "8", name: "Hannah Brown", initials: "HB", email: "hannah@example.com", phone: "(206) 555-0108", status: "active", role: "employee", jobRoles: ["1", "2"], locations: ["1"], posEmployeeId: null, payrollEmployeeId: null, startDate: "2024-02-01", avatarColor: avatarColors[7] },
+  { id: "1", name: "Alice Johnson", initials: "AJ", email: "alice@example.com", phone: "(206) 555-0101", status: "active", role: "manager", jobRoles: ["1"], locations: ["1", "2"], posEmployeeIds: ["pos-1"], payrollEmployeeId: "pay-1", startDate: "2023-03-15", avatarColor: avatarColors[0] },
+  { id: "2", name: "Bob Smith", initials: "BS", email: "bob@example.com", phone: "(206) 555-0102", status: "active", role: "employee", jobRoles: ["5"], locations: ["1"], posEmployeeIds: ["pos-2"], payrollEmployeeId: "pay-2", startDate: "2023-06-01", avatarColor: avatarColors[1] },
+  { id: "3", name: "Charlie Davis", initials: "CD", email: "charlie@example.com", phone: "(206) 555-0103", status: "active", role: "employee", jobRoles: ["3"], locations: ["2"], posEmployeeIds: ["pos-3", "pos-4"], payrollEmployeeId: "pay-3", startDate: "2023-07-20", avatarColor: avatarColors[2] },
+  { id: "4", name: "Diana Martinez", initials: "DM", email: "diana@example.com", phone: "(206) 555-0104", status: "invited", role: "employee", jobRoles: ["9"], locations: ["3"], posEmployeeIds: [], payrollEmployeeId: "pay-4", startDate: "2024-01-10", avatarColor: avatarColors[3] },
+  { id: "5", name: "Eric Thompson", initials: "ET", email: "eric@example.com", phone: "(206) 555-0105", status: "active", role: "employee", jobRoles: ["5", "6"], locations: ["1", "3"], posEmployeeIds: ["pos-5"], payrollEmployeeId: null, startDate: "2022-11-05", avatarColor: avatarColors[4] },
+  { id: "6", name: "Fiona Garcia", initials: "FG", email: "fiona@example.com", phone: "(206) 555-0106", status: "active", role: "admin", jobRoles: ["11"], locations: ["1", "2", "3"], posEmployeeIds: ["pos-6"], payrollEmployeeId: "pay-6", startDate: "2021-01-15", avatarColor: avatarColors[5] },
+  { id: "7", name: "George Wilson", initials: "GW", email: "george@example.com", phone: "(206) 555-0107", status: "inactive", role: "employee", jobRoles: ["7"], locations: ["2"], posEmployeeIds: ["pos-7"], payrollEmployeeId: "pay-7", startDate: "2023-04-01", avatarColor: avatarColors[6] },
+  { id: "8", name: "Hannah Brown", initials: "HB", email: "hannah@example.com", phone: "(206) 555-0108", status: "active", role: "employee", jobRoles: ["1", "2"], locations: ["1"], posEmployeeIds: [], payrollEmployeeId: null, startDate: "2024-02-01", avatarColor: avatarColors[7] },
 ];
 
 export default function Teams() {
@@ -408,14 +408,27 @@ export default function Teams() {
     }
   };
 
-  const updatePOSMapping = (posId: string | null) => {
-    if (selectedStaff) {
+  const addPOSMapping = (posId: string) => {
+    if (selectedStaff && !selectedStaff.posEmployeeIds.includes(posId)) {
+      const newPosIds = [...selectedStaff.posEmployeeIds, posId];
       setStaff(staff.map(s => 
         s.id === selectedStaff.id 
-          ? { ...s, posEmployeeId: posId }
+          ? { ...s, posEmployeeIds: newPosIds }
           : s
       ));
-      setSelectedStaff({ ...selectedStaff, posEmployeeId: posId });
+      setSelectedStaff({ ...selectedStaff, posEmployeeIds: newPosIds });
+    }
+  };
+
+  const removePOSMapping = (posId: string) => {
+    if (selectedStaff) {
+      const newPosIds = selectedStaff.posEmployeeIds.filter(id => id !== posId);
+      setStaff(staff.map(s => 
+        s.id === selectedStaff.id 
+          ? { ...s, posEmployeeIds: newPosIds }
+          : s
+      ));
+      setSelectedStaff({ ...selectedStaff, posEmployeeIds: newPosIds });
     }
   };
 
@@ -432,7 +445,7 @@ export default function Teams() {
 
   const confirmAddPOSMapping = () => {
     if (pendingPOSMapping) {
-      updatePOSMapping(pendingPOSMapping);
+      addPOSMapping(pendingPOSMapping);
       setPendingPOSMapping(null);
       setShowAddPOSMappingDialog(false);
     }
@@ -446,8 +459,8 @@ export default function Teams() {
     }
   };
 
-  const getPOSEmployee = (id: string | null) => {
-    return id ? mockPOSEmployees.find(e => e.id === id) : null;
+  const getPOSEmployee = (id: string) => {
+    return mockPOSEmployees.find(e => e.id === id);
   };
 
   const getPayrollEmployee = (id: string | null) => {
@@ -455,8 +468,8 @@ export default function Teams() {
   };
 
   // Calculate unmapped counts
-  const mappedPOSIds = staff.filter(s => s.posEmployeeId).map(s => s.posEmployeeId);
-  const unmappedPOSEmployees = mockPOSEmployees.filter(e => !mappedPOSIds.includes(e.id));
+  const allMappedPOSIds = staff.flatMap(s => s.posEmployeeIds);
+  const unmappedPOSEmployees = mockPOSEmployees.filter(e => !allMappedPOSIds.includes(e.id));
   const usersWithoutPayrollMapping = staff.filter(s => s.status !== "inactive" && !s.payrollEmployeeId);
 
   const getJobRoleNames = (roleIds: string[]) => {
@@ -863,7 +876,7 @@ export default function Teams() {
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          {(person.posEmployeeId === null || person.payrollEmployeeId === null) && (
+                          {(person.posEmployeeIds.length === 0 || person.payrollEmployeeId === null) && (
                             <span className="flex items-center gap-1 text-xs text-amber-600">
                               <AlertCircle className="h-3.5 w-3.5" />
                               Mapping needed
@@ -1072,11 +1085,11 @@ export default function Teams() {
                   {/* POS Mapping */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <Label className="text-sm font-medium">POS Employee Mapping</Label>
-                      {selectedStaff.posEmployeeId ? (
+                      <Label className="text-sm font-medium">POS Employee Mappings</Label>
+                      {selectedStaff.posEmployeeIds.length > 0 ? (
                         <span className="flex items-center gap-1 text-xs text-emerald-600">
                           <Check className="h-3 w-3" />
-                          Mapped
+                          {selectedStaff.posEmployeeIds.length} linked
                         </span>
                       ) : (
                         <span className="flex items-center gap-1 text-xs text-amber-600">
@@ -1086,29 +1099,34 @@ export default function Teams() {
                       )}
                     </div>
                     
-                    <div className="border rounded-lg">
-                      {selectedStaff.posEmployeeId ? (
-                        <div className="flex items-center justify-between px-4 py-3">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                              <Link2 className="h-4 w-4 text-blue-600" />
+                    <div className="border rounded-lg divide-y">
+                      {selectedStaff.posEmployeeIds.length > 0 ? (
+                        selectedStaff.posEmployeeIds.map((posId) => {
+                          const posEmp = getPOSEmployee(posId);
+                          return (
+                            <div key={posId} className="flex items-center justify-between px-4 py-3">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                  <Link2 className="h-4 w-4 text-blue-600" />
+                                </div>
+                                <div>
+                                  <div className="text-sm font-medium">{posEmp?.name}</div>
+                                  <div className="text-xs text-muted-foreground">{posEmp?.posSystem}</div>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => removePOSMapping(posId)}
+                                className="p-1.5 rounded-md hover:bg-red-50 text-muted-foreground hover:text-red-600 transition-colors"
+                                data-testid={`button-remove-pos-mapping-${posId}`}
+                              >
+                                <X className="h-4 w-4" />
+                              </button>
                             </div>
-                            <div>
-                              <div className="text-sm font-medium">{getPOSEmployee(selectedStaff.posEmployeeId)?.name}</div>
-                              <div className="text-xs text-muted-foreground">{getPOSEmployee(selectedStaff.posEmployeeId)?.posSystem}</div>
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => updatePOSMapping(null)}
-                            className="p-1.5 rounded-md hover:bg-red-50 text-muted-foreground hover:text-red-600 transition-colors"
-                            data-testid="button-remove-pos-mapping"
-                          >
-                            <X className="h-4 w-4" />
-                          </button>
-                        </div>
+                          );
+                        })
                       ) : (
                         <div className="px-4 py-6 text-center text-sm text-muted-foreground">
-                          No POS employee linked
+                          No POS employees linked
                         </div>
                       )}
                     </div>
@@ -1124,11 +1142,11 @@ export default function Teams() {
                       data-testid="button-add-pos-mapping"
                     >
                       <Plus className="h-4 w-4" />
-                      {selectedStaff.posEmployeeId ? "Change POS Mapping" : "Add POS Mapping"}
+                      Add POS Mapping
                     </Button>
                     
                     <p className="text-xs text-muted-foreground">
-                      Link this staff member to their POS employee record for time tracking and sales attribution.
+                      Link this staff member to their POS employee records for time tracking and sales attribution.
                     </p>
                   </div>
 
@@ -1453,7 +1471,9 @@ export default function Teams() {
           <div className="py-4">
             <Label className="text-sm font-medium mb-3 block">Select POS Employee</Label>
             <div className="border rounded-lg max-h-64 overflow-y-auto divide-y">
-              {mockPOSEmployees.map((emp) => (
+              {mockPOSEmployees
+                .filter(emp => !selectedStaff?.posEmployeeIds.includes(emp.id))
+                .map((emp) => (
                 <button
                   key={emp.id}
                   onClick={() => setPendingPOSMapping(emp.id)}
@@ -1475,6 +1495,11 @@ export default function Teams() {
                   </div>
                 </button>
               ))}
+              {mockPOSEmployees.filter(emp => !selectedStaff?.posEmployeeIds.includes(emp.id)).length === 0 && (
+                <div className="px-4 py-6 text-center text-sm text-muted-foreground">
+                  All POS employees are already mapped
+                </div>
+              )}
             </div>
           </div>
           <DialogFooter>
