@@ -82,6 +82,8 @@ export default function Teams() {
   const [newJobPayType, setNewJobPayType] = useState("hourly");
   const [jobSearch, setJobSearch] = useState("");
   const [personnelSearch, setPersonnelSearch] = useState("");
+  const [deptSearch, setDeptSearch] = useState("");
+  const [deptJobSearch, setDeptJobSearch] = useState("");
 
   const filteredJobs = jobRoles.filter(
     (job) => job.departmentId === selectedDepartment
@@ -219,7 +221,19 @@ export default function Teams() {
                   <div className="px-6 py-3 border-b bg-gray-50">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Departments</span>
                   </div>
-                  {departments.map((dept, index) => (
+                  <div className="px-3 py-2 border-b">
+                    <div className="relative">
+                      <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                      <Input
+                        placeholder="Search departments..."
+                        value={deptSearch}
+                        onChange={(e) => setDeptSearch(e.target.value)}
+                        className="h-8 pl-7 text-xs"
+                        data-testid="input-search-departments"
+                      />
+                    </div>
+                  </div>
+                  {departments.filter(d => d.name.toLowerCase().includes(deptSearch.toLowerCase())).slice(0, 5).map((dept, index, arr) => (
                     <button
                       key={dept.id}
                       onClick={() => setSelectedDepartment(dept.id)}
@@ -228,7 +242,7 @@ export default function Teams() {
                         selectedDepartment === dept.id
                           ? "bg-muted"
                           : "hover:bg-gray-50",
-                        index !== departments.length - 1 && "border-b"
+                        index !== arr.length - 1 && "border-b"
                       )}
                       data-testid={`button-department-${dept.id}`}
                     >
@@ -238,18 +252,35 @@ export default function Teams() {
                       )}
                     </button>
                   ))}
+                  {departments.filter(d => d.name.toLowerCase().includes(deptSearch.toLowerCase())).length > 5 && (
+                    <div className="px-6 py-2 text-xs text-muted-foreground text-center border-t">
+                      +{departments.filter(d => d.name.toLowerCase().includes(deptSearch.toLowerCase())).length - 5} more
+                    </div>
+                  )}
                 </div>
 
                 <div>
                   <div className="px-6 py-3 border-b bg-gray-50">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Jobs</span>
                   </div>
-                  {filteredJobs.map((job, index) => (
+                  <div className="px-3 py-2 border-b">
+                    <div className="relative">
+                      <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                      <Input
+                        placeholder="Search jobs..."
+                        value={deptJobSearch}
+                        onChange={(e) => setDeptJobSearch(e.target.value)}
+                        className="h-8 pl-7 text-xs"
+                        data-testid="input-search-dept-jobs"
+                      />
+                    </div>
+                  </div>
+                  {filteredJobs.filter(j => j.name.toLowerCase().includes(deptJobSearch.toLowerCase())).slice(0, 5).map((job, index, arr) => (
                     <label
                       key={job.id}
                       className={cn(
                         "flex items-center gap-3 px-6 py-3 h-14 hover:bg-gray-50 cursor-pointer transition-colors",
-                        index !== filteredJobs.length - 1 && "border-b"
+                        index !== arr.length - 1 && "border-b"
                       )}
                       data-testid={`label-job-${job.id}`}
                     >
@@ -261,9 +292,14 @@ export default function Teams() {
                       <span className="text-sm font-medium">{job.name}</span>
                     </label>
                   ))}
-                  {filteredJobs.length === 0 && (
+                  {filteredJobs.filter(j => j.name.toLowerCase().includes(deptJobSearch.toLowerCase())).length === 0 && (
                     <div className="px-6 py-4 text-sm text-muted-foreground">
-                      No job roles in this department
+                      No job roles found
+                    </div>
+                  )}
+                  {filteredJobs.filter(j => j.name.toLowerCase().includes(deptJobSearch.toLowerCase())).length > 5 && (
+                    <div className="px-6 py-2 text-xs text-muted-foreground text-center border-t">
+                      +{filteredJobs.filter(j => j.name.toLowerCase().includes(deptJobSearch.toLowerCase())).length - 5} more
                     </div>
                   )}
                 </div>
@@ -282,7 +318,7 @@ export default function Teams() {
                   <div className="px-6 py-3 border-b bg-gray-50">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Jobs</span>
                   </div>
-                  <div className="px-6 py-2 border-b">
+                  <div className="px-3 py-2 border-b">
                     <div className="relative">
                       <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
                       <Input
@@ -294,7 +330,7 @@ export default function Teams() {
                       />
                     </div>
                   </div>
-                  {jobRoles.filter(job => job.name.toLowerCase().includes(jobSearch.toLowerCase())).map((job, index, arr) => (
+                  {jobRoles.filter(job => job.name.toLowerCase().includes(jobSearch.toLowerCase())).slice(0, 5).map((job, index, arr) => (
                     <button
                       key={job.id}
                       onClick={() => setSelectedJob(job.id)}
@@ -318,13 +354,18 @@ export default function Teams() {
                       )}
                     </button>
                   ))}
+                  {jobRoles.filter(job => job.name.toLowerCase().includes(jobSearch.toLowerCase())).length > 5 && (
+                    <div className="px-6 py-2 text-xs text-muted-foreground text-center border-t">
+                      +{jobRoles.filter(job => job.name.toLowerCase().includes(jobSearch.toLowerCase())).length - 5} more
+                    </div>
+                  )}
                 </div>
 
                 <div>
                   <div className="px-6 py-3 border-b bg-gray-50">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Staff</span>
                   </div>
-                  <div className="px-6 py-2 border-b">
+                  <div className="px-3 py-2 border-b">
                     <div className="relative">
                       <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
                       <Input
@@ -336,7 +377,7 @@ export default function Teams() {
                       />
                     </div>
                   </div>
-                  {staff.filter(person => person.name.toLowerCase().includes(personnelSearch.toLowerCase())).map((person, index, arr) => {
+                  {staff.filter(person => person.name.toLowerCase().includes(personnelSearch.toLowerCase())).slice(0, 5).map((person, index, arr) => {
                     const isAssigned = assignedToSelectedJob.includes(person.id);
                     const assignedElsewhere = isStaffAssignedElsewhere(person.id);
                     const assignedToJobId = Object.entries(assignedStaff).find(
@@ -386,6 +427,11 @@ export default function Teams() {
                       </div>
                     );
                   })}
+                  {staff.filter(person => person.name.toLowerCase().includes(personnelSearch.toLowerCase())).length > 5 && (
+                    <div className="px-6 py-2 text-xs text-muted-foreground text-center border-t">
+                      +{staff.filter(person => person.name.toLowerCase().includes(personnelSearch.toLowerCase())).length - 5} more
+                    </div>
+                  )}
                 </div>
               </div>
             </CardContent>
