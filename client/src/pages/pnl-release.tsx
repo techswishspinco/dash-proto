@@ -3138,7 +3138,7 @@ export default function PnlRelease() {
   // Get manager scoreboard data for email
   const getScoreboardData = () => ({
     quarter: "Q3 2025",
-    location: activePeriod?.location || "STMARKS",
+    location: "STMARKS",
     manager: "Sarah Mitchell",
     role: "General Manager",
     goalsHit: "2/3",
