@@ -2290,10 +2290,6 @@ type FloatingMessage = {
   artifact?: boolean;
 };
 
-type ChatBotPosition = "BOTTOM_CENTER" | "RIGHT_CENTER" | "TOP_CENTER" | "LEFT_CENTER";
-
-const CHATBOT_POSITION_KEY = "munch-chatbot-position";
-
 const pnlQuickActions = [
   { id: "1", label: "Labor Variance", icon: "labor" },
   { id: "2", label: "COGS Analysis", icon: "cogs" },
@@ -2307,61 +2303,6 @@ const pnlInsightPrompts = [
   { id: "4", question: "How does our prime cost compare to industry benchmarks?", category: "benchmark" },
 ];
 
-const getPositionStyles = (position: ChatBotPosition, isExpanded: boolean): React.CSSProperties => {
-  const baseWidth = isExpanded ? 400 : 56;
-
-  switch (position) {
-    case "BOTTOM_CENTER":
-      return {
-        bottom: 16,
-        left: "50%",
-        transform: "translateX(-50%)",
-        width: isExpanded ? baseWidth : undefined,
-      };
-    case "TOP_CENTER":
-      return {
-        top: 16,
-        left: "50%",
-        transform: "translateX(-50%)",
-        width: isExpanded ? baseWidth : undefined,
-      };
-    case "RIGHT_CENTER":
-      return {
-        right: 16,
-        top: "50%",
-        transform: "translateY(-50%)",
-        width: isExpanded ? baseWidth : undefined,
-      };
-    case "LEFT_CENTER":
-      return {
-        left: 16,
-        top: "50%",
-        transform: "translateY(-50%)",
-        width: isExpanded ? baseWidth : undefined,
-      };
-  }
-};
-
-const calculateNearestPosition = (x: number, y: number): ChatBotPosition => {
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
-
-  const centerX = windowWidth / 2;
-  const centerY = windowHeight / 2;
-
-  const distToBottom = windowHeight - y;
-  const distToTop = y;
-  const distToRight = windowWidth - x;
-  const distToLeft = x;
-
-  const minDist = Math.min(distToBottom, distToTop, distToRight, distToLeft);
-
-  if (minDist === distToBottom) return "BOTTOM_CENTER";
-  if (minDist === distToTop) return "TOP_CENTER";
-  if (minDist === distToRight) return "RIGHT_CENTER";
-  return "LEFT_CENTER";
-};
-
 function FloatingAssistantBar() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<FloatingMessage[]>([]);
@@ -2371,30 +2312,11 @@ function FloatingAssistantBar() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [position, setPosition] = useState<ChatBotPosition>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem(CHATBOT_POSITION_KEY);
-      if (saved && ["BOTTOM_CENTER", "RIGHT_CENTER", "TOP_CENTER", "LEFT_CENTER"].includes(saved)) {
-        return saved as ChatBotPosition;
-      }
-    }
-    return "BOTTOM_CENTER";
-  });
-
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragPosition, setDragPosition] = useState<{ x: number; y: number } | null>(null);
-  const dragStartRef = useRef<{ startX: number; startY: number; elementX: number; elementY: number } | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages, isTyping]);
-
-  const handleExpand = () => {
-    setIsExpanded(true);
-  };
 
   const handleCollapse = () => {
     setIsExpanded(false);
@@ -2438,126 +2360,47 @@ function FloatingAssistantBar() {
     setTimeout(() => inputRef.current?.focus(), 50);
   };
 
-  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      dragStartRef.current = {
-        startX: clientX,
-        startY: clientY,
-        elementX: rect.left + rect.width / 2,
-        elementY: rect.top + rect.height / 2,
-      };
-      setDragPosition({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
-      setIsDragging(true);
-    }
-  };
-
-  const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
-    if (!isDragging || !dragStartRef.current) return;
-
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-
-    const deltaX = clientX - dragStartRef.current.startX;
-    const deltaY = clientY - dragStartRef.current.startY;
-
-    setDragPosition({
-      x: dragStartRef.current.elementX + deltaX,
-      y: dragStartRef.current.elementY + deltaY,
-    });
-  }, [isDragging]);
-
-  const handleDragEnd = useCallback(() => {
-    if (!isDragging || !dragPosition) return;
-
-    const newPosition = calculateNearestPosition(dragPosition.x, dragPosition.y);
-    setPosition(newPosition);
-    localStorage.setItem(CHATBOT_POSITION_KEY, newPosition);
-    setIsDragging(false);
-    setDragPosition(null);
-    dragStartRef.current = null;
-  }, [isDragging, dragPosition]);
-
-  useEffect(() => {
-    if (isDragging) {
-      window.addEventListener("mousemove", handleDragMove);
-      window.addEventListener("mouseup", handleDragEnd);
-      window.addEventListener("touchmove", handleDragMove);
-      window.addEventListener("touchend", handleDragEnd);
-
-      return () => {
-        window.removeEventListener("mousemove", handleDragMove);
-        window.removeEventListener("mouseup", handleDragEnd);
-        window.removeEventListener("touchmove", handleDragMove);
-        window.removeEventListener("touchend", handleDragEnd);
-      };
-    }
-  }, [isDragging, handleDragMove, handleDragEnd]);
-
-  const positionStyles = isDragging && dragPosition
-    ? {
-        position: "fixed" as const,
-        left: dragPosition.x,
-        top: dragPosition.y,
-        transform: "translate(-50%, -50%)",
-      }
-    : {
-        position: "fixed" as const,
-        ...getPositionStyles(position, isExpanded),
-      };
-
-  // Collapsed circular icon
-  if (!isExpanded) {
-    return (
-      <motion.div
-        ref={containerRef}
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className={cn(
-          "z-50 h-14 w-14 bg-black rounded-full shadow-xl flex items-center justify-center cursor-pointer hover:bg-gray-800 hover:scale-105 transition-all",
-          isDragging && "cursor-grabbing scale-110 shadow-2xl"
-        )}
-        style={positionStyles}
-        onMouseDown={handleDragStart}
-        onTouchStart={handleDragStart}
-        onClick={(e) => {
-          if (!isDragging) {
-            e.stopPropagation();
-            setIsExpanded(true);
-          }
-        }}
-        data-testid="floating-chat-icon"
-        title="Open AI Assistant"
-      >
-        <Sparkles className="h-6 w-6 text-white" />
-      </motion.div>
-    );
-  }
-
   return (
-    <>
-      {/* Backdrop overlay */}
-      <div 
-        className="fixed inset-0 bg-black/10 transition-opacity duration-200 z-40"
-        onClick={handleCollapse}
-      />
-
-      {/* Expanded chat panel */}
-      <motion.div 
-        ref={containerRef}
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.95, opacity: 0 }}
-        className="z-50 bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden"
-        style={positionStyles}
-        data-testid="floating-assistant-panel"
-      >
-        {/* Chat Content */}
-        <div className={isChatActive ? "max-h-[350px]" : "max-h-[320px]"}>
+    <AnimatePresence mode="wait">
+      {!isExpanded ? (
+        <motion.button
+          key="fab"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0, opacity: 0 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          onClick={() => setIsExpanded(true)}
+          className="fixed bottom-6 right-6 z-50 h-14 w-14 bg-black rounded-full shadow-xl flex items-center justify-center cursor-pointer"
+          data-testid="floating-chat-icon"
+          title="Open Munch Assistant"
+        >
+          <Sparkles className="h-6 w-6 text-white" />
+        </motion.button>
+      ) : (
+        <>
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/10 z-40"
+            onClick={handleCollapse}
+          />
+          <motion.div 
+            key="panel"
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            className="fixed bottom-6 right-6 z-50 w-[380px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            style={{ maxHeight: "calc(100vh - 100px)" }}
+            data-testid="floating-assistant-panel"
+          >
+            {/* Chat Content */}
+            <div className={isChatActive ? "max-h-[350px]" : "max-h-[320px]"}>
           {/* Prompts View */}
           {!isChatActive && (
             <div className="relative p-5">
@@ -2713,39 +2556,41 @@ function FloatingAssistantBar() {
               </div>
             </div>
           )}
-        </div>
+            </div>
 
-        {/* Input Tray */}
-        <div className="flex items-center gap-3 px-4 py-3 border-t border-gray-100 bg-white">
-          <form 
-            onSubmit={(e) => { e.preventDefault(); handleSend(input); }}
-            className="flex-1 flex items-center bg-gray-100 rounded-xl px-4 py-2.5 focus-within:bg-gray-50 transition-colors"
-          >
-            <input 
-              ref={inputRef}
-              type="text" 
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about your P&L..."
-              data-testid="input-floating-chat"
-              className="flex-1 bg-transparent outline-none text-sm text-gray-900 placeholder:text-gray-500"
-            />
-            <button
-              type="submit"
-              disabled={!input.trim()}
-              className={cn(
-                "ml-2 p-1.5 rounded-lg transition-colors",
-                input.trim() 
-                  ? "text-gray-700 hover:text-gray-900" 
-                  : "text-gray-400"
-              )}
-            >
-              <Send className="h-4 w-4" />
-            </button>
-          </form>
-        </div>
-      </motion.div>
-    </>
+            {/* Input Tray */}
+            <div className="flex items-center gap-3 px-4 py-3 border-t border-gray-100 bg-white">
+              <form 
+                onSubmit={(e) => { e.preventDefault(); handleSend(input); }}
+                className="flex-1 flex items-center bg-gray-100 rounded-xl px-4 py-2.5 focus-within:bg-gray-50 transition-colors"
+              >
+                <input 
+                  ref={inputRef}
+                  type="text" 
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask about your P&L..."
+                  data-testid="input-floating-chat"
+                  className="flex-1 bg-transparent outline-none text-sm text-gray-900 placeholder:text-gray-500"
+                />
+                <button
+                  type="submit"
+                  disabled={!input.trim()}
+                  className={cn(
+                    "ml-2 p-1.5 rounded-lg transition-colors",
+                    input.trim() 
+                      ? "text-gray-700 hover:text-gray-900" 
+                      : "text-gray-400"
+                  )}
+                >
+                  <Send className="h-4 w-4" />
+                </button>
+              </form>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
 
