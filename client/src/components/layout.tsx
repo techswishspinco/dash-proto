@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation } from "wouter";
 import { 
   Popover,
@@ -26,7 +26,6 @@ import {
   TrendingUp,
   Check,
   ChevronDown,
-  ChevronRight,
   ChevronsUpDown,
   Settings,
   FileText,
@@ -42,134 +41,85 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface NavItem {
-  icon: any;
-  label: string;
-  href: string;
-}
-
-interface NavCategory {
-  name: string;
-  icon: any;
-  items: NavItem[];
-}
-
-const navCategories: NavCategory[] = [
-  {
-    name: "Accounting",
-    icon: Calculator,
-    items: [
-      { icon: Calculator, label: "Accounting Home", href: "/accounting/home" },
-      { icon: FileText, label: "PnL Release", href: "/accounting/pnl" },
-      { icon: Receipt, label: "Journal Automations", href: "/accounting/journals" },
-      { icon: Gift, label: "Bonus Release", href: "/accounting/bonus" },
-    ]
-  },
-  {
-    name: "Insight",
-    icon: Sparkles,
-    items: [
-      { icon: Home, label: "Home", href: "/insight/home" },
-      { icon: Sparkles, label: "Assistant", href: "/insight/assistant" },
-      { icon: LayoutDashboard, label: "Dashboards", href: "/insight/dashboards" },
-    ]
-  },
-  {
-    name: "Operate",
-    icon: Calendar,
-    items: [
-      { icon: Calendar, label: "Schedule", href: "/operate/schedule" },
-      { icon: Moon, label: "End of Day", href: "/operate/end-of-day" },
-      { icon: Sun, label: "Start of Day", href: "/operate/start-of-day" },
-    ]
-  },
-  {
-    name: "Motivate",
-    icon: TrendingUp,
-    items: [
-      { icon: DollarSign, label: "Bonus", href: "/motivate/bonus" },
-      { icon: TrendingUp, label: "Upsell", href: "/motivate/upsell" },
-    ]
-  },
-  {
-    name: "Payroll",
-    icon: Banknote,
-    items: [
-      { icon: Sparkles, label: "Onboarding", href: "/payroll/onboarding" },
-      { icon: Home, label: "Home", href: "/payroll/home" },
-      { icon: FileText, label: "Tax Center", href: "/payroll/tax-center" },
-    ]
-  },
-];
-
-function NavCategoryItem({ category }: { category: NavCategory }) {
+function SidebarItem({ icon: Icon, label, href }: { icon: any, label: string, href: string }) {
   const [location] = useLocation();
-  
-  const isActiveCategory = category.items.some(item => location === item.href || location.startsWith(item.href.split('/').slice(0, 3).join('/')));
-  const Icon = category.icon;
+  const active = location === href;
 
   return (
-    <div className="group/nav relative">
-      <button
-        className={cn(
-          "w-full h-10 flex items-center gap-3 px-3 rounded-lg transition-all duration-200 text-left",
-          isActiveCategory 
-            ? "bg-gray-900 text-white" 
-            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-        )}
-      >
-        <Icon className="h-4 w-4 flex-shrink-0" />
-        <span className="font-medium text-sm">{category.name}</span>
-      </button>
+    <Link 
+      href={href}
+      className={cn(
+        "h-10 flex items-center transition-all duration-300 mb-2 rounded-md mx-2 px-2.5",
+        "justify-start",
+        "w-10 group-hover:w-[calc(100%-1rem)]", 
+        active ? "bg-black text-white" : "text-gray-400 hover:text-black hover:bg-gray-100"
+      )}
+    >
+      <Icon className="h-5 w-5 flex-shrink-0" />
+      <span className="ml-3 whitespace-nowrap overflow-hidden opacity-0 w-0 group-hover:w-auto group-hover:opacity-100 transition-all duration-300 delay-75 text-sm font-medium">
+        {label}
+      </span>
+    </Link>
+  );
+}
 
-      {/* Dropdown submenu */}
-      <div className="absolute left-full top-0 ml-1 pt-0 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-150 z-50">
-        <div className="w-52 bg-white rounded-xl border border-gray-200 shadow-lg py-1.5 transform scale-95 group-hover/nav:scale-100 transition-transform duration-150 origin-top-left">
-          {category.items.map((item) => {
-            const ItemIcon = item.icon;
-            const isActive = location === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-2.5 px-3 py-2 mx-1.5 rounded-lg transition-colors duration-100",
-                  isActive 
-                    ? "bg-gray-900 text-white" 
-                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                )}
-              >
-                <ItemIcon className="h-4 w-4 flex-shrink-0" />
-                <span className="text-sm">{item.label}</span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+function SidebarSection({ title, children }: { title: string, children: React.ReactNode }) {
+  return (
+    <div className="mb-6 w-full">
+      <h3 className="px-4 text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap overflow-hidden">
+        {title}
+      </h3>
+      {children}
     </div>
   );
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [, setLocation] = useLocation();
+  const [, setLocation] = useLocation(); // Hook for logout navigation
 
   return (
     <div className="min-h-screen bg-background flex font-sans text-foreground">
       {/* Sidebar */}
-      <aside className="w-52 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col py-6 sticky top-0 h-screen z-20">
-        <div className="mb-8 flex items-center px-4">
+      <aside className="group w-16 hover:w-64 flex-shrink-0 bg-white border-r border-border flex flex-col transition-all duration-500 ease-in-out py-6 sticky top-0 h-screen z-20 shadow-[1px_0_20px_rgba(0,0,0,0)] hover:shadow-[1px_0_40px_rgba(0,0,0,0.05)]">
+        <div className="mb-8 flex items-center justify-center group-hover:justify-start group-hover:px-6 transition-all duration-300">
           <div className="h-8 w-8 bg-black text-white flex items-center justify-center font-serif font-bold text-lg flex-shrink-0 rounded-sm">
             M
           </div>
-          <span className="ml-2.5 font-serif text-lg font-bold">
-            Munch
+          <span className="ml-3 font-serif text-xl font-bold opacity-0 w-0 group-hover:w-auto group-hover:opacity-100 overflow-hidden whitespace-nowrap transition-all duration-500 delay-100">
+            Munch Insights
           </span>
         </div>
 
-        <nav className="flex-1 flex flex-col px-2 space-y-0.5 overflow-y-auto overflow-x-visible">
-          {navCategories.map((category) => (
-            <NavCategoryItem key={category.name} category={category} />
-          ))}
+        <nav className="flex-1 flex flex-col w-full overflow-y-auto overflow-x-hidden scrollbar-hide">
+          <SidebarSection title="Accounting">
+            <SidebarItem icon={Calculator} label="Accounting Home" href="/accounting/home" />
+            <SidebarItem icon={FileText} label="PnL Release" href="/accounting/pnl" />
+            <SidebarItem icon={Receipt} label="Journal Automations" href="/accounting/journals" />
+            <SidebarItem icon={Gift} label="Bonus Release" href="/accounting/bonus" />
+          </SidebarSection>
+
+          <SidebarSection title="Insight">
+            <SidebarItem icon={Home} label="Home" href="/insight/home" />
+            <SidebarItem icon={Sparkles} label="Assistant" href="/insight/assistant" />
+            <SidebarItem icon={LayoutDashboard} label="Dashboards" href="/insight/dashboards" />
+          </SidebarSection>
+
+          <SidebarSection title="Operate">
+            <SidebarItem icon={Calendar} label="Schedule" href="/operate/schedule" />
+            <SidebarItem icon={Moon} label="End of Day" href="/operate/end-of-day" />
+            <SidebarItem icon={Sun} label="Start of Day" href="/operate/start-of-day" />
+          </SidebarSection>
+
+          <SidebarSection title="Motivate">
+            <SidebarItem icon={DollarSign} label="Bonus" href="/motivate/bonus" />
+            <SidebarItem icon={TrendingUp} label="Upsell" href="/motivate/upsell" />
+          </SidebarSection>
+
+          <SidebarSection title="Payroll">
+            <SidebarItem icon={Sparkles} label="Onboarding" href="/payroll/onboarding" />
+            <SidebarItem icon={Home} label="Home" href="/payroll/home" />
+            <SidebarItem icon={FileText} label="Tax Center" href="/payroll/tax-center" />
+          </SidebarSection>
         </nav>
       </aside>
 
