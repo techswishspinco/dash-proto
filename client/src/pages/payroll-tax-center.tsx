@@ -213,15 +213,10 @@ export default function PayrollTaxCenter() {
       <div className="p-8 max-w-7xl mx-auto">
         <div className="flex items-center justify-between border-b border-border pb-4 mb-8">
           <div className="flex items-center gap-6">
-            <span className="font-serif text-2xl font-medium" data-testid="text-location-name">Showing All Locations</span>
-            <span className="text-sm text-muted-foreground bg-secondary px-3 py-1 rounded-full" data-testid="text-date">Today, Jan 8</span>
-          </div>
-          
-          <div className="flex gap-6 text-sm font-medium text-muted-foreground">
             <Select value={selectedEntity} onValueChange={setSelectedEntity}>
-              <SelectTrigger className="w-auto border-0 bg-transparent hover:text-foreground transition-colors p-0 h-auto gap-1" data-testid="select-entity">
-                <span>Locations</span>
-                <span className="text-[10px]">▼</span>
+              <SelectTrigger className="border-0 bg-transparent p-0 h-auto gap-2 hover:opacity-70 transition-opacity" data-testid="select-entity">
+                <span className="font-serif text-2xl font-medium">{currentEntity?.name || "Select Location"}</span>
+                <ChevronDown className="h-5 w-5 text-muted-foreground" />
               </SelectTrigger>
               <SelectContent>
                 {entities.map((ent) => (
@@ -229,9 +224,7 @@ export default function PayrollTaxCenter() {
                 ))}
               </SelectContent>
             </Select>
-            <button className="hover:text-foreground transition-colors">Bonuses</button>
-            <button className="hover:text-foreground transition-colors">Reports</button>
-            <button className="hover:text-foreground transition-colors">Settings</button>
+            <span className="text-sm text-muted-foreground bg-secondary px-3 py-1 rounded-full" data-testid="text-date">Today, Jan 8</span>
           </div>
         </div>
 
