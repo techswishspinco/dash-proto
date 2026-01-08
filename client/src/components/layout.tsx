@@ -157,10 +157,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
              <div className="h-4 w-px bg-border" />
 
-             <span className="text-sm text-foreground">Today, Thu Jan 8</span>
-
-             <div className="h-4 w-px bg-border" />
-
              <Popover>
                <PopoverTrigger asChild>
                  <button className="flex items-center gap-2 px-3 py-1.5 hover:bg-gray-100 rounded-md transition-colors group">
