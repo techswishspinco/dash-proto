@@ -33,6 +33,7 @@ interface JobRole {
   name: string;
   departmentId: string;
   baseRate: number;
+  payType: "hourly" | "salaried";
   selected: boolean;
 }
 
@@ -53,18 +54,18 @@ const initialDepartments: Department[] = [
 ];
 
 const initialJobRoles: JobRole[] = [
-  { id: "1", name: "Server", departmentId: "1", baseRate: 18, selected: true },
-  { id: "2", name: "Host", departmentId: "1", baseRate: 16, selected: false },
-  { id: "3", name: "Busser", departmentId: "1", baseRate: 15, selected: true },
-  { id: "4", name: "Food Runner", departmentId: "1", baseRate: 15, selected: false },
-  { id: "5", name: "Line Cook", departmentId: "2", baseRate: 20, selected: true },
-  { id: "6", name: "Prep Cook", departmentId: "2", baseRate: 17, selected: false },
-  { id: "7", name: "Dishwasher", departmentId: "2", baseRate: 15, selected: true },
-  { id: "8", name: "Sous Chef", departmentId: "2", baseRate: 28, selected: false },
-  { id: "9", name: "Bartender", departmentId: "3", baseRate: 20, selected: true },
-  { id: "10", name: "Barback", departmentId: "3", baseRate: 16, selected: false },
-  { id: "11", name: "General Manager", departmentId: "4", baseRate: 65000, selected: true },
-  { id: "12", name: "Assistant Manager", departmentId: "4", baseRate: 55000, selected: false },
+  { id: "1", name: "Server", departmentId: "1", baseRate: 18, payType: "hourly", selected: true },
+  { id: "2", name: "Host", departmentId: "1", baseRate: 16, payType: "hourly", selected: false },
+  { id: "3", name: "Busser", departmentId: "1", baseRate: 15, payType: "hourly", selected: true },
+  { id: "4", name: "Food Runner", departmentId: "1", baseRate: 15, payType: "hourly", selected: false },
+  { id: "5", name: "Line Cook", departmentId: "2", baseRate: 20, payType: "hourly", selected: true },
+  { id: "6", name: "Prep Cook", departmentId: "2", baseRate: 17, payType: "hourly", selected: false },
+  { id: "7", name: "Dishwasher", departmentId: "2", baseRate: 15, payType: "hourly", selected: true },
+  { id: "8", name: "Sous Chef", departmentId: "2", baseRate: 28, payType: "hourly", selected: false },
+  { id: "9", name: "Bartender", departmentId: "3", baseRate: 20, payType: "hourly", selected: true },
+  { id: "10", name: "Barback", departmentId: "3", baseRate: 16, payType: "hourly", selected: false },
+  { id: "11", name: "General Manager", departmentId: "4", baseRate: 75000, payType: "salaried", selected: true },
+  { id: "12", name: "Assistant Manager", departmentId: "4", baseRate: 55000, payType: "salaried", selected: false },
 ];
 
 const initialStaff: Staff[] = [
@@ -165,6 +166,7 @@ export default function Teams() {
         name: newJobName.trim(),
         departmentId: newJobDepartment,
         baseRate: parseFloat(newJobRate),
+        payType: newJobPayType as "hourly" | "salaried",
         selected: false
       }]);
       setAssignedStaff(prev => ({ ...prev, [newId]: [] }));
@@ -374,7 +376,7 @@ export default function Teams() {
                       <div>
                         <div className="font-medium text-sm">{job.name}</div>
                         <div className="text-xs text-muted-foreground">
-                          BASE: ${job.baseRate}/HR
+                          {job.payType === "salaried" ? `$${job.baseRate.toLocaleString()}/YR` : `$${job.baseRate}/HR`}
                         </div>
                       </div>
                       {selectedJob === job.id && (
