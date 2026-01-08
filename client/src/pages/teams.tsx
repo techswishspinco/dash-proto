@@ -13,7 +13,7 @@ export default function Teams() {
           {/* Top Navigation Context */}
           <div className="flex items-center justify-between border-b border-border pb-4">
             <div className="flex items-center gap-6">
-              <span className="font-serif text-2xl font-medium" data-testid="text-chain-name">KOQ LLC</span>
+              <span className="font-serif text-2xl font-medium" data-testid="text-page-title">Team</span>
               <span className="text-sm text-muted-foreground bg-secondary px-3 py-1 rounded-full" data-testid="text-date">Today, Jan 8</span>
             </div>
             
