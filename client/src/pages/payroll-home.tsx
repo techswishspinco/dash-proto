@@ -189,13 +189,13 @@ export default function PayrollHome() {
       <div className="p-8 max-w-7xl mx-auto">
         <div className="flex items-center justify-between border-b border-border pb-4 mb-8">
           <div className="flex items-center gap-6">
-            <span className="font-serif text-2xl font-medium" data-testid="text-location-title">{currentEntity?.name || "Select Location"}</span>
+            <span className="font-serif text-2xl font-medium" data-testid="text-page-title">Payroll</span>
           </div>
           
           <div className="flex gap-6 text-sm font-medium text-muted-foreground">
             <Select value={selectedEntity} onValueChange={setSelectedEntity}>
               <SelectTrigger className="border-0 bg-transparent p-0 h-auto gap-0 hover:text-foreground transition-colors focus:ring-0 focus:ring-offset-0 focus:outline-none shadow-none [&>svg]:hidden" data-testid="select-entity">
-                <span>Locations <span className="text-[10px]">▼</span></span>
+                <span>{currentEntity?.name || "Select Location"} <span className="text-[10px]">▼</span></span>
               </SelectTrigger>
               <SelectContent>
                 {entities.map((ent) => (
