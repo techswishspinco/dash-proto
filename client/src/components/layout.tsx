@@ -91,10 +91,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="flex-1 flex flex-col w-full overflow-y-auto overflow-x-hidden scrollbar-hide">
-          <SidebarSection title="Staff">
+          <div className="mb-6 w-full">
             <SidebarItem icon={Users} label="Staff" href="/staff" />
-            <SidebarItem icon={LayoutDashboard} label="Department" href="/department" />
-          </SidebarSection>
+            <SidebarItem icon={LayoutDashboard} label="Departments" href="/departments" />
+          </div>
 
           <SidebarSection title="Accounting">
             <SidebarItem icon={Calculator} label="Accounting Home" href="/accounting/home" />
