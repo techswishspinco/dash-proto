@@ -4,6 +4,23 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { 
+  Sheet, 
+  SheetContent, 
+  SheetHeader, 
+  SheetTitle, 
+  SheetDescription,
+  SheetFooter
+} from "@/components/ui/sheet";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, ChevronRight } from "lucide-react";
 
 interface Department {
@@ -43,7 +60,7 @@ const initialStaff: Staff[] = [
 ];
 
 export default function Teams() {
-  const [departments] = useState<Department[]>(initialDepartments);
+  const [departments, setDepartments] = useState<Department[]>(initialDepartments);
   const [jobRoles, setJobRoles] = useState<JobRole[]>(initialJobRoles);
   const [staff] = useState<Staff[]>(initialStaff);
   const [selectedDepartment, setSelectedDepartment] = useState<string>("1");
@@ -53,6 +70,13 @@ export default function Teams() {
     "2": [],
     "3": [],
   });
+
+  const [showAddDepartmentSheet, setShowAddDepartmentSheet] = useState(false);
+  const [showAddJobSheet, setShowAddJobSheet] = useState(false);
+  const [newDepartmentName, setNewDepartmentName] = useState("");
+  const [newJobName, setNewJobName] = useState("");
+  const [newJobDepartment, setNewJobDepartment] = useState("");
+  const [newJobRate, setNewJobRate] = useState("");
 
   const filteredJobs = jobRoles.filter(
     (job) => job.departmentId === selectedDepartment
@@ -79,6 +103,33 @@ export default function Teams() {
     });
   };
 
+  const handleAddDepartment = () => {
+    if (newDepartmentName.trim()) {
+      const newId = (departments.length + 1).toString();
+      setDepartments([...departments, { id: newId, name: newDepartmentName.trim() }]);
+      setNewDepartmentName("");
+      setShowAddDepartmentSheet(false);
+    }
+  };
+
+  const handleAddJobRole = () => {
+    if (newJobName.trim() && newJobDepartment && newJobRate) {
+      const newId = (jobRoles.length + 1).toString();
+      setJobRoles([...jobRoles, {
+        id: newId,
+        name: newJobName.trim(),
+        departmentId: newJobDepartment,
+        baseRate: parseFloat(newJobRate),
+        selected: false
+      }]);
+      setAssignedStaff(prev => ({ ...prev, [newId]: [] }));
+      setNewJobName("");
+      setNewJobDepartment("");
+      setNewJobRate("");
+      setShowAddJobSheet(false);
+    }
+  };
+
   return (
     <Layout>
       <div className="p-8 max-w-7xl mx-auto">
@@ -100,6 +151,7 @@ export default function Teams() {
                   variant="outline"
                   size="sm"
                   className="gap-1.5"
+                  onClick={() => setShowAddDepartmentSheet(true)}
                   data-testid="button-add-department"
                 >
                   <Plus className="h-4 w-4" />
@@ -109,6 +161,7 @@ export default function Teams() {
                   variant="outline"
                   size="sm"
                   className="gap-1.5"
+                  onClick={() => setShowAddJobSheet(true)}
                   data-testid="button-add-job-role"
                 >
                   <Plus className="h-4 w-4" />
@@ -126,7 +179,7 @@ export default function Teams() {
                       className={cn(
                         "w-full flex items-center justify-between px-6 py-4 text-left transition-colors",
                         selectedDepartment === dept.id
-                          ? "bg-foreground text-background"
+                          ? "bg-muted"
                           : "hover:bg-gray-50",
                         index !== departments.length - 1 && "border-b"
                       )}
@@ -186,7 +239,7 @@ export default function Teams() {
                       className={cn(
                         "w-full flex items-center justify-between px-6 py-4 text-left transition-colors",
                         selectedJob === job.id
-                          ? "bg-foreground text-background"
+                          ? "bg-muted"
                           : "hover:bg-gray-50",
                         index !== jobRoles.length - 1 && "border-b"
                       )}
@@ -194,10 +247,7 @@ export default function Teams() {
                     >
                       <div>
                         <div className="font-medium text-sm">{job.name}</div>
-                        <div className={cn(
-                          "text-xs mt-0.5",
-                          selectedJob === job.id ? "text-gray-400" : "text-muted-foreground"
-                        )}>
+                        <div className="text-xs mt-0.5 text-muted-foreground">
                           BASE: ${job.baseRate}/HR
                         </div>
                       </div>
@@ -230,23 +280,27 @@ export default function Teams() {
                         />
                         <div className={cn(
                           "w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium",
-                          isAssigned ? "bg-foreground" : "bg-gray-400"
+                          isAssigned ? "bg-emerald-500" : "bg-gray-400"
                         )}>
                           {person.initials}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="text-sm font-medium">{person.name}</div>
-                          {isAssigned && (
-                            <div className="flex items-center justify-between gap-2 mt-0.5">
-                              <span className="text-xs text-muted-foreground uppercase">Assigned</span>
-                              <button 
-                                className="text-xs text-muted-foreground hover:text-foreground whitespace-nowrap"
-                                data-testid={`button-view-rates-${person.id}`}
-                              >
-                                View Earning Rates →
-                              </button>
-                            </div>
-                          )}
+                          <div className="h-5 flex items-center justify-between gap-2">
+                            {isAssigned ? (
+                              <>
+                                <span className="text-xs text-muted-foreground uppercase">Assigned</span>
+                                <button 
+                                  className="text-xs text-muted-foreground hover:text-foreground whitespace-nowrap"
+                                  data-testid={`button-view-rates-${person.id}`}
+                                >
+                                  View Earning Rates →
+                                </button>
+                              </>
+                            ) : (
+                              <span className="text-xs text-transparent">Placeholder</span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     );
@@ -257,6 +311,98 @@ export default function Teams() {
           </Card>
         </div>
       </div>
+
+      <Sheet open={showAddDepartmentSheet} onOpenChange={setShowAddDepartmentSheet}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Add Department</SheetTitle>
+            <SheetDescription>
+              Create a new department to organize your team
+            </SheetDescription>
+          </SheetHeader>
+          <div className="py-6 space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="department-name">Department Name</Label>
+              <Input
+                id="department-name"
+                placeholder="e.g., Marketing"
+                value={newDepartmentName}
+                onChange={(e) => setNewDepartmentName(e.target.value)}
+                data-testid="input-department-name"
+              />
+            </div>
+          </div>
+          <SheetFooter>
+            <Button variant="outline" onClick={() => setShowAddDepartmentSheet(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleAddDepartment} disabled={!newDepartmentName.trim()} data-testid="button-save-department">
+              Add Department
+            </Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={showAddJobSheet} onOpenChange={setShowAddJobSheet}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Add Job Role</SheetTitle>
+            <SheetDescription>
+              Create a new job role and assign it to a department
+            </SheetDescription>
+          </SheetHeader>
+          <div className="py-6 space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="job-name">Job Title</Label>
+              <Input
+                id="job-name"
+                placeholder="e.g., Software Engineer"
+                value={newJobName}
+                onChange={(e) => setNewJobName(e.target.value)}
+                data-testid="input-job-name"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="job-department">Department</Label>
+              <Select value={newJobDepartment} onValueChange={setNewJobDepartment}>
+                <SelectTrigger data-testid="select-job-department">
+                  <SelectValue placeholder="Select department" />
+                </SelectTrigger>
+                <SelectContent>
+                  {departments.map((dept) => (
+                    <SelectItem key={dept.id} value={dept.id}>
+                      {dept.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="job-rate">Base Hourly Rate ($)</Label>
+              <Input
+                id="job-rate"
+                type="number"
+                placeholder="e.g., 50"
+                value={newJobRate}
+                onChange={(e) => setNewJobRate(e.target.value)}
+                data-testid="input-job-rate"
+              />
+            </div>
+          </div>
+          <SheetFooter>
+            <Button variant="outline" onClick={() => setShowAddJobSheet(false)}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleAddJobRole} 
+              disabled={!newJobName.trim() || !newJobDepartment || !newJobRate}
+              data-testid="button-save-job"
+            >
+              Add Job Role
+            </Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </Layout>
   );
 }
