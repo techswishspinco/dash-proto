@@ -2378,7 +2378,7 @@ function FloatingAssistantBar({ triggerQuery }: { triggerQuery?: string | null }
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 25 }}
           onClick={() => setIsExpanded(true)}
-          className="fixed bottom-6 right-6 z-50 h-14 w-14 bg-white rounded-full shadow-xl flex items-center justify-center cursor-pointer border-2 border-gray-900"
+          className="fixed bottom-6 right-6 z-50 h-14 w-14 bg-white rounded-full shadow-xl flex items-center justify-center cursor-pointer border border-gray-900"
           data-testid="floating-chat-icon"
           title="Open Munch Assistant"
         >
