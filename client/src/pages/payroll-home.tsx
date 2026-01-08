@@ -189,7 +189,7 @@ export default function PayrollHome() {
       <div className="p-8 max-w-7xl mx-auto">
         <div className="flex items-center justify-between border-b border-border pb-4 mb-8">
           <div className="flex items-center gap-6">
-            <span className="font-serif text-2xl font-medium" data-testid="text-page-title">Payroll</span>
+            <span className="font-serif text-2xl font-medium" data-testid="text-page-title">Payroll Home</span>
           </div>
           
           <div className="flex gap-6 text-sm font-medium text-muted-foreground">
