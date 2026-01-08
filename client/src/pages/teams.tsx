@@ -279,15 +279,17 @@ export default function Teams() {
             <CardContent className="p-0">
               <div className="grid grid-cols-2 border-t">
                 <div className="border-r">
-                  <div className="px-6 py-3 border-b bg-gray-50 flex items-center justify-between gap-2">
+                  <div className="px-6 py-3 border-b bg-gray-50">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Jobs</span>
+                  </div>
+                  <div className="px-6 py-2 border-b">
                     <div className="relative">
                       <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
                       <Input
-                        placeholder="Search..."
+                        placeholder="Search jobs..."
                         value={jobSearch}
                         onChange={(e) => setJobSearch(e.target.value)}
-                        className="h-7 w-32 pl-7 text-xs"
+                        className="h-8 pl-7 text-xs"
                         data-testid="input-search-jobs"
                       />
                     </div>
@@ -319,15 +321,17 @@ export default function Teams() {
                 </div>
 
                 <div>
-                  <div className="px-6 py-3 border-b bg-gray-50 flex items-center justify-between gap-2">
-                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Available Personnel</span>
+                  <div className="px-6 py-3 border-b bg-gray-50">
+                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Staff</span>
+                  </div>
+                  <div className="px-6 py-2 border-b">
                     <div className="relative">
                       <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
                       <Input
-                        placeholder="Search..."
+                        placeholder="Search staff..."
                         value={personnelSearch}
                         onChange={(e) => setPersonnelSearch(e.target.value)}
-                        className="h-7 w-32 pl-7 text-xs"
+                        className="h-8 pl-7 text-xs"
                         data-testid="input-search-personnel"
                       />
                     </div>
