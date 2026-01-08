@@ -113,6 +113,17 @@ export default function Teams() {
   const [personnelSearch, setPersonnelSearch] = useState("");
   const [deptSearch, setDeptSearch] = useState("");
   const [deptJobSearch, setDeptJobSearch] = useState("");
+  
+  const [deptScrolledToBottom, setDeptScrolledToBottom] = useState(false);
+  const [deptJobScrolledToBottom, setDeptJobScrolledToBottom] = useState(false);
+  const [jobScrolledToBottom, setJobScrolledToBottom] = useState(false);
+  const [staffScrolledToBottom, setStaffScrolledToBottom] = useState(false);
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>, setter: (v: boolean) => void) => {
+    const target = e.currentTarget;
+    const isAtBottom = target.scrollHeight - target.scrollTop <= target.clientHeight + 5;
+    setter(isAtBottom);
+  };
 
   const filteredJobs = jobRoles.filter(
     (job) => job.departmentId === selectedDepartment
@@ -262,7 +273,7 @@ export default function Teams() {
                     />
                   </div>
                   <div className="relative">
-                    <div className="max-h-[318px] overflow-y-auto scrollable-list">
+                    <div className="max-h-[303px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptScrolledToBottom)}>
                       {departments.filter(d => d.name.toLowerCase().includes(deptSearch.toLowerCase())).map((dept, index, arr) => (
                         <button
                           key={dept.id}
@@ -283,7 +294,7 @@ export default function Teams() {
                         </button>
                       ))}
                     </div>
-                    {departments.filter(d => d.name.toLowerCase().includes(deptSearch.toLowerCase())).length > 5 && (
+                    {departments.filter(d => d.name.toLowerCase().includes(deptSearch.toLowerCase())).length > 5 && !deptScrolledToBottom && (
                       <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white/70 via-white/40 to-transparent pointer-events-none" />
                     )}
                   </div>
@@ -304,7 +315,7 @@ export default function Teams() {
                     />
                   </div>
                   <div className="relative">
-                    <div className="max-h-[318px] overflow-y-auto scrollable-list">
+                    <div className="max-h-[303px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptJobScrolledToBottom)}>
                       {filteredJobs.filter(j => j.name.toLowerCase().includes(deptJobSearch.toLowerCase())).map((job, index, arr) => (
                         <label
                           key={job.id}
@@ -328,7 +339,7 @@ export default function Teams() {
                         </div>
                       )}
                     </div>
-                    {filteredJobs.filter(j => j.name.toLowerCase().includes(deptJobSearch.toLowerCase())).length > 5 && (
+                    {filteredJobs.filter(j => j.name.toLowerCase().includes(deptJobSearch.toLowerCase())).length > 5 && !deptJobScrolledToBottom && (
                       <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white/70 via-white/40 to-transparent pointer-events-none" />
                     )}
                   </div>
@@ -359,7 +370,7 @@ export default function Teams() {
                     />
                   </div>
                   <div className="relative">
-                    <div className="max-h-[318px] overflow-y-auto scrollable-list">
+                    <div className="max-h-[303px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setJobScrolledToBottom)}>
                       {jobRoles.filter(job => job.name.toLowerCase().includes(jobSearch.toLowerCase())).map((job, index, arr) => (
                         <button
                           key={job.id}
@@ -385,7 +396,7 @@ export default function Teams() {
                         </button>
                       ))}
                     </div>
-                    {jobRoles.filter(job => job.name.toLowerCase().includes(jobSearch.toLowerCase())).length > 5 && (
+                    {jobRoles.filter(job => job.name.toLowerCase().includes(jobSearch.toLowerCase())).length > 5 && !jobScrolledToBottom && (
                       <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white/70 via-white/40 to-transparent pointer-events-none" />
                     )}
                   </div>
@@ -406,7 +417,7 @@ export default function Teams() {
                     />
                   </div>
                   <div className="relative">
-                    <div className="max-h-[318px] overflow-y-auto scrollable-list">
+                    <div className="max-h-[303px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setStaffScrolledToBottom)}>
                       {staff.filter(person => person.name.toLowerCase().includes(personnelSearch.toLowerCase())).map((person, index, arr) => {
                         const isAssigned = assignedToSelectedJob.includes(person.id);
                         const assignedElsewhere = isStaffAssignedElsewhere(person.id);
@@ -458,7 +469,7 @@ export default function Teams() {
                         );
                       })}
                     </div>
-                    {staff.filter(person => person.name.toLowerCase().includes(personnelSearch.toLowerCase())).length > 5 && (
+                    {staff.filter(person => person.name.toLowerCase().includes(personnelSearch.toLowerCase())).length > 5 && !staffScrolledToBottom && (
                       <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white/70 via-white/40 to-transparent pointer-events-none" />
                     )}
                   </div>
