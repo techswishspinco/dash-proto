@@ -90,15 +90,16 @@ export default function Teams() {
 
         <div className="space-y-6">
           <Card data-testid="card-departments-jobs">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg">Departments & Jobs</CardTitle>
-              <CardDescription>Manage units and role assignments</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex gap-3 mb-6">
+            <CardHeader className="flex flex-row items-center justify-between py-4">
+              <div>
+                <CardTitle className="text-lg">Departments & Jobs</CardTitle>
+                <CardDescription>Manage units and role assignments</CardDescription>
+              </div>
+              <div className="flex gap-2">
                 <Button
                   variant="outline"
-                  className="gap-2 border-dashed"
+                  size="sm"
+                  className="gap-1.5"
                   data-testid="button-add-department"
                 >
                   <Plus className="h-4 w-4" />
@@ -106,25 +107,28 @@ export default function Teams() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="gap-2 border-dashed"
+                  size="sm"
+                  className="gap-1.5"
                   data-testid="button-add-job-role"
                 >
                   <Plus className="h-4 w-4" />
                   Add Job Role
                 </Button>
               </div>
-
-              <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  {departments.map((dept) => (
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="grid grid-cols-2 border-t">
+                <div className="border-r">
+                  {departments.map((dept, index) => (
                     <button
                       key={dept.id}
                       onClick={() => setSelectedDepartment(dept.id)}
                       className={cn(
-                        "w-full flex items-center justify-between px-4 py-3 rounded-lg text-left transition-all",
+                        "w-full flex items-center justify-between px-6 py-4 text-left transition-colors",
                         selectedDepartment === dept.id
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-50 text-foreground hover:bg-gray-100"
+                          ? "bg-foreground text-background"
+                          : "hover:bg-gray-50",
+                        index !== departments.length - 1 && "border-b"
                       )}
                       data-testid={`button-department-${dept.id}`}
                     >
@@ -136,11 +140,14 @@ export default function Teams() {
                   ))}
                 </div>
 
-                <div className="space-y-2">
-                  {filteredJobs.map((job) => (
+                <div>
+                  {filteredJobs.map((job, index) => (
                     <label
                       key={job.id}
-                      className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors"
+                      className={cn(
+                        "flex items-center gap-3 px-6 py-4 hover:bg-gray-50 cursor-pointer transition-colors",
+                        index !== filteredJobs.length - 1 && "border-b"
+                      )}
                       data-testid={`label-job-${job.id}`}
                     >
                       <Checkbox
@@ -151,106 +158,99 @@ export default function Teams() {
                       <span className="text-sm font-medium">{job.name}</span>
                     </label>
                   ))}
-                  {jobRoles
-                    .filter((job) => job.departmentId !== selectedDepartment)
-                    .map((job) => (
-                      <label
-                        key={job.id}
-                        className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors"
-                        data-testid={`label-job-other-${job.id}`}
-                      >
-                        <Checkbox
-                          checked={job.selected}
-                          onCheckedChange={() => toggleJobSelection(job.id)}
-                          data-testid={`checkbox-job-other-${job.id}`}
-                        />
-                        <span className="text-sm font-medium">{job.name}</span>
-                      </label>
-                    ))}
+                  {filteredJobs.length === 0 && (
+                    <div className="px-6 py-4 text-sm text-muted-foreground">
+                      No job roles in this department
+                    </div>
+                  )}
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <Card data-testid="card-staff-assignment">
-            <CardHeader className="pb-4">
+            <CardHeader className="py-4">
               <CardTitle className="text-lg">Staff Assignment</CardTitle>
               <CardDescription>Link employees to job roles</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Select Job</div>
-                  <div className="space-y-2">
-                    {jobRoles.map((job) => (
-                      <button
-                        key={job.id}
-                        onClick={() => setSelectedJob(job.id)}
-                        className={cn(
-                          "w-full flex items-center justify-between px-4 py-3 rounded-lg text-left transition-all",
-                          selectedJob === job.id
-                            ? "bg-blue-600 text-white"
-                            : "bg-gray-50 text-foreground hover:bg-gray-100"
-                        )}
-                        data-testid={`button-select-job-${job.id}`}
-                      >
-                        <div>
-                          <div className="font-medium text-sm">{job.name}</div>
-                          <div className={cn(
-                            "text-xs mt-0.5",
-                            selectedJob === job.id ? "text-blue-100" : "text-muted-foreground"
-                          )}>
-                            BASE: ${job.baseRate}/HR
-                          </div>
-                        </div>
-                        {selectedJob === job.id && (
-                          <ChevronRight className="h-4 w-4" />
-                        )}
-                      </button>
-                    ))}
+            <CardContent className="p-0">
+              <div className="grid grid-cols-2 border-t">
+                <div className="border-r">
+                  <div className="px-6 py-3 border-b bg-gray-50">
+                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Select Job</span>
                   </div>
+                  {jobRoles.map((job, index) => (
+                    <button
+                      key={job.id}
+                      onClick={() => setSelectedJob(job.id)}
+                      className={cn(
+                        "w-full flex items-center justify-between px-6 py-4 text-left transition-colors",
+                        selectedJob === job.id
+                          ? "bg-foreground text-background"
+                          : "hover:bg-gray-50",
+                        index !== jobRoles.length - 1 && "border-b"
+                      )}
+                      data-testid={`button-select-job-${job.id}`}
+                    >
+                      <div>
+                        <div className="font-medium text-sm">{job.name}</div>
+                        <div className={cn(
+                          "text-xs mt-0.5",
+                          selectedJob === job.id ? "text-gray-400" : "text-muted-foreground"
+                        )}>
+                          BASE: ${job.baseRate}/HR
+                        </div>
+                      </div>
+                      {selectedJob === job.id && (
+                        <ChevronRight className="h-4 w-4" />
+                      )}
+                    </button>
+                  ))}
                 </div>
 
                 <div>
-                  <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Available Personnel</div>
-                  <div className="space-y-2">
-                    {staff.map((person) => {
-                      const isAssigned = assignedToSelectedJob.includes(person.id);
-                      return (
-                        <div
-                          key={person.id}
-                          className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                          data-testid={`staff-row-${person.id}`}
-                        >
-                          <Checkbox
-                            checked={isAssigned}
-                            onCheckedChange={() => toggleStaffAssignment(person.id)}
-                            data-testid={`checkbox-staff-${person.id}`}
-                          />
-                          <div className={cn(
-                            "w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium",
-                            isAssigned ? "bg-blue-600" : "bg-gray-400"
-                          )}>
-                            {person.initials}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium">{person.name}</div>
-                            {isAssigned && (
-                              <div className="flex items-center justify-between gap-2 mt-0.5">
-                                <span className="text-xs text-muted-foreground uppercase">Assigned</span>
-                                <button 
-                                  className="text-xs text-blue-600 hover:text-blue-700 whitespace-nowrap"
-                                  data-testid={`button-view-rates-${person.id}`}
-                                >
-                                  View Earning Rates →
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
+                  <div className="px-6 py-3 border-b bg-gray-50">
+                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Available Personnel</span>
                   </div>
+                  {staff.map((person, index) => {
+                    const isAssigned = assignedToSelectedJob.includes(person.id);
+                    return (
+                      <div
+                        key={person.id}
+                        className={cn(
+                          "flex items-center gap-3 px-6 py-4 hover:bg-gray-50 transition-colors",
+                          index !== staff.length - 1 && "border-b"
+                        )}
+                        data-testid={`staff-row-${person.id}`}
+                      >
+                        <Checkbox
+                          checked={isAssigned}
+                          onCheckedChange={() => toggleStaffAssignment(person.id)}
+                          data-testid={`checkbox-staff-${person.id}`}
+                        />
+                        <div className={cn(
+                          "w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium",
+                          isAssigned ? "bg-foreground" : "bg-gray-400"
+                        )}>
+                          {person.initials}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-medium">{person.name}</div>
+                          {isAssigned && (
+                            <div className="flex items-center justify-between gap-2 mt-0.5">
+                              <span className="text-xs text-muted-foreground uppercase">Assigned</span>
+                              <button 
+                                className="text-xs text-muted-foreground hover:text-foreground whitespace-nowrap"
+                                data-testid={`button-view-rates-${person.id}`}
+                              >
+                                View Earning Rates →
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </CardContent>
