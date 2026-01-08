@@ -220,9 +220,8 @@ export default function PayrollTaxCenter() {
           
           <div className="flex gap-6 text-sm font-medium text-muted-foreground">
             <Select value={selectedEntity} onValueChange={setSelectedEntity}>
-              <SelectTrigger className="border-0 bg-transparent p-0 h-auto gap-0 hover:text-foreground transition-colors focus:ring-0 focus:ring-offset-0" data-testid="select-entity">
-                <span>Locations</span>
-                <span className="text-[10px] ml-1">▼</span>
+              <SelectTrigger className="border-0 bg-transparent p-0 h-auto gap-0 hover:text-foreground transition-colors focus:ring-0 focus:ring-offset-0 [&>svg]:hidden" data-testid="select-entity">
+                <span>Locations <span className="text-[10px]">▼</span></span>
               </SelectTrigger>
               <SelectContent>
                 {entities.map((ent) => (
