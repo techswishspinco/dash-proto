@@ -267,7 +267,7 @@ export default function Teams() {
 
           <Card data-testid="card-staff-assignment">
             <CardHeader className="py-4">
-              <CardTitle className="text-lg">Staff Assignment</CardTitle>
+              <CardTitle className="text-lg">Job Assignment</CardTitle>
               <CardDescription>Link employees to job roles</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
