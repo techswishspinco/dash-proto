@@ -454,6 +454,11 @@ export default function Teams() {
     return id ? mockPayrollEmployees.find(e => e.id === id) : null;
   };
 
+  // Calculate unmapped counts
+  const mappedPOSIds = staff.filter(s => s.posEmployeeId).map(s => s.posEmployeeId);
+  const unmappedPOSEmployees = mockPOSEmployees.filter(e => !mappedPOSIds.includes(e.id));
+  const usersWithoutPayrollMapping = staff.filter(s => s.status !== "inactive" && !s.payrollEmployeeId);
+
   const getJobRoleNames = (roleIds: string[]) => {
     return roleIds.map(id => jobRoles.find(j => j.id === id)?.name || "Unknown").join(", ");
   };
@@ -801,6 +806,28 @@ export default function Teams() {
                 Invite Staff
               </Button>
             </div>
+
+            {/* Unmapped counts banner */}
+            {(unmappedPOSEmployees.length > 0 || usersWithoutPayrollMapping.length > 0) && (
+              <div className="flex items-start gap-3 p-4 rounded-lg bg-amber-50 border border-amber-200" data-testid="banner-unmapped-counts">
+                <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-amber-900">Mapping Attention Needed</div>
+                  <div className="text-sm text-amber-700 space-y-0.5">
+                    {unmappedPOSEmployees.length > 0 && (
+                      <div data-testid="text-unmapped-pos-count">
+                        {unmappedPOSEmployees.length} POS employee{unmappedPOSEmployees.length !== 1 ? 's' : ''} aren't mapped to users
+                      </div>
+                    )}
+                    {usersWithoutPayrollMapping.length > 0 && (
+                      <div data-testid="text-unmapped-payroll-count">
+                        {usersWithoutPayrollMapping.length} user{usersWithoutPayrollMapping.length !== 1 ? 's' : ''} don't have payroll employee mappings
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Staff list */}
             <Card>
