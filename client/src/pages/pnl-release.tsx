@@ -2383,7 +2383,7 @@ function FloatingAssistantBar({ triggerQuery }: { triggerQuery?: string | null }
           data-testid="floating-chat-icon"
           title="Open Munch Assistant"
         >
-          <img src={munchCatIcon} alt="Munch" className="h-8 w-8 object-contain" />
+          <img src={munchCatIcon} alt="Munch" className="h-10 w-10 object-contain" />
         </motion.button>
       ) : (
         <>
