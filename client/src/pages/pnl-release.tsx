@@ -2378,11 +2378,11 @@ function FloatingAssistantBar({ triggerQuery }: { triggerQuery?: string | null }
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 25 }}
           onClick={() => setIsExpanded(true)}
-          className="fixed bottom-6 right-6 z-50 h-14 w-14 bg-gray-900 rounded-full shadow-xl flex items-center justify-center cursor-pointer"
+          className="fixed bottom-6 right-6 z-50 h-14 w-14 bg-black rounded-full shadow-xl flex items-center justify-center cursor-pointer overflow-hidden"
           data-testid="floating-chat-icon"
           title="Open Munch Assistant"
         >
-          <Sparkles className="h-6 w-6 text-white" />
+          <img src="/attached_assets/Screenshot_2026-01-08_at_12.59.10_PM_1767895210474.png" alt="Munch" className="h-12 w-12 object-cover" />
         </motion.button>
       ) : (
         <>
