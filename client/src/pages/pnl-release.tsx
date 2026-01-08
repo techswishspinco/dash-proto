@@ -1117,6 +1117,45 @@ function PnLTreeItem({
       </div>
 
       <AnimatePresence>
+        {showSuggestions && suggestions.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.15 }}
+            className="bg-gray-50 border-l-4 border-l-gray-900 px-4 py-3"
+            style={{ marginLeft: `${16 + depth * 24}px` }}
+            onMouseEnter={handleSuggestionAreaEnter}
+            onMouseLeave={handleSuggestionAreaLeave}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Lightbulb className="h-3.5 w-3.5 text-gray-700" />
+              <span className="text-xs font-medium text-gray-700">Suggestions</span>
+              <span className="text-xs text-gray-400 ml-auto">Tab to cycle, Enter to select</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {suggestions.map((suggestion, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => onSuggestionAccept(item, suggestion)}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all",
+                    idx === selectedSuggestionIndex 
+                      ? "bg-gray-900 text-white shadow-md" 
+                      : "bg-white text-gray-700 shadow-sm hover:shadow-md hover:bg-gray-50"
+                  )}
+                  data-testid={`suggestion-${item.id}-${idx}`}
+                >
+                  <span>{suggestion.icon}</span>
+                  <span>{suggestion.text}</span>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
         {isExpanded && hasChildren && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
@@ -1495,7 +1534,8 @@ function PnLDashboard({ onInsightClick, highlightedNodeId, onHighlightClear, onT
         </div>
       </div>
 
-      <div className="mt-3 flex items-center justify-end text-xs text-gray-500">
+      <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
+        <span>Hover over any line item to see AI suggestions • Tab to cycle • Enter to select</span>
         <button 
           onClick={() => setExpandedItems(new Set())}
           className="hover:text-gray-700 transition-colors"
@@ -3280,19 +3320,16 @@ export default function PnlRelease() {
         }
       }
 
-      setActiveSection(currentSection);
+      if (currentSection !== activeSection) {
+        setActiveSection(currentSection);
+      }
     };
 
     container.addEventListener("scroll", handleScroll);
-    
-    // Run initial check after a brief delay to ensure DOM is ready
-    const initialCheck = setTimeout(handleScroll, 100);
+    handleScroll(); // Initial check
 
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-      clearTimeout(initialCheck);
-    };
-  }, [activeTab]);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [activeTab, activeSection]);
 
   const scrollToSection = useCallback((sectionId: string) => {
     const element = document.getElementById(sectionId);
