@@ -19,6 +19,7 @@ import PayrollOnboarding from "@/pages/payroll-onboarding";
 import PayrollHome from "@/pages/payroll-home";
 import PayrollTaxCenter from "@/pages/payroll-tax-center";
 import PayrollRun from "@/pages/payroll-run";
+import Teams from "@/pages/teams";
 
 function Router() {
   return (
@@ -27,6 +28,9 @@ function Router() {
       <Route path="/" component={() => <Redirect to="/login" />} />
       <Route path="/login" component={Login} />
       <Route path="/onboarding" component={Onboarding} />
+
+      {/* Teams */}
+      <Route path="/teams" component={Teams} />
 
       {/* Accounting Module */}
       <Route path="/accounting/home" component={AccountingHome} />

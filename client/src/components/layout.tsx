@@ -92,8 +92,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         <nav className="flex-1 flex flex-col w-full overflow-y-auto overflow-x-hidden scrollbar-hide">
           <div className="mb-6 w-full">
-            <SidebarItem icon={Users} label="Staff" href="/staff" />
-            <SidebarItem icon={LayoutDashboard} label="Departments" href="/departments" />
+            <SidebarItem icon={Users} label="Teams" href="/teams" />
           </div>
 
           <SidebarSection title="Accounting">
