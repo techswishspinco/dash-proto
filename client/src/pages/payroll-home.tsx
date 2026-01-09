@@ -268,7 +268,7 @@ export default function PayrollHome() {
   const getPayrollEmployee = (id: string | null) => id ? mockPayrollEmployees.find(e => e.id === id) : null;
 
   const handleUpcomingPayrollClick = (payroll: PayrollRun) => {
-    setLocation("/payroll/run");
+    setLocation(isEntityComplete ? "/payroll/run?autoImport=true" : "/payroll/run");
   };
 
   const handleRecentPayrollClick = (payroll: PayrollRun) => {
@@ -386,7 +386,7 @@ export default function PayrollHome() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setSelectedPayroll(upcomingPayroll); setShowPayrollDrawer(true); }}>View Details</DropdownMenuItem>
-                              <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setLocation("/payroll/run"); }}>Run Payroll</DropdownMenuItem>
+                              <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setLocation(isEntityComplete ? "/payroll/run?autoImport=true" : "/payroll/run"); }}>Run Payroll</DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </td>
@@ -524,7 +524,7 @@ export default function PayrollHome() {
           </div>
 
           <div className="w-80 space-y-6">
-            {isEntityComplete && (
+            {!isEntityComplete && (
               <Card>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base">Actions Needed</CardTitle>
@@ -710,7 +710,7 @@ export default function PayrollHome() {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    <Button className="w-full" onClick={() => setLocation("/payroll/run")} data-testid="button-run-payroll">
+                    <Button className="w-full" onClick={() => setLocation(isEntityComplete ? "/payroll/run?autoImport=true" : "/payroll/run")} data-testid="button-run-payroll">
                       Run Payroll
                     </Button>
                     <Button className="w-full" variant="outline" data-testid="button-approve-payroll">

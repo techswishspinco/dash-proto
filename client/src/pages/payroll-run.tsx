@@ -88,7 +88,7 @@ const steps = [
 ];
 
 export default function PayrollRun() {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState<RunPayrollStep>(1);
   const [employees, setEmployees] = useState<Employee[]>(mockEmployees);
@@ -97,6 +97,10 @@ export default function PayrollRun() {
   const [hoursEntryMode, setHoursEntryMode] = useState<"select" | "import" | "manual" | "auto">("select");
   const [autoImportLoading, setAutoImportLoading] = useState(false);
   const [expandedConfirmEmployee, setExpandedConfirmEmployee] = useState<string | null>(null);
+  
+  // Check if Auto Import is enabled (simulating NY location)
+  const urlParams = new URLSearchParams(window.location.search);
+  const autoImportEnabled = urlParams.get("autoImport") === "true";
 
   const selectedEmployees = employees.filter(e => e.selected);
   const payPeriod = "Jan 6, 2026 - Jan 12, 2026";
@@ -354,6 +358,23 @@ export default function PayrollRun() {
           <div className="space-y-6">
             {hoursEntryMode === "select" && (
               <div className="grid grid-cols-3 gap-6">
+{autoImportEnabled ? (
+                <Card 
+                  className="cursor-pointer hover:border-primary transition-colors"
+                  onClick={() => { setHoursEntryMode("auto"); handleAutoImport(); }}
+                  data-testid="card-auto-import"
+                >
+                  <CardContent className="p-8 flex flex-col items-center text-center">
+                    <div className="h-16 w-16 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                      <Zap className="h-8 w-8 text-purple-600" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Auto Import</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Import hours directly from Toast POS integration
+                    </p>
+                  </CardContent>
+                </Card>
+                ) : (
                 <Card 
                   className="cursor-not-allowed opacity-60"
                   data-testid="card-auto-import"
@@ -371,6 +392,7 @@ export default function PayrollRun() {
                     </div>
                   </CardContent>
                 </Card>
+                )}
                 <Card 
                   className="cursor-pointer hover:border-primary transition-colors"
                   onClick={() => setHoursEntryMode("import")}
