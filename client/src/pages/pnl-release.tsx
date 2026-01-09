@@ -3916,7 +3916,7 @@ export default function PnlRelease() {
                           </div>
                        </section>
 
-                       {/* 3. Missed Targets Section - matches curated view */}
+                       {/* 3. Missed Targets Section - with expandable opportunities */}
                        <section>
                           <h3 className="font-serif text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                              <AlertTriangle className="h-5 w-5 text-amber-600" /> Missed Targets
@@ -3928,56 +3928,129 @@ export default function PnlRelease() {
                                 <span className="text-xs text-amber-600">Impact</span>
                              </div>
                              <div className="divide-y divide-gray-100">
-                                <div className="p-4 flex justify-between items-center group">
-                                   <div className="flex items-center gap-3">
-                                      <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
-                                         <AlertTriangle className="h-4 w-4" />
+                                {/* COGS Missed Target with Dropdown */}
+                                <div>
+                                   <button
+                                      data-testid="toggle-cogs-opportunity-finance"
+                                      onClick={() => setExpandedMissedTarget(expandedMissedTarget === "cogs-finance" ? null : "cogs-finance")}
+                                      className="w-full p-4 flex justify-between items-center hover:bg-gray-50 transition-colors"
+                                   >
+                                      <div className="flex items-center gap-3">
+                                         <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+                                            <AlertTriangle className="h-4 w-4" />
+                                         </div>
+                                         <div className="text-left">
+                                            <p className="text-sm font-medium text-gray-900">
+                                               COGS % missed target:{' '}
+                                               <button 
+                                                  onClick={(e) => { e.stopPropagation(); setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('cogs'), 100); }}
+                                                  className="text-amber-700 hover:text-amber-900 underline decoration-dotted underline-offset-2"
+                                               >31% vs 30%</button> goal
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">Produce prices spiked: Avocados +37%, Limes +28%</p>
+                                         </div>
                                       </div>
-                                      <div>
-                                         <p className="text-sm font-medium text-gray-900">
-                                            COGS % missed target: 31% vs 30% goal
-                                         </p>
-                                         <p className="text-xs text-muted-foreground">Produce prices spiked: Avocados +37%, Limes +28%</p>
+                                      <div className="flex items-center gap-3">
+                                         <button 
+                                            onClick={(e) => { e.stopPropagation(); setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('cogs'), 100); }}
+                                            className="text-sm font-medium text-amber-600 hover:text-amber-800 hover:underline"
+                                         >-$1,245</button>
+                                         <ChevronDown className={cn(
+                                            "h-4 w-4 text-gray-400 transition-transform duration-200",
+                                            expandedMissedTarget === "cogs-finance" && "rotate-180"
+                                         )} />
                                       </div>
-                                   </div>
-                                   <div className="flex items-center gap-2">
-                                      <span className="text-sm font-medium text-amber-600">-$1,245</span>
-                                      <button 
-                                         onClick={() => handleInsightClick("Why did produce COGS spike?")}
-                                         className="text-amber-600 hover:text-amber-800 hover:bg-amber-100 p-1 rounded-full transition-colors opacity-0 group-hover:opacity-100"
-                                         title="Ask Assistant"
-                                      >
-                                         <Lightbulb className="h-4 w-4" />
-                                      </button>
-                                   </div>
+                                   </button>
+                                   <AnimatePresence>
+                                      {expandedMissedTarget === "cogs-finance" && (
+                                         <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.15 }}
+                                            className="overflow-hidden"
+                                         >
+                                            <div className="px-4 pb-4 pt-1 ml-11 border-l-2 border-indigo-200">
+                                               <div className="bg-indigo-50 rounded-lg p-3">
+                                                  <div className="flex items-center gap-2 mb-2">
+                                                     <Lightbulb className="h-4 w-4 text-indigo-600" />
+                                                     <span className="text-xs font-medium text-indigo-700 uppercase tracking-wide">Opportunity</span>
+                                                  </div>
+                                                  <div className="flex justify-between items-center">
+                                                     <div>
+                                                        <p className="text-sm font-medium text-gray-900">Switch Avocado Supplier</p>
+                                                        <p className="text-xs text-gray-500">COGS • Produce</p>
+                                                     </div>
+                                                     <span className="text-sm font-semibold text-emerald-600">+$800/mo</span>
+                                                  </div>
+                                               </div>
+                                            </div>
+                                         </motion.div>
+                                      )}
+                                   </AnimatePresence>
                                 </div>
-                                <div className="p-4 flex justify-between items-center group">
-                                   <div className="flex items-center gap-3">
-                                      <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
-                                         <AlertTriangle className="h-4 w-4" />
+
+                                {/* Overtime Missed Target with Dropdown */}
+                                <div>
+                                   <button
+                                      data-testid="toggle-overtime-opportunity-finance"
+                                      onClick={() => setExpandedMissedTarget(expandedMissedTarget === "overtime-finance" ? null : "overtime-finance")}
+                                      className="w-full p-4 flex justify-between items-center hover:bg-gray-50 transition-colors"
+                                   >
+                                      <div className="flex items-center gap-3">
+                                         <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+                                            <AlertTriangle className="h-4 w-4" />
+                                         </div>
+                                         <div className="text-left">
+                                            <p className="text-sm font-medium text-gray-900">
+                                               Overtime ran high:{' '}
+                                               <button 
+                                                  onClick={(e) => { e.stopPropagation(); setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('labor'), 100); }}
+                                                  className="text-amber-700 hover:text-amber-900 underline decoration-dotted underline-offset-2"
+                                               >142 hrs vs 80</button> budgeted
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">Holiday weeks drove excess overtime across BOH and FOH</p>
+                                         </div>
                                       </div>
-                                      <div>
-                                         <p className="text-sm font-medium text-gray-900">
-                                            Overtime ran high: 142 hrs vs 80 budgeted
-                                         </p>
-                                         <p className="text-xs text-muted-foreground">Holiday weeks drove excess overtime across BOH and FOH</p>
+                                      <div className="flex items-center gap-3">
+                                         <button 
+                                            onClick={(e) => { e.stopPropagation(); setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('labor'), 100); }}
+                                            className="text-sm font-medium text-amber-600 hover:text-amber-800 hover:underline"
+                                         >-$3,200</button>
+                                         <ChevronDown className={cn(
+                                            "h-4 w-4 text-gray-400 transition-transform duration-200",
+                                            expandedMissedTarget === "overtime-finance" && "rotate-180"
+                                         )} />
                                       </div>
-                                   </div>
-                                   <div className="flex items-center gap-2">
-                                      <span className="text-sm font-medium text-amber-600">-$3,200</span>
-                                      <button 
-                                         onClick={() => handleInsightClick("Show me the overtime breakdown")}
-                                         className="text-amber-600 hover:text-amber-800 hover:bg-amber-100 p-1 rounded-full transition-colors opacity-0 group-hover:opacity-100"
-                                         title="Ask Assistant"
-                                      >
-                                         <Lightbulb className="h-4 w-4" />
-                                      </button>
-                                   </div>
+                                   </button>
+                                   <AnimatePresence>
+                                      {expandedMissedTarget === "overtime-finance" && (
+                                         <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.15 }}
+                                            className="overflow-hidden"
+                                         >
+                                            <div className="px-4 pb-4 pt-1 ml-11 border-l-2 border-indigo-200">
+                                               <div className="bg-indigo-50 rounded-lg p-3">
+                                                  <div className="flex items-center gap-2 mb-2">
+                                                     <Lightbulb className="h-4 w-4 text-indigo-600" />
+                                                     <span className="text-xs font-medium text-indigo-700 uppercase tracking-wide">Opportunity</span>
+                                                  </div>
+                                                  <div className="flex justify-between items-center">
+                                                     <div>
+                                                        <p className="text-sm font-medium text-gray-900">Cut 10hrs of Prep Overtime</p>
+                                                        <p className="text-xs text-gray-500">Kitchen Staff • Oct 14</p>
+                                                     </div>
+                                                     <span className="text-sm font-semibold text-emerald-600">+$350/wk</span>
+                                                  </div>
+                                               </div>
+                                            </div>
+                                         </motion.div>
+                                      )}
+                                   </AnimatePresence>
                                 </div>
-                             </div>
-                             <div className="p-4 bg-amber-50/30 border-t border-amber-100 flex justify-between items-center">
-                                <span className="text-sm font-medium text-amber-800">To hit your 30% COGS goal: Switch avocado supplier (+$600/mo)</span>
-                                <span className="text-sm font-bold text-amber-700">+$780/mo savings</span>
                              </div>
                           </div>
                        </section>
