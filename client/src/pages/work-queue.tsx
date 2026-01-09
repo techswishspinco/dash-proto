@@ -91,7 +91,7 @@ const mockTasks: Task[] = [
     priority: "critical",
     status: "open",
     assignedTo: [
-      { name: "Sarah Chen", initials: "SC", role: "support" },
+      { name: "John Doe", initials: "JD", role: "manager" },
       { name: "Michael Park", initials: "MP", role: "accountant" },
     ],
     createdAt: "2026-01-08T09:00:00",
@@ -117,7 +117,7 @@ const mockTasks: Task[] = [
     priority: "high",
     status: "in_progress",
     assignedTo: [
-      { name: "Emily Rodriguez", initials: "ER", role: "onboarding_specialist" },
+      { name: "John Doe", initials: "JD", role: "manager" },
     ],
     createdAt: "2026-01-05T14:30:00",
     dueDate: "2026-01-10T17:00:00",
@@ -139,7 +139,7 @@ const mockTasks: Task[] = [
     priority: "high",
     status: "open",
     assignedTo: [
-      { name: "James Wilson", initials: "JW", role: "manager" },
+      { name: "John Doe", initials: "JD", role: "manager" },
       { name: "Michael Park", initials: "MP", role: "accountant" },
     ],
     createdAt: "2026-01-08T08:00:00",
@@ -202,7 +202,7 @@ const mockTasks: Task[] = [
     priority: "medium",
     status: "open",
     assignedTo: [
-      { name: "Emily Rodriguez", initials: "ER", role: "onboarding_specialist" },
+      { name: "John Doe", initials: "JD", role: "manager" },
     ],
     createdAt: "2026-01-06T11:00:00",
     dueDate: "2026-01-11T17:00:00",
@@ -224,7 +224,7 @@ const mockTasks: Task[] = [
     priority: "medium",
     status: "snoozed",
     assignedTo: [
-      { name: "Michael Park", initials: "MP", role: "accountant" },
+      { name: "John Doe", initials: "JD", role: "manager" },
     ],
     createdAt: "2026-01-01T09:00:00",
     dueDate: "2026-01-31T17:00:00",
@@ -245,7 +245,7 @@ const mockTasks: Task[] = [
     priority: "low",
     status: "open",
     assignedTo: [
-      { name: "James Wilson", initials: "JW", role: "manager" },
+      { name: "John Doe", initials: "JD", role: "manager" },
     ],
     createdAt: "2026-01-05T13:20:00",
     dueDate: "2026-01-20T17:00:00",
@@ -266,7 +266,7 @@ const mockTasks: Task[] = [
     priority: "low",
     status: "resolved",
     assignedTo: [
-      { name: "Sarah Chen", initials: "SC", role: "support" },
+      { name: "John Doe", initials: "JD", role: "manager" },
     ],
     createdAt: "2025-12-28T10:00:00",
     dueDate: "2026-01-05T17:00:00",
@@ -923,19 +923,11 @@ export default function WorkQueue() {
     <Layout>
       <div className="p-8">
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <div>
-              <h1 className="text-3xl font-serif font-bold text-foreground">Work Pipeline</h1>
-              <p className="text-muted-foreground mt-1">
-                Your prioritized task queue — always know what to work on next
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <PriorityBadgeCount priority="critical" count={priorityCounts.critical} />
-              <PriorityBadgeCount priority="high" count={priorityCounts.high} />
-              <PriorityBadgeCount priority="medium" count={priorityCounts.medium} />
-              <PriorityBadgeCount priority="low" count={priorityCounts.low} />
-            </div>
+          <div className="mb-2">
+            <h1 className="text-3xl font-serif font-bold text-foreground">Work Pipeline</h1>
+            <p className="text-muted-foreground mt-1">
+              Your prioritized task queue — always know what to work on next
+            </p>
           </div>
         </div>
 
