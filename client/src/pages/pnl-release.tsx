@@ -4248,7 +4248,329 @@ export default function PnlRelease() {
                       </div>
                    </section>
 
-                   {/* 2. P&L Dashboard - Intelligent Hierarchical View */}
+                   {/* 2. YoY P&L Comparison - November 2024 vs November 2025 */}
+                   <section id="yoy-comparison" className="scroll-mt-4">
+                      {/* Summary Banner */}
+                      <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-t-xl px-6 py-4 flex items-center justify-between">
+                         <div className="flex items-center gap-3">
+                            <Calendar className="h-5 w-5 text-gray-400" />
+                            <h2 className="text-lg font-serif font-bold text-white">November Year-over-Year Comparison</h2>
+                         </div>
+                         <div className="flex items-center gap-4 text-sm">
+                            <div className="flex items-center gap-2">
+                               <span className="text-gray-400">Revenue:</span>
+                               <span className="text-red-400 font-semibold flex items-center gap-1">
+                                  <ArrowDown className="h-3.5 w-3.5" /> 2.2%
+                               </span>
+                            </div>
+                            <div className="h-4 w-px bg-gray-600" />
+                            <div className="flex items-center gap-2">
+                               <span className="text-gray-400">Gross Profit:</span>
+                               <span className="text-red-400 font-semibold flex items-center gap-1">
+                                  <ArrowDown className="h-3.5 w-3.5" /> 7.0%
+                               </span>
+                            </div>
+                         </div>
+                      </div>
+
+                      <div className="bg-white rounded-b-xl border border-t-0 border-gray-200 overflow-hidden">
+                         {/* Month Selector & Toggle */}
+                         <div className="px-6 py-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                               <select 
+                                  className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-gray-200"
+                                  defaultValue="november"
+                                  data-testid="select-yoy-month"
+                               >
+                                  <option value="january">January</option>
+                                  <option value="february">February</option>
+                                  <option value="march">March</option>
+                                  <option value="april">April</option>
+                                  <option value="may">May</option>
+                                  <option value="june">June</option>
+                                  <option value="july">July</option>
+                                  <option value="august">August</option>
+                                  <option value="september">September</option>
+                                  <option value="october">October</option>
+                                  <option value="november">November</option>
+                               </select>
+                               <span className="text-xs text-gray-500">2024 vs 2025</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                               <span className="text-xs text-gray-500">Show details</span>
+                               <button className="relative h-5 w-9 rounded-full bg-gray-900 transition-colors">
+                                  <span className="absolute right-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform" />
+                               </button>
+                            </div>
+                         </div>
+
+                         {/* Comparison Table */}
+                         <table className="w-full text-sm">
+                            <thead>
+                               <tr className="border-b border-gray-100 bg-gray-50/50">
+                                  <th className="text-left px-6 py-3 font-medium text-gray-500">Metric</th>
+                                  <th className="text-right px-4 py-3 font-medium text-gray-500">Nov 2024</th>
+                                  <th className="text-right px-4 py-3 font-medium text-gray-500">Nov 2025</th>
+                                  <th className="text-right px-6 py-3 font-medium text-gray-500">Variance</th>
+                               </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-100">
+                               {/* Total Income */}
+                               <tr className="hover:bg-gray-50 bg-gray-50/30 font-medium" title="Total revenue from all sources">
+                                  <td className="px-6 py-3 text-gray-900">Total Income</td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div className="font-semibold">$160,434.87</div>
+                                     <div className="text-xs text-gray-500">100%</div>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div className="font-semibold">$156,862.65</div>
+                                     <div className="text-xs text-gray-500">100%</div>
+                                  </td>
+                                  <td className="px-6 py-3 text-right">
+                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
+                                        <ArrowDown className="h-3.5 w-3.5" /> $3,572
+                                     </span>
+                                  </td>
+                               </tr>
+                               {/* Food Sales */}
+                               <tr className="hover:bg-gray-50" title="In-store food sales revenue">
+                                  <td className="px-6 py-3 text-gray-900 pl-10">Food Sales</td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$127,315.39</div>
+                                     <div className="text-xs text-gray-500">79.4%</div>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$112,601.90</div>
+                                     <div className="text-xs text-gray-500">71.8%</div>
+                                  </td>
+                                  <td className="px-6 py-3 text-right">
+                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
+                                        <ArrowDown className="h-3.5 w-3.5" /> 7.6%
+                                     </span>
+                                  </td>
+                               </tr>
+                               {/* Beverage Sales */}
+                               <tr className="hover:bg-gray-50" title="Beverage sales including alcoholic and non-alcoholic">
+                                  <td className="px-6 py-3 text-gray-900 pl-10">Beverage Sales</td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$24,228.10</div>
+                                     <div className="text-xs text-gray-500">15.1%</div>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$23,850.60</div>
+                                     <div className="text-xs text-gray-500">15.2%</div>
+                                  </td>
+                                  <td className="px-6 py-3 text-right">
+                                     <span className="text-emerald-600 font-medium flex items-center justify-end gap-1">
+                                        <ArrowUp className="h-3.5 w-3.5" /> 0.1%
+                                     </span>
+                                  </td>
+                               </tr>
+                               {/* Delivery Sales */}
+                               <tr className="hover:bg-gray-50" title="Online delivery platform sales (UberEats, DoorDash, GrubHub)">
+                                  <td className="px-6 py-3 text-gray-900 pl-10">Delivery Sales</td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$16,248.17</div>
+                                     <div className="text-xs text-gray-500">10.1%</div>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$25,318.22</div>
+                                     <div className="text-xs text-gray-500">16.1%</div>
+                                  </td>
+                                  <td className="px-6 py-3 text-right">
+                                     <span className="text-emerald-600 font-medium flex items-center justify-end gap-1">
+                                        <ArrowUp className="h-3.5 w-3.5" /> 6.0%
+                                     </span>
+                                  </td>
+                               </tr>
+                               {/* Comps/Discount */}
+                               <tr className="hover:bg-gray-50" title="Comps and discounts applied to orders">
+                                  <td className="px-6 py-3 text-gray-900 pl-10">Comps/Discount</td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div className="text-red-600">-$7,356.79</div>
+                                     <div className="text-xs text-gray-500">-4.6%</div>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div className="text-red-600">-$4,908.07</div>
+                                     <div className="text-xs text-gray-500">-3.1%</div>
+                                  </td>
+                                  <td className="px-6 py-3 text-right">
+                                     <span className="text-emerald-600 font-medium flex items-center justify-end gap-1">
+                                        <Check className="h-3.5 w-3.5" /> 1.5%
+                                     </span>
+                                  </td>
+                               </tr>
+                               {/* Divider */}
+                               <tr className="bg-gray-100">
+                                  <td colSpan={4} className="px-6 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide">Cost of Goods Sold</td>
+                               </tr>
+                               {/* Total COGS */}
+                               <tr className="hover:bg-gray-50 bg-amber-50/30" title="Total cost of goods sold including food and beverage">
+                                  <td className="px-6 py-3 text-gray-900 font-medium">Total COGS</td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div className="font-semibold">$46,287.59</div>
+                                     <div className="text-xs text-gray-500">28.9%</div>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div className="font-semibold">$56,359.61</div>
+                                     <div className="text-xs text-gray-500">35.9%</div>
+                                  </td>
+                                  <td className="px-6 py-3 text-right">
+                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
+                                        <ArrowUp className="h-3.5 w-3.5" /> 7.0%
+                                     </span>
+                                  </td>
+                               </tr>
+                               {/* Food Cost */}
+                               <tr className="hover:bg-gray-50" title="Direct food costs (dairy, dry goods, produce)">
+                                  <td className="px-6 py-3 text-gray-900 pl-10">Food Cost</td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$5,893.26</div>
+                                     <div className="text-xs text-gray-500">3.7%</div>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$6,657.53</div>
+                                     <div className="text-xs text-gray-500">4.2%</div>
+                                  </td>
+                                  <td className="px-6 py-3 text-right">
+                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
+                                        <ArrowUp className="h-3.5 w-3.5" /> 0.5%
+                                     </span>
+                                  </td>
+                               </tr>
+                               {/* Beverage Cost */}
+                               <tr className="hover:bg-gray-50" title="Beverage costs (coffee, tea, juice, alcohol)">
+                                  <td className="px-6 py-3 text-gray-900 pl-10">Beverage Cost</td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$2,775.25</div>
+                                     <div className="text-xs text-gray-500">1.7%</div>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$2,890.41</div>
+                                     <div className="text-xs text-gray-500">1.8%</div>
+                                  </td>
+                                  <td className="px-6 py-3 text-right">
+                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
+                                        <ArrowUp className="h-3.5 w-3.5" /> 0.1%
+                                     </span>
+                                  </td>
+                               </tr>
+                               {/* Divider */}
+                               <tr className="bg-gray-100">
+                                  <td colSpan={4} className="px-6 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide">Profitability</td>
+                               </tr>
+                               {/* Gross Profit */}
+                               <tr className="hover:bg-gray-50 bg-emerald-50/30" title="Revenue minus cost of goods sold">
+                                  <td className="px-6 py-3 text-gray-900 font-medium">Gross Profit</td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div className="font-semibold">$114,147.28</div>
+                                     <div className="text-xs text-gray-500">71.1%</div>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div className="font-semibold">$100,503.04</div>
+                                     <div className="text-xs text-gray-500">64.1%</div>
+                                  </td>
+                                  <td className="px-6 py-3 text-right">
+                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
+                                        <ArrowDown className="h-3.5 w-3.5" /> 7.0%
+                                     </span>
+                                  </td>
+                               </tr>
+                               {/* Payroll Expenses */}
+                               <tr className="hover:bg-gray-50" title="Total payroll including wages, taxes, and benefits">
+                                  <td className="px-6 py-3 text-gray-900">Payroll Expenses</td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$30,916.05</div>
+                                     <div className="text-xs text-gray-500">19.3%</div>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div>$16,627.64</div>
+                                     <div className="text-xs text-gray-500">10.6%</div>
+                                  </td>
+                                  <td className="px-6 py-3 text-right">
+                                     <span className="text-emerald-600 font-medium flex items-center justify-end gap-1">
+                                        <ArrowDown className="h-3.5 w-3.5" /> 8.7%
+                                     </span>
+                                  </td>
+                               </tr>
+                               {/* Net Income */}
+                               <tr className="hover:bg-gray-50 bg-gray-100 font-semibold" title="Bottom line profit after all expenses">
+                                  <td className="px-6 py-3 text-gray-900">Net Income</td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div className="font-bold">$36,077.53</div>
+                                     <div className="text-xs text-gray-500">22.5%</div>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">
+                                     <div className="font-bold">$28,456.12</div>
+                                     <div className="text-xs text-gray-500">18.1%</div>
+                                  </td>
+                                  <td className="px-6 py-3 text-right">
+                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
+                                        <ArrowDown className="h-3.5 w-3.5" /> 4.4%
+                                     </span>
+                                  </td>
+                               </tr>
+                            </tbody>
+                         </table>
+
+                         {/* Prime Cost Highlight */}
+                         <div className="px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 border-t border-gray-200">
+                            <div className="flex items-center justify-between mb-3">
+                               <h4 className="font-semibold text-gray-900 flex items-center gap-2">
+                                  <Layers className="h-4 w-4 text-indigo-600" />
+                                  Prime Cost Analysis
+                               </h4>
+                               <span className="text-xs text-gray-500">Food + Beverage + Labor</span>
+                            </div>
+                            <div className="grid grid-cols-3 gap-4">
+                               <div className="bg-white rounded-lg p-3 border border-gray-200">
+                                  <p className="text-xs text-gray-500 mb-1">Food Cost %</p>
+                                  <div className="flex items-center justify-between">
+                                     <div>
+                                        <span className="text-lg font-bold text-gray-900">28.9%</span>
+                                        <span className="text-gray-400 mx-1">→</span>
+                                        <span className="text-lg font-bold text-gray-900">35.9%</span>
+                                     </div>
+                                     <span className="text-red-600 text-sm font-medium flex items-center gap-0.5">
+                                        <ArrowUp className="h-3 w-3" /> 7.0%
+                                     </span>
+                                  </div>
+                                  <p className="text-xs text-gray-500 mt-1">Includes commissary + food + beverage</p>
+                               </div>
+                               <div className="bg-white rounded-lg p-3 border border-gray-200">
+                                  <p className="text-xs text-gray-500 mb-1">Labor Cost %</p>
+                                  <div className="flex items-center justify-between">
+                                     <div>
+                                        <span className="text-lg font-bold text-gray-900">19.3%</span>
+                                        <span className="text-gray-400 mx-1">→</span>
+                                        <span className="text-lg font-bold text-gray-900">10.6%</span>
+                                     </div>
+                                     <span className="text-emerald-600 text-sm font-medium flex items-center gap-0.5">
+                                        <ArrowDown className="h-3 w-3" /> 8.7%
+                                     </span>
+                                  </div>
+                                  <p className="text-xs text-gray-500 mt-1">Payroll expenses as % of income</p>
+                               </div>
+                               <div className="bg-white rounded-lg p-3 border border-indigo-200 bg-indigo-50/50">
+                                  <p className="text-xs text-indigo-600 mb-1 font-medium">Prime Cost %</p>
+                                  <div className="flex items-center justify-between">
+                                     <div>
+                                        <span className="text-lg font-bold text-indigo-900">48.2%</span>
+                                        <span className="text-indigo-400 mx-1">→</span>
+                                        <span className="text-lg font-bold text-indigo-900">46.5%</span>
+                                     </div>
+                                     <span className="text-emerald-600 text-sm font-medium flex items-center gap-0.5">
+                                        <ArrowDown className="h-3 w-3" /> 1.7%
+                                     </span>
+                                  </div>
+                                  <p className="text-xs text-gray-500 mt-1">Target: &lt;50% of revenue</p>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </section>
+
+                   {/* 3. P&L Dashboard - Intelligent Hierarchical View */}
                    <PnLDashboard 
                      onInsightClick={handleInsightClick} 
                      highlightedNodeId={highlightedPnlNodeId}
