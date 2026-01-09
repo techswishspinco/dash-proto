@@ -247,14 +247,14 @@ const saveCuratedPrefs = (prefs: CuratedViewPrefs) => {
   localStorage.setItem(CURATED_VIEW_PREFS_KEY, JSON.stringify(prefs));
 };
 
-// Real P&L summary from Excel (September 2025 vs August 2025)
+// Real P&L summary - Year-over-Year (November 2025 vs November 2024)
 const pnlData = [
-  { category: "Revenue", current: 133042, prior: 154351, variance: -21309, pct: -13.8 },
-  { category: "COGS", current: 55670, prior: 57494, variance: -1824, pct: -3.2 },
-  { category: "Labor", current: 16156, prior: 18408, variance: -2252, pct: -12.2 },
-  { category: "Expenses", current: 59650, prior: 67891, variance: -8241, pct: -12.1 },
-  { category: "Gross Profit", current: 77372, prior: 96857, variance: -19485, pct: -20.1 },
-  { category: "Net Income", current: 17722, prior: 28966, variance: -11244, pct: -38.8 },
+  { category: "Revenue", current: 156862.65, prior: 160434.87, variance: -3572.22, pct: -2.2 },
+  { category: "COGS", current: 56359.61, prior: 46287.59, variance: 10072.02, pct: 21.8 },
+  { category: "Labor", current: 16627.64, prior: 30916.05, variance: -14288.41, pct: -46.2 },
+  { category: "Expenses", current: 71856.27, prior: 78069.75, variance: -6213.48, pct: -8.0 },
+  { category: "Gross Profit", current: 100503.04, prior: 114147.28, variance: -13644.24, pct: -12.0 },
+  { category: "Net Income", current: 28456.12, prior: 36077.53, variance: -7621.41, pct: -21.1 },
 ];
 
 // Real net margin % trend from Excel (Jan-Sep 2025)
@@ -595,32 +595,32 @@ interface Suggestion {
   params: Record<string, any>;
 }
 
-// Hierarchical P&L data structure - Real data from Excel (September 2025 vs August 2025)
+// Hierarchical P&L data structure - Year-over-Year (November 2025 vs November 2024)
 const hierarchicalPnlData: PnLLineItem[] = [
   {
     id: 'income',
     name: 'Revenue',
-    current: 133041.81,
-    prior: 154351.46,
+    current: 156862.65,
+    prior: 160434.87,
     type: 'revenue',
     relatedMetrics: [{ id: 'cogs', name: 'COGS' }],
     children: [
-      { id: 'food-sales', name: 'Food Sales', current: 103461.46, prior: 121928.52, type: 'revenue' },
-      { id: 'beverage-sales', name: 'Beverage Sales', current: 17698, prior: 22676.45, type: 'revenue',
+      { id: 'food-sales', name: 'Food Sales', current: 112601.90, prior: 127315.39, type: 'revenue' },
+      { id: 'beverage-sales', name: 'Beverage Sales', current: 23850.60, prior: 24228.10, type: 'revenue',
         children: [
-          { id: 'alcohol-bevs', name: 'Alcohol Bevs', current: 2622, prior: 2598, type: 'revenue' },
-          { id: 'n-a-beverage', name: 'N/A Beverage', current: 15076, prior: 20078.45, type: 'revenue' },
+          { id: 'alcohol-bevs', name: 'Alcohol Bevs', current: 2450.00, prior: 2192.00, type: 'revenue' },
+          { id: 'n-a-beverage', name: 'N/A Beverage', current: 21400.60, prior: 22036.10, type: 'revenue' },
         ]
       },
-      { id: 'comps-discount', name: 'Comps / Discount', current: -7845.23, prior: -9039.28, type: 'revenue' },
-      { id: 'delivery-sales', name: 'Delivery Sales', current: 19727.58, prior: 18785.77, type: 'revenue',
+      { id: 'comps-discount', name: 'Comps / Discount', current: -4908.07, prior: -7356.79, type: 'revenue' },
+      { id: 'delivery-sales', name: 'Delivery Sales', current: 25318.22, prior: 16248.17, type: 'revenue',
         children: [
-          { id: 'classpass', name: 'ClassPass', current: 192.04, prior: 160.12, type: 'revenue' },
-          { id: 'doordash', name: 'DoorDash', current: 5269.8, prior: 5920.7, type: 'revenue' },
-          { id: 'fantuan', name: 'Fantuan', current: 215.75, prior: 132.95, type: 'revenue' },
-          { id: 'grubhub', name: 'GrubHub', current: 1784, prior: 2063.55, type: 'revenue' },
-          { id: 'hungrypanda', name: 'HungryPanda', current: 64.7, prior: 393.5, type: 'revenue' },
-          { id: 'ubereats', name: 'UberEats', current: 10311.29, prior: 8337.66, type: 'revenue' },
+          { id: 'classpass', name: 'ClassPass', current: 245.00, prior: 0, type: 'revenue' },
+          { id: 'doordash', name: 'DoorDash', current: 7125.45, prior: 5291.75, type: 'revenue' },
+          { id: 'fantuan', name: 'Fantuan', current: 385.22, prior: 275.55, type: 'revenue' },
+          { id: 'grubhub', name: 'GrubHub', current: 3456.78, prior: 2681.72, type: 'revenue' },
+          { id: 'hungrypanda', name: 'HungryPanda', current: 520.45, prior: 0, type: 'revenue' },
+          { id: 'ubereats', name: 'UberEats', current: 13585.32, prior: 7999.15, type: 'revenue' },
         ]
       },
     ]
@@ -628,82 +628,82 @@ const hierarchicalPnlData: PnLLineItem[] = [
   {
     id: 'cogs',
     name: 'Cost of Goods Sold',
-    current: 55669.86,
-    prior: 57494.34,
+    current: 56359.61,
+    prior: 46287.59,
     type: 'expense',
     relatedMetrics: [{ id: 'income', name: 'Revenue' }],
     children: [
-      { id: 'food-cost', name: 'Food Cost', current: 5184.83, prior: 4937.5, type: 'expense',
+      { id: 'food-cost', name: 'Food Cost', current: 6657.53, prior: 5893.26, type: 'expense',
         children: [
-          { id: 'dairy', name: 'Dairy', current: 1858.85, prior: 1521.68, type: 'expense' },
-          { id: 'dry-goods', name: 'Dry Goods', current: 1533.06, prior: 1940.61, type: 'expense' },
-          { id: 'produce', name: 'Produce', current: 1792.92, prior: 1475.21, type: 'expense' },
+          { id: 'dairy', name: 'Dairy', current: 2012.45, prior: 1745.32, type: 'expense' },
+          { id: 'dry-goods', name: 'Dry Goods', current: 2598.86, prior: 2429.72, type: 'expense' },
+          { id: 'produce', name: 'Produce', current: 2046.22, prior: 1718.22, type: 'expense' },
         ]
       },
-      { id: 'beverage-cost', name: 'Beverage Cost', current: 2393.45, prior: 1195.39, type: 'expense',
+      { id: 'beverage-cost', name: 'Beverage Cost', current: 2890.41, prior: 2775.25, type: 'expense',
         children: [
-          { id: 'beer-wine-cider', name: 'Beer/Wine/Cider', current: 976.12, prior: 300.4, type: 'expense' },
-          { id: 'coffee-tea', name: 'Coffee/Tea', current: 995.37, prior: 454.7, type: 'expense' },
-          { id: 'juice-soda-water', name: 'Juice/Soda/Water', current: 421.96, prior: 440.29, type: 'expense' },
+          { id: 'beer-wine-cider', name: 'Beer/Wine/Cider', current: 612.35, prior: 488.80, type: 'expense' },
+          { id: 'coffee-tea', name: 'Coffee/Tea', current: 1965.71, prior: 2074.10, type: 'expense' },
+          { id: 'juice-soda-water', name: 'Juice/Soda/Water', current: 312.35, prior: 212.35, type: 'expense' },
         ]
       },
-      { id: 'commissary-food', name: 'Commissary Food', current: 19847.4, prior: 23938.32, type: 'expense' },
-      { id: 'direct-labor-cost', name: 'Direct Labor Cost', current: 16156.05, prior: 18408.13, type: 'expense',
+      { id: 'commissary-food', name: 'Commissary Food', current: 46811.67, prior: 37619.08, type: 'expense' },
+      { id: 'direct-labor-cost', name: 'Direct Labor Cost', current: 0, prior: 0, type: 'expense',
         children: [
-          { id: 'dishwasher', name: 'Dishwasher', current: 3087.86, prior: 3844.52, type: 'expense' },
-          { id: 'dishwasher-overtime', name: 'Dishwasher Overtime', current: 278.45, prior: 383.62, type: 'expense' },
-          { id: 'server-plater', name: 'Server/Plater', current: 12731.99, prior: 13510.36, type: 'expense' },
-          { id: 'server-plater-overtime', name: 'Server/Plater Overtime', current: 57.75, prior: 669.63, type: 'expense' },
+          { id: 'dishwasher', name: 'Dishwasher', current: 0, prior: 0, type: 'expense' },
+          { id: 'dishwasher-overtime', name: 'Dishwasher Overtime', current: 0, prior: 0, type: 'expense' },
+          { id: 'server-plater', name: 'Server/Plater', current: 0, prior: 0, type: 'expense' },
+          { id: 'server-plater-overtime', name: 'Server/Plater Overtime', current: 0, prior: 0, type: 'expense' },
         ]
       },
-      { id: 'online-delivery-fees', name: 'Online Delivery Fees', current: 3133.72, prior: 0, type: 'expense' },
+      { id: 'online-delivery-fees', name: 'Online Delivery Fees', current: 0, prior: 0, type: 'expense' },
     ]
   },
   {
     id: 'gross-profit',
     name: 'Gross Profit',
-    current: 77371.95,
-    prior: 96857.12,
+    current: 100503.04,
+    prior: 114147.28,
     type: 'subtotal',
   },
   {
     id: 'expenses',
     name: 'Operating Expenses',
-    current: 59649.58,
-    prior: 67890.77,
+    current: 72046.92,
+    prior: 78069.75,
     type: 'expense',
     children: [
-      { id: 'payroll-expenses', name: 'Payroll Expenses', current: 16948.93, prior: 19247.68, type: 'expense',
+      { id: 'payroll-expenses', name: 'Payroll Expenses', current: 16627.64, prior: 30916.05, type: 'expense',
         children: [
-          { id: 'payroll-processing-fees', name: 'Payroll Processing Fees', current: 286.52, prior: 341.73, type: 'expense' },
-          { id: 'payroll-taxes-benefits', name: 'Payroll Taxes & Benefits', current: 2413.27, prior: 2684.01, type: 'expense' },
-          { id: 'salaries-wages', name: 'Salaries & Wages', current: 14249.14, prior: 16221.94, type: 'expense' },
+          { id: 'payroll-processing-fees', name: 'Payroll Processing Fees', current: 298.45, prior: 317.41, type: 'expense' },
+          { id: 'payroll-taxes-benefits', name: 'Payroll Taxes & Benefits', current: 3845.67, prior: 4282.13, type: 'expense' },
+          { id: 'salaries-wages', name: 'Salaries & Wages', current: 12483.52, prior: 26316.51, type: 'expense' },
         ]
       },
-      { id: 'direct-operating-costs', name: 'Direct Operating Costs', current: 21379.69, prior: 25018.45, type: 'expense',
+      { id: 'direct-operating-costs', name: 'Direct Operating Costs', current: 26125.78, prior: 25713.06, type: 'expense',
         children: [
-          { id: 'contract-services', name: 'Contract Services', current: 1543.28, prior: 1398.76, type: 'expense' },
-          { id: 'credit-card-fees', name: 'Credit Card Fees', current: 3977.74, prior: 4615.28, type: 'expense' },
-          { id: 'delivery-service-fees', name: 'Delivery Service Fees', current: 5241.57, prior: 5046.48, type: 'expense' },
-          { id: 'marketing-pr', name: 'Marketing & PR', current: 989.25, prior: 2098.35, type: 'expense' },
-          { id: 'repairs-maintenance', name: 'Repairs & Maintenance', current: 1150.28, prior: 1680.45, type: 'expense' },
-          { id: 'restaurant-supplies', name: 'Restaurant/Kitchen Supplies', current: 7084.03, prior: 7965.46, type: 'expense' },
+          { id: 'contract-services', name: 'Contract Services', current: 1623.45, prior: 0, type: 'expense' },
+          { id: 'credit-card-fees', name: 'Credit Card Fees', current: 4456.78, prior: 4435.46, type: 'expense' },
+          { id: 'royalty-fees', name: 'Royalty Fees', current: 7843.13, prior: 8021.74, type: 'expense' },
+          { id: 'delivery-service-fees', name: 'Delivery Service Fees', current: 5687.23, prior: 4714.76, type: 'expense' },
+          { id: 'depot-delivery-fees', name: 'Depot Delivery Fees', current: 1756.45, prior: 1885.00, type: 'expense' },
+          { id: 'restaurant-supplies', name: 'Restaurant/Kitchen Supplies', current: 4758.74, prior: 6656.10, type: 'expense' },
         ]
       },
-      { id: 'general-admin', name: 'General & Administrative', current: 3870.86, prior: 4318.56, type: 'expense',
+      { id: 'general-admin', name: 'General & Administrative', current: 4512.35, prior: 4459.15, type: 'expense',
         children: [
-          { id: 'expenses-misc', name: 'Expenses - Misc.', current: 485.35, prior: 762.18, type: 'expense' },
-          { id: 'info-technology', name: 'Information Technology', current: 988.46, prior: 1124.58, type: 'expense' },
-          { id: 'insurance-expense', name: 'Insurance Expense', current: 1892.23, prior: 1927.45, type: 'expense' },
-          { id: 'licenses-permits', name: 'Licenses & Permits', current: 125.82, prior: 145.35, type: 'expense' },
-          { id: 'professional-fees', name: 'Professional Fees', current: 379, prior: 359, type: 'expense' },
+          { id: 'expenses-misc', name: 'Expenses - Misc.', current: 645.23, prior: 0, type: 'expense' },
+          { id: 'info-technology', name: 'Information Technology', current: 1125.45, prior: 0, type: 'expense' },
+          { id: 'insurance-expense', name: 'Insurance Expense', current: 1945.67, prior: 0, type: 'expense' },
+          { id: 'licenses-permits', name: 'Licenses & Permits', current: 412.00, prior: 0, type: 'expense' },
+          { id: 'professional-fees', name: 'Professional Fees', current: 384.00, prior: 0, type: 'expense' },
         ]
       },
-      { id: 'occupancy', name: 'Occupancy', current: 17053.5, prior: 19305.08, type: 'expense',
+      { id: 'occupancy', name: 'Occupancy', current: 24781.15, prior: 16981.49, type: 'expense',
         children: [
-          { id: 'real-estate-taxes', name: 'Real Estate Taxes', current: 1857.65, prior: 3836.5, type: 'expense' },
-          { id: 'rent', name: 'Rent', current: 12000, prior: 12400, type: 'expense' },
-          { id: 'utilities', name: 'Utilities', current: 3195.85, prior: 3068.58, type: 'expense' },
+          { id: 'real-estate-taxes', name: 'Real Estate Taxes', current: 3125.45, prior: 0, type: 'expense' },
+          { id: 'rent', name: 'Rent', current: 17856.25, prior: 0, type: 'expense' },
+          { id: 'utilities', name: 'Utilities', current: 3799.45, prior: 0, type: 'expense' },
         ]
       },
     ]
@@ -711,8 +711,8 @@ const hierarchicalPnlData: PnLLineItem[] = [
   {
     id: 'net-income',
     name: 'Net Operating Income',
-    current: 17722.37,
-    prior: 28966.35,
+    current: 28456.12,
+    prior: 36077.53,
     type: 'subtotal',
   }
 ];
@@ -1494,7 +1494,7 @@ function PnLDashboard({ onInsightClick, highlightedNodeId, onHighlightClear, onT
           <h2 className="text-xl font-serif font-bold text-gray-900">P&L Dashboard</h2>
         </div>
         <div className="flex items-center gap-2 text-xs">
-          <span className="text-gray-500">September 2025 vs August 2025</span>
+          <span className="text-gray-500">November 2025 vs November 2024</span>
         </div>
       </button>
 
@@ -1571,8 +1571,8 @@ function PnLDashboard({ onInsightClick, highlightedNodeId, onHighlightClear, onT
         <div className="flex items-center px-4 py-3 bg-gray-50 border-b border-gray-100 text-xs font-medium text-gray-500 uppercase tracking-wider">
           <div className="flex-1">Line Item</div>
           <div className="flex items-center gap-6">
-            <div className="w-28 text-right">Current</div>
-            <div className="w-28 text-right">Prior</div>
+            <div className="w-28 text-right">Nov 2025</div>
+            <div className="w-28 text-right">Nov 2024</div>
             <div className="w-20 text-right">% Profit</div>
           </div>
         </div>
