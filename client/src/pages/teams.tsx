@@ -581,13 +581,13 @@ export default function Teams() {
                     />
                   </div>
                   <div className="relative">
-                    <div className="max-h-[460px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptScrolledToBottom)}>
+                    <div className="max-h-[506px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptScrolledToBottom)}>
                       {departments.filter(d => d.name.toLowerCase().includes(deptSearch.toLowerCase())).map((dept, index, arr) => (
                         <button
                           key={dept.id}
                           onClick={() => setSelectedDepartment(dept.id)}
                           className={cn(
-                            "w-full flex items-center justify-between px-6 py-3 h-14 text-left transition-colors",
+                            "w-full flex items-center justify-between px-6 h-11 text-left transition-colors",
                             selectedDepartment === dept.id
                               ? "bg-muted"
                               : "hover:bg-gray-50",
@@ -623,12 +623,12 @@ export default function Teams() {
                     />
                   </div>
                   <div className="relative">
-                    <div className="max-h-[460px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptJobScrolledToBottom)}>
+                    <div className="max-h-[506px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptJobScrolledToBottom)}>
                       {filteredJobs.filter(j => j.name.toLowerCase().includes(deptJobSearch.toLowerCase())).map((job, index, arr) => (
                         <label
                           key={job.id}
                           className={cn(
-                            "flex items-center gap-3 px-6 py-3 hover:bg-gray-50 cursor-pointer transition-colors",
+                            "flex items-center gap-3 px-6 h-11 hover:bg-gray-50 cursor-pointer transition-colors",
                             index !== arr.length - 1 && "border-b"
                           )}
                           data-testid={`label-job-${job.id}`}
@@ -638,11 +638,11 @@ export default function Teams() {
                             onCheckedChange={() => toggleJobSelection(job.id)}
                             data-testid={`checkbox-job-${job.id}`}
                           />
-                          <div>
-                            <div className="text-sm font-medium">{job.name}</div>
-                            <div className="text-xs text-muted-foreground">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">{job.name}</span>
+                            <span className="text-xs text-muted-foreground">
                               {job.payType === "salaried" ? `$${job.baseRate.toLocaleString()}/yr` : `$${job.baseRate}/hr`}
-                            </div>
+                            </span>
                           </div>
                         </label>
                       ))}
