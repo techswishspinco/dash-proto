@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearch } from "wouter";
 import Layout from "@/components/layout";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -184,6 +185,7 @@ const initialStaff: Staff[] = [
 ];
 
 export default function Teams() {
+  const searchString = useSearch();
   const [activeTab, setActiveTab] = useState<"departments" | "staff">("departments");
   const [departments, setDepartments] = useState<Department[]>(initialDepartments);
   const [jobRoles, setJobRoles] = useState<JobRole[]>(initialJobRoles);
@@ -267,6 +269,27 @@ export default function Teams() {
   const [pendingPayrollMappings, setPendingPayrollMappings] = useState<string[]>([]);
   const [posSearchQuery, setPosSearchQuery] = useState("");
   const [payrollSearchQuery, setPayrollSearchQuery] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchString);
+    const employeeSlug = params.get("employee");
+    
+    if (employeeSlug) {
+      const employeeName = employeeSlug.split("-").map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1)
+      ).join(" ");
+      
+      const foundStaff = staff.find(s => 
+        s.name.toLowerCase() === employeeName.toLowerCase()
+      );
+      
+      if (foundStaff) {
+        setActiveTab("staff");
+        setSelectedStaff(foundStaff);
+        setShowStaffDetail(true);
+      }
+    }
+  }, [searchString, staff]);
 
   // Edit job dialog
   const [showEditJobDialog, setShowEditJobDialog] = useState(false);

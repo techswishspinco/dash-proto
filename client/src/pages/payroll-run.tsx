@@ -339,7 +339,7 @@ export default function PayrollRun() {
                           <Button 
                             variant="outline" 
                             size="sm"
-                            onClick={() => setLocation(`/payroll/staff?employees=${emp.id}`)}
+                            onClick={() => setLocation(`/teams?employee=${emp.name.toLowerCase().replace(" ", "-")}`)}
                             data-testid={`button-fix-${emp.id}`}
                           >
                             Fix Issue <ChevronRight className="h-4 w-4 ml-1" />

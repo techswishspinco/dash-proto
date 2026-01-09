@@ -106,7 +106,7 @@ const mockTasks: Task[] = [
     workPage: "/payroll/run",
     steps: [
       { id: "1", label: "Review failed payroll details", completed: false, page: "/payroll/run" },
-      { id: "2", label: "Fix missing tax information", completed: false, page: "/payroll/staff?employees=f1,f2,f3" },
+      { id: "2", label: "Fix missing tax information", completed: false, page: "/teams?employee=emily-rodriguez" },
       { id: "3", label: "Re-run payroll", completed: false, page: "/payroll/run" },
     ],
   },
@@ -129,7 +129,7 @@ const mockTasks: Task[] = [
     steps: [
       { id: "1", label: "Review employee list from POS", completed: true, page: "/payroll/onboarding" },
       { id: "2", label: "Collect missing information", completed: false, page: "/payroll/onboarding" },
-      { id: "3", label: "Map employees to payroll", completed: false, page: "/payroll/staff" },
+      { id: "3", label: "Map employees to payroll", completed: false, page: "/teams" },
     ],
   },
   {
@@ -192,7 +192,7 @@ const mockTasks: Task[] = [
     steps: [
       { id: "1", label: "Identify sync errors", completed: false, page: "/payroll/home" },
       { id: "2", label: "Retry failed imports", completed: false, page: "/payroll/home" },
-      { id: "3", label: "Verify data accuracy", completed: false, page: "/payroll/staff" },
+      { id: "3", label: "Verify data accuracy", completed: false, page: "/teams" },
     ],
   },
   {
@@ -210,11 +210,11 @@ const mockTasks: Task[] = [
     company: "KOQ LLC",
     location: "NYC - Queens",
     employees: 5,
-    workPage: "/payroll/staff?employees=f3,6",
+    workPage: "/teams?employee=eric-thompson",
     steps: [
-      { id: "1", label: "Open Staff page", completed: false, page: "/payroll/staff?employees=f3,6" },
-      { id: "2", label: "Select unmapped employees at NYC - Queens", completed: false, page: "/payroll/staff?employees=f3,6" },
-      { id: "3", label: "Create payroll records", completed: false, page: "/payroll/staff?employees=f3,6" },
+      { id: "1", label: "Open Team page", completed: false, page: "/teams?employee=eric-thompson" },
+      { id: "2", label: "Select unmapped employees at NYC - Queens", completed: false, page: "/teams?employee=eric-thompson" },
+      { id: "3", label: "Create payroll records", completed: false, page: "/teams?employee=eric-thompson" },
     ],
   },
   {

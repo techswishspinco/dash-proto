@@ -125,7 +125,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <SidebarSection title="Payroll">
             <SidebarItem icon={Sparkles} label="Onboarding" href="/payroll/onboarding" />
             <SidebarItem icon={Home} label="Home" href="/payroll/home" />
-            <SidebarItem icon={Users} label="Staff" href="/payroll/staff" />
             <SidebarItem icon={FileText} label="Tax Center" href="/payroll/tax-center" />
           </SidebarSection>
         </nav>
