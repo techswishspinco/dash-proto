@@ -688,7 +688,7 @@ export default function Teams() {
               <div className="grid grid-cols-12 border-b">
                 {/* Column 1: Departments (Chain-wide) - Narrow */}
                 <div className="col-span-3 border-r">
-                  <div className="px-4 py-3 border-b bg-gray-50 flex items-center justify-between">
+                  <div className="px-4 h-11 border-b bg-gray-50 flex items-center justify-between">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Departments</span>
                     <span className="text-[10px] px-1.5 py-0.5 rounded bg-gray-200 text-gray-600">Chain-wide</span>
                   </div>
@@ -735,7 +735,7 @@ export default function Teams() {
 
                 {/* Column 2: Jobs */}
                 <div className="col-span-4 border-r">
-                  <div className="px-4 py-3 border-b bg-gray-50">
+                  <div className="px-4 h-11 border-b bg-gray-50 flex items-center">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Jobs</span>
                   </div>
                   <div className="relative border-b h-10 flex items-center">
@@ -798,7 +798,7 @@ export default function Teams() {
 
                 {/* Column 3: Staff Assignment */}
                 <div className="col-span-5">
-                  <div className="px-4 py-3 border-b bg-gray-50">
+                  <div className="px-4 h-11 border-b bg-gray-50 flex items-center">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Staff</span>
                   </div>
                   <div className="relative border-b h-10 flex items-center">
