@@ -50,7 +50,8 @@ import {
   GripVertical,
   Filter,
   Mail,
-  Eye
+  Eye,
+  Pencil
 } from "lucide-react";
 import {
   Popover,
@@ -2979,6 +2980,51 @@ export default function PnlRelease() {
     laborEfficiency: "data" as "data" | "chart"
   });
   const [healthSnapshotMode, setHealthSnapshotMode] = useState<"percentage" | "actual">("percentage");
+  
+  // Action Items State
+  const [actionItems, setActionItems] = useState([
+    { id: "ot-policy", title: "Review OT policy — 142 hours is unsustainable", owner: "GM", impact: "$1,500/mo potential", priority: "high", completed: false, completedAt: null as Date | null },
+    { id: "delivery-commission", title: "Renegotiate delivery commission with DoorDash", owner: "Owner", impact: "$400/mo potential", priority: "medium", completed: false, completedAt: null as Date | null },
+    { id: "hvac-repair", title: "Investigate HVAC repair — one-time or recurring?", owner: "GM", impact: "Budgeting clarity", priority: "low", completed: false, completedAt: null as Date | null },
+    { id: "produce-pricing", title: "Review produce supplier pricing — avocado costs up 37%", owner: "Executive Chef", impact: "$800/mo potential", priority: "medium", completed: false, completedAt: null as Date | null },
+  ]);
+  const [editingActionId, setEditingActionId] = useState<string | null>(null);
+  const [editingActionTitle, setEditingActionTitle] = useState("");
+  const [showCompletedActions, setShowCompletedActions] = useState(false);
+  const [recentlyCompleted, setRecentlyCompleted] = useState<string | null>(null);
+
+  const toggleActionComplete = (id: string) => {
+    setActionItems(prev => prev.map(item => {
+      if (item.id === id) {
+        const nowCompleted = !item.completed;
+        if (nowCompleted) {
+          setRecentlyCompleted(id);
+          setTimeout(() => setRecentlyCompleted(null), 600);
+        }
+        return { ...item, completed: nowCompleted, completedAt: nowCompleted ? new Date() : null };
+      }
+      return item;
+    }));
+  };
+
+  const startEditingAction = (id: string, title: string) => {
+    setEditingActionId(id);
+    setEditingActionTitle(title);
+  };
+
+  const saveActionEdit = () => {
+    if (editingActionId && editingActionTitle.trim()) {
+      setActionItems(prev => prev.map(item => 
+        item.id === editingActionId ? { ...item, title: editingActionTitle.trim() } : item
+      ));
+    }
+    setEditingActionId(null);
+    setEditingActionTitle("");
+  };
+
+  const activeActions = actionItems.filter(item => !item.completed);
+  const completedActions = actionItems.filter(item => item.completed);
+
   // Initialize role from URL param if viewing as owner/gm/chef, otherwise default to owner
   const [selectedRole, setSelectedRole] = useState<"owner" | "gm" | "chef">(urlRole || "owner");
   const [showFullPnl, setShowFullPnl] = useState(false);
@@ -5306,66 +5352,142 @@ export default function PnlRelease() {
 
                    {/* 7. Action Items & Recommendations */}
                    <section id="action-items" className="scroll-mt-4">
-                      <h2 className="text-xl font-serif font-bold text-gray-900 mb-4">Action Items & Recommendations</h2>
+                      <div className="flex items-center justify-between mb-4">
+                         <h2 className="text-xl font-serif font-bold text-gray-900">Action Items & Recommendations</h2>
+                         <div className="flex items-center gap-2 text-sm text-gray-500">
+                            <span className="px-2 py-1 bg-gray-100 rounded-md font-medium">{activeActions.length} active</span>
+                            {completedActions.length > 0 && (
+                               <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-md font-medium">{completedActions.length} completed</span>
+                            )}
+                         </div>
+                      </div>
 
                       <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-                         <div className="space-y-4">
-                            {/* Priority Action Item 1 */}
-                            <div data-testid="action-item-ot-policy" className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
-                               <div className="flex items-start gap-3">
-                                  <div data-testid="status-high-priority" className="h-2.5 w-2.5 rounded-full bg-red-500 mt-1.5 flex-shrink-0" />
-                                  <div>
-                                     <p data-testid="text-action-ot-policy" className="font-medium text-gray-900">Review OT policy — 142 hours is unsustainable</p>
-                                     <p className="text-sm text-gray-500">Owner: <span className="font-medium">GM</span> &nbsp;•&nbsp; Impact: $1,500/mo potential</p>
-                                  </div>
-                               </div>
-                               <button data-testid="button-assign-ot-policy" className="px-4 py-2 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                                  Assign
-                               </button>
-                            </div>
+                         <div className="space-y-3">
+                            <AnimatePresence mode="popLayout">
+                               {activeActions.map((item) => (
+                                  <motion.div
+                                     key={item.id}
+                                     layout
+                                     initial={{ opacity: 0, y: -10 }}
+                                     animate={{ 
+                                        opacity: 1, 
+                                        y: 0,
+                                        scale: recentlyCompleted === item.id ? [1, 1.02, 1] : 1
+                                     }}
+                                     exit={{ opacity: 0, x: 50, transition: { duration: 0.3 } }}
+                                     data-testid={`action-item-${item.id}`}
+                                     className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors group"
+                                  >
+                                     <button
+                                        onClick={() => toggleActionComplete(item.id)}
+                                        className={cn(
+                                           "w-5 h-5 rounded border-2 flex items-center justify-center transition-all flex-shrink-0",
+                                           "border-gray-300 hover:border-emerald-500 hover:bg-emerald-50"
+                                        )}
+                                        data-testid={`checkbox-${item.id}`}
+                                     >
+                                     </button>
+                                     <div className={cn(
+                                        "h-2.5 w-2.5 rounded-full flex-shrink-0",
+                                        item.priority === "high" ? "bg-red-500" : item.priority === "medium" ? "bg-amber-500" : "bg-emerald-500"
+                                     )} />
+                                     <div className="flex-1 min-w-0">
+                                        {editingActionId === item.id ? (
+                                           <input
+                                              type="text"
+                                              value={editingActionTitle}
+                                              onChange={(e) => setEditingActionTitle(e.target.value)}
+                                              onBlur={saveActionEdit}
+                                              onKeyDown={(e) => e.key === "Enter" && saveActionEdit()}
+                                              className="w-full font-medium text-gray-900 bg-gray-50 border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                                              autoFocus
+                                              data-testid={`input-edit-${item.id}`}
+                                           />
+                                        ) : (
+                                           <p
+                                              onClick={() => startEditingAction(item.id, item.title)}
+                                              className="font-medium text-gray-900 cursor-pointer hover:text-gray-700"
+                                              data-testid={`text-action-${item.id}`}
+                                           >
+                                              {item.title}
+                                           </p>
+                                        )}
+                                        <p className="text-sm text-gray-500">
+                                           Owner: <span className="font-medium">{item.owner}</span> &nbsp;•&nbsp; Impact: {item.impact}
+                                        </p>
+                                     </div>
+                                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button
+                                           onClick={() => startEditingAction(item.id, item.title)}
+                                           className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                           data-testid={`button-edit-${item.id}`}
+                                        >
+                                           <Pencil className="h-4 w-4" />
+                                        </button>
+                                     </div>
+                                  </motion.div>
+                               ))}
+                            </AnimatePresence>
 
-                            {/* Priority Action Item 2 */}
-                            <div data-testid="action-item-delivery-commission" className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
-                               <div className="flex items-start gap-3">
-                                  <div data-testid="status-medium-priority" className="h-2.5 w-2.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0" />
-                                  <div>
-                                     <p data-testid="text-action-delivery-commission" className="font-medium text-gray-900">Renegotiate delivery commission with DoorDash</p>
-                                     <p className="text-sm text-gray-500">Owner: <span className="font-medium">Owner</span> &nbsp;•&nbsp; Impact: $400/mo potential</p>
-                                  </div>
+                            {activeActions.length === 0 && (
+                               <div className="text-center py-8 text-gray-500">
+                                  <CheckCircle2 className="h-12 w-12 mx-auto text-emerald-300 mb-2" />
+                                  <p className="font-medium">All action items completed!</p>
                                </div>
-                               <button data-testid="button-assign-delivery-commission" className="px-4 py-2 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                                  Assign
-                               </button>
-                            </div>
-
-                            {/* Priority Action Item 3 */}
-                            <div data-testid="action-item-hvac-repair" className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
-                               <div className="flex items-start gap-3">
-                                  <div data-testid="status-low-priority" className="h-2.5 w-2.5 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0" />
-                                  <div>
-                                     <p data-testid="text-action-hvac-repair" className="font-medium text-gray-900">Investigate HVAC repair — one-time or recurring?</p>
-                                     <p className="text-sm text-gray-500">Owner: <span className="font-medium">GM</span> &nbsp;•&nbsp; Impact: Budgeting clarity</p>
-                                  </div>
-                               </div>
-                               <button data-testid="button-assign-hvac-repair" className="px-4 py-2 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                                  Assign
-                               </button>
-                            </div>
-
-                            {/* Priority Action Item 4 - Executive Chef */}
-                            <div data-testid="action-item-produce-pricing" className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
-                               <div className="flex items-start gap-3">
-                                  <div className="h-2.5 w-2.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0" />
-                                  <div>
-                                     <p data-testid="text-action-produce-pricing" className="font-medium text-gray-900">Review produce supplier pricing — avocado costs up 37%</p>
-                                     <p className="text-sm text-gray-500">Owner: <span className="font-medium">Executive Chef</span> &nbsp;•&nbsp; Impact: $800/mo potential</p>
-                                  </div>
-                               </div>
-                               <button data-testid="button-assign-produce-pricing" className="px-4 py-2 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                                  Assign
-                               </button>
-                            </div>
+                            )}
                          </div>
+
+                         {/* Completed Actions Collapsible */}
+                         {completedActions.length > 0 && (
+                            <div className="mt-6 pt-4 border-t border-gray-100">
+                               <button
+                                  onClick={() => setShowCompletedActions(!showCompletedActions)}
+                                  className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                                  data-testid="toggle-completed-actions"
+                               >
+                                  <ChevronDown className={cn("h-4 w-4 transition-transform", showCompletedActions && "rotate-180")} />
+                                  Completed ({completedActions.length})
+                               </button>
+                               <AnimatePresence>
+                                  {showCompletedActions && (
+                                     <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: "auto", opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="overflow-hidden"
+                                     >
+                                        <div className="space-y-2 mt-3">
+                                           {completedActions.map((item) => (
+                                              <motion.div
+                                                 key={item.id}
+                                                 initial={{ opacity: 0, scale: 0.95 }}
+                                                 animate={{ opacity: 1, scale: 1 }}
+                                                 className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                                                 data-testid={`completed-action-${item.id}`}
+                                              >
+                                                 <button
+                                                    onClick={() => toggleActionComplete(item.id)}
+                                                    className="w-5 h-5 rounded border-2 border-emerald-500 bg-emerald-500 flex items-center justify-center flex-shrink-0"
+                                                    data-testid={`checkbox-completed-${item.id}`}
+                                                 >
+                                                    <Check className="h-3 w-3 text-white" />
+                                                 </button>
+                                                 <div className="flex-1 min-w-0">
+                                                    <p className="font-medium text-gray-500 line-through">{item.title}</p>
+                                                    <p className="text-xs text-gray-400">
+                                                       Completed {item.completedAt ? new Date(item.completedAt).toLocaleDateString() : 'recently'}
+                                                    </p>
+                                                 </div>
+                                              </motion.div>
+                                           ))}
+                                        </div>
+                                     </motion.div>
+                                  )}
+                               </AnimatePresence>
+                            </div>
+                         )}
                       </div>
 
                       {/* Recommendation Cards */}
