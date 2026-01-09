@@ -261,6 +261,7 @@ export default function Teams() {
     name: "",
     baseRate: "",
     payType: "hourly" as "hourly" | "salaried",
+    departmentId: "",
   });
 
   const openEditJobDialog = (job: JobRole) => {
@@ -269,6 +270,7 @@ export default function Teams() {
       name: job.name,
       baseRate: job.baseRate.toString(),
       payType: job.payType,
+      departmentId: job.departmentId,
     });
     setShowEditJobDialog(true);
   };
@@ -277,7 +279,7 @@ export default function Teams() {
     if (editingJob) {
       setJobRoles(prev => prev.map(job => 
         job.id === editingJob.id 
-          ? { ...job, name: editJobForm.name, baseRate: parseFloat(editJobForm.baseRate) || 0, payType: editJobForm.payType }
+          ? { ...job, name: editJobForm.name, baseRate: parseFloat(editJobForm.baseRate) || 0, payType: editJobForm.payType, departmentId: editJobForm.departmentId }
           : job
       ));
       setShowEditJobDialog(false);
@@ -1449,6 +1451,22 @@ export default function Teams() {
                 onChange={(e) => setEditJobForm({ ...editJobForm, name: e.target.value })}
                 data-testid="input-edit-job-name"
               />
+            </div>
+            <div className="space-y-2">
+              <Label>Department</Label>
+              <Select 
+                value={editJobForm.departmentId} 
+                onValueChange={(v) => setEditJobForm({ ...editJobForm, departmentId: v })}
+              >
+                <SelectTrigger data-testid="select-edit-job-department">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {departments.map((dept) => (
+                    <SelectItem key={dept.id} value={dept.id}>{dept.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-2">
               <Label>Pay Type</Label>
