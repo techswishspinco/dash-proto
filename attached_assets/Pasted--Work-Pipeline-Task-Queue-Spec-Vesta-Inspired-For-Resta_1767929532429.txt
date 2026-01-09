@@ -1,0 +1,325 @@
+🎯 Work Pipeline / Task Queue Spec (Vesta-Inspired)
+For Restaurant Payroll & Compliance Platform
+🧩 1. Overview
+
+The Work Pipeline is a centralized task system that continuously analyzes payroll, compliance, and operational data to surface the next best action for users.
+
+It automatically creates, routes, prioritizes, and escalates tasks across roles so that users always know what to work on next — just like Vesta’s task-based workflow, where users “just do the next task rather than figuring out what to do next.”
+
+Key Goals:
+✔ Detect incomplete onboarding
+✔ Identify mapping gaps
+✔ Alert before payroll runs and tax deadlines
+✔ Surface anomalies and data issues
+✔ Prioritize tasks by urgency
+✔ Route tasks to appropriate roles
+✔ Support task resolution, reassignment, and tracking
+
+🧠 2. User Roles & Permissions
+
+Tasks are visible and actionable based on role. Roles each have tailored visibility and capabilities.
+
+Role	Sees Tasks	Can Assign	Can Resolve	Typical Priorities
+Operator	Ops & Payroll	Yes	Yes	Medium
+Manager	Ops & People	Yes	Yes	Medium
+Accountant / Bookkeeper	Finance & Compliance	Yes	Yes	High
+Internal Support	All	Yes	Yes	Highest
+Onboarding Specialist	Onboarding & Mapping	Yes	Yes	High
+🚦 3. Task Priorities
+
+Tasks are ordered by urgency and impact — particularly ensuring employees get paid on time and compliance isn’t compromised.
+
+Priority	Conditions
+Critical	Payroll errors, overdue taxes, failed/partial runs, unmapped employees
+High	Mapping gaps, upcoming deadlines (within 1 week)
+Medium	Sync and export gaps, non-critical data issues
+Low	Cleanup suggestions or optional improvements
+🧱 4. Task Types & Triggers
+
+Tasks are grouped by business condition and lifecycle stage:
+
+A) Onboarding Tasks
+
+Triggered when:
+
+Legal entity or company profile unfinished
+
+POS not mapped
+
+Pay schedule not defined
+
+Employees missing onboarding data
+
+Example:
+
+Title: Complete Employee Onboarding — 12 employees
+
+Description: 12 employees in POS not mapped to payroll.
+
+Assigned to: Onboarding Specialist / Manager
+
+Priority: High
+
+B) Mapping Tasks
+
+Triggered when:
+
+POS employee is not mapped
+
+Payroll employee record missing
+
+Location not correctly linked to legal entity
+
+Special Notes:
+
+Support grouping — e.g., one task for multiple unmapped employees at a location.
+
+C) Payroll Run Tasks
+
+Triggered:
+
+1 week before scheduled payroll
+
+On missed payroll run
+
+On failed or partial run
+
+Example:
+
+Title: Payroll in 7 days
+
+Description: Verify timesheets & exports for 2026-01-15 run.
+
+Assigned to: Manager + Accountant
+
+Priority: High
+
+D) Tax & Compliance Tasks
+
+Triggered:
+
+30 days before tax deadlines (federal/state)
+
+Missing tax registrations
+
+Overdue tax payments
+
+These tasks ensure compliance windows don’t slip through the cracks.
+
+E) Anomaly / Data Sync Tasks
+
+Triggered when:
+
+POS ↔ payroll sync fails
+
+Payroll export to accounting fails
+
+Hour mismatches detected
+
+Duplicate or invalid employee data (e.g., missing SSN)
+
+🕒 5. Escalation & Recurrence Rules
+Escalation Logic
+
+Unresolved tasks automatically rise in urgency based on time and business impact:
+
+Critical → escalates if unresolved after 24 hours
+
+High → escalates after 48–72 hours
+
+Medium → flagged after 7 days
+
+Low → flagged after 14 days
+
+Users can override priorities manually based on business context.
+
+Recurrence Behavior
+
+If underlying conditions persist:
+
+Critical tasks (like failed payroll) reappear each cycle until fixed.
+
+Other tasks remain open until resolved or manually reactivated.
+
+Example: If a run fails again next week, a fresh Critical task is generated.
+
+🔔 6. Notifications
+
+In-App Only
+
+Tasks and alerts appear in the Work Pipeline dashboard and relevant module screens:
+
+Work Queue (global task center)
+
+Payroll view (upcoming run alerts)
+
+Mapping screens
+
+Onboarding screens
+
+Tax Center
+
+Badges and indicators show counts by priority and role.
+
+🧰 7. Auto-Assignment Rules
+
+Tasks are initially routed based on role relevance:
+
+Task Type	Default Assignment
+Onboarding	Onboarding Specialist / Manager
+Mapping Errors	Manager / Accountant
+Payroll Alerts	Manager + Accountant
+Tax Alerts	Accountant
+Critical Failures	Internal Support
+
+Users can reassign tasks to any team member at any time.
+
+🧾 8. Task Information Fields (Conceptual)
+
+Each task includes these core dimensions:
+
+Task Title
+
+Description / Business context
+
+Type (Onboarding, Mapping, Payroll, Tax, Anomaly)
+
+Priority (Critical, High, Medium, Low)
+
+Status (Open, In Progress, Snoozed, Resolved)
+
+Who it’s assigned to
+
+When it was created
+
+Due date
+
+Related business items (company, location, employees, payroll run)
+
+In-app notifications
+
+Escalation history
+
+🧠 9. Decision Rules for Task Creation
+
+Rather than code, think of these as business conditions that trigger tasks:
+
+When payroll schedule exists and next run is 7 days away → create a Payroll Reminder task.
+
+When an employee appears in POS without a payroll mapping → create a Mapping Gap task.
+
+When sync errors occur between systems → create an Anomaly task.
+
+When 30 days remain on a tax deadline → create a Tax Reminder task.
+
+This mirrors Vesta’s rules-based workflow that automatically creates and prioritizes tasks based on business logic.
+
+🖼️ 10. Wireframe-Ready Screen Map (Non-Technical)
+A) Work Queue Dashboard
+
+Purpose: Central control center showing all tasks relevant to the user.
+
+Sections:
+
+Header: Search, global filters
+
+Status Tabs: Open | In Progress | Snoozed | Resolved
+
+Filter Bar:
+
+Priority
+
+Role
+
+Type
+
+Search box
+
+Task List:
+
+Cards grouped by priority
+
+Clear labels, due dates, assigned users
+
+Badge Counts:
+
+Displays counts per role and priority
+
+B) Task Detail Panel
+
+Purpose: Full task context and resolution actions.
+
+Sections:
+
+Title & priority indicator
+
+Full description and business context
+
+Related items (company, location, employee, payroll run)
+
+Assigned users (editable)
+
+Action buttons: Resolve | Reassign | Snooze
+
+Audit trail showing history of updates
+
+C) Quick Task Preview
+
+Purpose: Inline task preview from other screens (e.g., Payroll or Mapping) with “View Task” link.
+
+D) Onboarding & Mapping Helper Screens
+
+Purpose: Show tasks in context when working in their respective modules.
+
+E) Navigation
+Main Menu
+├ Payroll
+├ Onboarding
+├ Mapping
+├ Tax Center
+├ Work Queue
+|   ├ Open
+|   ├ By Priority
+|   ├ By Role
+|   ├ Filters
+└ Settings
+
+📌 11. Priority Actions & UI Expectations
+Priority	Visual Cue	Suggested Actions
+Critical	🔴 Red	Resolve now, Escalate, Reassign
+High	🟠 Orange	Resolve soon, Assign
+Medium	🟡 Yellow	Review, Snooze, Resolve
+Low	🟢 Green	Informational, Optional
+📦 12. Example Tasks
+
+Critical
+
+Payroll run failed for 2026-01-08
+Assigned: Support + Accountant
+
+High
+
+7 days until next payroll run
+Assigned: Manager + Accountant
+
+Medium
+
+POS ↔ payroll sync incomplete
+Assigned: Manager
+
+📌 13. Design & Operations Notes
+UI
+
+Must support filters per role and task type
+
+Provide badges and intuitive priority visuals
+
+Backend / Rules
+
+Rule engine detects business conditions and surfaces tasks
+
+Escalation system reprioritizes tasks over time
+
+Metrics & Analytics
+
+Dashboards showing task trends and SLA compliance

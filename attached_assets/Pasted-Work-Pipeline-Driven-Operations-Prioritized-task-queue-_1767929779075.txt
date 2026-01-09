@@ -1,0 +1,47 @@
+Work Pipeline–Driven Operations
+
+Prioritized task queue
+Operators, managers, accountants, and support teams work from a single, role-aware task queue instead of navigating payroll runs, onboarding screens, or compliance reports. The system always surfaces the next best action—so teams focus on execution, not discovery.
+
+Automated, role-based task routing
+Tasks are automatically created, assigned, prioritized, and escalated based on payroll schedules, compliance deadlines, onboarding status, and data integrity—ensuring the right work reaches the right role at the right time.
+
+Intelligent & Configurable by Design
+
+Rules-based logic (no code required)
+Define task triggers and workflows using business conditions like upcoming payroll runs, missing employee mappings, failed syncs, or tax deadlines—without engineering involvement.
+
+Productized integrations
+Connect POS, payroll, accounting, and tax systems quickly with API keys. The platform continuously monitors these integrations to detect gaps, failures, and mismatches.
+
+Extensible operational schema
+Add custom fields and calculations—such as pay schedules, location mappings, compliance attributes, or onboarding states—that behave like native system data and drive task creation.
+
+Payroll Accuracy & Compliance Control
+
+Preventative quality checks
+The platform blocks payroll runs and compliance actions when critical data is missing, inconsistent, or non-compliant—surfacing clear tasks to resolve issues before employees or agencies are impacted.
+
+Native automations
+Automatically generate payroll reminders, mapping tasks, tax alerts, and anomaly investigations—eliminating manual checklists and last-minute fire drills.
+
+Team Collaboration & Accountability
+
+Multiplayer task resolution
+Managers, accountants, onboarding specialists, and support can work simultaneously across the same company, location, or payroll run—with shared visibility into task status and ownership.
+
+Complete audit trail
+Every task action and data change is logged by user, timestamp, and context—providing full traceability across payroll, onboarding, and compliance workflows.
+
+Speed, Focus & Operational Clarity
+
+Global work queue navigation
+Instantly search and filter tasks by priority, role, type, company, location, or payroll run—so users always know what’s urgent and why.
+
+Built for payroll-critical performance
+Fast-loading dashboards, stable integrations, and predictable task execution—designed to hold up during payroll windows, tax deadlines, and onboarding spikes.
+
+Core Promise
+
+Restaurant teams shouldn’t have to remember what to do next.
+The Work Pipeline continuously watches the business and tells each user exactly what needs attention—before payroll breaks, deadlines are missed, or compliance slips.
