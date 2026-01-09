@@ -3069,7 +3069,7 @@ export default function PnlRelease() {
     });
   };
 
-  const addRecipient = () => {
+  const addAssignRecipient = () => {
     if (assignModal.newEmail.trim() && assignModal.newEmail.includes("@")) {
       setAssignModal(prev => ({
         ...prev,
@@ -3079,7 +3079,7 @@ export default function PnlRelease() {
     }
   };
 
-  const removeRecipient = (email: string) => {
+  const removeAssignRecipient = (email: string) => {
     setAssignModal(prev => ({
       ...prev,
       recipients: prev.recipients.filter(r => r !== email)
@@ -5627,7 +5627,7 @@ export default function PnlRelease() {
                                               >
                                                  {email}
                                                  <button
-                                                    onClick={() => removeRecipient(email)}
+                                                    onClick={() => removeAssignRecipient(email)}
                                                     className="p-0.5 hover:bg-gray-200 rounded-full transition-colors"
                                                  >
                                                     <X className="h-3.5 w-3.5" />
@@ -5640,12 +5640,12 @@ export default function PnlRelease() {
                                               type="email"
                                               value={assignModal.newEmail}
                                               onChange={(e) => setAssignModal(prev => ({ ...prev, newEmail: e.target.value }))}
-                                              onKeyDown={(e) => e.key === "Enter" && addRecipient()}
+                                              onKeyDown={(e) => e.key === "Enter" && addAssignRecipient()}
                                               placeholder="Add email address..."
                                               className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
                                            />
                                            <button
-                                              onClick={addRecipient}
+                                              onClick={addAssignRecipient}
                                               className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
                                            >
                                               <Plus className="h-4 w-4" />
