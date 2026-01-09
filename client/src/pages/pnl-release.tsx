@@ -4417,21 +4417,19 @@ export default function PnlRelease() {
                       <div className="flex items-center justify-between mb-1">
                          <h2 className="text-xl font-serif font-bold text-gray-900">Health Snapshot</h2>
                          <div className="flex items-center gap-3">
-                            <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-0.5">
-                               <button 
-                                  onClick={() => setHealthSnapshotMode("percentage")}
-                                  className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", healthSnapshotMode === "percentage" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700")}
-                                  data-testid="toggle-health-percentage"
+                            <div className="flex items-center gap-2">
+                               <span className={cn("text-xs font-medium transition-colors", healthSnapshotMode === "percentage" ? "text-gray-900" : "text-gray-400")}>%</span>
+                               <button
+                                  onClick={() => setHealthSnapshotMode(healthSnapshotMode === "percentage" ? "actual" : "percentage")}
+                                  className="relative w-11 h-6 bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-1"
+                                  data-testid="toggle-health-switch"
                                >
-                                  % Income
+                                  <span className={cn(
+                                     "absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200",
+                                     healthSnapshotMode === "actual" && "translate-x-5"
+                                  )} />
                                </button>
-                               <button 
-                                  onClick={() => setHealthSnapshotMode("actual")}
-                                  className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", healthSnapshotMode === "actual" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700")}
-                                  data-testid="toggle-health-actual"
-                               >
-                                  Actual $
-                               </button>
+                               <span className={cn("text-xs font-medium transition-colors", healthSnapshotMode === "actual" ? "text-gray-900" : "text-gray-400")}>$</span>
                             </div>
                             <button 
                                data-testid="learn-health-snapshot"
