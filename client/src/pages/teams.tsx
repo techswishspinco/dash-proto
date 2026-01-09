@@ -508,8 +508,14 @@ export default function Teams() {
   };
 
   const confirmAddPOSMapping = () => {
-    if (pendingPOSMappings.length > 0) {
-      pendingPOSMappings.forEach(id => addPOSMapping(id));
+    if (pendingPOSMappings.length > 0 && selectedStaff) {
+      const newPosIds = [...selectedStaff.posEmployeeIds, ...pendingPOSMappings.filter(id => !selectedStaff.posEmployeeIds.includes(id))];
+      setStaff(staff.map(s => 
+        s.id === selectedStaff.id 
+          ? { ...s, posEmployeeIds: newPosIds }
+          : s
+      ));
+      setSelectedStaff({ ...selectedStaff, posEmployeeIds: newPosIds });
       setPendingPOSMappings([]);
       setPosSearchQuery("");
       setShowAddPOSMappingDialog(false);
@@ -517,8 +523,14 @@ export default function Teams() {
   };
 
   const confirmAddPayrollMapping = () => {
-    if (pendingPayrollMappings.length > 0) {
-      pendingPayrollMappings.forEach(id => addPayrollMapping(id));
+    if (pendingPayrollMappings.length > 0 && selectedStaff) {
+      const newPayrollIds = [...selectedStaff.payrollEmployeeIds, ...pendingPayrollMappings.filter(id => !selectedStaff.payrollEmployeeIds.includes(id))];
+      setStaff(staff.map(s => 
+        s.id === selectedStaff.id 
+          ? { ...s, payrollEmployeeIds: newPayrollIds }
+          : s
+      ));
+      setSelectedStaff({ ...selectedStaff, payrollEmployeeIds: newPayrollIds });
       setPendingPayrollMappings([]);
       setPayrollSearchQuery("");
       setShowAddPayrollMappingDialog(false);
@@ -1120,13 +1132,16 @@ export default function Teams() {
                           const posEmp = getPOSEmployee(posId);
                           return (
                             <div key={posId} className="flex items-center justify-between px-4 py-3">
-                              <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                              <div className="flex items-center gap-3 min-w-0 flex-1">
+                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
                                   <Link2 className="h-4 w-4 text-blue-600" />
                                 </div>
-                                <div>
-                                  <div className="text-sm font-medium">{posEmp?.name}</div>
-                                  <div className="text-xs text-muted-foreground">{posEmp?.posSystem}</div>
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-medium">{posEmp?.name}</span>
+                                    <span className="text-xs text-blue-600 px-1.5 py-0.5 bg-blue-50 rounded">{posEmp?.posSystem}</span>
+                                  </div>
+                                  <div className="text-xs text-muted-foreground truncate">{posEmp?.email}</div>
                                 </div>
                               </div>
                               <button
@@ -1188,13 +1203,16 @@ export default function Teams() {
                           const payrollEmp = getPayrollEmployee(payrollId);
                           return (
                             <div key={payrollId} className="flex items-center justify-between px-4 py-3">
-                              <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                              <div className="flex items-center gap-3 min-w-0 flex-1">
+                                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
                                   <Link2 className="h-4 w-4 text-emerald-600" />
                                 </div>
-                                <div>
-                                  <div className="text-sm font-medium">{payrollEmp?.name}</div>
-                                  <div className="text-xs text-muted-foreground">{payrollEmp?.payrollSystem}</div>
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-medium">{payrollEmp?.name}</span>
+                                    <span className="text-xs text-emerald-600 px-1.5 py-0.5 bg-emerald-50 rounded truncate max-w-32">{payrollEmp?.payrollSystem}</span>
+                                  </div>
+                                  <div className="text-xs text-muted-foreground truncate">{payrollEmp?.email}</div>
                                 </div>
                               </div>
                               <button
