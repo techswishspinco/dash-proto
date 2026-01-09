@@ -567,10 +567,40 @@ export default function Teams() {
             <span className="font-serif text-2xl font-medium" data-testid="text-page-title">Team</span>
           </div>
           
-          <div className="flex items-center gap-8">
-            {/* Location Dropdown */}
+          <div className="flex gap-6 text-sm font-medium">
+            <button
+              onClick={() => setActiveTab("departments")}
+              className={cn(
+                "pb-1 transition-colors",
+                activeTab === "departments"
+                  ? "text-foreground border-b-2 border-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+              data-testid="tab-departments"
+            >
+              Departments
+            </button>
+            <button
+              onClick={() => setActiveTab("staff")}
+              className={cn(
+                "pb-1 transition-colors",
+                activeTab === "staff"
+                  ? "text-foreground border-b-2 border-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+              data-testid="tab-staff"
+            >
+              Staff
+            </button>
+          </div>
+        </div>
+
+        {activeTab === "departments" && (
+        <div className="space-y-6">
+          {/* Location Selector & Action Buttons */}
+          <div className="flex items-center justify-between">
             <Select value={jobAssignmentLocation} onValueChange={setJobAssignmentLocation}>
-              <SelectTrigger className="w-auto border-0 shadow-none text-sm text-muted-foreground hover:text-foreground gap-1 p-0 h-auto" data-testid="select-location-header">
+              <SelectTrigger className="w-48 bg-white" data-testid="select-location-main">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -579,60 +609,26 @@ export default function Teams() {
                 ))}
               </SelectContent>
             </Select>
-            
-            <div className="flex gap-6 text-sm font-medium">
-              <button
-                onClick={() => setActiveTab("departments")}
-                className={cn(
-                  "pb-1 transition-colors",
-                  activeTab === "departments"
-                    ? "text-foreground border-b-2 border-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-                data-testid="tab-departments"
+            <div className="flex items-center gap-2">
+              <Button
+                className="gap-1.5 bg-[#1a1a1a] hover:bg-[#333] text-white"
+                size="sm"
+                onClick={() => setShowAddDepartmentSheet(true)}
+                data-testid="button-add-department"
               >
-                Departments
-              </button>
-              <button
-                onClick={() => setActiveTab("staff")}
-                className={cn(
-                  "pb-1 transition-colors",
-                  activeTab === "staff"
-                    ? "text-foreground border-b-2 border-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-                data-testid="tab-staff"
+                <Plus className="h-4 w-4" />
+                Add Department
+              </Button>
+              <Button
+                className="gap-1.5 bg-[#1a1a1a] hover:bg-[#333] text-white"
+                size="sm"
+                onClick={() => setShowAddJobSheet(true)}
+                data-testid="button-add-job-role"
               >
-                Staff
-              </button>
+                <Plus className="h-4 w-4" />
+                Add Job Role
+              </Button>
             </div>
-          </div>
-        </div>
-
-        {activeTab === "departments" && (
-        <div className="space-y-6">
-          {/* Action Buttons */}
-          <div className="flex items-center justify-end gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => setShowAddDepartmentSheet(true)}
-              data-testid="button-add-department"
-            >
-              <Plus className="h-4 w-4" />
-              Add Department
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => setShowAddJobSheet(true)}
-              data-testid="button-add-job-role"
-            >
-              <Plus className="h-4 w-4" />
-              Add Job Role
-            </Button>
           </div>
 
           {/* Unified 3-Column Layout */}
