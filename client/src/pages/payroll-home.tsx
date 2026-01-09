@@ -527,7 +527,7 @@ export default function PayrollHome() {
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-base flex items-center gap-2">
                       <Zap className="h-4 w-4" />
-                      Auto Import
+                      Action Needed
                     </CardTitle>
                     <Button 
                       size="sm"
@@ -662,13 +662,13 @@ export default function PayrollHome() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Banknote className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                  <Zap className="h-4 w-4 mt-0.5 text-muted-foreground" />
                   <div>
                     <div className="font-medium flex items-center gap-2">
-                      {isEntityComplete ? "Running in app" : "Setup incomplete"}
-                      <div className={cn("h-2 w-2 rounded-full", isEntityComplete ? "bg-emerald-500" : "bg-amber-500")} />
+                      {canEnableAutoImport ? "Ready to enable" : "Pending approval"}
+                      <div className={cn("h-2 w-2 rounded-full", canEnableAutoImport ? "bg-emerald-500" : "bg-amber-500")} />
                     </div>
-                    <div className="text-muted-foreground">Payroll Status</div>
+                    <div className="text-muted-foreground">Auto Import Status</div>
                   </div>
                 </div>
               </CardContent>
