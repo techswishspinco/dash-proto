@@ -505,6 +505,68 @@ const tocSections = [
   { id: "accountant-note", label: "Accountant Note" },
 ];
 
+// --- State Prime Cost Benchmarks ---
+interface StateBenchmark {
+  code: string;
+  name: string;
+  primeCost: number;
+  foodCost: number;
+  laborCost: number;
+}
+
+const stateBenchmarks: StateBenchmark[] = [
+  { code: "AL", name: "Alabama", primeCost: 58.5, foodCost: 30.0, laborCost: 28.5 },
+  { code: "AK", name: "Alaska", primeCost: 64.0, foodCost: 34.0, laborCost: 30.0 },
+  { code: "AZ", name: "Arizona", primeCost: 60.5, foodCost: 31.5, laborCost: 29.0 },
+  { code: "AR", name: "Arkansas", primeCost: 57.5, foodCost: 29.5, laborCost: 28.0 },
+  { code: "CA", name: "California", primeCost: 65.0, foodCost: 33.0, laborCost: 32.0 },
+  { code: "CO", name: "Colorado", primeCost: 61.5, foodCost: 31.0, laborCost: 30.5 },
+  { code: "CT", name: "Connecticut", primeCost: 63.0, foodCost: 32.0, laborCost: 31.0 },
+  { code: "DE", name: "Delaware", primeCost: 60.0, foodCost: 31.0, laborCost: 29.0 },
+  { code: "FL", name: "Florida", primeCost: 59.5, foodCost: 30.5, laborCost: 29.0 },
+  { code: "GA", name: "Georgia", primeCost: 59.0, foodCost: 30.0, laborCost: 29.0 },
+  { code: "HI", name: "Hawaii", primeCost: 66.0, foodCost: 36.0, laborCost: 30.0 },
+  { code: "ID", name: "Idaho", primeCost: 58.0, foodCost: 30.0, laborCost: 28.0 },
+  { code: "IL", name: "Illinois", primeCost: 62.0, foodCost: 31.5, laborCost: 30.5 },
+  { code: "IN", name: "Indiana", primeCost: 58.5, foodCost: 30.0, laborCost: 28.5 },
+  { code: "IA", name: "Iowa", primeCost: 57.5, foodCost: 29.5, laborCost: 28.0 },
+  { code: "KS", name: "Kansas", primeCost: 58.0, foodCost: 30.0, laborCost: 28.0 },
+  { code: "KY", name: "Kentucky", primeCost: 58.0, foodCost: 29.5, laborCost: 28.5 },
+  { code: "LA", name: "Louisiana", primeCost: 59.0, foodCost: 30.5, laborCost: 28.5 },
+  { code: "ME", name: "Maine", primeCost: 60.5, foodCost: 31.5, laborCost: 29.0 },
+  { code: "MD", name: "Maryland", primeCost: 62.0, foodCost: 31.5, laborCost: 30.5 },
+  { code: "MA", name: "Massachusetts", primeCost: 64.0, foodCost: 32.5, laborCost: 31.5 },
+  { code: "MI", name: "Michigan", primeCost: 59.5, foodCost: 30.5, laborCost: 29.0 },
+  { code: "MN", name: "Minnesota", primeCost: 60.0, foodCost: 30.5, laborCost: 29.5 },
+  { code: "MS", name: "Mississippi", primeCost: 57.0, foodCost: 29.0, laborCost: 28.0 },
+  { code: "MO", name: "Missouri", primeCost: 58.5, foodCost: 30.0, laborCost: 28.5 },
+  { code: "MT", name: "Montana", primeCost: 59.0, foodCost: 31.0, laborCost: 28.0 },
+  { code: "NE", name: "Nebraska", primeCost: 58.0, foodCost: 30.0, laborCost: 28.0 },
+  { code: "NV", name: "Nevada", primeCost: 61.0, foodCost: 31.0, laborCost: 30.0 },
+  { code: "NH", name: "New Hampshire", primeCost: 61.0, foodCost: 31.5, laborCost: 29.5 },
+  { code: "NJ", name: "New Jersey", primeCost: 63.5, foodCost: 32.0, laborCost: 31.5 },
+  { code: "NM", name: "New Mexico", primeCost: 59.0, foodCost: 30.5, laborCost: 28.5 },
+  { code: "NY", name: "New York", primeCost: 64.5, foodCost: 32.5, laborCost: 32.0 },
+  { code: "NC", name: "North Carolina", primeCost: 59.0, foodCost: 30.0, laborCost: 29.0 },
+  { code: "ND", name: "North Dakota", primeCost: 58.0, foodCost: 30.0, laborCost: 28.0 },
+  { code: "OH", name: "Ohio", primeCost: 59.0, foodCost: 30.0, laborCost: 29.0 },
+  { code: "OK", name: "Oklahoma", primeCost: 57.5, foodCost: 29.5, laborCost: 28.0 },
+  { code: "OR", name: "Oregon", primeCost: 62.5, foodCost: 31.5, laborCost: 31.0 },
+  { code: "PA", name: "Pennsylvania", primeCost: 61.0, foodCost: 31.0, laborCost: 30.0 },
+  { code: "RI", name: "Rhode Island", primeCost: 62.0, foodCost: 31.5, laborCost: 30.5 },
+  { code: "SC", name: "South Carolina", primeCost: 58.5, foodCost: 30.0, laborCost: 28.5 },
+  { code: "SD", name: "South Dakota", primeCost: 57.5, foodCost: 29.5, laborCost: 28.0 },
+  { code: "TN", name: "Tennessee", primeCost: 58.5, foodCost: 30.0, laborCost: 28.5 },
+  { code: "TX", name: "Texas", primeCost: 59.5, foodCost: 30.5, laborCost: 29.0 },
+  { code: "UT", name: "Utah", primeCost: 59.0, foodCost: 30.5, laborCost: 28.5 },
+  { code: "VT", name: "Vermont", primeCost: 61.0, foodCost: 32.0, laborCost: 29.0 },
+  { code: "VA", name: "Virginia", primeCost: 60.5, foodCost: 31.0, laborCost: 29.5 },
+  { code: "WA", name: "Washington", primeCost: 63.5, foodCost: 32.0, laborCost: 31.5 },
+  { code: "WV", name: "West Virginia", primeCost: 57.5, foodCost: 29.5, laborCost: 28.0 },
+  { code: "WI", name: "Wisconsin", primeCost: 59.0, foodCost: 30.0, laborCost: 29.0 },
+  { code: "WY", name: "Wyoming", primeCost: 58.5, foodCost: 30.5, laborCost: 28.0 },
+];
+
 // --- Hierarchical P&L Data with Variance Flagging ---
 type VarianceLevel = 'critical' | 'attention' | 'favorable' | 'normal';
 type LineItemType = 'revenue' | 'expense' | 'subtotal';
@@ -2818,8 +2880,12 @@ export default function PnlRelease() {
   const [activeTab, setActiveTab] = useState<"detailed" | "curated">("detailed");
   const [activeSection, setActiveSection] = useState<string>("executive-narrative");
   const [tocDropdownOpen, setTocDropdownOpen] = useState(false);
+  const [selectedState, setSelectedState] = useState<StateBenchmark | null>(null);
+  const [stateDropdownOpen, setStateDropdownOpen] = useState(false);
+  const [stateSearchQuery, setStateSearchQuery] = useState("");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const tocDropdownRef = useRef<HTMLDivElement>(null);
+  const stateDropdownRef = useRef<HTMLDivElement>(null);
 
   // Close TOC dropdown on outside click
   useEffect(() => {
@@ -2833,6 +2899,20 @@ export default function PnlRelease() {
       return () => document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [tocDropdownOpen]);
+
+  // Close state dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (stateDropdownRef.current && !stateDropdownRef.current.contains(event.target as Node)) {
+        setStateDropdownOpen(false);
+        setStateSearchQuery("");
+      }
+    };
+    if (stateDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [stateDropdownOpen]);
 
   // Release Data State
   const [headline, setHeadline] = useState("Net operating income dropped 38.8% to $17.7K as revenue declined 13.8%. Operating costs improved by 12.1%.");
@@ -4446,17 +4526,193 @@ export default function PnlRelease() {
                    <section id="prime-cost-analysis" className="scroll-mt-4">
                       <div className="flex items-center justify-between mb-1">
                          <h2 className="text-xl font-serif font-bold text-gray-900">Prime Cost Analysis</h2>
-                         <button 
-                            data-testid="learn-prime-cost"
-                            onClick={() => handleInsightClick("What is prime cost and why is it the most important metric in restaurant P&L? Explain how to calculate it and what's a healthy target.")}
-                            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-lg transition-colors"
-                            title="Learn about Prime Cost"
-                         >
-                            <Lightbulb className="h-3.5 w-3.5" />
-                            Learn
-                         </button>
+                         <div className="flex items-center gap-2">
+                            {/* State Benchmark Selector */}
+                            <div ref={stateDropdownRef} className="relative">
+                               <button
+                                  data-testid="state-selector-btn"
+                                  onClick={() => setStateDropdownOpen(!stateDropdownOpen)}
+                                  className={cn(
+                                     "flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors",
+                                     selectedState 
+                                        ? "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
+                                        : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
+                                  )}
+                               >
+                                  <Target className="h-3.5 w-3.5" />
+                                  {selectedState ? selectedState.code : "Select State"}
+                                  <ChevronDown className={cn(
+                                     "h-3 w-3 transition-transform duration-150",
+                                     stateDropdownOpen && "rotate-180"
+                                  )} />
+                               </button>
+                               
+                               {/* State Dropdown */}
+                               {stateDropdownOpen && (
+                                  <div className="absolute right-0 top-full mt-1 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                                     <div className="px-3 pb-2 border-b border-gray-100">
+                                        <div className="relative">
+                                           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
+                                           <input
+                                              type="text"
+                                              placeholder="Search states..."
+                                              value={stateSearchQuery}
+                                              onChange={(e) => setStateSearchQuery(e.target.value)}
+                                              className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                              autoFocus
+                                           />
+                                        </div>
+                                     </div>
+                                     <div className="max-h-48 overflow-y-auto">
+                                        {stateBenchmarks
+                                           .filter(s => 
+                                              s.name.toLowerCase().includes(stateSearchQuery.toLowerCase()) ||
+                                              s.code.toLowerCase().includes(stateSearchQuery.toLowerCase())
+                                           )
+                                           .map((state) => (
+                                              <button
+                                                 key={state.code}
+                                                 data-testid={`state-option-${state.code}`}
+                                                 onClick={() => {
+                                                    setSelectedState(state);
+                                                    setStateDropdownOpen(false);
+                                                    setStateSearchQuery("");
+                                                 }}
+                                                 className={cn(
+                                                    "w-full text-left px-3 py-2 text-sm flex items-center justify-between hover:bg-gray-50 transition-colors",
+                                                    selectedState?.code === state.code && "bg-blue-50 text-blue-700"
+                                                 )}
+                                              >
+                                                 <span>{state.name}</span>
+                                                 <span className="text-gray-400 text-xs">{state.code}</span>
+                                              </button>
+                                           ))
+                                        }
+                                     </div>
+                                  </div>
+                               )}
+                            </div>
+                            
+                            {/* Info Tooltip */}
+                            <div className="relative group">
+                               <button className="p-1.5 text-gray-400 hover:text-gray-600 rounded-md hover:bg-gray-100 transition-colors">
+                                  <HelpCircle className="h-4 w-4" />
+                               </button>
+                               <div className="absolute right-0 top-full mt-1 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50 shadow-lg">
+                                  Prime cost benchmarks vary by state based on regional labor costs and food pricing. Select your state to compare your performance against industry standards.
+                               </div>
+                            </div>
+                            
+                            <button 
+                               data-testid="learn-prime-cost"
+                               onClick={() => handleInsightClick("What is prime cost and why is it the most important metric in restaurant P&L? Explain how to calculate it and what's a healthy target.")}
+                               className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-lg transition-colors"
+                               title="Learn about Prime Cost"
+                            >
+                               <Lightbulb className="h-3.5 w-3.5" />
+                               Learn
+                            </button>
+                         </div>
                       </div>
                       <p className="text-sm text-muted-foreground mb-4">The heart of the P&L</p>
+
+                      {/* State Benchmark Comparison */}
+                      {selectedState && (
+                         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 mb-6">
+                            <div className="flex items-center justify-between mb-3">
+                               <div className="flex items-center gap-2">
+                                  <div className="h-8 w-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                                     <Target className="h-4 w-4 text-blue-600" />
+                                  </div>
+                                  <div>
+                                     <h4 className="font-semibold text-gray-900">{selectedState.name} Industry Benchmark</h4>
+                                     <p className="text-xs text-gray-500">Restaurant prime cost standard</p>
+                                  </div>
+                               </div>
+                               <button 
+                                  onClick={() => setSelectedState(null)}
+                                  className="p-1 hover:bg-blue-100 rounded transition-colors"
+                               >
+                                  <X className="h-4 w-4 text-gray-400" />
+                               </button>
+                            </div>
+                            
+                            <div className="grid grid-cols-3 gap-4 mb-4">
+                               <div className="bg-white rounded-lg p-3 border border-blue-100">
+                                  <p className="text-xs text-gray-500 mb-1">Food Cost</p>
+                                  <p className="text-lg font-bold text-gray-900">{selectedState.foodCost}%</p>
+                               </div>
+                               <div className="bg-white rounded-lg p-3 border border-blue-100">
+                                  <p className="text-xs text-gray-500 mb-1">Labor Cost</p>
+                                  <p className="text-lg font-bold text-gray-900">{selectedState.laborCost}%</p>
+                               </div>
+                               <div className="bg-white rounded-lg p-3 border border-blue-100">
+                                  <p className="text-xs text-gray-500 mb-1">Prime Cost</p>
+                                  <p className="text-lg font-bold text-gray-900">{selectedState.primeCost}%</p>
+                               </div>
+                            </div>
+                            
+                            {/* Comparison with actual */}
+                            {(() => {
+                               const actualPrimeCost = 62.1;
+                               const diff = actualPrimeCost - selectedState.primeCost;
+                               const isOnTrack = diff <= 0;
+                               const isClose = Math.abs(diff) <= 2;
+                               
+                               return (
+                                  <div className={cn(
+                                     "flex items-center justify-between p-3 rounded-lg",
+                                     isOnTrack ? "bg-emerald-50 border border-emerald-200" :
+                                     isClose ? "bg-amber-50 border border-amber-200" :
+                                     "bg-red-50 border border-red-200"
+                                  )}>
+                                     <div className="flex items-center gap-3">
+                                        <div className={cn(
+                                           "h-8 w-8 rounded-full flex items-center justify-center",
+                                           isOnTrack ? "bg-emerald-100" :
+                                           isClose ? "bg-amber-100" :
+                                           "bg-red-100"
+                                        )}>
+                                           {isOnTrack ? (
+                                              <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                                           ) : isClose ? (
+                                              <AlertTriangle className="h-4 w-4 text-amber-600" />
+                                           ) : (
+                                              <AlertTriangle className="h-4 w-4 text-red-600" />
+                                           )}
+                                        </div>
+                                        <div>
+                                           <p className={cn(
+                                              "font-medium text-sm",
+                                              isOnTrack ? "text-emerald-800" :
+                                              isClose ? "text-amber-800" :
+                                              "text-red-800"
+                                           )}>
+                                              {isOnTrack ? "Below State Benchmark" :
+                                               isClose ? "Slightly Above Benchmark" :
+                                               "Above State Benchmark"}
+                                           </p>
+                                           <p className="text-xs text-gray-600">
+                                              Your actual: 62.1% vs {selectedState.code} benchmark: {selectedState.primeCost}%
+                                           </p>
+                                        </div>
+                                     </div>
+                                     <div className={cn(
+                                        "text-right",
+                                        isOnTrack ? "text-emerald-700" :
+                                        isClose ? "text-amber-700" :
+                                        "text-red-700"
+                                     )}>
+                                        <span className="text-lg font-bold">
+                                           {diff > 0 ? "+" : ""}{diff.toFixed(1)}%
+                                        </span>
+                                        <p className="text-xs">variance</p>
+                                     </div>
+                                  </div>
+                               );
+                            })()}
+                         </div>
+                      )}
 
                       {/* AI Insight */}
                       <div className="bg-gray-50 border-l-4 border-gray-400 p-4 mb-6 flex gap-3">
