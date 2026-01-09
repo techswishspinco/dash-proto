@@ -129,7 +129,7 @@ const mockTasks: Task[] = [
     steps: [
       { id: "1", label: "Review employee list from POS", completed: true, page: "/payroll/onboarding" },
       { id: "2", label: "Collect missing information", completed: false, page: "/payroll/onboarding" },
-      { id: "3", label: "Map employees to payroll", completed: false, page: "/payroll/mapping" },
+      { id: "3", label: "Map employees to payroll", completed: false, page: "/payroll/staff" },
     ],
   },
   {
@@ -192,7 +192,7 @@ const mockTasks: Task[] = [
     steps: [
       { id: "1", label: "Identify sync errors", completed: false, page: "/payroll/home" },
       { id: "2", label: "Retry failed imports", completed: false, page: "/payroll/home" },
-      { id: "3", label: "Verify data accuracy", completed: false, page: "/payroll/mapping" },
+      { id: "3", label: "Verify data accuracy", completed: false, page: "/payroll/staff" },
     ],
   },
   {
@@ -210,11 +210,11 @@ const mockTasks: Task[] = [
     company: "KOQ LLC",
     location: "NYC - Queens",
     employees: 5,
-    workPage: "/payroll/mapping",
+    workPage: "/payroll/staff",
     steps: [
-      { id: "1", label: "Open Mapping screen", completed: false, page: "/payroll/mapping" },
-      { id: "2", label: "Select unmapped employees at NYC - Queens", completed: false, page: "/payroll/mapping" },
-      { id: "3", label: "Create payroll records", completed: false, page: "/payroll/mapping" },
+      { id: "1", label: "Open Staff page", completed: false, page: "/payroll/staff" },
+      { id: "2", label: "Select unmapped employees at NYC - Queens", completed: false, page: "/payroll/staff" },
+      { id: "3", label: "Create payroll records", completed: false, page: "/payroll/staff" },
     ],
   },
   {
