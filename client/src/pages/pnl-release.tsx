@@ -3010,6 +3010,7 @@ export default function PnlRelease() {
 
   // Email Report Modal State
   const [showEmailReportModal, setShowEmailReportModal] = useState(false);
+  const [showImpactAnalysis, setShowImpactAnalysis] = useState(false);
   const [emailRecipients, setEmailRecipients] = useState<string[]>([
     "owner@restaurant.com",
     "gm@restaurant.com"
@@ -5544,12 +5545,25 @@ export default function PnlRelease() {
 
                    {/* Performance Analysis - Role-specific */}
                    <section>
-                      <h3 className="font-serif text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                         <TrendingUp className="h-5 w-5 text-black" /> 
-                         {selectedRole === "owner" ? "Performance Analysis" : 
-                          selectedRole === "gm" ? "Operations Highlights" : 
-                          "Kitchen Highlights"}
-                      </h3>
+                      <div className="flex items-center justify-between mb-4">
+                         <h3 className="font-serif text-lg font-bold text-gray-900 flex items-center gap-2">
+                            <TrendingUp className="h-5 w-5 text-black" /> 
+                            {selectedRole === "owner" ? "Performance Analysis" : 
+                             selectedRole === "gm" ? "Operations Highlights" : 
+                             "Kitchen Highlights"}
+                         </h3>
+                         {selectedRole === "owner" && (
+                            <div className="flex items-center gap-1 text-xs text-gray-500">
+                               <span>Performance</span>
+                               {showImpactAnalysis && (
+                                  <>
+                                     <ChevronRight className="h-3 w-3" />
+                                     <span className="text-gray-900 font-medium">Impact Analysis</span>
+                                  </>
+                               )}
+                            </div>
+                         )}
+                      </div>
 
                       <div className="grid gap-4">
                          <div className="bg-emerald-50/50 border border-emerald-100 rounded-xl p-5">
@@ -5702,51 +5716,108 @@ export default function PnlRelease() {
                                )}
                             </ul>
                          </div>
+
+                         {/* View Impact Analysis - Owner only */}
+                         {selectedRole === "owner" && (
+                            <div className="col-span-full">
+                               <button
+                                  data-testid="toggle-impact-analysis"
+                                  onClick={() => setShowImpactAnalysis(!showImpactAnalysis)}
+                                  className={cn(
+                                     "w-full flex items-center justify-between p-4 rounded-xl border transition-all duration-200",
+                                     showImpactAnalysis 
+                                        ? "bg-indigo-50 border-indigo-200" 
+                                        : "bg-gradient-to-r from-gray-50 to-slate-50 border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                                  )}
+                               >
+                                  <div className="flex items-center gap-3">
+                                     <div className={cn(
+                                        "h-10 w-10 rounded-lg flex items-center justify-center",
+                                        showImpactAnalysis ? "bg-indigo-100" : "bg-white border border-gray-200"
+                                     )}>
+                                        <Layers className={cn(
+                                           "h-5 w-5",
+                                           showImpactAnalysis ? "text-indigo-600" : "text-gray-600"
+                                        )} />
+                                     </div>
+                                     <div className="text-left">
+                                        <p className={cn(
+                                           "font-medium text-sm",
+                                           showImpactAnalysis ? "text-indigo-900" : "text-gray-900"
+                                        )}>
+                                           Impact Analysis
+                                        </p>
+                                        <p className="text-xs text-gray-500">What-if scenarios & potential savings</p>
+                                     </div>
+                                  </div>
+                                  <div className="flex items-center gap-3">
+                                     <span className="text-sm font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">
+                                        +$1,150 potential
+                                     </span>
+                                     <ChevronDown className={cn(
+                                        "h-5 w-5 text-gray-400 transition-transform duration-200",
+                                        showImpactAnalysis && "rotate-180"
+                                     )} />
+                                  </div>
+                               </button>
+
+                               {/* Expandable Impact Analysis Content */}
+                               <AnimatePresence>
+                                  {showImpactAnalysis && (
+                                     <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: "auto", opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                                        className="overflow-hidden"
+                                     >
+                                        <div className="mt-3 bg-white border border-gray-200 rounded-xl overflow-hidden">
+                                           <div className="p-4 bg-indigo-50/50 border-b border-gray-200 flex justify-between items-center">
+                                              <div className="flex items-center gap-2">
+                                                 <Lightbulb className="h-4 w-4 text-indigo-600" />
+                                                 <span className="text-sm font-medium text-gray-700">If you had adjusted these items...</span>
+                                              </div>
+                                              <span className="text-xs text-muted-foreground">Est. Margin Impact</span>
+                                           </div>
+                                           <div className="divide-y divide-gray-100">
+                                              <div className="p-4 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                                                 <div className="flex items-center gap-3">
+                                                    <div className="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+                                                       <X className="h-4 w-4" />
+                                                    </div>
+                                                    <div>
+                                                       <p className="text-sm font-medium text-gray-900">Cut 10hrs of Prep Overtime</p>
+                                                       <p className="text-xs text-muted-foreground">Kitchen Staff • Oct 14</p>
+                                                    </div>
+                                                 </div>
+                                                 <span className="text-sm font-medium text-emerald-600">+$350</span>
+                                              </div>
+                                              <div className="p-4 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                                                 <div className="flex items-center gap-3">
+                                                    <div className="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+                                                       <X className="h-4 w-4" />
+                                                    </div>
+                                                    <div>
+                                                       <p className="text-sm font-medium text-gray-900">Switch Avocado Supplier</p>
+                                                       <p className="text-xs text-muted-foreground">COGS • Produce</p>
+                                                    </div>
+                                                 </div>
+                                                 <span className="text-sm font-medium text-emerald-600">+$800</span>
+                                              </div>
+                                           </div>
+                                           <div className="p-4 bg-emerald-50/50 border-t border-gray-200 flex justify-between items-center">
+                                              <span className="text-sm font-medium text-gray-900">Potential Net Income Increase</span>
+                                              <span className="text-lg font-serif font-bold text-emerald-700">+$1,150</span>
+                                           </div>
+                                        </div>
+                                     </motion.div>
+                                  )}
+                               </AnimatePresence>
+                            </div>
+                         )}
                       </div>
                    </section>
 
-                   {/* Impact Analysis - Owner only */}
-                   {selectedRole === "owner" && (
-                   <section>
-                      <h3 className="font-serif text-lg font-bold text-gray-900 mb-4">Impact Analysis</h3>
-                      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                         <div className="p-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
-                            <span className="text-sm font-medium text-gray-600">If you had adjusted these items...</span>
-                            <span className="text-xs text-muted-foreground">Est. Margin Impact</span>
-                         </div>
-                         <div className="divide-y divide-gray-100">
-                            <div className="p-4 flex justify-between items-center">
-                               <div className="flex items-center gap-3">
-                                  <div className="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
-                                     <X className="h-4 w-4" />
-                                  </div>
-                                  <div>
-                                     <p className="text-sm font-medium text-gray-900">Cut 10hrs of Prep Overtime</p>
-                                     <p className="text-xs text-muted-foreground">Kitchen Staff • Oct 14</p>
-                                  </div>
-                               </div>
-                               <span className="text-sm font-medium text-emerald-600">+$350</span>
-                            </div>
-                            <div className="p-4 flex justify-between items-center">
-                               <div className="flex items-center gap-3">
-                                  <div className="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
-                                     <X className="h-4 w-4" />
-                                  </div>
-                                  <div>
-                                     <p className="text-sm font-medium text-gray-900">Switch Avocado Supplier</p>
-                                     <p className="text-xs text-muted-foreground">COGS • Produce</p>
-                                  </div>
-                               </div>
-                               <span className="text-sm font-medium text-emerald-600">+$800</span>
-                            </div>
-                         </div>
-                         <div className="p-4 bg-emerald-50/30 border-t border-gray-200 flex justify-between items-center">
-                            <span className="text-sm font-medium text-gray-900">Potential Net Income Increase</span>
-                            <span className="text-lg font-serif font-bold text-emerald-700">+$1,150</span>
-                         </div>
-                      </div>
-                   </section>
-                   )}
 
                    {/* Team Performance - Owner only */}
                    {selectedRole === "owner" && (
