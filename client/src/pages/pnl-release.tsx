@@ -5955,11 +5955,20 @@ export default function PnlRelease() {
                                            <Check className="h-4 w-4" />
                                         </div>
                                         <div>
-                                           <p className="text-sm font-medium text-gray-900">Labor % improved: 35% → 32%</p>
+                                           <p className="text-sm font-medium text-gray-900">
+                                              Labor % improved:{' '}
+                                              <button 
+                                                 onClick={() => { setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('labor'), 100); }}
+                                                 className="text-emerald-700 hover:text-emerald-900 underline decoration-dotted underline-offset-2"
+                                              >35% → 32%</button>
+                                           </p>
                                            <p className="text-xs text-muted-foreground">Dinner shifts on Tue/Wed operated with 1 less runner</p>
                                         </div>
                                      </div>
-                                     <span className="text-sm font-medium text-emerald-600">+$2,400</span>
+                                     <button 
+                                        onClick={() => { setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('labor'), 100); }}
+                                        className="text-sm font-medium text-emerald-600 hover:text-emerald-800 hover:underline"
+                                     >+$2,400</button>
                                   </div>
                                   <div className="p-4 flex justify-between items-center">
                                      <div className="flex items-center gap-3">
@@ -5967,11 +5976,20 @@ export default function PnlRelease() {
                                            <Check className="h-4 w-4" />
                                         </div>
                                         <div>
-                                           <p className="text-sm font-medium text-gray-900">Sales exceeded target: $124.5k vs $120k goal</p>
+                                           <p className="text-sm font-medium text-gray-900">
+                                              Sales exceeded target:{' '}
+                                              <button 
+                                                 onClick={() => { setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('revenue'), 100); }}
+                                                 className="text-emerald-700 hover:text-emerald-900 underline decoration-dotted underline-offset-2"
+                                              >$124.5k vs $120k</button> goal
+                                           </p>
                                            <p className="text-xs text-muted-foreground">Weekend brunch traffic was up 12% YoY</p>
                                         </div>
                                      </div>
-                                     <span className="text-sm font-medium text-emerald-600">+$4,500</span>
+                                     <button 
+                                        onClick={() => { setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('revenue'), 100); }}
+                                        className="text-sm font-medium text-emerald-600 hover:text-emerald-800 hover:underline"
+                                     >+$4,500</button>
                                   </div>
                                   <div className="p-4 flex justify-between items-center">
                                      <div className="flex items-center gap-3">
@@ -5979,11 +5997,20 @@ export default function PnlRelease() {
                                            <Check className="h-4 w-4" />
                                         </div>
                                         <div>
-                                           <p className="text-sm font-medium text-gray-900">Net Profit up: 15% → 18%</p>
+                                           <p className="text-sm font-medium text-gray-900">
+                                              Net Profit up:{' '}
+                                              <button 
+                                                 onClick={() => { setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('net_profit'), 100); }}
+                                                 className="text-emerald-700 hover:text-emerald-900 underline decoration-dotted underline-offset-2"
+                                              >15% → 18%</button>
+                                           </p>
                                            <p className="text-xs text-muted-foreground">Combined labor savings and strong sales outpaced COGS increase</p>
                                         </div>
                                      </div>
-                                     <span className="text-sm font-medium text-emerald-600">+$3,735</span>
+                                     <button 
+                                        onClick={() => { setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('net_profit'), 100); }}
+                                        className="text-sm font-medium text-emerald-600 hover:text-emerald-800 hover:underline"
+                                     >+$3,735</button>
                                   </div>
                                </>
                             )}
@@ -6098,12 +6125,21 @@ export default function PnlRelease() {
                                               <AlertTriangle className="h-4 w-4" />
                                            </div>
                                            <div className="text-left">
-                                              <p className="text-sm font-medium text-gray-900">COGS % missed target: 31% vs 30% goal</p>
+                                              <p className="text-sm font-medium text-gray-900">
+                                                 COGS % missed target:{' '}
+                                                 <button 
+                                                    onClick={(e) => { e.stopPropagation(); setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('cogs'), 100); }}
+                                                    className="text-amber-700 hover:text-amber-900 underline decoration-dotted underline-offset-2"
+                                                 >31% vs 30%</button> goal
+                                              </p>
                                               <p className="text-xs text-muted-foreground">Produce prices spiked: Avocados +37%, Limes +28%</p>
                                            </div>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                           <span className="text-sm font-medium text-amber-600">-$1,245</span>
+                                           <button 
+                                              onClick={(e) => { e.stopPropagation(); setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('cogs'), 100); }}
+                                              className="text-sm font-medium text-amber-600 hover:text-amber-800 hover:underline"
+                                           >-$1,245</button>
                                            <ChevronDown className={cn(
                                               "h-4 w-4 text-gray-400 transition-transform duration-200",
                                               expandedMissedTarget === "cogs" && "rotate-180"
@@ -6151,12 +6187,21 @@ export default function PnlRelease() {
                                               <AlertTriangle className="h-4 w-4" />
                                            </div>
                                            <div className="text-left">
-                                              <p className="text-sm font-medium text-gray-900">Overtime ran high: 142 hrs vs 80 budgeted</p>
+                                              <p className="text-sm font-medium text-gray-900">
+                                                 Overtime ran high:{' '}
+                                                 <button 
+                                                    onClick={(e) => { e.stopPropagation(); setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('labor'), 100); }}
+                                                    className="text-amber-700 hover:text-amber-900 underline decoration-dotted underline-offset-2"
+                                                 >142 hrs vs 80</button> budgeted
+                                              </p>
                                               <p className="text-xs text-muted-foreground">Holiday weeks drove excess overtime across BOH and FOH</p>
                                            </div>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                           <span className="text-sm font-medium text-amber-600">-$3,200</span>
+                                           <button 
+                                              onClick={(e) => { e.stopPropagation(); setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('labor'), 100); }}
+                                              className="text-sm font-medium text-amber-600 hover:text-amber-800 hover:underline"
+                                           >-$3,200</button>
                                            <ChevronDown className={cn(
                                               "h-4 w-4 text-gray-400 transition-transform duration-200",
                                               expandedMissedTarget === "overtime" && "rotate-180"
