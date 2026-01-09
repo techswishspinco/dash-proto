@@ -3580,20 +3580,18 @@ export default function PnlRelease() {
         <Layout>
            <div className="min-h-screen bg-gray-50 flex overflow-hidden relative">
 
-              {/* Collapsed Sidebar Toggle Tab - sticky on left side */}
+              {/* Collapsed Sidebar Toggle Tab - fixed on left side */}
               {archiveSidebarCollapsed && (
-                 <div className="sticky top-0 h-screen flex items-center z-30">
-                    <button
-                       onClick={toggleArchiveSidebar}
-                       className="bg-white border border-l-0 border-gray-200 rounded-r-lg shadow-md px-1.5 py-4 hover:bg-gray-50 transition-colors group"
-                       data-testid="expand-archive-tab"
-                    >
-                       <div className="flex flex-col items-center gap-2">
-                          <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
-                          <span className="text-xs font-medium text-gray-500 [writing-mode:vertical-rl] rotate-180">Archive</span>
-                       </div>
-                    </button>
-                 </div>
+                 <button
+                    onClick={toggleArchiveSidebar}
+                    className="fixed left-0 top-1/2 -translate-y-1/2 z-30 bg-white border border-l-0 border-gray-200 rounded-r-lg shadow-md px-1.5 py-4 hover:bg-gray-50 transition-colors group"
+                    data-testid="expand-archive-tab"
+                 >
+                    <div className="flex flex-col items-center gap-2">
+                       <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
+                       <span className="text-xs font-medium text-gray-500 [writing-mode:vertical-rl] rotate-180">Archive</span>
+                    </div>
+                 </button>
               )}
 
               {/* Left Navigation (Google Docs Style) - Resizable */}
