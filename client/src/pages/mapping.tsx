@@ -55,20 +55,20 @@ interface Employee {
 }
 
 const mockEmployees: Employee[] = [
-  { id: "1", posName: "Sarah Johnson", posId: "POS-1234", payrollName: "Sarah M. Johnson", payrollId: "PAY-5678", location: "Downtown Seattle", status: "mapped", lastSync: "2026-01-09T08:30:00" },
-  { id: "2", posName: "Michael Chen", posId: "POS-1235", payrollName: "Michael Chen", payrollId: "PAY-5679", location: "Downtown Seattle", status: "mapped", lastSync: "2026-01-09T08:30:00" },
-  { id: "3", posName: "Emily Rodriguez", posId: "POS-1236", location: "Capitol Hill", status: "unmapped", lastSync: "2026-01-09T08:30:00" },
-  { id: "4", posName: "James Wilson", posId: "POS-1237", location: "Capitol Hill", status: "unmapped", lastSync: "2026-01-09T08:30:00" },
-  { id: "5", posName: "Ashley Thompson", posId: "POS-1238", location: "Ballard", status: "unmapped", lastSync: "2026-01-09T08:30:00" },
-  { id: "6", posName: "David Kim", posId: "POS-1239", payrollName: "David Kim", payrollId: "PAY-5680", location: "Downtown Seattle", status: "mapped", lastSync: "2026-01-09T08:30:00" },
-  { id: "7", posName: "Jessica Lee", posId: "POS-1240", location: "Ballard", status: "pending", lastSync: "2026-01-09T08:30:00" },
-  { id: "8", posName: "Robert Brown", posId: "POS-1241", location: "Ballard", status: "unmapped", lastSync: "2026-01-09T08:30:00" },
-  { id: "9", posName: "Amanda Martinez", posId: "POS-1242", payrollName: "Amanda Martinez", payrollId: "PAY-5681", location: "Capitol Hill", status: "mapped", lastSync: "2026-01-09T08:30:00" },
-  { id: "10", posName: "Chris Taylor", posId: "POS-1243", location: "Ballard", status: "unmapped", lastSync: "2026-01-09T08:30:00" },
+  { id: "1", posName: "Sarah Johnson", posId: "POS-1234", payrollName: "Sarah M. Johnson", payrollId: "PAY-5678", location: "NYC - Manhattan", status: "mapped", lastSync: "2026-01-09T08:30:00" },
+  { id: "2", posName: "Michael Chen", posId: "POS-1235", payrollName: "Michael Chen", payrollId: "PAY-5679", location: "NYC - Manhattan", status: "mapped", lastSync: "2026-01-09T08:30:00" },
+  { id: "3", posName: "Emily Rodriguez", posId: "POS-1236", location: "NYC - Brooklyn", status: "unmapped", lastSync: "2026-01-09T08:30:00" },
+  { id: "4", posName: "James Wilson", posId: "POS-1237", location: "NYC - Brooklyn", status: "unmapped", lastSync: "2026-01-09T08:30:00" },
+  { id: "5", posName: "Ashley Thompson", posId: "POS-1238", location: "NYC - Queens", status: "unmapped", lastSync: "2026-01-09T08:30:00" },
+  { id: "6", posName: "David Kim", posId: "POS-1239", payrollName: "David Kim", payrollId: "PAY-5680", location: "NYC - Manhattan", status: "mapped", lastSync: "2026-01-09T08:30:00" },
+  { id: "7", posName: "Jessica Lee", posId: "POS-1240", location: "NYC - Queens", status: "pending", lastSync: "2026-01-09T08:30:00" },
+  { id: "8", posName: "Robert Brown", posId: "POS-1241", location: "NYC - Queens", status: "unmapped", lastSync: "2026-01-09T08:30:00" },
+  { id: "9", posName: "Amanda Martinez", posId: "POS-1242", payrollName: "Amanda Martinez", payrollId: "PAY-5681", location: "NYC - Brooklyn", status: "mapped", lastSync: "2026-01-09T08:30:00" },
+  { id: "10", posName: "Chris Taylor", posId: "POS-1243", location: "NYC - Queens", status: "unmapped", lastSync: "2026-01-09T08:30:00" },
 ];
 
 const relatedTasks = [
-  { id: "6", title: "Map 5 employees at Ballard location", priority: "medium" },
+  { id: "6", title: "Map 5 employees at NYC - Queens location", priority: "medium" },
 ];
 
 function updateTaskStep(stepIndex: number) {
