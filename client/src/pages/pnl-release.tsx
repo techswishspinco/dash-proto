@@ -507,6 +507,24 @@ const tocSections = [
   { id: "accountant-note", label: "Accountant Note" },
 ];
 
+interface EditableSection {
+  id: string;
+  label: string;
+  visible: boolean;
+}
+
+const defaultSections: EditableSection[] = [
+  { id: "executive-narrative", label: "Executive Narrative", visible: true },
+  { id: "bottom-line", label: "Bottom Line", visible: true },
+  { id: "pnl-dashboard", label: "P&L Dashboard", visible: true },
+  { id: "health-snapshot", label: "Health Snapshot", visible: true },
+  { id: "revenue-analysis", label: "Revenue Analysis", visible: true },
+  { id: "prime-cost-analysis", label: "Prime Cost Analysis", visible: true },
+  { id: "operating-expenses", label: "Operating Expenses", visible: true },
+  { id: "action-items", label: "Action Items", visible: true },
+  { id: "accountant-note", label: "Accountant Note", visible: true },
+];
+
 // --- State Prime Cost Benchmarks ---
 interface StateBenchmark {
   code: string;
@@ -3008,6 +3026,13 @@ export default function PnlRelease() {
   const [locationName, setLocationName] = useState("STMARKS");
   const [period, setPeriod] = useState("September 2025");
   const [showChat, setShowChat] = useState(false); // Disabled - using floating assistant instead
+  
+  // New Release Flow States
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [showProcessingAnimation, setShowProcessingAnimation] = useState(false);
+  const [processingStep, setProcessingStep] = useState(0);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [isDragOver, setIsDragOver] = useState(false);
   const [chatTrigger, setChatTrigger] = useState<string | null>(null);
   const [floatingChatTrigger, setFloatingChatTrigger] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"detailed" | "curated">("detailed");
@@ -3184,6 +3209,147 @@ export default function PnlRelease() {
   const [goalsMet, setGoalsMet] = useState(true); // Mock state for confetti
   const [highlightedPnlNodeId, setHighlightedPnlNodeId] = useState<string | null>(null);
   const [trendModalMetric, setTrendModalMetric] = useState<MetricTrendData | null>(null);
+  
+  // Edit Mode State
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [showSectionsSidebar, setShowSectionsSidebar] = useState(false);
+  const [sections, setSections] = useState<EditableSection[]>(defaultSections);
+  const [draggedSectionId, setDraggedSectionId] = useState<string | null>(null);
+  const [dragOverSectionId, setDragOverSectionId] = useState<string | null>(null);
+  
+  // Editable Content State
+  const [editableContent, setEditableContent] = useState({
+    executiveSummary: "Net operating income dropped 38.8% to $17.7K as revenue declined 13.8%. Operating costs improved by 12.1%.",
+    revenueAnalysis: "Revenue declined by $21.3K (-13.8%) primarily driven by lower Food Sales ($18.5K decrease) and N/A Beverage sales ($5K decrease). Delivery platforms showed mixed results with UberEats growing 23.7% while DoorDash declined 11%.",
+    primeCostAnalysis: "Prime costs as a percentage of revenue increased to 54% from 49.2% last month. COGS improved slightly but labor efficiency gains were offset by the revenue decline.",
+    operatingExpenses: "Operating expenses decreased by $8.2K (-12.1%) with notable savings in Marketing & PR ($1.1K), Repairs & Maintenance ($530), and Salaries & Wages ($2K).",
+    bottomLine: "Net operating income of $17.7K represents a 13.3% margin. This is below the 15% target but still within acceptable range given the seasonal revenue decline.",
+    actionItems: "Focus on reversing the Food Sales decline through targeted promotions. Monitor beverage cost increases and renegotiate supplier contracts. Continue leveraging UberEats growth momentum.",
+  });
+  
+  // Section drag handlers
+  const handleSectionDragStart = (sectionId: string) => {
+    setDraggedSectionId(sectionId);
+  };
+  
+  const handleSectionDragOver = (e: React.DragEvent, sectionId: string) => {
+    e.preventDefault();
+    if (draggedSectionId && draggedSectionId !== sectionId) {
+      setDragOverSectionId(sectionId);
+    }
+  };
+  
+  const handleSectionDragLeave = () => {
+    setDragOverSectionId(null);
+  };
+  
+  const handleSectionDrop = (targetSectionId: string) => {
+    if (!draggedSectionId || draggedSectionId === targetSectionId) return;
+    
+    const newSections = [...sections];
+    const draggedIndex = newSections.findIndex(s => s.id === draggedSectionId);
+    const targetIndex = newSections.findIndex(s => s.id === targetSectionId);
+    
+    const [draggedSection] = newSections.splice(draggedIndex, 1);
+    newSections.splice(targetIndex, 0, draggedSection);
+    
+    setSections(newSections);
+    setDraggedSectionId(null);
+    setDragOverSectionId(null);
+  };
+  
+  const handleSectionDragEnd = () => {
+    setDraggedSectionId(null);
+    setDragOverSectionId(null);
+  };
+  
+  const toggleSectionVisibility = (sectionId: string) => {
+    setSections(prev => prev.map(s => 
+      s.id === sectionId ? { ...s, visible: !s.visible } : s
+    ));
+  };
+  
+  const removeSection = (sectionId: string) => {
+    setSections(prev => prev.map(s => 
+      s.id === sectionId ? { ...s, visible: false } : s
+    ));
+  };
+  
+  const isSectionVisible = (sectionId: string) => {
+    return sections.find(s => s.id === sectionId)?.visible ?? true;
+  };
+  
+  const getSectionOrderIndex = (sectionId: string) => {
+    return sections.findIndex(s => s.id === sectionId);
+  };
+  
+  // Processing animation messages - P&L specific
+  const processingMessages = [
+    "Importing Data...",
+    "Analyzing Revenue...",
+    "Calculating Costs...",
+    "Categorizing Expenses...",
+    "Computing Margins...",
+    "Building Your P&L..."
+  ];
+
+  // Handle file upload and start processing
+  const handleFileUpload = (file: File) => {
+    setUploadedFile(file);
+  };
+
+  // Start the magical processing animation
+  const startProcessingAnimation = () => {
+    setShowUploadModal(false);
+    setShowProcessingAnimation(true);
+    setProcessingStep(0);
+    
+    // Cycle through processing messages
+    let currentStep = 0;
+    const interval = setInterval(() => {
+      currentStep++;
+      if (currentStep < processingMessages.length) {
+        setProcessingStep(currentStep);
+      } else {
+        clearInterval(interval);
+        // Animation complete - go to P&L view
+        setTimeout(() => {
+          setShowProcessingAnimation(false);
+          setPeriod("October 2025");
+          setStep(2);
+          confetti({
+            particleCount: 150,
+            spread: 100,
+            origin: { y: 0.5 }
+          });
+          toast({
+            title: "P&L Report Generated",
+            description: "Your October 2025 P&L is ready for review.",
+          });
+        }, 800);
+      }
+    }, 1200);
+  };
+
+  // Handle drag and drop
+  const handleFileDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleFileDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleFileDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    const file = e.dataTransfer.files[0];
+    if (file && (file.name.endsWith('.csv') || file.name.endsWith('.xlsx') || file.name.endsWith('.xls'))) {
+      handleFileUpload(file);
+    }
+  };
 
   // Filter state for P&L Release list
   const [filters, setFilters] = useState<PnLFilterState>(loadFilters);
@@ -4005,10 +4171,11 @@ export default function PnlRelease() {
                   </div>
                   <button 
                      onClick={() => {
-                        setPeriod("October 2025");
-                        setStep(2);
+                        setUploadedFile(null);
+                        setShowUploadModal(true);
                      }}
                      className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors shadow-sm"
+                     data-testid="button-start-new-release"
                   >
                      <Plus className="h-4 w-4" /> Start New Release
                   </button>
@@ -4291,6 +4458,250 @@ export default function PnlRelease() {
                </div>
             </div>
          </div>
+
+         {/* Upload Modal */}
+         <AnimatePresence>
+           {showUploadModal && (
+             <motion.div
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               exit={{ opacity: 0 }}
+               className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50"
+               onClick={() => setShowUploadModal(false)}
+             >
+               <motion.div
+                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                 animate={{ opacity: 1, scale: 1, y: 0 }}
+                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                 transition={{ duration: 0.2 }}
+                 onClick={(e) => e.stopPropagation()}
+                 className="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden border border-gray-200"
+               >
+                 {/* Modal Header */}
+                 <div className="flex items-center justify-between p-5 border-b border-gray-100">
+                   <div className="flex items-center gap-3">
+                     <div className="h-10 w-10 rounded-full bg-gray-900 flex items-center justify-center">
+                       <FileSpreadsheet className="h-5 w-5 text-white" />
+                     </div>
+                     <div>
+                       <h3 className="font-serif font-semibold text-gray-900">Upload Financial Data</h3>
+                       <p className="text-sm text-gray-500">Import CSV or Excel file</p>
+                     </div>
+                   </div>
+                   <button
+                     onClick={() => setShowUploadModal(false)}
+                     className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                     data-testid="button-close-upload-modal"
+                   >
+                     <X className="h-5 w-5 text-gray-400" />
+                   </button>
+                 </div>
+
+                 {/* Upload Area */}
+                 <div className="p-5">
+                   <div
+                     onDragOver={handleFileDragOver}
+                     onDragLeave={handleFileDragLeave}
+                     onDrop={handleFileDrop}
+                     className={cn(
+                       "relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 cursor-pointer",
+                       isDragOver 
+                         ? "border-gray-900 bg-gray-50" 
+                         : uploadedFile 
+                           ? "border-emerald-500 bg-emerald-50"
+                           : "border-gray-200 hover:border-gray-400 hover:bg-gray-50"
+                     )}
+                     onClick={() => document.getElementById('file-upload-step1')?.click()}
+                   >
+                     <input
+                       id="file-upload-step1"
+                       type="file"
+                       accept=".csv,.xlsx,.xls"
+                       className="hidden"
+                       onChange={(e) => {
+                         const file = e.target.files?.[0];
+                         if (file) handleFileUpload(file);
+                       }}
+                       data-testid="input-file-upload"
+                     />
+                     
+                     {uploadedFile ? (
+                       <motion.div
+                         initial={{ scale: 0.9, opacity: 0 }}
+                         animate={{ scale: 1, opacity: 1 }}
+                         className="flex flex-col items-center gap-3"
+                       >
+                         <div className="h-12 w-12 rounded-full bg-emerald-100 flex items-center justify-center">
+                           <Check className="h-6 w-6 text-emerald-600" />
+                         </div>
+                         <div>
+                           <p className="font-medium text-gray-900">{uploadedFile.name}</p>
+                           <p className="text-sm text-gray-500 mt-1">
+                             {(uploadedFile.size / 1024).toFixed(1)} KB
+                           </p>
+                         </div>
+                         <button
+                           onClick={(e) => {
+                             e.stopPropagation();
+                             setUploadedFile(null);
+                           }}
+                           className="text-sm text-gray-500 hover:text-gray-700 underline"
+                           data-testid="button-remove-file"
+                         >
+                           Remove file
+                         </button>
+                       </motion.div>
+                     ) : (
+                       <div className="flex flex-col items-center gap-3">
+                         <div className={cn(
+                           "h-14 w-14 rounded-full flex items-center justify-center transition-colors",
+                           isDragOver ? "bg-gray-200" : "bg-gray-100"
+                         )}>
+                           <FileSpreadsheet className={cn(
+                             "h-7 w-7 transition-colors",
+                             isDragOver ? "text-gray-700" : "text-gray-400"
+                           )} />
+                         </div>
+                         <div>
+                           <p className="font-medium text-gray-900">
+                             {isDragOver ? "Drop your file here" : "Drag & drop or click to upload"}
+                           </p>
+                           <p className="text-sm text-gray-500 mt-1">
+                             CSV, XLSX, or XLS files
+                           </p>
+                         </div>
+                       </div>
+                     )}
+                   </div>
+
+                   <p className="text-center text-xs text-gray-400 mt-4">
+                     For this demo, you can skip the upload
+                   </p>
+                 </div>
+
+                 {/* Footer */}
+                 <div className="flex items-center justify-end gap-3 p-5 border-t border-gray-100 bg-gray-50">
+                   <button
+                     onClick={() => setShowUploadModal(false)}
+                     className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 rounded-md transition-colors"
+                     data-testid="button-cancel-upload"
+                   >
+                     Cancel
+                   </button>
+                   <button
+                     onClick={startProcessingAnimation}
+                     className="px-5 py-2 text-sm font-medium bg-black text-white rounded-md hover:bg-gray-800 transition-colors shadow-sm"
+                     data-testid="button-generate-pnl"
+                   >
+                     Generate P&L
+                   </button>
+                 </div>
+               </motion.div>
+             </motion.div>
+           )}
+         </AnimatePresence>
+
+         {/* Processing Animation */}
+         <AnimatePresence>
+           {showProcessingAnimation && (
+             <motion.div
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               exit={{ opacity: 0 }}
+               className="fixed inset-0 z-[200] flex items-center justify-center bg-white overflow-hidden"
+             >
+               {/* Subtle grid pattern background */}
+               <div 
+                 className="absolute inset-0 opacity-[0.03]"
+                 style={{
+                   backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                 }}
+               />
+
+               {/* Floating dots */}
+               <div className="absolute inset-0 overflow-hidden">
+                 {[...Array(20)].map((_, i) => (
+                   <motion.div
+                     key={i}
+                     className="absolute w-1 h-1 rounded-full bg-gray-300"
+                     style={{
+                       left: `${Math.random() * 100}%`,
+                       top: `${Math.random() * 100}%`,
+                     }}
+                     animate={{
+                       y: [0, -20, 0],
+                       opacity: [0.2, 0.5, 0.2],
+                     }}
+                     transition={{
+                       duration: 4 + Math.random() * 2,
+                       repeat: Infinity,
+                       delay: Math.random() * 2,
+                     }}
+                   />
+                 ))}
+               </div>
+
+               {/* Center content */}
+               <div className="relative z-10 text-center px-8">
+                 {/* Spinning loader */}
+                 <motion.div
+                   initial={{ opacity: 0, scale: 0.8 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   className="mb-8 flex justify-center"
+                 >
+                   <div className="relative">
+                     <div className="h-16 w-16 rounded-full border-2 border-gray-200" />
+                     <motion.div 
+                       className="absolute inset-0 h-16 w-16 rounded-full border-2 border-transparent border-t-gray-900"
+                       animate={{ rotate: 360 }}
+                       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                     />
+                     <div className="absolute inset-0 flex items-center justify-center">
+                       <Sparkles className="h-6 w-6 text-gray-400" />
+                     </div>
+                   </div>
+                 </motion.div>
+
+                 {/* Animated Text */}
+                 <AnimatePresence mode="wait">
+                   <motion.div
+                     key={processingStep}
+                     initial={{ opacity: 0, y: 20 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     exit={{ opacity: 0, y: -20 }}
+                     transition={{ duration: 0.4, ease: "easeOut" }}
+                   >
+                     <h1 className="text-3xl md:text-4xl font-serif font-bold text-gray-900">
+                       {processingMessages[processingStep]}
+                     </h1>
+                   </motion.div>
+                 </AnimatePresence>
+
+                 {/* Progress bar */}
+                 <motion.div 
+                   initial={{ opacity: 0 }}
+                   animate={{ opacity: 1 }}
+                   transition={{ delay: 0.3 }}
+                   className="mt-8 w-64 mx-auto"
+                 >
+                   <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
+                     <motion.div 
+                       className="h-full bg-gray-900 rounded-full"
+                       initial={{ width: "0%" }}
+                       animate={{ 
+                         width: `${((processingStep + 1) / processingMessages.length) * 100}%` 
+                       }}
+                       transition={{ duration: 0.5, ease: "easeOut" }}
+                     />
+                   </div>
+                   <p className="text-sm text-gray-400 mt-3">
+                     Step {processingStep + 1} of {processingMessages.length}
+                   </p>
+                 </motion.div>
+               </div>
+             </motion.div>
+           )}
+         </AnimatePresence>
       </Layout>
     );
   }
@@ -4331,6 +4742,36 @@ export default function PnlRelease() {
                          </button>
                       )}
                       <div className="h-6 w-px bg-gray-200" />
+                      {activeTab === "detailed" && (
+                         <>
+                            <button 
+                               onClick={() => setIsEditMode(!isEditMode)}
+                               className={cn(
+                                  "flex items-center gap-2 text-sm px-3 py-2 rounded-md transition-colors",
+                                  isEditMode 
+                                     ? "bg-blue-50 text-blue-700 border border-blue-200" 
+                                     : "text-gray-600 hover:text-black hover:bg-gray-100"
+                               )}
+                               data-testid="button-toggle-edit-mode"
+                            >
+                               {isEditMode ? <Check className="h-4 w-4" /> : <FileText className="h-4 w-4" />}
+                               {isEditMode ? "Editing" : "Edit"}
+                            </button>
+                            <button 
+                               onClick={() => setShowSectionsSidebar(!showSectionsSidebar)}
+                               className={cn(
+                                  "flex items-center gap-2 text-sm px-3 py-2 rounded-md transition-colors",
+                                  showSectionsSidebar 
+                                     ? "bg-gray-100 text-gray-900" 
+                                     : "text-gray-600 hover:text-black hover:bg-gray-100"
+                               )}
+                               data-testid="button-toggle-sections-sidebar"
+                            >
+                               <Layers className="h-4 w-4" /> Sections
+                            </button>
+                            <div className="h-6 w-px bg-gray-200" />
+                         </>
+                      )}
                       <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-black px-3 py-2 rounded-md hover:bg-gray-100 transition-colors">
                          <Save className="h-4 w-4" /> Save Draft
                       </button>
@@ -6945,6 +7386,88 @@ export default function PnlRelease() {
                     </>
                   )}
                 </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Sections Sidebar */}
+          <AnimatePresence>
+            {showSectionsSidebar && activeTab === "detailed" && (
+              <motion.div
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: 280, opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="bg-white border-l border-gray-200 h-full overflow-hidden shrink-0"
+              >
+                <div className="p-4 border-b border-gray-100">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold text-gray-900">Sections</h3>
+                    <button
+                      onClick={() => setShowSectionsSidebar(false)}
+                      className="p-1.5 hover:bg-gray-100 rounded-md transition-colors"
+                      data-testid="button-close-sections-sidebar"
+                    >
+                      <X className="h-4 w-4 text-gray-400" />
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">Drag to reorder, click eye to toggle</p>
+                </div>
+                <div className="p-2 space-y-1 max-h-[calc(100vh-200px)] overflow-y-auto">
+                  {sections.map((section) => (
+                    <div
+                      key={section.id}
+                      draggable
+                      onDragStart={() => handleSectionDragStart(section.id)}
+                      onDragOver={(e) => handleSectionDragOver(e, section.id)}
+                      onDragLeave={handleSectionDragLeave}
+                      onDrop={() => handleSectionDrop(section.id)}
+                      onDragEnd={handleSectionDragEnd}
+                      className={cn(
+                        "flex items-center gap-2 p-2 rounded-md cursor-move transition-all",
+                        draggedSectionId === section.id && "opacity-50 bg-gray-100",
+                        dragOverSectionId === section.id && "border-t-2 border-blue-500",
+                        section.visible ? "bg-white hover:bg-gray-50" : "bg-gray-50 opacity-60"
+                      )}
+                      data-testid={`section-item-${section.id}`}
+                    >
+                      <GripVertical className="h-4 w-4 text-gray-400 shrink-0" />
+                      <span className={cn(
+                        "text-sm flex-1 truncate",
+                        section.visible ? "text-gray-700" : "text-gray-400 line-through"
+                      )}>
+                        {section.label}
+                      </span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleSectionVisibility(section.id);
+                        }}
+                        className={cn(
+                          "p-1 rounded hover:bg-gray-200 transition-colors",
+                          section.visible ? "text-gray-500" : "text-gray-300"
+                        )}
+                        data-testid={`toggle-visibility-${section.id}`}
+                      >
+                        {section.visible ? (
+                          <Eye className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-3 border-t border-gray-100 bg-gray-50">
+                  <button
+                    onClick={() => setSections(defaultSections)}
+                    className="flex items-center gap-2 text-xs text-gray-500 hover:text-gray-700 transition-colors"
+                    data-testid="button-reset-sections"
+                  >
+                    <RotateCcw className="h-3 w-3" />
+                    Reset to Default
+                  </button>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
