@@ -1,0 +1,368 @@
+Below is a clear, implementation-ready spec based strictly on your glossary and constraints, written for product + engineering, not UI. This assumes jobs are per legal entity, departments are accounting-driven, and earning rates bridge jobs → payroll.
+
+Spec: Departments, Jobs, and Earning Rates (Per Legal Entity)
+Purpose
+
+Introduce a structured model for Departments, Jobs, and Earning Rates that:
+
+Aligns with CheckHQ earning codes
+
+Simplifies payroll imports and runs
+
+Enables accurate accounting journals by department
+
+Supports employee-specific pay rates
+
+Scales cleanly across legal entities
+
+Scope & Assumptions
+In Scope
+
+Departments
+
+Jobs
+
+Employee earning rates
+
+Payroll run inputs
+
+Accounting journal generation
+
+Out of Scope
+
+Scheduling
+
+Tip pooling logic
+
+Benefits / deductions
+
+Multi-currency
+
+Core Definitions (Source of Truth)
+1. Department
+
+Purpose
+
+Groups jobs
+
+Used for accounting
+
+Maps 1:1 to wage expense accounts
+
+Key Characteristics
+
+Global within a legal entity
+
+Not employee-specific
+
+Not location-specific (unless legal entity = location)
+
+Attributes
+
+id
+
+legal_entity_id
+
+name
+
+wage_expense_account_id
+
+status (active / inactive)
+
+created_at
+
+2. Job
+
+Purpose
+
+Represents the type of work
+
+Drives:
+
+Pastub job name
+
+Workers comp classification
+
+Labor reporting
+
+Department mapping
+
+Payroll earning codes
+
+Rules
+
+Jobs are per legal entity
+
+1:1 mapping with CheckHQ earning code
+
+Each job belongs to exactly one department
+
+Job may have a stored base pay, but employees earn via earning rates
+
+Attributes
+
+id
+
+legal_entity_id
+
+department_id
+
+name
+
+checkhq_earning_code_id (required, unique per legal entity)
+
+base_pay_rate (optional, hourly)
+
+pay_type (hourly, salaried)
+
+workers_comp_code (optional)
+
+status
+
+created_at
+
+3. Earning Rate
+
+Purpose
+
+Determines how much an employee earns when working a job
+
+Abstracts pay logic away from the job itself
+
+Allows per-employee overrides (promos, tenure, raises)
+
+Rules
+
+Every employee × job pairing has one or more earning rates
+
+Rates may differ from job base pay
+
+Used directly in payroll runs
+
+Types
+
+Base rate
+
+Overtime rate
+
+(Future) premium / holiday rates
+
+Attributes
+
+id
+
+employee_id
+
+job_id
+
+rate_type (base, overtime)
+
+hourly_rate
+
+effective_start_date
+
+effective_end_date (nullable)
+
+checkhq_earning_rate_id (mapped after creation)
+
+created_at
+
+Relationships Overview
+Legal Entity
+ ├─ Departments
+ │   └─ Jobs
+ │       └─ Earning Rates
+ │           └─ Employee
+
+System Behavior
+Job Creation → Earning Rate Automation
+
+When a job is created with a base pay:
+
+Base pay is stored on the job
+
+No earning rates are created yet
+
+When an employee is assigned to a job:
+
+System auto-creates:
+
+Base earning rate (from job base pay)
+
+Overtime earning rate (derived from base or rule engine)
+
+Admin can override employee rates afterward
+
+Payroll Runs
+Current State
+
+Manual CSV imports
+
+Complex earning logic done externally
+
+With This Model
+Hourly Employees
+
+Payroll input requires only:
+
+Employee identifier
+
+Job
+
+Hours worked
+
+Overtime hours
+
+Spread of hours (if applicable)
+
+System resolves:
+
+Correct earning rates
+
+Correct earning codes
+
+Correct department mapping
+
+Salaried Employees
+
+No hours required
+
+Earnings derived from salary configuration
+
+Still mapped to a job + department for accounting
+
+Payroll CSV Generation (Future-Ready)
+
+Generated CSV includes:
+
+Employee
+
+CheckHQ earning code (from Job)
+
+CheckHQ earning rate ID (from Earning Rate)
+
+Hours
+
+Amount
+
+CSV complexity is reduced, not increased.
+
+Accounting Impact
+Journal Entries
+
+Journals can now be generated:
+
+By Department
+
+By Job
+
+By Employee
+
+Or any combination
+
+Example Journal Logic
+Debit: Wages Expense (Department)
+Credit: Accrued Payroll Liability
+
+
+Spread of hours
+
+Still tracked at earning level
+
+Allocated to department via job mapping
+
+Required Data Model Changes
+New Tables
+departments
+id
+legal_entity_id
+name
+wage_expense_account_id
+status
+created_at
+
+jobs
+id
+legal_entity_id
+department_id
+name
+checkhq_earning_code_id
+base_pay_rate
+pay_type
+workers_comp_code
+status
+created_at
+
+earning_rates
+id
+employee_id
+job_id
+rate_type
+hourly_rate
+effective_start_date
+effective_end_date
+checkhq_earning_rate_id
+created_at
+
+Changes to Existing Systems
+Payroll
+
+Use earning_rates as source of truth
+
+Validate job ↔ earning code mapping before submission
+
+Accounting
+
+Update journal builder to:
+
+Pull department from job
+
+Aggregate wages by department
+
+Maintain backward compatibility during migration
+
+Migration Strategy
+
+Create default department(s) per legal entity
+
+Create jobs per existing CheckHQ earning codes
+
+Backfill base pay where available
+
+Generate earning rates for active employees
+
+Validate payroll totals before cutover
+
+Validation Rules
+
+Job must belong to exactly one department
+
+Job must have a CheckHQ earning code
+
+Earning rate must exist before payroll run
+
+Employee cannot be paid without an earning rate
+
+Non-Goals (Explicit)
+
+No job sharing across legal entities
+
+No department-level pay rates
+
+No implicit earning rate changes on job base pay updates
+
+Summary (Executive)
+
+Departments define accounting. Jobs define work and payroll codes. Earning rates define what each employee earns. Jobs are per legal entity, and accounting becomes deterministic and auditable.
+
+If you want next, I can:
+
+Turn this into ER diagrams
+
+Write CheckHQ sync logic
+
+Define acceptance criteria
+
+Or map this directly to your existing schema and gaps
+
+Just say the word.

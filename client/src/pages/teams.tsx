@@ -215,6 +215,7 @@ export default function Teams() {
   const [personnelSearch, setPersonnelSearch] = useState("");
   const [deptSearch, setDeptSearch] = useState("");
   const [deptJobSearch, setDeptJobSearch] = useState("");
+  const [jobAssignmentLocation, setJobAssignmentLocation] = useState("1"); // Location filter for job assignment card
   
   const [deptScrolledToBottom, setDeptScrolledToBottom] = useState(false);
   const [deptJobScrolledToBottom, setDeptJobScrolledToBottom] = useState(false);
@@ -707,8 +708,23 @@ export default function Teams() {
           {/* Job Assignment Card */}
           <Card data-testid="card-job-assignment">
             <CardHeader className="py-4">
-              <CardTitle className="text-lg">Job Assignment</CardTitle>
-              <CardDescription>Link employees to job roles</CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg">Job Assignment</CardTitle>
+                  <CardDescription>Link employees to job roles</CardDescription>
+                </div>
+                <Select value={jobAssignmentLocation} onValueChange={setJobAssignmentLocation}>
+                  <SelectTrigger className="w-40" data-testid="select-job-assignment-location">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {locations.map(loc => (
+                      <SelectItem key={loc.id} value={loc.id}>{loc.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </CardHeader>
             <CardContent className="p-0">
               <div className="grid grid-cols-2 border-t">
@@ -744,7 +760,7 @@ export default function Teams() {
                           <div>
                             <div className="font-medium text-sm">{job.name}</div>
                             <div className="text-xs text-muted-foreground">
-                              {job.payType === "salaried" ? `$${job.baseRate.toLocaleString()}/yr` : `$${job.baseRate}/hr`}
+                              ${job.baseRate}/HR
                             </div>
                           </div>
                           {selectedJobRole === job.id && (
@@ -776,29 +792,67 @@ export default function Teams() {
                   <div className="relative">
                     <div className="max-h-[302px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setStaffScrolledToBottom)}>
                       {staff.filter(s => s.status === "active" && s.name.toLowerCase().includes(personnelSearch.toLowerCase())).map((person, index, arr) => {
-                        const isAssigned = person.jobAssignments.some(ja => ja.jobRoleId === selectedJobRole);
-                        const otherAssignment = person.jobAssignments.find(ja => ja.jobRoleId !== selectedJobRole);
-                        const otherJobName = otherAssignment ? jobRoles.find(j => j.id === otherAssignment.jobRoleId)?.name : null;
-                        const assignedLocations = person.jobAssignments.filter(ja => ja.jobRoleId === selectedJobRole).map(ja => locations.find(l => l.id === ja.locationId)?.name).join(", ");
+                        // Check if assigned to selected job at selected location
+                        const isAssignedHere = person.jobAssignments.some(ja => ja.jobRoleId === selectedJobRole && ja.locationId === jobAssignmentLocation);
+                        // Check if assigned to a different job at this location
+                        const otherJobAtLocation = person.jobAssignments.find(ja => ja.locationId === jobAssignmentLocation && ja.jobRoleId !== selectedJobRole);
+                        const otherJobName = otherJobAtLocation ? jobRoles.find(j => j.id === otherJobAtLocation.jobRoleId)?.name : null;
+                        // Check if person works at this location at all
+                        const worksAtLocation = person.jobAssignments.some(ja => ja.locationId === jobAssignmentLocation);
+                        
+                        const isMuted = otherJobName && !isAssignedHere;
+                        
+                        const handleToggleAssignment = () => {
+                          if (isMuted) return; // Can't toggle if assigned to another job at this location
+                          setStaff(prev => prev.map(s => {
+                            if (s.id !== person.id) return s;
+                            if (isAssignedHere) {
+                              // Remove assignment
+                              return { ...s, jobAssignments: s.jobAssignments.filter(ja => !(ja.jobRoleId === selectedJobRole && ja.locationId === jobAssignmentLocation)) };
+                            } else {
+                              // Add assignment
+                              return { ...s, jobAssignments: [...s.jobAssignments, { locationId: jobAssignmentLocation, jobRoleId: selectedJobRole }] };
+                            }
+                          }));
+                        };
+                        
                         return (
                           <div
                             key={person.id}
                             className={cn(
-                              "flex items-center gap-3 px-6 h-[55px] hover:bg-gray-50 transition-colors",
+                              "flex items-center gap-3 px-6 h-[55px] transition-colors",
+                              isMuted ? "opacity-50" : "hover:bg-gray-50 cursor-pointer",
                               index !== arr.length - 1 && "border-b"
                             )}
+                            onClick={handleToggleAssignment}
+                            data-testid={`row-staff-assignment-${person.id}`}
                           >
-                            <div className={cn("w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-medium", person.avatarColor)}>
+                            <Checkbox 
+                              checked={isAssignedHere}
+                              disabled={isMuted}
+                              className={cn(
+                                isAssignedHere && "bg-emerald-600 border-emerald-600 text-white"
+                              )}
+                              data-testid={`checkbox-assign-${person.id}`}
+                            />
+                            <div className={cn("w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-medium", person.avatarColor, isMuted && "opacity-60")}>
                               {person.initials}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="font-medium text-sm">{person.name}</div>
-                              <div className="text-xs text-muted-foreground">
-                                {isAssigned ? `@ ${assignedLocations}` : otherJobName ? `Assigned to ${otherJobName}` : "No assignments"}
-                              </div>
+                              <div className={cn("font-medium text-sm", isMuted && "text-muted-foreground")}>{person.name}</div>
+                              {isAssignedHere ? (
+                                <div className="text-xs text-muted-foreground">ASSIGNED</div>
+                              ) : otherJobName ? (
+                                <div className="text-xs text-muted-foreground">Assigned to {otherJobName}</div>
+                              ) : null}
                             </div>
-                            {isAssigned && (
-                              <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">Assigned</span>
+                            {isAssignedHere && (
+                              <button 
+                                className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
+                                onClick={(e) => { e.stopPropagation(); openStaffDetail(person); }}
+                              >
+                                View Earning Rates <ChevronRight className="h-3 w-3" />
+                              </button>
                             )}
                           </div>
                         );
