@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import Layout from "@/components/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -87,6 +87,26 @@ const steps = [
   { number: 4, label: "Confirm & Pay" },
 ];
 
+function updateTaskStep(stepIndex: number) {
+  const stored = localStorage.getItem("activeTask");
+  if (!stored) return;
+  
+  try {
+    const task = JSON.parse(stored);
+    if (task.steps && task.steps[stepIndex]) {
+      task.steps[stepIndex].completed = true;
+      localStorage.setItem("activeTask", JSON.stringify(task));
+      window.dispatchEvent(new Event("storage"));
+    }
+  } catch {}
+}
+
+const failedEmployees = [
+  { id: "f1", name: "Emily Rodriguez", issue: "Missing SSN", location: "NYC - Brooklyn" },
+  { id: "f2", name: "James Wilson", issue: "Missing W-4 form", location: "NYC - Brooklyn" },
+  { id: "f3", name: "Ashley Thompson", issue: "Invalid tax withholding", location: "NYC - Queens" },
+];
+
 export default function PayrollRun() {
   const [location, setLocation] = useLocation();
   const { toast } = useToast();
@@ -97,6 +117,25 @@ export default function PayrollRun() {
   const [hoursEntryMode, setHoursEntryMode] = useState<"select" | "import" | "manual" | "auto">("select");
   const [autoImportLoading, setAutoImportLoading] = useState(false);
   const [expandedConfirmEmployee, setExpandedConfirmEmployee] = useState<string | null>(null);
+  const [showFailedPayroll, setShowFailedPayroll] = useState(false);
+  const [reviewedDetails, setReviewedDetails] = useState(false);
+  
+  useEffect(() => {
+    const stored = localStorage.getItem("activeTask");
+    if (stored) {
+      try {
+        const task = JSON.parse(stored);
+        if (task.title && task.title.includes("failed")) {
+          setShowFailedPayroll(true);
+        }
+      } catch {}
+    }
+  }, []);
+
+  const handleReviewComplete = () => {
+    setReviewedDetails(true);
+    updateTaskStep(0);
+  };
   
   // Check if Auto Import is enabled (simulating NY location)
   const urlParams = new URLSearchParams(window.location.search);
@@ -236,6 +275,117 @@ export default function PayrollRun() {
   return (
     <Layout>
       <div className="p-8 max-w-5xl mx-auto">
+        {showFailedPayroll && !reviewedDetails ? (
+          <>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <div className="text-sm text-muted-foreground mb-1">
+                  <Button variant="link" className="p-0 h-auto text-muted-foreground" onClick={() => setLocation("/payroll/home")}>
+                    Payroll
+                  </Button>
+                  <span className="mx-2">›</span>
+                  <span className="text-red-600">Failed Payroll Run</span>
+                </div>
+                <h1 className="text-2xl font-bold text-red-600">Payroll Run Failed</h1>
+                <p className="text-muted-foreground">January 8, 2026 - PR-2026-01-08</p>
+              </div>
+            </div>
+
+            <Card className="border-red-200 bg-red-50 mb-6">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                    <AlertTriangle className="h-6 w-6 text-red-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-red-900 text-lg">Payroll could not be processed</h3>
+                    <p className="text-red-700 mt-1">
+                      3 employees are missing required tax information. This must be resolved before payroll can be re-run.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Users className="h-5 w-5" />
+                  Employees with Issues
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b text-left text-sm text-muted-foreground bg-gray-50">
+                      <th className="px-6 py-3 font-medium">Employee</th>
+                      <th className="px-6 py-3 font-medium">Location</th>
+                      <th className="px-6 py-3 font-medium">Issue</th>
+                      <th className="px-6 py-3 font-medium text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {failedEmployees.map((emp) => (
+                      <tr key={emp.id} className="border-b hover:bg-gray-50" data-testid={`row-failed-${emp.id}`}>
+                        <td className="px-6 py-4 font-medium">{emp.name}</td>
+                        <td className="px-6 py-4 text-muted-foreground">{emp.location}</td>
+                        <td className="px-6 py-4">
+                          <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
+                            <AlertTriangle className="h-3 w-3 mr-1" />
+                            {emp.issue}
+                          </Badge>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => setLocation("/payroll/onboarding")}
+                            data-testid={`button-fix-${emp.id}`}
+                          >
+                            Fix Issue <ChevronRight className="h-4 w-4 ml-1" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </CardContent>
+            </Card>
+
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle className="text-lg">Run Summary</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-3 gap-6">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Attempted</p>
+                    <p className="text-2xl font-bold">Jan 8, 2026 9:00 AM</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Total Employees</p>
+                    <p className="text-2xl font-bold">12</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Failed</p>
+                    <p className="text-2xl font-bold text-red-600">3</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setLocation("/payroll/home")}>
+                Back to Payroll Home
+              </Button>
+              <Button onClick={handleReviewComplete} data-testid="button-reviewed">
+                <CheckCircle2 className="h-4 w-4 mr-2" />
+                I've Reviewed the Details
+              </Button>
+            </div>
+          </>
+        ) : (
+        <>
         <div className="flex items-center justify-between mb-6">
           <div>
             <div className="text-sm text-muted-foreground mb-1">
@@ -993,6 +1143,8 @@ export default function PayrollRun() {
           </div>
           );
         })()}
+        </>
+        )}
       </div>
     </Layout>
   );
