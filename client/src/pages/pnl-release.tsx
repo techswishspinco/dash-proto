@@ -247,14 +247,14 @@ const saveCuratedPrefs = (prefs: CuratedViewPrefs) => {
   localStorage.setItem(CURATED_VIEW_PREFS_KEY, JSON.stringify(prefs));
 };
 
-// Real P&L summary - Year-over-Year (November 2025 vs November 2024)
+// Real P&L summary from Excel (September 2025 vs August 2025)
 const pnlData = [
-  { category: "Revenue", current: 156862.65, prior: 160434.87, variance: -3572.22, pct: -2.2 },
-  { category: "COGS", current: 56359.61, prior: 46287.59, variance: 10072.02, pct: 21.8 },
-  { category: "Labor", current: 16627.64, prior: 30916.05, variance: -14288.41, pct: -46.2 },
-  { category: "Expenses", current: 71856.27, prior: 78069.75, variance: -6213.48, pct: -8.0 },
-  { category: "Gross Profit", current: 100503.04, prior: 114147.28, variance: -13644.24, pct: -12.0 },
-  { category: "Net Income", current: 28456.12, prior: 36077.53, variance: -7621.41, pct: -21.1 },
+  { category: "Revenue", current: 133042, prior: 154351, variance: -21309, pct: -13.8 },
+  { category: "COGS", current: 55670, prior: 57494, variance: -1824, pct: -3.2 },
+  { category: "Labor", current: 16156, prior: 18408, variance: -2252, pct: -12.2 },
+  { category: "Expenses", current: 59650, prior: 67891, variance: -8241, pct: -12.1 },
+  { category: "Gross Profit", current: 77372, prior: 96857, variance: -19485, pct: -20.1 },
+  { category: "Net Income", current: 17722, prior: 28966, variance: -11244, pct: -38.8 },
 ];
 
 // Real net margin % trend from Excel (Jan-Sep 2025)
@@ -595,32 +595,32 @@ interface Suggestion {
   params: Record<string, any>;
 }
 
-// Hierarchical P&L data structure - Year-over-Year (November 2025 vs November 2024)
+// Hierarchical P&L data structure - Real data from Excel (September 2025 vs August 2025)
 const hierarchicalPnlData: PnLLineItem[] = [
   {
     id: 'income',
     name: 'Revenue',
-    current: 156862.65,
-    prior: 160434.87,
+    current: 133041.81,
+    prior: 154351.46,
     type: 'revenue',
     relatedMetrics: [{ id: 'cogs', name: 'COGS' }],
     children: [
-      { id: 'food-sales', name: 'Food Sales', current: 112601.90, prior: 127315.39, type: 'revenue' },
-      { id: 'beverage-sales', name: 'Beverage Sales', current: 23850.60, prior: 24228.10, type: 'revenue',
+      { id: 'food-sales', name: 'Food Sales', current: 103461.46, prior: 121928.52, type: 'revenue' },
+      { id: 'beverage-sales', name: 'Beverage Sales', current: 17698, prior: 22676.45, type: 'revenue',
         children: [
-          { id: 'alcohol-bevs', name: 'Alcohol Bevs', current: 2450.00, prior: 2192.00, type: 'revenue' },
-          { id: 'n-a-beverage', name: 'N/A Beverage', current: 21400.60, prior: 22036.10, type: 'revenue' },
+          { id: 'alcohol-bevs', name: 'Alcohol Bevs', current: 2622, prior: 2598, type: 'revenue' },
+          { id: 'n-a-beverage', name: 'N/A Beverage', current: 15076, prior: 20078.45, type: 'revenue' },
         ]
       },
-      { id: 'comps-discount', name: 'Comps / Discount', current: -4908.07, prior: -7356.79, type: 'revenue' },
-      { id: 'delivery-sales', name: 'Delivery Sales', current: 25318.22, prior: 16248.17, type: 'revenue',
+      { id: 'comps-discount', name: 'Comps / Discount', current: -7845.23, prior: -9039.28, type: 'revenue' },
+      { id: 'delivery-sales', name: 'Delivery Sales', current: 19727.58, prior: 18785.77, type: 'revenue',
         children: [
-          { id: 'classpass', name: 'ClassPass', current: 245.00, prior: 0, type: 'revenue' },
-          { id: 'doordash', name: 'DoorDash', current: 7125.45, prior: 5291.75, type: 'revenue' },
-          { id: 'fantuan', name: 'Fantuan', current: 385.22, prior: 275.55, type: 'revenue' },
-          { id: 'grubhub', name: 'GrubHub', current: 3456.78, prior: 2681.72, type: 'revenue' },
-          { id: 'hungrypanda', name: 'HungryPanda', current: 520.45, prior: 0, type: 'revenue' },
-          { id: 'ubereats', name: 'UberEats', current: 13585.32, prior: 7999.15, type: 'revenue' },
+          { id: 'classpass', name: 'ClassPass', current: 192.04, prior: 160.12, type: 'revenue' },
+          { id: 'doordash', name: 'DoorDash', current: 5269.8, prior: 5920.7, type: 'revenue' },
+          { id: 'fantuan', name: 'Fantuan', current: 215.75, prior: 132.95, type: 'revenue' },
+          { id: 'grubhub', name: 'GrubHub', current: 1784, prior: 2063.55, type: 'revenue' },
+          { id: 'hungrypanda', name: 'HungryPanda', current: 64.7, prior: 393.5, type: 'revenue' },
+          { id: 'ubereats', name: 'UberEats', current: 10311.29, prior: 8337.66, type: 'revenue' },
         ]
       },
     ]
@@ -628,82 +628,82 @@ const hierarchicalPnlData: PnLLineItem[] = [
   {
     id: 'cogs',
     name: 'Cost of Goods Sold',
-    current: 56359.61,
-    prior: 46287.59,
+    current: 55669.86,
+    prior: 57494.34,
     type: 'expense',
     relatedMetrics: [{ id: 'income', name: 'Revenue' }],
     children: [
-      { id: 'food-cost', name: 'Food Cost', current: 6657.53, prior: 5893.26, type: 'expense',
+      { id: 'food-cost', name: 'Food Cost', current: 5184.83, prior: 4937.5, type: 'expense',
         children: [
-          { id: 'dairy', name: 'Dairy', current: 2012.45, prior: 1745.32, type: 'expense' },
-          { id: 'dry-goods', name: 'Dry Goods', current: 2598.86, prior: 2429.72, type: 'expense' },
-          { id: 'produce', name: 'Produce', current: 2046.22, prior: 1718.22, type: 'expense' },
+          { id: 'dairy', name: 'Dairy', current: 1858.85, prior: 1521.68, type: 'expense' },
+          { id: 'dry-goods', name: 'Dry Goods', current: 1533.06, prior: 1940.61, type: 'expense' },
+          { id: 'produce', name: 'Produce', current: 1792.92, prior: 1475.21, type: 'expense' },
         ]
       },
-      { id: 'beverage-cost', name: 'Beverage Cost', current: 2890.41, prior: 2775.25, type: 'expense',
+      { id: 'beverage-cost', name: 'Beverage Cost', current: 2393.45, prior: 1195.39, type: 'expense',
         children: [
-          { id: 'beer-wine-cider', name: 'Beer/Wine/Cider', current: 612.35, prior: 488.80, type: 'expense' },
-          { id: 'coffee-tea', name: 'Coffee/Tea', current: 1965.71, prior: 2074.10, type: 'expense' },
-          { id: 'juice-soda-water', name: 'Juice/Soda/Water', current: 312.35, prior: 212.35, type: 'expense' },
+          { id: 'beer-wine-cider', name: 'Beer/Wine/Cider', current: 976.12, prior: 300.4, type: 'expense' },
+          { id: 'coffee-tea', name: 'Coffee/Tea', current: 995.37, prior: 454.7, type: 'expense' },
+          { id: 'juice-soda-water', name: 'Juice/Soda/Water', current: 421.96, prior: 440.29, type: 'expense' },
         ]
       },
-      { id: 'commissary-food', name: 'Commissary Food', current: 46811.67, prior: 37619.08, type: 'expense' },
-      { id: 'direct-labor-cost', name: 'Direct Labor Cost', current: 0, prior: 0, type: 'expense',
+      { id: 'commissary-food', name: 'Commissary Food', current: 19847.4, prior: 23938.32, type: 'expense' },
+      { id: 'direct-labor-cost', name: 'Direct Labor Cost', current: 16156.05, prior: 18408.13, type: 'expense',
         children: [
-          { id: 'dishwasher', name: 'Dishwasher', current: 0, prior: 0, type: 'expense' },
-          { id: 'dishwasher-overtime', name: 'Dishwasher Overtime', current: 0, prior: 0, type: 'expense' },
-          { id: 'server-plater', name: 'Server/Plater', current: 0, prior: 0, type: 'expense' },
-          { id: 'server-plater-overtime', name: 'Server/Plater Overtime', current: 0, prior: 0, type: 'expense' },
+          { id: 'dishwasher', name: 'Dishwasher', current: 3087.86, prior: 3844.52, type: 'expense' },
+          { id: 'dishwasher-overtime', name: 'Dishwasher Overtime', current: 278.45, prior: 383.62, type: 'expense' },
+          { id: 'server-plater', name: 'Server/Plater', current: 12731.99, prior: 13510.36, type: 'expense' },
+          { id: 'server-plater-overtime', name: 'Server/Plater Overtime', current: 57.75, prior: 669.63, type: 'expense' },
         ]
       },
-      { id: 'online-delivery-fees', name: 'Online Delivery Fees', current: 0, prior: 0, type: 'expense' },
+      { id: 'online-delivery-fees', name: 'Online Delivery Fees', current: 3133.72, prior: 0, type: 'expense' },
     ]
   },
   {
     id: 'gross-profit',
     name: 'Gross Profit',
-    current: 100503.04,
-    prior: 114147.28,
+    current: 77371.95,
+    prior: 96857.12,
     type: 'subtotal',
   },
   {
     id: 'expenses',
     name: 'Operating Expenses',
-    current: 72046.92,
-    prior: 78069.75,
+    current: 59649.58,
+    prior: 67890.77,
     type: 'expense',
     children: [
-      { id: 'payroll-expenses', name: 'Payroll Expenses', current: 16627.64, prior: 30916.05, type: 'expense',
+      { id: 'payroll-expenses', name: 'Payroll Expenses', current: 16948.93, prior: 19247.68, type: 'expense',
         children: [
-          { id: 'payroll-processing-fees', name: 'Payroll Processing Fees', current: 298.45, prior: 317.41, type: 'expense' },
-          { id: 'payroll-taxes-benefits', name: 'Payroll Taxes & Benefits', current: 3845.67, prior: 4282.13, type: 'expense' },
-          { id: 'salaries-wages', name: 'Salaries & Wages', current: 12483.52, prior: 26316.51, type: 'expense' },
+          { id: 'payroll-processing-fees', name: 'Payroll Processing Fees', current: 286.52, prior: 341.73, type: 'expense' },
+          { id: 'payroll-taxes-benefits', name: 'Payroll Taxes & Benefits', current: 2413.27, prior: 2684.01, type: 'expense' },
+          { id: 'salaries-wages', name: 'Salaries & Wages', current: 14249.14, prior: 16221.94, type: 'expense' },
         ]
       },
-      { id: 'direct-operating-costs', name: 'Direct Operating Costs', current: 26125.78, prior: 25713.06, type: 'expense',
+      { id: 'direct-operating-costs', name: 'Direct Operating Costs', current: 21379.69, prior: 25018.45, type: 'expense',
         children: [
-          { id: 'contract-services', name: 'Contract Services', current: 1623.45, prior: 0, type: 'expense' },
-          { id: 'credit-card-fees', name: 'Credit Card Fees', current: 4456.78, prior: 4435.46, type: 'expense' },
-          { id: 'royalty-fees', name: 'Royalty Fees', current: 7843.13, prior: 8021.74, type: 'expense' },
-          { id: 'delivery-service-fees', name: 'Delivery Service Fees', current: 5687.23, prior: 4714.76, type: 'expense' },
-          { id: 'depot-delivery-fees', name: 'Depot Delivery Fees', current: 1756.45, prior: 1885.00, type: 'expense' },
-          { id: 'restaurant-supplies', name: 'Restaurant/Kitchen Supplies', current: 4758.74, prior: 6656.10, type: 'expense' },
+          { id: 'contract-services', name: 'Contract Services', current: 1543.28, prior: 1398.76, type: 'expense' },
+          { id: 'credit-card-fees', name: 'Credit Card Fees', current: 3977.74, prior: 4615.28, type: 'expense' },
+          { id: 'delivery-service-fees', name: 'Delivery Service Fees', current: 5241.57, prior: 5046.48, type: 'expense' },
+          { id: 'marketing-pr', name: 'Marketing & PR', current: 989.25, prior: 2098.35, type: 'expense' },
+          { id: 'repairs-maintenance', name: 'Repairs & Maintenance', current: 1150.28, prior: 1680.45, type: 'expense' },
+          { id: 'restaurant-supplies', name: 'Restaurant/Kitchen Supplies', current: 7084.03, prior: 7965.46, type: 'expense' },
         ]
       },
-      { id: 'general-admin', name: 'General & Administrative', current: 4512.35, prior: 4459.15, type: 'expense',
+      { id: 'general-admin', name: 'General & Administrative', current: 3870.86, prior: 4318.56, type: 'expense',
         children: [
-          { id: 'expenses-misc', name: 'Expenses - Misc.', current: 645.23, prior: 0, type: 'expense' },
-          { id: 'info-technology', name: 'Information Technology', current: 1125.45, prior: 0, type: 'expense' },
-          { id: 'insurance-expense', name: 'Insurance Expense', current: 1945.67, prior: 0, type: 'expense' },
-          { id: 'licenses-permits', name: 'Licenses & Permits', current: 412.00, prior: 0, type: 'expense' },
-          { id: 'professional-fees', name: 'Professional Fees', current: 384.00, prior: 0, type: 'expense' },
+          { id: 'expenses-misc', name: 'Expenses - Misc.', current: 485.35, prior: 762.18, type: 'expense' },
+          { id: 'info-technology', name: 'Information Technology', current: 988.46, prior: 1124.58, type: 'expense' },
+          { id: 'insurance-expense', name: 'Insurance Expense', current: 1892.23, prior: 1927.45, type: 'expense' },
+          { id: 'licenses-permits', name: 'Licenses & Permits', current: 125.82, prior: 145.35, type: 'expense' },
+          { id: 'professional-fees', name: 'Professional Fees', current: 379, prior: 359, type: 'expense' },
         ]
       },
-      { id: 'occupancy', name: 'Occupancy', current: 24781.15, prior: 16981.49, type: 'expense',
+      { id: 'occupancy', name: 'Occupancy', current: 17053.5, prior: 19305.08, type: 'expense',
         children: [
-          { id: 'real-estate-taxes', name: 'Real Estate Taxes', current: 3125.45, prior: 0, type: 'expense' },
-          { id: 'rent', name: 'Rent', current: 17856.25, prior: 0, type: 'expense' },
-          { id: 'utilities', name: 'Utilities', current: 3799.45, prior: 0, type: 'expense' },
+          { id: 'real-estate-taxes', name: 'Real Estate Taxes', current: 1857.65, prior: 3836.5, type: 'expense' },
+          { id: 'rent', name: 'Rent', current: 12000, prior: 12400, type: 'expense' },
+          { id: 'utilities', name: 'Utilities', current: 3195.85, prior: 3068.58, type: 'expense' },
         ]
       },
     ]
@@ -711,8 +711,8 @@ const hierarchicalPnlData: PnLLineItem[] = [
   {
     id: 'net-income',
     name: 'Net Operating Income',
-    current: 28456.12,
-    prior: 36077.53,
+    current: 17722.37,
+    prior: 28966.35,
     type: 'subtotal',
   }
 ];
@@ -1494,7 +1494,7 @@ function PnLDashboard({ onInsightClick, highlightedNodeId, onHighlightClear, onT
           <h2 className="text-xl font-serif font-bold text-gray-900">P&L Dashboard</h2>
         </div>
         <div className="flex items-center gap-2 text-xs">
-          <span className="text-gray-500">November 2025 vs November 2024</span>
+          <span className="text-gray-500">September 2025 vs August 2025</span>
         </div>
       </button>
 
@@ -1571,8 +1571,8 @@ function PnLDashboard({ onInsightClick, highlightedNodeId, onHighlightClear, onT
         <div className="flex items-center px-4 py-3 bg-gray-50 border-b border-gray-100 text-xs font-medium text-gray-500 uppercase tracking-wider">
           <div className="flex-1">Line Item</div>
           <div className="flex items-center gap-6">
-            <div className="w-28 text-right">Nov 2025</div>
-            <div className="w-28 text-right">Nov 2024</div>
+            <div className="w-28 text-right">Current</div>
+            <div className="w-28 text-right">Prior</div>
             <div className="w-20 text-right">% Profit</div>
           </div>
         </div>
@@ -4248,329 +4248,7 @@ export default function PnlRelease() {
                       </div>
                    </section>
 
-                   {/* 2. YoY P&L Comparison - November 2024 vs November 2025 */}
-                   <section id="yoy-comparison" className="scroll-mt-4">
-                      {/* Summary Banner */}
-                      <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-t-xl px-6 py-4 flex items-center justify-between">
-                         <div className="flex items-center gap-3">
-                            <Calendar className="h-5 w-5 text-gray-400" />
-                            <h2 className="text-lg font-serif font-bold text-white">November Year-over-Year Comparison</h2>
-                         </div>
-                         <div className="flex items-center gap-4 text-sm">
-                            <div className="flex items-center gap-2">
-                               <span className="text-gray-400">Revenue:</span>
-                               <span className="text-red-400 font-semibold flex items-center gap-1">
-                                  <ArrowDown className="h-3.5 w-3.5" /> 2.2%
-                               </span>
-                            </div>
-                            <div className="h-4 w-px bg-gray-600" />
-                            <div className="flex items-center gap-2">
-                               <span className="text-gray-400">Gross Profit:</span>
-                               <span className="text-red-400 font-semibold flex items-center gap-1">
-                                  <ArrowDown className="h-3.5 w-3.5" /> 7.0%
-                               </span>
-                            </div>
-                         </div>
-                      </div>
-
-                      <div className="bg-white rounded-b-xl border border-t-0 border-gray-200 overflow-hidden">
-                         {/* Month Selector & Toggle */}
-                         <div className="px-6 py-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                               <select 
-                                  className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-gray-200"
-                                  defaultValue="november"
-                                  data-testid="select-yoy-month"
-                               >
-                                  <option value="january">January</option>
-                                  <option value="february">February</option>
-                                  <option value="march">March</option>
-                                  <option value="april">April</option>
-                                  <option value="may">May</option>
-                                  <option value="june">June</option>
-                                  <option value="july">July</option>
-                                  <option value="august">August</option>
-                                  <option value="september">September</option>
-                                  <option value="october">October</option>
-                                  <option value="november">November</option>
-                               </select>
-                               <span className="text-xs text-gray-500">2024 vs 2025</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                               <span className="text-xs text-gray-500">Show details</span>
-                               <button className="relative h-5 w-9 rounded-full bg-gray-900 transition-colors">
-                                  <span className="absolute right-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform" />
-                               </button>
-                            </div>
-                         </div>
-
-                         {/* Comparison Table */}
-                         <table className="w-full text-sm">
-                            <thead>
-                               <tr className="border-b border-gray-100 bg-gray-50/50">
-                                  <th className="text-left px-6 py-3 font-medium text-gray-500">Metric</th>
-                                  <th className="text-right px-4 py-3 font-medium text-gray-500">Nov 2024</th>
-                                  <th className="text-right px-4 py-3 font-medium text-gray-500">Nov 2025</th>
-                                  <th className="text-right px-6 py-3 font-medium text-gray-500">Variance</th>
-                               </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-100">
-                               {/* Total Income */}
-                               <tr className="hover:bg-gray-50 bg-gray-50/30 font-medium" title="Total revenue from all sources">
-                                  <td className="px-6 py-3 text-gray-900">Total Income</td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div className="font-semibold">$160,434.87</div>
-                                     <div className="text-xs text-gray-500">100%</div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div className="font-semibold">$156,862.65</div>
-                                     <div className="text-xs text-gray-500">100%</div>
-                                  </td>
-                                  <td className="px-6 py-3 text-right">
-                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
-                                        <ArrowDown className="h-3.5 w-3.5" /> $3,572
-                                     </span>
-                                  </td>
-                               </tr>
-                               {/* Food Sales */}
-                               <tr className="hover:bg-gray-50" title="In-store food sales revenue">
-                                  <td className="px-6 py-3 text-gray-900 pl-10">Food Sales</td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$127,315.39</div>
-                                     <div className="text-xs text-gray-500">79.4%</div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$112,601.90</div>
-                                     <div className="text-xs text-gray-500">71.8%</div>
-                                  </td>
-                                  <td className="px-6 py-3 text-right">
-                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
-                                        <ArrowDown className="h-3.5 w-3.5" /> 7.6%
-                                     </span>
-                                  </td>
-                               </tr>
-                               {/* Beverage Sales */}
-                               <tr className="hover:bg-gray-50" title="Beverage sales including alcoholic and non-alcoholic">
-                                  <td className="px-6 py-3 text-gray-900 pl-10">Beverage Sales</td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$24,228.10</div>
-                                     <div className="text-xs text-gray-500">15.1%</div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$23,850.60</div>
-                                     <div className="text-xs text-gray-500">15.2%</div>
-                                  </td>
-                                  <td className="px-6 py-3 text-right">
-                                     <span className="text-emerald-600 font-medium flex items-center justify-end gap-1">
-                                        <ArrowUp className="h-3.5 w-3.5" /> 0.1%
-                                     </span>
-                                  </td>
-                               </tr>
-                               {/* Delivery Sales */}
-                               <tr className="hover:bg-gray-50" title="Online delivery platform sales (UberEats, DoorDash, GrubHub)">
-                                  <td className="px-6 py-3 text-gray-900 pl-10">Delivery Sales</td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$16,248.17</div>
-                                     <div className="text-xs text-gray-500">10.1%</div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$25,318.22</div>
-                                     <div className="text-xs text-gray-500">16.1%</div>
-                                  </td>
-                                  <td className="px-6 py-3 text-right">
-                                     <span className="text-emerald-600 font-medium flex items-center justify-end gap-1">
-                                        <ArrowUp className="h-3.5 w-3.5" /> 6.0%
-                                     </span>
-                                  </td>
-                               </tr>
-                               {/* Comps/Discount */}
-                               <tr className="hover:bg-gray-50" title="Comps and discounts applied to orders">
-                                  <td className="px-6 py-3 text-gray-900 pl-10">Comps/Discount</td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div className="text-red-600">-$7,356.79</div>
-                                     <div className="text-xs text-gray-500">-4.6%</div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div className="text-red-600">-$4,908.07</div>
-                                     <div className="text-xs text-gray-500">-3.1%</div>
-                                  </td>
-                                  <td className="px-6 py-3 text-right">
-                                     <span className="text-emerald-600 font-medium flex items-center justify-end gap-1">
-                                        <Check className="h-3.5 w-3.5" /> 1.5%
-                                     </span>
-                                  </td>
-                               </tr>
-                               {/* Divider */}
-                               <tr className="bg-gray-100">
-                                  <td colSpan={4} className="px-6 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide">Cost of Goods Sold</td>
-                               </tr>
-                               {/* Total COGS */}
-                               <tr className="hover:bg-gray-50 bg-amber-50/30" title="Total cost of goods sold including food and beverage">
-                                  <td className="px-6 py-3 text-gray-900 font-medium">Total COGS</td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div className="font-semibold">$46,287.59</div>
-                                     <div className="text-xs text-gray-500">28.9%</div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div className="font-semibold">$56,359.61</div>
-                                     <div className="text-xs text-gray-500">35.9%</div>
-                                  </td>
-                                  <td className="px-6 py-3 text-right">
-                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
-                                        <ArrowUp className="h-3.5 w-3.5" /> 7.0%
-                                     </span>
-                                  </td>
-                               </tr>
-                               {/* Food Cost */}
-                               <tr className="hover:bg-gray-50" title="Direct food costs (dairy, dry goods, produce)">
-                                  <td className="px-6 py-3 text-gray-900 pl-10">Food Cost</td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$5,893.26</div>
-                                     <div className="text-xs text-gray-500">3.7%</div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$6,657.53</div>
-                                     <div className="text-xs text-gray-500">4.2%</div>
-                                  </td>
-                                  <td className="px-6 py-3 text-right">
-                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
-                                        <ArrowUp className="h-3.5 w-3.5" /> 0.5%
-                                     </span>
-                                  </td>
-                               </tr>
-                               {/* Beverage Cost */}
-                               <tr className="hover:bg-gray-50" title="Beverage costs (coffee, tea, juice, alcohol)">
-                                  <td className="px-6 py-3 text-gray-900 pl-10">Beverage Cost</td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$2,775.25</div>
-                                     <div className="text-xs text-gray-500">1.7%</div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$2,890.41</div>
-                                     <div className="text-xs text-gray-500">1.8%</div>
-                                  </td>
-                                  <td className="px-6 py-3 text-right">
-                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
-                                        <ArrowUp className="h-3.5 w-3.5" /> 0.1%
-                                     </span>
-                                  </td>
-                               </tr>
-                               {/* Divider */}
-                               <tr className="bg-gray-100">
-                                  <td colSpan={4} className="px-6 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide">Profitability</td>
-                               </tr>
-                               {/* Gross Profit */}
-                               <tr className="hover:bg-gray-50 bg-emerald-50/30" title="Revenue minus cost of goods sold">
-                                  <td className="px-6 py-3 text-gray-900 font-medium">Gross Profit</td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div className="font-semibold">$114,147.28</div>
-                                     <div className="text-xs text-gray-500">71.1%</div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div className="font-semibold">$100,503.04</div>
-                                     <div className="text-xs text-gray-500">64.1%</div>
-                                  </td>
-                                  <td className="px-6 py-3 text-right">
-                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
-                                        <ArrowDown className="h-3.5 w-3.5" /> 7.0%
-                                     </span>
-                                  </td>
-                               </tr>
-                               {/* Payroll Expenses */}
-                               <tr className="hover:bg-gray-50" title="Total payroll including wages, taxes, and benefits">
-                                  <td className="px-6 py-3 text-gray-900">Payroll Expenses</td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$30,916.05</div>
-                                     <div className="text-xs text-gray-500">19.3%</div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div>$16,627.64</div>
-                                     <div className="text-xs text-gray-500">10.6%</div>
-                                  </td>
-                                  <td className="px-6 py-3 text-right">
-                                     <span className="text-emerald-600 font-medium flex items-center justify-end gap-1">
-                                        <ArrowDown className="h-3.5 w-3.5" /> 8.7%
-                                     </span>
-                                  </td>
-                               </tr>
-                               {/* Net Income */}
-                               <tr className="hover:bg-gray-50 bg-gray-100 font-semibold" title="Bottom line profit after all expenses">
-                                  <td className="px-6 py-3 text-gray-900">Net Income</td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div className="font-bold">$36,077.53</div>
-                                     <div className="text-xs text-gray-500">22.5%</div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right">
-                                     <div className="font-bold">$28,456.12</div>
-                                     <div className="text-xs text-gray-500">18.1%</div>
-                                  </td>
-                                  <td className="px-6 py-3 text-right">
-                                     <span className="text-red-600 font-medium flex items-center justify-end gap-1">
-                                        <ArrowDown className="h-3.5 w-3.5" /> 4.4%
-                                     </span>
-                                  </td>
-                               </tr>
-                            </tbody>
-                         </table>
-
-                         {/* Prime Cost Highlight */}
-                         <div className="px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 border-t border-gray-200">
-                            <div className="flex items-center justify-between mb-3">
-                               <h4 className="font-semibold text-gray-900 flex items-center gap-2">
-                                  <Layers className="h-4 w-4 text-indigo-600" />
-                                  Prime Cost Analysis
-                               </h4>
-                               <span className="text-xs text-gray-500">Food + Beverage + Labor</span>
-                            </div>
-                            <div className="grid grid-cols-3 gap-4">
-                               <div className="bg-white rounded-lg p-3 border border-gray-200">
-                                  <p className="text-xs text-gray-500 mb-1">Food Cost %</p>
-                                  <div className="flex items-center justify-between">
-                                     <div>
-                                        <span className="text-lg font-bold text-gray-900">28.9%</span>
-                                        <span className="text-gray-400 mx-1">→</span>
-                                        <span className="text-lg font-bold text-gray-900">35.9%</span>
-                                     </div>
-                                     <span className="text-red-600 text-sm font-medium flex items-center gap-0.5">
-                                        <ArrowUp className="h-3 w-3" /> 7.0%
-                                     </span>
-                                  </div>
-                                  <p className="text-xs text-gray-500 mt-1">Includes commissary + food + beverage</p>
-                               </div>
-                               <div className="bg-white rounded-lg p-3 border border-gray-200">
-                                  <p className="text-xs text-gray-500 mb-1">Labor Cost %</p>
-                                  <div className="flex items-center justify-between">
-                                     <div>
-                                        <span className="text-lg font-bold text-gray-900">19.3%</span>
-                                        <span className="text-gray-400 mx-1">→</span>
-                                        <span className="text-lg font-bold text-gray-900">10.6%</span>
-                                     </div>
-                                     <span className="text-emerald-600 text-sm font-medium flex items-center gap-0.5">
-                                        <ArrowDown className="h-3 w-3" /> 8.7%
-                                     </span>
-                                  </div>
-                                  <p className="text-xs text-gray-500 mt-1">Payroll expenses as % of income</p>
-                               </div>
-                               <div className="bg-white rounded-lg p-3 border border-indigo-200 bg-indigo-50/50">
-                                  <p className="text-xs text-indigo-600 mb-1 font-medium">Prime Cost %</p>
-                                  <div className="flex items-center justify-between">
-                                     <div>
-                                        <span className="text-lg font-bold text-indigo-900">48.2%</span>
-                                        <span className="text-indigo-400 mx-1">→</span>
-                                        <span className="text-lg font-bold text-indigo-900">46.5%</span>
-                                     </div>
-                                     <span className="text-emerald-600 text-sm font-medium flex items-center gap-0.5">
-                                        <ArrowDown className="h-3 w-3" /> 1.7%
-                                     </span>
-                                  </div>
-                                  <p className="text-xs text-gray-500 mt-1">Target: &lt;50% of revenue</p>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                   </section>
-
-                   {/* 3. P&L Dashboard - Intelligent Hierarchical View */}
+                   {/* 2. P&L Dashboard - Intelligent Hierarchical View */}
                    <PnLDashboard 
                      onInsightClick={handleInsightClick} 
                      highlightedNodeId={highlightedPnlNodeId}
