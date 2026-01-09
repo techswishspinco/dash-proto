@@ -4827,80 +4827,151 @@ export default function PnlRelease() {
                           </div>
                        </section>
 
-                       {/* 6. Action Items */}
+                       {/* 6. Action Items & Recommendations */}
                        <section id="owner-action-items" className="scroll-mt-4">
                           <div className="flex items-center justify-between mb-4">
-                             <h2 className="text-xl font-serif font-bold text-gray-900">Action Items</h2>
-                             <button 
-                                data-testid="learn-owner-action-items"
-                                onClick={() => handleInsightClick("How do I prioritize action items from my P&L review? Explain a framework for deciding what to focus on first.")}
-                                className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-lg transition-colors"
-                                title="Learn about Action Items"
-                             >
-                                <Lightbulb className="h-3.5 w-3.5" />
-                                Learn
-                             </button>
+                             <h2 className="text-xl font-serif font-bold text-gray-900">Action Items & Recommendations</h2>
+                             <div className="flex items-center gap-2 text-sm text-gray-500">
+                                <span className="px-2 py-1 bg-gray-100 rounded-md font-medium">{activeActions.length} active</span>
+                                {completedActions.length > 0 && (
+                                   <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-md font-medium">{completedActions.length} completed</span>
+                                )}
+                             </div>
                           </div>
 
                           <div className="bg-white rounded-xl border border-gray-200 p-6">
-                             <div className="space-y-4">
-                                {/* Action Item 1 */}
-                                <div className="flex items-start gap-4 p-4 bg-red-50 border border-red-100 rounded-lg">
-                                   <div className="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-                                      <AlertTriangle className="h-4 w-4 text-red-600" />
-                                   </div>
-                                   <div className="flex-1">
-                                      <div className="flex items-center justify-between mb-1">
-                                         <h4 className="font-semibold text-gray-900">Address OT Hours</h4>
-                                         <span className="text-xs font-medium text-red-700 bg-red-100 px-2 py-0.5 rounded">HIGH PRIORITY</span>
-                                      </div>
-                                      <p className="text-sm text-gray-600 mb-2">Overtime ran 77% over budget. Review scheduling practices and consider cross-training to reduce OT dependency.</p>
-                                      <div className="flex items-center gap-4 text-xs text-gray-500">
-                                         <span className="flex items-center gap-1"><Users className="h-3 w-3" /> GM, Kitchen Manager</span>
-                                         <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> Due: Jan 15</span>
-                                         <span className="font-medium text-red-600">Impact: -$3,200/mo</span>
-                                      </div>
-                                   </div>
-                                </div>
+                             <div className="space-y-3">
+                                <AnimatePresence mode="popLayout">
+                                   {activeActions.map((item) => (
+                                      <motion.div
+                                         key={item.id}
+                                         layout
+                                         initial={{ opacity: 0, y: -10 }}
+                                         animate={{ 
+                                            opacity: 1, 
+                                            y: 0,
+                                            scale: recentlyCompleted === item.id ? [1, 1.02, 1] : 1
+                                         }}
+                                         exit={{ opacity: 0, x: 50, transition: { duration: 0.3 } }}
+                                         data-testid={`owner-action-item-${item.id}`}
+                                         className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors group"
+                                      >
+                                         <button
+                                            onClick={() => toggleActionComplete(item.id)}
+                                            className={cn(
+                                               "w-5 h-5 rounded border-2 flex items-center justify-center transition-all flex-shrink-0",
+                                               "border-gray-300 hover:border-emerald-500 hover:bg-emerald-50"
+                                            )}
+                                            data-testid={`owner-checkbox-${item.id}`}
+                                         >
+                                         </button>
+                                         <div className={cn(
+                                            "h-2.5 w-2.5 rounded-full flex-shrink-0",
+                                            item.priority === "high" ? "bg-red-500" : item.priority === "medium" ? "bg-amber-500" : "bg-emerald-500"
+                                         )} />
+                                         <div className="flex-1 min-w-0">
+                                            {editingActionId === item.id ? (
+                                               <input
+                                                  type="text"
+                                                  value={editingActionTitle}
+                                                  onChange={(e) => setEditingActionTitle(e.target.value)}
+                                                  onBlur={saveActionEdit}
+                                                  onKeyDown={(e) => e.key === "Enter" && saveActionEdit()}
+                                                  className="w-full font-medium text-gray-900 bg-gray-50 border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                                                  autoFocus
+                                                  data-testid={`owner-input-edit-${item.id}`}
+                                               />
+                                            ) : (
+                                               <p
+                                                  onClick={() => startEditingAction(item.id, item.title)}
+                                                  className="font-medium text-gray-900 cursor-pointer hover:text-gray-700"
+                                                  data-testid={`owner-text-action-${item.id}`}
+                                               >
+                                                  {item.title}
+                                               </p>
+                                            )}
+                                            <p className="text-sm text-gray-500">
+                                               Owner: <span className="font-medium">{item.owner}</span> &nbsp;•&nbsp; Impact: {item.impact}
+                                            </p>
+                                         </div>
+                                         <div className="flex items-center gap-2">
+                                            <button
+                                               onClick={() => openAssignModal(item.id, item.title, item.owner)}
+                                               className="px-3 py-1.5 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                                               data-testid={`owner-button-assign-${item.id}`}
+                                            >
+                                               Assign
+                                            </button>
+                                            <button
+                                               onClick={() => startEditingAction(item.id, item.title)}
+                                               className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                                               data-testid={`owner-button-edit-${item.id}`}
+                                            >
+                                               <Pencil className="h-4 w-4" />
+                                            </button>
+                                         </div>
+                                      </motion.div>
+                                   ))}
+                                </AnimatePresence>
 
-                                {/* Action Item 2 */}
-                                <div className="flex items-start gap-4 p-4 bg-amber-50 border border-amber-100 rounded-lg">
-                                   <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
-                                      <Target className="h-4 w-4 text-amber-600" />
+                                {activeActions.length === 0 && (
+                                   <div className="text-center py-8 text-gray-500">
+                                      <CheckCircle2 className="h-12 w-12 mx-auto text-emerald-300 mb-2" />
+                                      <p className="font-medium">All action items completed!</p>
                                    </div>
-                                   <div className="flex-1">
-                                      <div className="flex items-center justify-between mb-1">
-                                         <h4 className="font-semibold text-gray-900">Review Food Cost Drivers</h4>
-                                         <span className="text-xs font-medium text-amber-700 bg-amber-100 px-2 py-0.5 rounded">MEDIUM</span>
-                                      </div>
-                                      <p className="text-sm text-gray-600 mb-2">Food cost running 1pt over target. Analyze menu item margins and supplier pricing for optimization opportunities.</p>
-                                      <div className="flex items-center gap-4 text-xs text-gray-500">
-                                         <span className="flex items-center gap-1"><Users className="h-3 w-3" /> Chef, Purchasing</span>
-                                         <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> Due: Jan 20</span>
-                                         <span className="font-medium text-amber-600">Impact: -$1,800/mo</span>
-                                      </div>
-                                   </div>
-                                </div>
-
-                                {/* Action Item 3 */}
-                                <div className="flex items-start gap-4 p-4 bg-blue-50 border border-blue-100 rounded-lg">
-                                   <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                      <TrendingUp className="h-4 w-4 text-blue-600" />
-                                   </div>
-                                   <div className="flex-1">
-                                      <div className="flex items-center justify-between mb-1">
-                                         <h4 className="font-semibold text-gray-900">Delivery Mix Analysis</h4>
-                                         <span className="text-xs font-medium text-blue-700 bg-blue-100 px-2 py-0.5 rounded">OPPORTUNITY</span>
-                                      </div>
-                                      <p className="text-sm text-gray-600 mb-2">Delivery mix up 2pts YoY. Evaluate commission impact and consider promoting higher-margin items for delivery channel.</p>
-                                      <div className="flex items-center gap-4 text-xs text-gray-500">
-                                         <span className="flex items-center gap-1"><Users className="h-3 w-3" /> GM, Marketing</span>
-                                         <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> Due: Jan 25</span>
-                                         <span className="font-medium text-blue-600">Impact: +$800/mo</span>
-                                      </div>
-                                   </div>
-                                </div>
+                                )}
                              </div>
+
+                             {/* Completed Actions Collapsible */}
+                             {completedActions.length > 0 && (
+                                <div className="mt-6 pt-4 border-t border-gray-100">
+                                   <button
+                                      onClick={() => setShowCompletedActions(!showCompletedActions)}
+                                      className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                                      data-testid="owner-toggle-completed-actions"
+                                   >
+                                      <ChevronDown className={cn("h-4 w-4 transition-transform", showCompletedActions && "rotate-180")} />
+                                      Completed ({completedActions.length})
+                                   </button>
+                                   <AnimatePresence>
+                                      {showCompletedActions && (
+                                         <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="overflow-hidden"
+                                         >
+                                            <div className="space-y-2 mt-3">
+                                               {completedActions.map((item) => (
+                                                  <motion.div
+                                                     key={item.id}
+                                                     initial={{ opacity: 0, scale: 0.95 }}
+                                                     animate={{ opacity: 1, scale: 1 }}
+                                                     className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                                                     data-testid={`owner-completed-action-${item.id}`}
+                                                  >
+                                                     <button
+                                                        onClick={() => toggleActionComplete(item.id)}
+                                                        className="w-5 h-5 rounded border-2 border-emerald-500 bg-emerald-500 flex items-center justify-center flex-shrink-0"
+                                                        data-testid={`owner-checkbox-completed-${item.id}`}
+                                                     >
+                                                        <Check className="h-3 w-3 text-white" />
+                                                     </button>
+                                                     <div className="flex-1 min-w-0">
+                                                        <p className="font-medium text-gray-500 line-through">{item.title}</p>
+                                                        <p className="text-xs text-gray-400">
+                                                           Completed {item.completedAt ? new Date(item.completedAt).toLocaleDateString() : 'recently'}
+                                                        </p>
+                                                     </div>
+                                                  </motion.div>
+                                               ))}
+                                            </div>
+                                         </motion.div>
+                                      )}
+                                   </AnimatePresence>
+                                </div>
+                             )}
                           </div>
                        </section>
                     </div>
