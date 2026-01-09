@@ -810,15 +810,21 @@ export default function WorkQueue() {
   const [searchQuery, setSearchQuery] = useState("");
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
   const [typeFilter, setTypeFilter] = useState<string>("all");
-  const [roleFilter, setRoleFilter] = useState<string>("all");
   const [showSnoozeDialog, setShowSnoozeDialog] = useState(false);
   const [showReassignDialog, setShowReassignDialog] = useState(false);
 
+  const currentUser = "JD";
+
+  const isAssignedToMe = (task: Task) => {
+    return task.assignedTo.some((a) => a.initials === currentUser);
+  };
+
   const filteredTasks = tasks.filter((task) => {
-    if (activeTab === "open" && task.status !== "open") return false;
-    if (activeTab === "in_progress" && task.status !== "in_progress") return false;
-    if (activeTab === "snoozed" && task.status !== "snoozed") return false;
-    if (activeTab === "resolved" && task.status !== "resolved") return false;
+    if (activeTab === "open" && (task.status !== "open" || !isAssignedToMe(task))) return false;
+    if (activeTab === "in_progress" && (task.status !== "in_progress" || !isAssignedToMe(task))) return false;
+    if (activeTab === "snoozed" && (task.status !== "snoozed" || !isAssignedToMe(task))) return false;
+    if (activeTab === "resolved" && (task.status !== "resolved" || !isAssignedToMe(task))) return false;
+    if (activeTab === "unassigned" && (task.status === "resolved" || isAssignedToMe(task))) return false;
 
     if (searchQuery && !task.title.toLowerCase().includes(searchQuery.toLowerCase()) && !task.description.toLowerCase().includes(searchQuery.toLowerCase())) {
       return false;
@@ -826,7 +832,6 @@ export default function WorkQueue() {
 
     if (priorityFilter !== "all" && task.priority !== priorityFilter) return false;
     if (typeFilter !== "all" && task.type !== typeFilter) return false;
-    if (roleFilter !== "all" && !task.assignedTo.some((a) => a.role === roleFilter)) return false;
 
     return true;
   });
@@ -839,10 +844,11 @@ export default function WorkQueue() {
   };
 
   const counts = {
-    open: tasks.filter((t) => t.status === "open").length,
-    in_progress: tasks.filter((t) => t.status === "in_progress").length,
-    snoozed: tasks.filter((t) => t.status === "snoozed").length,
-    resolved: tasks.filter((t) => t.status === "resolved").length,
+    open: tasks.filter((t) => t.status === "open" && isAssignedToMe(t)).length,
+    in_progress: tasks.filter((t) => t.status === "in_progress" && isAssignedToMe(t)).length,
+    snoozed: tasks.filter((t) => t.status === "snoozed" && isAssignedToMe(t)).length,
+    resolved: tasks.filter((t) => t.status === "resolved" && isAssignedToMe(t)).length,
+    unassigned: tasks.filter((t) => t.status !== "resolved" && !isAssignedToMe(t)).length,
   };
 
   const priorityCounts = {
@@ -971,20 +977,6 @@ export default function WorkQueue() {
               <SelectItem value="anomaly">Anomaly</SelectItem>
             </SelectContent>
           </Select>
-
-          <Select value={roleFilter} onValueChange={setRoleFilter}>
-            <SelectTrigger className="w-[180px]" data-testid="select-role-filter">
-              <SelectValue placeholder="Role" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Roles</SelectItem>
-              <SelectItem value="operator">Operator</SelectItem>
-              <SelectItem value="manager">Manager</SelectItem>
-              <SelectItem value="accountant">Accountant</SelectItem>
-              <SelectItem value="support">Internal Support</SelectItem>
-              <SelectItem value="onboarding_specialist">Onboarding Specialist</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
@@ -1004,6 +996,10 @@ export default function WorkQueue() {
             <TabsTrigger value="resolved" className="gap-2" data-testid="tab-resolved">
               Resolved
               {counts.resolved > 0 && <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">{counts.resolved}</Badge>}
+            </TabsTrigger>
+            <TabsTrigger value="unassigned" className="gap-2" data-testid="tab-unassigned">
+              Not Assigned
+              {counts.unassigned > 0 && <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">{counts.unassigned}</Badge>}
             </TabsTrigger>
           </TabsList>
 
