@@ -183,6 +183,7 @@ export default function Teams() {
   const [locations] = useState<Location[]>(initialLocations);
   const [selectedDepartment, setSelectedDepartment] = useState<string>("1");
   const [selectedJob, setSelectedJob] = useState<string>("1");
+  const [selectedJobRole, setSelectedJobRole] = useState<string>("1");
   const [assignedStaff, setAssignedStaff] = useState<Record<string, string[]>>({
     "1": ["1"],
     "2": [],
@@ -624,7 +625,7 @@ export default function Teams() {
                     />
                   </div>
                   <div className="relative">
-                    <div className="max-h-[578px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptScrolledToBottom)}>
+                    <div className="max-h-[302px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptScrolledToBottom)}>
                       {departments.filter(d => d.name.toLowerCase().includes(deptSearch.toLowerCase())).map((dept, index, arr) => (
                         <button
                           key={dept.id}
@@ -666,7 +667,7 @@ export default function Teams() {
                     />
                   </div>
                   <div className="relative">
-                    <div className="max-h-[578px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptJobScrolledToBottom)}>
+                    <div className="max-h-[302px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptJobScrolledToBottom)}>
                       {filteredJobs.filter(j => j.name.toLowerCase().includes(deptJobSearch.toLowerCase())).map((job, index, arr) => (
                         <button
                           key={job.id}
@@ -693,6 +694,131 @@ export default function Teams() {
                       )}
                     </div>
                     {filteredJobs.filter(j => j.name.toLowerCase().includes(deptJobSearch.toLowerCase())).length > 5 && !deptJobScrolledToBottom && (
+                      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white/70 via-white/40 to-transparent pointer-events-none" />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Job Assignment Card */}
+          <Card data-testid="card-job-assignment">
+            <CardHeader className="py-4">
+              <CardTitle className="text-lg">Job Assignment</CardTitle>
+              <CardDescription>Link employees to job roles</CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="grid grid-cols-2 border-t">
+                <div className="border-r">
+                  <div className="px-6 py-3 border-b bg-gray-50">
+                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Jobs</span>
+                  </div>
+                  <div className="relative border-b h-12 flex items-center">
+                    <Search className="absolute left-4 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search jobs..."
+                      value={jobSearch}
+                      onChange={(e) => setJobSearch(e.target.value)}
+                      className="h-full pl-10 text-sm w-full border-0 shadow-none focus-visible:ring-0 rounded-none"
+                      data-testid="input-search-job-assignment"
+                    />
+                  </div>
+                  <div className="relative">
+                    <div className="max-h-[302px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setJobScrolledToBottom)}>
+                      {jobRoles.filter(j => j.name.toLowerCase().includes(jobSearch.toLowerCase())).map((job, index, arr) => (
+                        <button
+                          key={job.id}
+                          onClick={() => setSelectedJobRole(job.id)}
+                          className={cn(
+                            "w-full flex items-center justify-between px-6 h-[55px] text-left transition-colors",
+                            selectedJobRole === job.id
+                              ? "bg-muted"
+                              : "hover:bg-gray-50",
+                            index !== arr.length - 1 && "border-b"
+                          )}
+                          data-testid={`button-job-assignment-${job.id}`}
+                        >
+                          <div>
+                            <div className="font-medium text-sm">{job.name}</div>
+                            <div className="text-xs text-muted-foreground">
+                              {job.payType === "salaried" ? `$${job.baseRate.toLocaleString()}/yr` : `$${job.baseRate}/hr`}
+                            </div>
+                          </div>
+                          {selectedJobRole === job.id && (
+                            <ChevronRight className="h-4 w-4" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                    {jobRoles.filter(j => j.name.toLowerCase().includes(jobSearch.toLowerCase())).length > 5 && !jobScrolledToBottom && (
+                      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white/70 via-white/40 to-transparent pointer-events-none" />
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="px-6 py-3 border-b bg-gray-50">
+                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Staff</span>
+                  </div>
+                  <div className="relative border-b h-12 flex items-center">
+                    <Search className="absolute left-4 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search staff..."
+                      value={personnelSearch}
+                      onChange={(e) => setPersonnelSearch(e.target.value)}
+                      className="h-full pl-10 text-sm w-full border-0 shadow-none focus-visible:ring-0 rounded-none"
+                      data-testid="input-search-staff-assignment"
+                    />
+                  </div>
+                  <div className="relative">
+                    <div className="max-h-[302px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setStaffScrolledToBottom)}>
+                      {staff.filter(s => s.status === "active" && s.name.toLowerCase().includes(personnelSearch.toLowerCase())).map((person, index, arr) => {
+                        const isAssigned = person.jobRoles.includes(selectedJobRole);
+                        const otherJobAssignment = person.jobRoles.find(jr => jr !== selectedJobRole);
+                        const otherJobName = otherJobAssignment ? jobRoles.find(j => j.id === otherJobAssignment)?.name : null;
+                        return (
+                          <div
+                            key={person.id}
+                            className={cn(
+                              "flex items-center gap-3 px-6 h-[55px] hover:bg-gray-50 transition-colors",
+                              index !== arr.length - 1 && "border-b"
+                            )}
+                          >
+                            <Checkbox
+                              checked={isAssigned}
+                              onCheckedChange={(checked) => {
+                                setStaff(prev => prev.map(s => {
+                                  if (s.id === person.id) {
+                                    const newJobRoles = checked
+                                      ? [...s.jobRoles, selectedJobRole]
+                                      : s.jobRoles.filter(jr => jr !== selectedJobRole);
+                                    return { ...s, jobRoles: newJobRoles };
+                                  }
+                                  return s;
+                                }));
+                              }}
+                              data-testid={`checkbox-assign-${person.id}`}
+                            />
+                            <div className={cn("w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-medium", person.avatarColor)}>
+                              {person.initials}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium text-sm">{person.name}</div>
+                              <div className="text-xs text-muted-foreground">
+                                {isAssigned ? "ASSIGNED" : otherJobName ? `Assigned to ${otherJobName}` : ""}
+                              </div>
+                            </div>
+                            {isAssigned && (
+                              <button className="text-xs text-muted-foreground hover:text-foreground transition-colors" data-testid={`link-earning-rates-${person.id}`}>
+                                View Earning Rates →
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {staff.filter(s => s.status === "active" && s.name.toLowerCase().includes(personnelSearch.toLowerCase())).length > 5 && !staffScrolledToBottom && (
                       <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white/70 via-white/40 to-transparent pointer-events-none" />
                     )}
                   </div>
