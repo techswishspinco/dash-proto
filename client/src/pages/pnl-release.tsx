@@ -4881,12 +4881,24 @@ export default function PnlRelease() {
                 <div ref={scrollContainerRef} className="flex-1 overflow-y-auto h-full">
                 {activeTab === "detailed" ? (
                 <div className="p-8">
-                      <div className="max-w-5xl mx-auto space-y-8">
+                      <div className="max-w-5xl mx-auto flex flex-col gap-8">
 
                    {/* 1. Executive Narrative */}
-                   <section id="executive-narrative" className="scroll-mt-4">
+                   {isSectionVisible("executive-narrative") && (
+                   <section id="executive-narrative" className="scroll-mt-4" style={{ order: getSectionOrderIndex("executive-narrative") }}>
                       <div className="flex items-center justify-between mb-4">
-                         <h2 className="text-xl font-serif font-bold text-gray-900">Executive Narrative</h2>
+                         <div className="flex items-center gap-3">
+                            <h2 className="text-xl font-serif font-bold text-gray-900">Executive Narrative</h2>
+                            {isEditMode && (
+                               <button
+                                  onClick={() => removeSection("executive-narrative")}
+                                  className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors"
+                                  title="Remove section"
+                               >
+                                  <X className="h-4 w-4" />
+                               </button>
+                            )}
+                         </div>
                          <button 
                             data-testid="learn-executive-narrative"
                             onClick={() => handleInsightClick("What is an executive narrative in a P&L report? Help me understand how to write and interpret it for my restaurant.")}
@@ -4897,13 +4909,22 @@ export default function PnlRelease() {
                             Learn
                          </button>
                       </div>
-                      <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <div className={cn("bg-white rounded-xl border p-6", isEditMode ? "border-blue-200 ring-1 ring-blue-100" : "border-gray-200")}>
                          <div className="flex gap-4">
                             <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
                                <Sparkles className="h-5 w-5 text-gray-600" />
                             </div>
                             <div className="flex-1">
                                <h3 className="font-semibold text-gray-900 mb-2">Performance Summary</h3>
+                               {isEditMode ? (
+                                  <textarea
+                                     value={editableContent.executiveSummary}
+                                     onChange={(e) => setEditableContent(prev => ({ ...prev, executiveSummary: e.target.value }))}
+                                     className="w-full min-h-[100px] p-3 text-gray-700 leading-relaxed border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y"
+                                     placeholder="Enter executive summary..."
+                                     data-testid="textarea-executive-summary"
+                                  />
+                               ) : (
                                <p className="text-gray-700 leading-relaxed">
                                   December{' '}
                                   <button 
@@ -4935,15 +4956,29 @@ export default function PnlRelease() {
                                   >Prime cost</button>{' '}
                                   landed at 62.1%—within target but worth watching as January staffing decisions are made.
                                </p>
+                               )}
                             </div>
                          </div>
                       </div>
                    </section>
+                   )}
 
                    {/* 2. Bottom Line */}
-                   <section id="bottom-line" className="scroll-mt-4">
+                   {isSectionVisible("bottom-line") && (
+                   <section id="bottom-line" className="scroll-mt-4" style={{ order: getSectionOrderIndex("bottom-line") }}>
                       <div className="flex items-center justify-between mb-4">
-                         <h2 className="text-xl font-serif font-bold text-gray-900">Bottom Line</h2>
+                         <div className="flex items-center gap-3">
+                            <h2 className="text-xl font-serif font-bold text-gray-900">Bottom Line</h2>
+                            {isEditMode && (
+                               <button
+                                  onClick={() => removeSection("bottom-line")}
+                                  className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors"
+                                  title="Remove section"
+                               >
+                                  <X className="h-4 w-4" />
+                               </button>
+                            )}
+                         </div>
                          <button 
                             data-testid="learn-bottom-line"
                             onClick={() => handleInsightClick("What is net income and how do I read a net income walk? Explain how to understand what's eating into my restaurant's profits.")}
@@ -5049,17 +5084,23 @@ export default function PnlRelease() {
                          )}
                       </div>
                    </section>
+                   )}
 
                    {/* 3. P&L Dashboard - Intelligent Hierarchical View */}
+                   {isSectionVisible("pnl-dashboard") && (
+                   <div style={{ order: getSectionOrderIndex("pnl-dashboard") }}>
                    <PnLDashboard 
                      onInsightClick={handleInsightClick} 
                      highlightedNodeId={highlightedPnlNodeId}
                      onHighlightClear={() => setHighlightedPnlNodeId(null)}
                      onTrendClick={openTrendModal}
                    />
+                   </div>
+                   )}
 
                    {/* 3. Health Snapshot */}
-                   <section id="health-snapshot" className="scroll-mt-4">
+                   {isSectionVisible("health-snapshot") && (
+                   <section id="health-snapshot" className="scroll-mt-4" style={{ order: getSectionOrderIndex("health-snapshot") }}>
                       <div className="flex items-center justify-between mb-1">
                          <h2 className="text-xl font-serif font-bold text-gray-900">Health Snapshot</h2>
                          <div className="flex items-center gap-3">
@@ -5189,9 +5230,11 @@ export default function PnlRelease() {
                          </table>
                       </div>
                    </section>
+                   )}
 
                    {/* 3. Revenue Analysis */}
-                   <section id="revenue-analysis" className="scroll-mt-4">
+                   {isSectionVisible("revenue-analysis") && (
+                   <section id="revenue-analysis" className="scroll-mt-4" style={{ order: getSectionOrderIndex("revenue-analysis") }}>
                       <div className="flex items-center justify-between mb-4">
                          <h2 className="text-xl font-serif font-bold text-gray-900">Revenue Analysis</h2>
                          <button 
@@ -5341,9 +5384,11 @@ export default function PnlRelease() {
                          </div>
                       </div>
                    </section>
+                   )}
 
                    {/* 4. Prime Cost Analysis */}
-                   <section id="prime-cost-analysis" className="scroll-mt-4">
+                   {isSectionVisible("prime-cost-analysis") && (
+                   <section id="prime-cost-analysis" className="scroll-mt-4" style={{ order: getSectionOrderIndex("prime-cost-analysis") }}>
                       <div className="flex items-center justify-between mb-1">
                          <h2 className="text-xl font-serif font-bold text-gray-900">Prime Cost Analysis</h2>
                          <div className="flex items-center gap-2">
@@ -5825,9 +5870,11 @@ export default function PnlRelease() {
                          </div>
                       </div>
                    </section>
+                   )}
 
                    {/* 5. Operating Expenses */}
-                   <section id="operating-expenses" className="scroll-mt-4">
+                   {isSectionVisible("operating-expenses") && (
+                   <section id="operating-expenses" className="scroll-mt-4" style={{ order: getSectionOrderIndex("operating-expenses") }}>
                       <div className="flex items-center justify-between mb-4">
                          <h2 className="text-xl font-serif font-bold text-gray-900">Operating Expenses</h2>
                          <button 
@@ -5949,9 +5996,11 @@ export default function PnlRelease() {
                          </div>
                       </div>
                    </section>
+                   )}
 
                    {/* 7. Action Items & Recommendations */}
-                   <section id="action-items" className="scroll-mt-4">
+                   {isSectionVisible("action-items") && (
+                   <section id="action-items" className="scroll-mt-4" style={{ order: getSectionOrderIndex("action-items") }}>
                       <div className="flex items-center justify-between mb-4">
                          <h2 className="text-xl font-serif font-bold text-gray-900">Action Items & Recommendations</h2>
                          <div className="flex items-center gap-2 text-sm text-gray-500">
@@ -6245,9 +6294,11 @@ export default function PnlRelease() {
                          )}
                       </AnimatePresence>
                    </section>
+                   )}
 
                    {/* Accountant Note */}
-                   <section id="accountant-note" className="scroll-mt-4">
+                   {isSectionVisible("accountant-note") && (
+                   <section id="accountant-note" className="scroll-mt-4" style={{ order: getSectionOrderIndex("accountant-note") }}>
                       <div className="bg-white rounded-xl border border-gray-200 p-6">
                          <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Note from Accountant</h2>
                          <textarea 
@@ -6258,6 +6309,7 @@ export default function PnlRelease() {
                          />
                       </div>
                    </section>
+                   )}
 
                       </div>
                 </div>
