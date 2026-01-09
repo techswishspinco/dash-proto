@@ -52,10 +52,14 @@ interface JobRole {
   id: string;
   name: string;
   departmentId: string;
-  locationIds: string[];
   baseRate: number;
   payType: "hourly" | "salaried";
   selected: boolean;
+}
+
+interface JobAssignment {
+  locationId: string;
+  jobRoleId: string;
 }
 
 interface Staff {
@@ -66,8 +70,7 @@ interface Staff {
   phone: string;
   status: "active" | "inactive";
   role: "admin" | "manager" | "employee";
-  jobRoles: string[];
-  locations: string[];
+  jobAssignments: JobAssignment[];
   posEmployeeIds: string[];
   payrollEmployeeId: string | null;
   startDate: string;
@@ -148,32 +151,32 @@ const initialDepartments: Department[] = [
 ];
 
 const initialJobRoles: JobRole[] = [
-  { id: "1", name: "Server", departmentId: "1", locationIds: ["1", "2"], baseRate: 18, payType: "hourly", selected: true },
-  { id: "2", name: "Host", departmentId: "1", locationIds: ["1", "2", "3"], baseRate: 16, payType: "hourly", selected: false },
-  { id: "3", name: "Busser", departmentId: "1", locationIds: ["1", "2"], baseRate: 15, payType: "hourly", selected: true },
-  { id: "4", name: "Food Runner", departmentId: "1", locationIds: ["2", "3"], baseRate: 15, payType: "hourly", selected: false },
-  { id: "5", name: "Line Cook", departmentId: "2", locationIds: ["1", "2", "3"], baseRate: 20, payType: "hourly", selected: true },
-  { id: "6", name: "Prep Cook", departmentId: "2", locationIds: ["1", "3"], baseRate: 17, payType: "hourly", selected: false },
-  { id: "7", name: "Dishwasher", departmentId: "2", locationIds: ["1", "2", "3"], baseRate: 15, payType: "hourly", selected: true },
-  { id: "8", name: "Sous Chef", departmentId: "2", locationIds: ["1"], baseRate: 28, payType: "hourly", selected: false },
-  { id: "9", name: "Bartender", departmentId: "3", locationIds: ["1", "3"], baseRate: 20, payType: "hourly", selected: true },
-  { id: "10", name: "Barback", departmentId: "3", locationIds: ["1", "3"], baseRate: 16, payType: "hourly", selected: false },
-  { id: "11", name: "General Manager", departmentId: "4", locationIds: ["1", "2", "3"], baseRate: 75000, payType: "salaried", selected: true },
-  { id: "12", name: "Assistant Manager", departmentId: "4", locationIds: ["1", "2"], baseRate: 55000, payType: "salaried", selected: false },
-  { id: "13", name: "Catering Manager", departmentId: "5", locationIds: ["2"], baseRate: 60000, payType: "salaried", selected: true },
-  { id: "14", name: "Events Coordinator", departmentId: "6", locationIds: ["2", "3"], baseRate: 52000, payType: "salaried", selected: false },
-  { id: "15", name: "Marketing Director", departmentId: "8", locationIds: ["1"], baseRate: 85000, payType: "salaried", selected: true },
+  { id: "1", name: "Server", departmentId: "1", baseRate: 18, payType: "hourly", selected: true },
+  { id: "2", name: "Host", departmentId: "1", baseRate: 16, payType: "hourly", selected: false },
+  { id: "3", name: "Busser", departmentId: "1", baseRate: 15, payType: "hourly", selected: true },
+  { id: "4", name: "Food Runner", departmentId: "1", baseRate: 15, payType: "hourly", selected: false },
+  { id: "5", name: "Line Cook", departmentId: "2", baseRate: 20, payType: "hourly", selected: true },
+  { id: "6", name: "Prep Cook", departmentId: "2", baseRate: 17, payType: "hourly", selected: false },
+  { id: "7", name: "Dishwasher", departmentId: "2", baseRate: 15, payType: "hourly", selected: true },
+  { id: "8", name: "Sous Chef", departmentId: "2", baseRate: 28, payType: "hourly", selected: false },
+  { id: "9", name: "Bartender", departmentId: "3", baseRate: 20, payType: "hourly", selected: true },
+  { id: "10", name: "Barback", departmentId: "3", baseRate: 16, payType: "hourly", selected: false },
+  { id: "11", name: "General Manager", departmentId: "4", baseRate: 75000, payType: "salaried", selected: true },
+  { id: "12", name: "Assistant Manager", departmentId: "4", baseRate: 55000, payType: "salaried", selected: false },
+  { id: "13", name: "Catering Manager", departmentId: "5", baseRate: 60000, payType: "salaried", selected: true },
+  { id: "14", name: "Events Coordinator", departmentId: "6", baseRate: 52000, payType: "salaried", selected: false },
+  { id: "15", name: "Marketing Director", departmentId: "8", baseRate: 85000, payType: "salaried", selected: true },
 ];
 
 const initialStaff: Staff[] = [
-  { id: "1", name: "Alice Johnson", initials: "AJ", email: "alice@example.com", phone: "(206) 555-0101", status: "active", role: "manager", jobRoles: ["1"], locations: ["1", "2"], posEmployeeIds: ["pos-1"], payrollEmployeeId: "pay-1", startDate: "2023-03-15", avatarColor: avatarColors[0] },
-  { id: "2", name: "Bob Smith", initials: "BS", email: "bob@example.com", phone: "(206) 555-0102", status: "active", role: "employee", jobRoles: ["5"], locations: ["1"], posEmployeeIds: ["pos-2"], payrollEmployeeId: "pay-2", startDate: "2023-06-01", avatarColor: avatarColors[1] },
-  { id: "3", name: "Charlie Davis", initials: "CD", email: "charlie@example.com", phone: "(206) 555-0103", status: "active", role: "employee", jobRoles: ["3"], locations: ["2"], posEmployeeIds: ["pos-3", "pos-4"], payrollEmployeeId: "pay-3", startDate: "2023-07-20", avatarColor: avatarColors[2] },
-  { id: "4", name: "Diana Martinez", initials: "DM", email: "diana@example.com", phone: "(206) 555-0104", status: "active", role: "employee", jobRoles: ["9"], locations: ["3"], posEmployeeIds: [], payrollEmployeeId: "pay-4", startDate: "2024-01-10", avatarColor: avatarColors[3] },
-  { id: "5", name: "Eric Thompson", initials: "ET", email: "eric@example.com", phone: "(206) 555-0105", status: "active", role: "employee", jobRoles: ["5", "6"], locations: ["1", "3"], posEmployeeIds: ["pos-5"], payrollEmployeeId: null, startDate: "2022-11-05", avatarColor: avatarColors[4] },
-  { id: "6", name: "Fiona Garcia", initials: "FG", email: "fiona@example.com", phone: "(206) 555-0106", status: "active", role: "admin", jobRoles: ["11"], locations: ["1", "2", "3"], posEmployeeIds: ["pos-6"], payrollEmployeeId: "pay-6", startDate: "2021-01-15", avatarColor: avatarColors[5] },
-  { id: "7", name: "George Wilson", initials: "GW", email: "george@example.com", phone: "(206) 555-0107", status: "inactive", role: "employee", jobRoles: ["7"], locations: ["2"], posEmployeeIds: ["pos-7"], payrollEmployeeId: "pay-7", startDate: "2023-04-01", avatarColor: avatarColors[6] },
-  { id: "8", name: "Hannah Brown", initials: "HB", email: "hannah@example.com", phone: "(206) 555-0108", status: "active", role: "employee", jobRoles: ["1", "2"], locations: ["1"], posEmployeeIds: [], payrollEmployeeId: null, startDate: "2024-02-01", avatarColor: avatarColors[7] },
+  { id: "1", name: "Alice Johnson", initials: "AJ", email: "alice@example.com", phone: "(206) 555-0101", status: "active", role: "manager", jobAssignments: [{ locationId: "1", jobRoleId: "1" }, { locationId: "2", jobRoleId: "1" }, { locationId: "2", jobRoleId: "2" }], posEmployeeIds: ["pos-1"], payrollEmployeeId: "pay-1", startDate: "2023-03-15", avatarColor: avatarColors[0] },
+  { id: "2", name: "Bob Smith", initials: "BS", email: "bob@example.com", phone: "(206) 555-0102", status: "active", role: "employee", jobAssignments: [{ locationId: "1", jobRoleId: "5" }], posEmployeeIds: ["pos-2"], payrollEmployeeId: "pay-2", startDate: "2023-06-01", avatarColor: avatarColors[1] },
+  { id: "3", name: "Charlie Davis", initials: "CD", email: "charlie@example.com", phone: "(206) 555-0103", status: "active", role: "employee", jobAssignments: [{ locationId: "2", jobRoleId: "3" }], posEmployeeIds: ["pos-3", "pos-4"], payrollEmployeeId: "pay-3", startDate: "2023-07-20", avatarColor: avatarColors[2] },
+  { id: "4", name: "Diana Martinez", initials: "DM", email: "diana@example.com", phone: "(206) 555-0104", status: "active", role: "employee", jobAssignments: [{ locationId: "3", jobRoleId: "9" }], posEmployeeIds: [], payrollEmployeeId: "pay-4", startDate: "2024-01-10", avatarColor: avatarColors[3] },
+  { id: "5", name: "Eric Thompson", initials: "ET", email: "eric@example.com", phone: "(206) 555-0105", status: "active", role: "employee", jobAssignments: [{ locationId: "1", jobRoleId: "5" }, { locationId: "3", jobRoleId: "6" }], posEmployeeIds: ["pos-5"], payrollEmployeeId: null, startDate: "2022-11-05", avatarColor: avatarColors[4] },
+  { id: "6", name: "Fiona Garcia", initials: "FG", email: "fiona@example.com", phone: "(206) 555-0106", status: "active", role: "admin", jobAssignments: [{ locationId: "1", jobRoleId: "11" }, { locationId: "2", jobRoleId: "11" }, { locationId: "3", jobRoleId: "11" }], posEmployeeIds: ["pos-6"], payrollEmployeeId: "pay-6", startDate: "2021-01-15", avatarColor: avatarColors[5] },
+  { id: "7", name: "George Wilson", initials: "GW", email: "george@example.com", phone: "(206) 555-0107", status: "inactive", role: "employee", jobAssignments: [{ locationId: "2", jobRoleId: "7" }], posEmployeeIds: ["pos-7"], payrollEmployeeId: "pay-7", startDate: "2023-04-01", avatarColor: avatarColors[6] },
+  { id: "8", name: "Hannah Brown", initials: "HB", email: "hannah@example.com", phone: "(206) 555-0108", status: "active", role: "employee", jobAssignments: [{ locationId: "1", jobRoleId: "1" }, { locationId: "1", jobRoleId: "2" }], posEmployeeIds: [], payrollEmployeeId: null, startDate: "2024-02-01", avatarColor: avatarColors[7] },
 ];
 
 export default function Teams() {
@@ -235,8 +238,8 @@ export default function Teams() {
     email: "",
     phone: "",
     role: "employee" as "admin" | "manager" | "employee",
-    jobRoles: [] as string[],
-    locations: [] as string[],
+    jobAssignments: [] as JobAssignment[],
+    selectedLocations: [] as string[],
   });
 
   // Edit form state
@@ -244,10 +247,8 @@ export default function Teams() {
     email: "",
     phone: "",
     role: "employee" as "admin" | "manager" | "employee",
-    jobRoles: [] as string[],
-    locations: [] as string[],
-    posEmployeeId: null as string | null,
-    payrollEmployeeId: null as string | null,
+    jobAssignments: [] as JobAssignment[],
+    selectedLocations: [] as string[],
   });
 
   // Mapping dialogs
@@ -375,14 +376,13 @@ export default function Teams() {
   };
 
   const openEditDialog = (person: Staff) => {
+    const uniqueLocations = Array.from(new Set(person.jobAssignments.map(ja => ja.locationId)));
     setEditForm({
       email: person.email,
       phone: person.phone,
       role: person.role,
-      jobRoles: [...person.jobRoles],
-      locations: [...person.locations],
-      posEmployeeId: person.posEmployeeId,
-      payrollEmployeeId: person.payrollEmployeeId,
+      jobAssignments: [...person.jobAssignments],
+      selectedLocations: uniqueLocations,
     });
     setSelectedStaff(person);
     setShowEditDialog(true);
@@ -399,9 +399,8 @@ export default function Teams() {
         phone: inviteForm.phone,
         status: "active",
         role: inviteForm.role,
-        jobRoles: inviteForm.jobRoles,
-        locations: inviteForm.locations,
-        posEmployeeId: null,
+        jobAssignments: inviteForm.jobAssignments,
+        posEmployeeIds: [],
         payrollEmployeeId: null,
         startDate: new Date().toISOString().split('T')[0],
         avatarColor: avatarColors[staff.length % avatarColors.length],
@@ -413,8 +412,8 @@ export default function Teams() {
         email: "",
         phone: "",
         role: "employee",
-        jobRoles: [],
-        locations: [],
+        jobAssignments: [],
+        selectedLocations: [],
       });
       setShowInviteDialog(false);
     }
@@ -519,12 +518,14 @@ export default function Teams() {
   const unmappedPOSEmployees = mockPOSEmployees.filter(e => !allMappedPOSIds.includes(e.id));
   const usersWithoutPayrollMapping = staff.filter(s => s.status !== "inactive" && !s.payrollEmployeeId);
 
-  const getJobRoleNames = (roleIds: string[]) => {
-    return roleIds.map(id => jobRoles.find(j => j.id === id)?.name || "Unknown").join(", ");
+  const getJobRoleNames = (assignments: JobAssignment[]) => {
+    const uniqueJobIds = Array.from(new Set(assignments.map(a => a.jobRoleId)));
+    return uniqueJobIds.map(id => jobRoles.find(j => j.id === id)?.name || "Unknown").join(", ");
   };
-
-  const getLocationNames = (locIds: string[]) => {
-    return locIds.map(id => locations.find(l => l.id === id)?.name || "Unknown").join(", ");
+  
+  const getLocationNames = (assignments: JobAssignment[]) => {
+    const uniqueLocIds = Array.from(new Set(assignments.map(a => a.locationId)));
+    return uniqueLocIds.map(id => locations.find(l => l.id === id)?.name || "Unknown").join(", ");
   };
 
   const getStatusBadgeColor = (status: Staff["status"]) => {
@@ -775,9 +776,10 @@ export default function Teams() {
                   <div className="relative">
                     <div className="max-h-[302px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setStaffScrolledToBottom)}>
                       {staff.filter(s => s.status === "active" && s.name.toLowerCase().includes(personnelSearch.toLowerCase())).map((person, index, arr) => {
-                        const isAssigned = person.jobRoles.includes(selectedJobRole);
-                        const otherJobAssignment = person.jobRoles.find(jr => jr !== selectedJobRole);
-                        const otherJobName = otherJobAssignment ? jobRoles.find(j => j.id === otherJobAssignment)?.name : null;
+                        const isAssigned = person.jobAssignments.some(ja => ja.jobRoleId === selectedJobRole);
+                        const otherAssignment = person.jobAssignments.find(ja => ja.jobRoleId !== selectedJobRole);
+                        const otherJobName = otherAssignment ? jobRoles.find(j => j.id === otherAssignment.jobRoleId)?.name : null;
+                        const assignedLocations = person.jobAssignments.filter(ja => ja.jobRoleId === selectedJobRole).map(ja => locations.find(l => l.id === ja.locationId)?.name).join(", ");
                         return (
                           <div
                             key={person.id}
@@ -786,34 +788,17 @@ export default function Teams() {
                               index !== arr.length - 1 && "border-b"
                             )}
                           >
-                            <Checkbox
-                              checked={isAssigned}
-                              onCheckedChange={(checked) => {
-                                setStaff(prev => prev.map(s => {
-                                  if (s.id === person.id) {
-                                    const newJobRoles = checked
-                                      ? [...s.jobRoles, selectedJobRole]
-                                      : s.jobRoles.filter(jr => jr !== selectedJobRole);
-                                    return { ...s, jobRoles: newJobRoles };
-                                  }
-                                  return s;
-                                }));
-                              }}
-                              data-testid={`checkbox-assign-${person.id}`}
-                            />
                             <div className={cn("w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-medium", person.avatarColor)}>
                               {person.initials}
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="font-medium text-sm">{person.name}</div>
                               <div className="text-xs text-muted-foreground">
-                                {isAssigned ? "ASSIGNED" : otherJobName ? `Assigned to ${otherJobName}` : ""}
+                                {isAssigned ? `@ ${assignedLocations}` : otherJobName ? `Assigned to ${otherJobName}` : "No assignments"}
                               </div>
                             </div>
                             {isAssigned && (
-                              <button className="text-xs text-muted-foreground hover:text-foreground transition-colors" data-testid={`link-earning-rates-${person.id}`}>
-                                View Earning Rates →
-                              </button>
+                              <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">Assigned</span>
                             )}
                           </div>
                         );
@@ -888,7 +873,7 @@ export default function Teams() {
                             </span>
                           </div>
                           <div className="text-xs text-muted-foreground mt-0.5">
-                            {person.email} • {getJobRoleNames(person.jobRoles) || "No jobs assigned"}
+                            {person.email} • {getJobRoleNames(person.jobAssignments) || "No jobs assigned"}
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
@@ -1063,11 +1048,11 @@ export default function Teams() {
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                       <Briefcase className="h-4 w-4 text-muted-foreground" />
-                      <span>{getJobRoleNames(selectedStaff.jobRoles) || "No jobs assigned"}</span>
+                      <span>{getJobRoleNames(selectedStaff.jobAssignments) || "No jobs assigned"}</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                       <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span>{getLocationNames(selectedStaff.locations) || "No locations assigned"}</span>
+                      <span>{getLocationNames(selectedStaff.jobAssignments) || "No locations assigned"}</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                       <Shield className="h-4 w-4 text-muted-foreground" />
@@ -1301,45 +1286,84 @@ export default function Teams() {
             </div>
             <div className="space-y-2">
               <Label>Locations</Label>
-              <div className="grid grid-cols-2 gap-2">
-                {locations.map((loc) => (
-                  <label key={loc.id} className="flex items-center gap-2 text-sm cursor-pointer">
-                    <Checkbox
-                      checked={inviteForm.locations.includes(loc.id)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          setInviteForm({ ...inviteForm, locations: [...inviteForm.locations, loc.id] });
-                        } else {
-                          setInviteForm({ ...inviteForm, locations: inviteForm.locations.filter(l => l !== loc.id) });
-                        }
-                      }}
-                      data-testid={`checkbox-invite-location-${loc.id}`}
-                    />
-                    {loc.name}
-                  </label>
-                ))}
+              <p className="text-xs text-muted-foreground mb-2">Select locations, then assign job roles</p>
+              <div className="grid grid-cols-3 gap-2">
+                {locations.map((loc) => {
+                  const jobsAtLocation = inviteForm.jobAssignments.filter(ja => ja.locationId === loc.id).length;
+                  return (
+                    <label key={loc.id} className="flex items-center gap-2 text-sm cursor-pointer p-2 rounded border hover:bg-gray-50">
+                      <Checkbox
+                        checked={inviteForm.selectedLocations.includes(loc.id)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setInviteForm({ ...inviteForm, selectedLocations: [...inviteForm.selectedLocations, loc.id] });
+                          } else {
+                            setInviteForm({ 
+                              ...inviteForm, 
+                              selectedLocations: inviteForm.selectedLocations.filter(l => l !== loc.id),
+                              jobAssignments: inviteForm.jobAssignments.filter(ja => ja.locationId !== loc.id)
+                            });
+                          }
+                        }}
+                        data-testid={`checkbox-invite-location-${loc.id}`}
+                      />
+                      <span className="flex-1">{loc.name}</span>
+                      {jobsAtLocation > 0 && (
+                        <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">{jobsAtLocation}</span>
+                      )}
+                    </label>
+                  );
+                })}
               </div>
             </div>
             <div className="space-y-2">
-              <Label>Job Roles</Label>
-              <div className="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto">
-                {jobRoles.map((job) => (
-                  <label key={job.id} className="flex items-center gap-2 text-sm cursor-pointer">
-                    <Checkbox
-                      checked={inviteForm.jobRoles.includes(job.id)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          setInviteForm({ ...inviteForm, jobRoles: [...inviteForm.jobRoles, job.id] });
-                        } else {
-                          setInviteForm({ ...inviteForm, jobRoles: inviteForm.jobRoles.filter(j => j !== job.id) });
-                        }
-                      }}
-                      data-testid={`checkbox-invite-job-${job.id}`}
-                    />
-                    {job.name}
-                  </label>
-                ))}
-              </div>
+              <Label>Job Roles by Location</Label>
+              {inviteForm.selectedLocations.length === 0 ? (
+                <div className="text-sm text-muted-foreground bg-gray-50 rounded-lg p-4 text-center">
+                  Select at least one location to assign job roles
+                </div>
+              ) : (
+                <div className="max-h-40 overflow-y-auto border rounded-lg divide-y">
+                  {inviteForm.selectedLocations.map((locId) => {
+                    const location = locations.find(l => l.id === locId);
+                    return (
+                      <div key={locId} className="p-3">
+                        <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2 flex items-center gap-2">
+                          <MapPin className="h-3 w-3" />
+                          {location?.name}
+                        </div>
+                        <div className="grid grid-cols-2 gap-1.5">
+                          {jobRoles.map((job) => {
+                            const isAssigned = inviteForm.jobAssignments.some(ja => ja.locationId === locId && ja.jobRoleId === job.id);
+                            return (
+                              <label key={`${locId}-${job.id}`} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 p-1 rounded">
+                                <Checkbox
+                                  checked={isAssigned}
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      setInviteForm({ 
+                                        ...inviteForm, 
+                                        jobAssignments: [...inviteForm.jobAssignments, { locationId: locId, jobRoleId: job.id }] 
+                                      });
+                                    } else {
+                                      setInviteForm({ 
+                                        ...inviteForm, 
+                                        jobAssignments: inviteForm.jobAssignments.filter(ja => !(ja.locationId === locId && ja.jobRoleId === job.id))
+                                      });
+                                    }
+                                  }}
+                                  data-testid={`checkbox-invite-job-${locId}-${job.id}`}
+                                />
+                                <span className="truncate">{job.name}</span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
           <DialogFooter>
@@ -1382,27 +1406,22 @@ export default function Teams() {
             </div>
             <div className="space-y-2">
               <Label>Locations</Label>
-              <p className="text-xs text-muted-foreground mb-2">Select locations first, then assign job roles available at each location</p>
-              <div className="grid grid-cols-2 gap-2">
+              <p className="text-xs text-muted-foreground mb-2">Select locations where this person works</p>
+              <div className="grid grid-cols-3 gap-2">
                 {locations.map((loc) => {
-                  const locationJobCount = jobRoles.filter(j => j.locationIds.includes(loc.id)).length;
-                  const assignedJobsAtLocation = editForm.jobRoles.filter(jrId => {
-                    const job = jobRoles.find(j => j.id === jrId);
-                    return job?.locationIds.includes(loc.id);
-                  }).length;
+                  const jobsAtLocation = editForm.jobAssignments.filter(ja => ja.locationId === loc.id).length;
                   return (
                     <label key={loc.id} className="flex items-center gap-2 text-sm cursor-pointer p-2 rounded border hover:bg-gray-50 transition-colors">
                       <Checkbox
-                        checked={editForm.locations.includes(loc.id)}
+                        checked={editForm.selectedLocations.includes(loc.id)}
                         onCheckedChange={(checked) => {
                           if (checked) {
-                            setEditForm({ ...editForm, locations: [...editForm.locations, loc.id] });
+                            setEditForm({ ...editForm, selectedLocations: [...editForm.selectedLocations, loc.id] });
                           } else {
-                            const jobsToRemove = jobRoles.filter(j => j.locationIds.includes(loc.id) && j.locationIds.every(lid => lid === loc.id || !editForm.locations.includes(lid))).map(j => j.id);
                             setEditForm({ 
                               ...editForm, 
-                              locations: editForm.locations.filter(l => l !== loc.id),
-                              jobRoles: editForm.jobRoles.filter(jr => !jobsToRemove.includes(jr))
+                              selectedLocations: editForm.selectedLocations.filter(l => l !== loc.id),
+                              jobAssignments: editForm.jobAssignments.filter(ja => ja.locationId !== loc.id)
                             });
                           }
                         }}
@@ -1410,10 +1429,9 @@ export default function Teams() {
                       />
                       <div className="flex-1">
                         <span>{loc.name}</span>
-                        <span className="text-xs text-muted-foreground ml-1">({locationJobCount} roles)</span>
                       </div>
-                      {editForm.locations.includes(loc.id) && assignedJobsAtLocation > 0 && (
-                        <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">{assignedJobsAtLocation} assigned</span>
+                      {jobsAtLocation > 0 && (
+                        <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">{jobsAtLocation}</span>
                       )}
                     </label>
                   );
@@ -1421,38 +1439,48 @@ export default function Teams() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>Job Roles</Label>
-              {editForm.locations.length === 0 ? (
+              <Label>Job Roles by Location</Label>
+              {editForm.selectedLocations.length === 0 ? (
                 <div className="text-sm text-muted-foreground bg-gray-50 rounded-lg p-4 text-center">
-                  Select at least one location to see available job roles
+                  Select at least one location to assign job roles
                 </div>
               ) : (
-                <div className="max-h-48 overflow-y-auto border rounded-lg divide-y">
-                  {editForm.locations.map((locId) => {
+                <div className="max-h-56 overflow-y-auto border rounded-lg divide-y">
+                  {editForm.selectedLocations.map((locId) => {
                     const location = locations.find(l => l.id === locId);
-                    const availableJobs = jobRoles.filter(j => j.locationIds.includes(locId));
-                    if (availableJobs.length === 0) return null;
                     return (
                       <div key={locId} className="p-3">
-                        <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">{location?.name}</div>
+                        <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2 flex items-center gap-2">
+                          <MapPin className="h-3 w-3" />
+                          {location?.name}
+                        </div>
                         <div className="grid grid-cols-2 gap-1.5">
-                          {availableJobs.map((job) => (
-                            <label key={`${locId}-${job.id}`} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors">
-                              <Checkbox
-                                checked={editForm.jobRoles.includes(job.id)}
-                                onCheckedChange={(checked) => {
-                                  if (checked) {
-                                    setEditForm({ ...editForm, jobRoles: [...editForm.jobRoles, job.id] });
-                                  } else {
-                                    setEditForm({ ...editForm, jobRoles: editForm.jobRoles.filter(j => j !== job.id) });
-                                  }
-                                }}
-                                data-testid={`checkbox-edit-job-${locId}-${job.id}`}
-                              />
-                              <span>{job.name}</span>
-                              <span className="text-xs text-muted-foreground ml-auto">{job.payType === "salaried" ? `$${(job.baseRate/1000).toFixed(0)}k` : `$${job.baseRate}/hr`}</span>
-                            </label>
-                          ))}
+                          {jobRoles.map((job) => {
+                            const isAssigned = editForm.jobAssignments.some(ja => ja.locationId === locId && ja.jobRoleId === job.id);
+                            return (
+                              <label key={`${locId}-${job.id}`} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 p-1.5 rounded transition-colors">
+                                <Checkbox
+                                  checked={isAssigned}
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      setEditForm({ 
+                                        ...editForm, 
+                                        jobAssignments: [...editForm.jobAssignments, { locationId: locId, jobRoleId: job.id }] 
+                                      });
+                                    } else {
+                                      setEditForm({ 
+                                        ...editForm, 
+                                        jobAssignments: editForm.jobAssignments.filter(ja => !(ja.locationId === locId && ja.jobRoleId === job.id))
+                                      });
+                                    }
+                                  }}
+                                  data-testid={`checkbox-edit-job-${locId}-${job.id}`}
+                                />
+                                <span className="truncate">{job.name}</span>
+                                <span className="text-xs text-muted-foreground ml-auto whitespace-nowrap">{job.payType === "salaried" ? `$${(job.baseRate/1000).toFixed(0)}k` : `$${job.baseRate}/hr`}</span>
+                              </label>
+                            );
+                          })}
                         </div>
                       </div>
                     );
