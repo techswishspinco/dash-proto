@@ -115,16 +115,16 @@ const mockPOSEmployees: POSEmployee[] = [
 ];
 
 const mockPayrollEmployees: PayrollEmployee[] = [
-  { id: "pay-1", name: "Johnson, Alice", payrollSystem: "Gusto" },
-  { id: "pay-2", name: "Smith, Robert", payrollSystem: "Gusto" },
-  { id: "pay-3", name: "Davis, Charles", payrollSystem: "Gusto" },
-  { id: "pay-4", name: "Martinez, Diana", payrollSystem: "Gusto" },
-  { id: "pay-5", name: "Thompson, Eric", payrollSystem: "Gusto" },
-  { id: "pay-6", name: "Garcia, Fiona", payrollSystem: "Gusto" },
-  { id: "pay-7", name: "Wilson, George", payrollSystem: "Gusto" },
-  { id: "pay-8", name: "Brown, Hannah", payrollSystem: "Gusto" },
-  { id: "pay-unmatched-1", name: "Williams, Mark (Unmatched)", payrollSystem: "Gusto" },
-  { id: "pay-unmatched-2", name: "Anderson, Lisa (Unmatched)", payrollSystem: "Gusto" },
+  { id: "pay-1", name: "Johnson, Alice", payrollSystem: "Olive Garden Seattle LLC" },
+  { id: "pay-2", name: "Smith, Robert", payrollSystem: "Olive Garden Seattle LLC" },
+  { id: "pay-3", name: "Davis, Charles", payrollSystem: "Olive Garden Seattle LLC" },
+  { id: "pay-4", name: "Martinez, Diana", payrollSystem: "Capitol Dining Group Inc" },
+  { id: "pay-5", name: "Thompson, Eric", payrollSystem: "Capitol Dining Group Inc" },
+  { id: "pay-6", name: "Garcia, Fiona", payrollSystem: "Ballard Restaurant Holdings" },
+  { id: "pay-7", name: "Wilson, George", payrollSystem: "Ballard Restaurant Holdings" },
+  { id: "pay-8", name: "Brown, Hannah", payrollSystem: "Olive Garden Seattle LLC" },
+  { id: "pay-unmatched-1", name: "Williams, Mark (Unmatched)", payrollSystem: "Capitol Dining Group Inc" },
+  { id: "pay-unmatched-2", name: "Anderson, Lisa (Unmatched)", payrollSystem: "Ballard Restaurant Holdings" },
 ];
 
 const avatarColors = [
@@ -169,13 +169,13 @@ const initialJobRoles: JobRole[] = [
 ];
 
 const initialStaff: Staff[] = [
-  { id: "1", name: "Alice Johnson", initials: "AJ", email: "alice@example.com", phone: "(206) 555-0101", status: "active", role: "manager", jobAssignments: [{ locationId: "1", jobRoleId: "1" }, { locationId: "2", jobRoleId: "1" }, { locationId: "2", jobRoleId: "2" }], posEmployeeIds: ["pos-1"], payrollEmployeeId: "pay-1", startDate: "2023-03-15", avatarColor: avatarColors[0] },
-  { id: "2", name: "Bob Smith", initials: "BS", email: "bob@example.com", phone: "(206) 555-0102", status: "active", role: "employee", jobAssignments: [{ locationId: "1", jobRoleId: "5" }], posEmployeeIds: ["pos-2"], payrollEmployeeId: "pay-2", startDate: "2023-06-01", avatarColor: avatarColors[1] },
-  { id: "3", name: "Charlie Davis", initials: "CD", email: "charlie@example.com", phone: "(206) 555-0103", status: "active", role: "employee", jobAssignments: [{ locationId: "2", jobRoleId: "3" }], posEmployeeIds: ["pos-3", "pos-4"], payrollEmployeeId: "pay-3", startDate: "2023-07-20", avatarColor: avatarColors[2] },
-  { id: "4", name: "Diana Martinez", initials: "DM", email: "diana@example.com", phone: "(206) 555-0104", status: "active", role: "employee", jobAssignments: [{ locationId: "3", jobRoleId: "9" }], posEmployeeIds: [], payrollEmployeeId: "pay-4", startDate: "2024-01-10", avatarColor: avatarColors[3] },
-  { id: "5", name: "Eric Thompson", initials: "ET", email: "eric@example.com", phone: "(206) 555-0105", status: "active", role: "employee", jobAssignments: [{ locationId: "1", jobRoleId: "5" }, { locationId: "3", jobRoleId: "6" }], posEmployeeIds: ["pos-5"], payrollEmployeeId: null, startDate: "2022-11-05", avatarColor: avatarColors[4] },
-  { id: "6", name: "Fiona Garcia", initials: "FG", email: "fiona@example.com", phone: "(206) 555-0106", status: "active", role: "admin", jobAssignments: [{ locationId: "1", jobRoleId: "11" }, { locationId: "2", jobRoleId: "11" }, { locationId: "3", jobRoleId: "11" }], posEmployeeIds: ["pos-6"], payrollEmployeeId: "pay-6", startDate: "2021-01-15", avatarColor: avatarColors[5] },
-  { id: "7", name: "George Wilson", initials: "GW", email: "george@example.com", phone: "(206) 555-0107", status: "inactive", role: "employee", jobAssignments: [{ locationId: "2", jobRoleId: "7" }], posEmployeeIds: ["pos-7"], payrollEmployeeId: "pay-7", startDate: "2023-04-01", avatarColor: avatarColors[6] },
+  { id: "1", name: "Alice Johnson", initials: "AJ", email: "alice@example.com", phone: "(206) 555-0101", status: "active", role: "manager", jobAssignments: [{ locationId: "1", jobRoleId: "1" }, { locationId: "2", jobRoleId: "1" }, { locationId: "2", jobRoleId: "2" }], posEmployeeIds: ["pos-1", "pos-2"], payrollEmployeeId: "pay-1", startDate: "2023-03-15", avatarColor: avatarColors[0] },
+  { id: "2", name: "Bob Smith", initials: "BS", email: "bob@example.com", phone: "(206) 555-0102", status: "active", role: "employee", jobAssignments: [{ locationId: "1", jobRoleId: "5" }], posEmployeeIds: ["pos-3"], payrollEmployeeId: "pay-2", startDate: "2023-06-01", avatarColor: avatarColors[1] },
+  { id: "3", name: "Charlie Davis", initials: "CD", email: "charlie@example.com", phone: "(206) 555-0103", status: "active", role: "employee", jobAssignments: [{ locationId: "2", jobRoleId: "3" }], posEmployeeIds: ["pos-4", "pos-5", "pos-6"], payrollEmployeeId: "pay-3", startDate: "2023-07-20", avatarColor: avatarColors[2] },
+  { id: "4", name: "Diana Martinez", initials: "DM", email: "diana@example.com", phone: "(206) 555-0104", status: "active", role: "employee", jobAssignments: [{ locationId: "3", jobRoleId: "9" }], posEmployeeIds: ["pos-7"], payrollEmployeeId: "pay-4", startDate: "2024-01-10", avatarColor: avatarColors[3] },
+  { id: "5", name: "Eric Thompson", initials: "ET", email: "eric@example.com", phone: "(206) 555-0105", status: "active", role: "employee", jobAssignments: [{ locationId: "1", jobRoleId: "5" }, { locationId: "3", jobRoleId: "6" }], posEmployeeIds: ["pos-8"], payrollEmployeeId: "pay-5", startDate: "2022-11-05", avatarColor: avatarColors[4] },
+  { id: "6", name: "Fiona Garcia", initials: "FG", email: "fiona@example.com", phone: "(206) 555-0106", status: "active", role: "admin", jobAssignments: [{ locationId: "1", jobRoleId: "11" }, { locationId: "2", jobRoleId: "11" }, { locationId: "3", jobRoleId: "11" }], posEmployeeIds: [], payrollEmployeeId: "pay-6", startDate: "2021-01-15", avatarColor: avatarColors[5] },
+  { id: "7", name: "George Wilson", initials: "GW", email: "george@example.com", phone: "(206) 555-0107", status: "inactive", role: "employee", jobAssignments: [{ locationId: "2", jobRoleId: "7" }], posEmployeeIds: [], payrollEmployeeId: "pay-7", startDate: "2023-04-01", avatarColor: avatarColors[6] },
   { id: "8", name: "Hannah Brown", initials: "HB", email: "hannah@example.com", phone: "(206) 555-0108", status: "active", role: "employee", jobAssignments: [{ locationId: "1", jobRoleId: "1" }, { locationId: "1", jobRoleId: "2" }], posEmployeeIds: [], payrollEmployeeId: null, startDate: "2024-02-01", avatarColor: avatarColors[7] },
 ];
 
