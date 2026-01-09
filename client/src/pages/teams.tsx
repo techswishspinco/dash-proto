@@ -86,12 +86,14 @@ interface Location {
 interface POSEmployee {
   id: string;
   name: string;
+  email: string;
   posSystem: string;
 }
 
 interface PayrollEmployee {
   id: string;
   name: string;
+  email: string;
   payrollSystem: string;
 }
 
@@ -102,29 +104,29 @@ const initialLocations: Location[] = [
 ];
 
 const mockPOSEmployees: POSEmployee[] = [
-  { id: "pos-1", name: "Alice J.", posSystem: "Toast" },
-  { id: "pos-2", name: "Bob Smith", posSystem: "Toast" },
-  { id: "pos-3", name: "Charlie D.", posSystem: "Toast" },
-  { id: "pos-4", name: "Diana M.", posSystem: "Toast" },
-  { id: "pos-5", name: "Eric T.", posSystem: "Toast" },
-  { id: "pos-6", name: "F. Garcia", posSystem: "Toast" },
-  { id: "pos-7", name: "G. Wilson", posSystem: "Toast" },
-  { id: "pos-8", name: "Hannah B.", posSystem: "Toast" },
-  { id: "pos-unmatched-1", name: "John Doe (Unmatched)", posSystem: "Toast" },
-  { id: "pos-unmatched-2", name: "Jane Smith (Unmatched)", posSystem: "Toast" },
+  { id: "pos-1", name: "Alice J.", email: "alice.j@restaurant.com", posSystem: "Toast" },
+  { id: "pos-2", name: "Bob Smith", email: "bob.smith@restaurant.com", posSystem: "Toast" },
+  { id: "pos-3", name: "Charlie D.", email: "charlie.d@restaurant.com", posSystem: "Toast" },
+  { id: "pos-4", name: "Diana M.", email: "diana.m@restaurant.com", posSystem: "Toast" },
+  { id: "pos-5", name: "Eric T.", email: "eric.t@restaurant.com", posSystem: "Toast" },
+  { id: "pos-6", name: "F. Garcia", email: "f.garcia@restaurant.com", posSystem: "Toast" },
+  { id: "pos-7", name: "G. Wilson", email: "g.wilson@restaurant.com", posSystem: "Toast" },
+  { id: "pos-8", name: "Hannah B.", email: "hannah.b@restaurant.com", posSystem: "Toast" },
+  { id: "pos-unmatched-1", name: "John Doe (Unmatched)", email: "john.doe@restaurant.com", posSystem: "Toast" },
+  { id: "pos-unmatched-2", name: "Jane Smith (Unmatched)", email: "jane.smith@restaurant.com", posSystem: "Toast" },
 ];
 
 const mockPayrollEmployees: PayrollEmployee[] = [
-  { id: "pay-1", name: "Johnson, Alice", payrollSystem: "Olive Garden Seattle LLC" },
-  { id: "pay-2", name: "Smith, Robert", payrollSystem: "Olive Garden Seattle LLC" },
-  { id: "pay-3", name: "Davis, Charles", payrollSystem: "Olive Garden Seattle LLC" },
-  { id: "pay-4", name: "Martinez, Diana", payrollSystem: "Capitol Dining Group Inc" },
-  { id: "pay-5", name: "Thompson, Eric", payrollSystem: "Capitol Dining Group Inc" },
-  { id: "pay-6", name: "Garcia, Fiona", payrollSystem: "Ballard Restaurant Holdings" },
-  { id: "pay-7", name: "Wilson, George", payrollSystem: "Ballard Restaurant Holdings" },
-  { id: "pay-8", name: "Brown, Hannah", payrollSystem: "Olive Garden Seattle LLC" },
-  { id: "pay-unmatched-1", name: "Williams, Mark (Unmatched)", payrollSystem: "Capitol Dining Group Inc" },
-  { id: "pay-unmatched-2", name: "Anderson, Lisa (Unmatched)", payrollSystem: "Ballard Restaurant Holdings" },
+  { id: "pay-1", name: "Johnson, Alice", email: "alice.johnson@payroll.com", payrollSystem: "Olive Garden Seattle LLC" },
+  { id: "pay-2", name: "Smith, Robert", email: "robert.smith@payroll.com", payrollSystem: "Olive Garden Seattle LLC" },
+  { id: "pay-3", name: "Davis, Charles", email: "charles.davis@payroll.com", payrollSystem: "Olive Garden Seattle LLC" },
+  { id: "pay-4", name: "Martinez, Diana", email: "diana.martinez@payroll.com", payrollSystem: "Capitol Dining Group Inc" },
+  { id: "pay-5", name: "Thompson, Eric", email: "eric.thompson@payroll.com", payrollSystem: "Capitol Dining Group Inc" },
+  { id: "pay-6", name: "Garcia, Fiona", email: "fiona.garcia@payroll.com", payrollSystem: "Ballard Restaurant Holdings" },
+  { id: "pay-7", name: "Wilson, George", email: "george.wilson@payroll.com", payrollSystem: "Ballard Restaurant Holdings" },
+  { id: "pay-8", name: "Brown, Hannah", email: "hannah.brown@payroll.com", payrollSystem: "Olive Garden Seattle LLC" },
+  { id: "pay-unmatched-1", name: "Williams, Mark (Unmatched)", email: "mark.williams@payroll.com", payrollSystem: "Capitol Dining Group Inc" },
+  { id: "pay-unmatched-2", name: "Anderson, Lisa (Unmatched)", email: "lisa.anderson@payroll.com", payrollSystem: "Ballard Restaurant Holdings" },
 ];
 
 const avatarColors = [
@@ -255,8 +257,10 @@ export default function Teams() {
   // Mapping dialogs
   const [showAddPOSMappingDialog, setShowAddPOSMappingDialog] = useState(false);
   const [showAddPayrollMappingDialog, setShowAddPayrollMappingDialog] = useState(false);
-  const [pendingPOSMapping, setPendingPOSMapping] = useState<string | null>(null);
-  const [pendingPayrollMapping, setPendingPayrollMapping] = useState<string | null>(null);
+  const [pendingPOSMappings, setPendingPOSMappings] = useState<string[]>([]);
+  const [pendingPayrollMappings, setPendingPayrollMappings] = useState<string[]>([]);
+  const [posSearchQuery, setPosSearchQuery] = useState("");
+  const [payrollSearchQuery, setPayrollSearchQuery] = useState("");
 
   // Edit job dialog
   const [showEditJobDialog, setShowEditJobDialog] = useState(false);
@@ -504,19 +508,33 @@ export default function Teams() {
   };
 
   const confirmAddPOSMapping = () => {
-    if (pendingPOSMapping) {
-      addPOSMapping(pendingPOSMapping);
-      setPendingPOSMapping(null);
+    if (pendingPOSMappings.length > 0) {
+      pendingPOSMappings.forEach(id => addPOSMapping(id));
+      setPendingPOSMappings([]);
+      setPosSearchQuery("");
       setShowAddPOSMappingDialog(false);
     }
   };
 
   const confirmAddPayrollMapping = () => {
-    if (pendingPayrollMapping) {
-      addPayrollMapping(pendingPayrollMapping);
-      setPendingPayrollMapping(null);
+    if (pendingPayrollMappings.length > 0) {
+      pendingPayrollMappings.forEach(id => addPayrollMapping(id));
+      setPendingPayrollMappings([]);
+      setPayrollSearchQuery("");
       setShowAddPayrollMappingDialog(false);
     }
+  };
+
+  const togglePOSSelection = (id: string) => {
+    setPendingPOSMappings(prev => 
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+    );
+  };
+
+  const togglePayrollSelection = (id: string) => {
+    setPendingPayrollMappings(prev => 
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+    );
   };
 
   const getPOSEmployee = (id: string) => {
@@ -1523,106 +1541,168 @@ export default function Teams() {
       </AlertDialog>
 
       {/* Add POS Mapping Dialog */}
-      <Dialog open={showAddPOSMappingDialog} onOpenChange={setShowAddPOSMappingDialog}>
-        <DialogContent className="sm:max-w-md">
+      <Dialog open={showAddPOSMappingDialog} onOpenChange={(open) => {
+        setShowAddPOSMappingDialog(open);
+        if (!open) {
+          setPendingPOSMappings([]);
+          setPosSearchQuery("");
+        }
+      }}>
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>Add POS Employee Mapping</DialogTitle>
             <DialogDescription>
-              Select a POS employee to link to {selectedStaff?.name}
+              Select POS employees to link to {selectedStaff?.name}
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <Label className="text-sm font-medium mb-3 block">Select POS Employee</Label>
-            <div className="border rounded-lg max-h-64 overflow-y-auto divide-y">
+          <div className="py-4 space-y-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search by name or email..."
+                value={posSearchQuery}
+                onChange={(e) => setPosSearchQuery(e.target.value)}
+                className="pl-9"
+                data-testid="input-pos-search"
+              />
+            </div>
+            <div className="border rounded-lg max-h-72 overflow-y-auto divide-y">
               {mockPOSEmployees
                 .filter(emp => !selectedStaff?.posEmployeeIds.includes(emp.id))
+                .filter(emp => 
+                  emp.name.toLowerCase().includes(posSearchQuery.toLowerCase()) ||
+                  emp.email.toLowerCase().includes(posSearchQuery.toLowerCase())
+                )
                 .map((emp) => (
                 <button
                   key={emp.id}
-                  onClick={() => setPendingPOSMapping(emp.id)}
+                  onClick={() => togglePOSSelection(emp.id)}
                   className={cn(
                     "w-full flex items-center gap-3 px-4 py-3 text-left transition-colors",
-                    pendingPOSMapping === emp.id ? "bg-blue-50" : "hover:bg-gray-50"
+                    pendingPOSMappings.includes(emp.id) ? "bg-blue-50" : "hover:bg-gray-50"
                   )}
                   data-testid={`button-select-pos-${emp.id}`}
                 >
                   <div className={cn(
-                    "w-5 h-5 rounded-full border-2 flex items-center justify-center",
-                    pendingPOSMapping === emp.id ? "border-blue-600 bg-blue-600" : "border-gray-300"
+                    "w-5 h-5 rounded border-2 flex items-center justify-center shrink-0",
+                    pendingPOSMappings.includes(emp.id) ? "border-blue-600 bg-blue-600" : "border-gray-300"
                   )}>
-                    {pendingPOSMapping === emp.id && <Check className="h-3 w-3 text-white" />}
+                    {pendingPOSMappings.includes(emp.id) && <Check className="h-3 w-3 text-white" />}
                   </div>
-                  <div>
-                    <div className="text-sm font-medium">{emp.name}</div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">{emp.name}</span>
+                      <span className="text-xs text-muted-foreground truncate">{emp.email}</span>
+                    </div>
                     <div className="text-xs text-muted-foreground">{emp.posSystem}</div>
                   </div>
                 </button>
               ))}
-              {mockPOSEmployees.filter(emp => !selectedStaff?.posEmployeeIds.includes(emp.id)).length === 0 && (
+              {mockPOSEmployees.filter(emp => !selectedStaff?.posEmployeeIds.includes(emp.id)).filter(emp => 
+                emp.name.toLowerCase().includes(posSearchQuery.toLowerCase()) ||
+                emp.email.toLowerCase().includes(posSearchQuery.toLowerCase())
+              ).length === 0 && (
                 <div className="px-4 py-6 text-center text-sm text-muted-foreground">
-                  All POS employees are already mapped
+                  {posSearchQuery ? "No matching employees found" : "All POS employees are already mapped"}
                 </div>
               )}
             </div>
+            {pendingPOSMappings.length > 0 && (
+              <div className="text-sm text-muted-foreground">
+                {pendingPOSMappings.length} employee{pendingPOSMappings.length > 1 ? 's' : ''} selected
+              </div>
+            )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowAddPOSMappingDialog(false)}>
               Cancel
             </Button>
-            <Button onClick={confirmAddPOSMapping} disabled={!pendingPOSMapping} data-testid="button-confirm-pos-mapping">
-              Confirm Mapping
+            <Button onClick={confirmAddPOSMapping} disabled={pendingPOSMappings.length === 0} data-testid="button-confirm-pos-mapping">
+              Confirm Mapping{pendingPOSMappings.length > 0 ? ` (${pendingPOSMappings.length})` : ''}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
       {/* Add Payroll Mapping Dialog */}
-      <Dialog open={showAddPayrollMappingDialog} onOpenChange={setShowAddPayrollMappingDialog}>
-        <DialogContent className="sm:max-w-md">
+      <Dialog open={showAddPayrollMappingDialog} onOpenChange={(open) => {
+        setShowAddPayrollMappingDialog(open);
+        if (!open) {
+          setPendingPayrollMappings([]);
+          setPayrollSearchQuery("");
+        }
+      }}>
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>Add Payroll Employee Mapping</DialogTitle>
             <DialogDescription>
-              Select a payroll employee to link to {selectedStaff?.name}
+              Select payroll employees to link to {selectedStaff?.name}
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <Label className="text-sm font-medium mb-3 block">Select Payroll Employee</Label>
-            <div className="border rounded-lg max-h-64 overflow-y-auto divide-y">
-              {mockPayrollEmployees.filter(emp => !selectedStaff?.payrollEmployeeIds.includes(emp.id)).map((emp) => (
+          <div className="py-4 space-y-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search by name or email..."
+                value={payrollSearchQuery}
+                onChange={(e) => setPayrollSearchQuery(e.target.value)}
+                className="pl-9"
+                data-testid="input-payroll-search"
+              />
+            </div>
+            <div className="border rounded-lg max-h-72 overflow-y-auto divide-y">
+              {mockPayrollEmployees
+                .filter(emp => !selectedStaff?.payrollEmployeeIds.includes(emp.id))
+                .filter(emp => 
+                  emp.name.toLowerCase().includes(payrollSearchQuery.toLowerCase()) ||
+                  emp.email.toLowerCase().includes(payrollSearchQuery.toLowerCase())
+                )
+                .map((emp) => (
                 <button
                   key={emp.id}
-                  onClick={() => setPendingPayrollMapping(emp.id)}
+                  onClick={() => togglePayrollSelection(emp.id)}
                   className={cn(
                     "w-full flex items-center gap-3 px-4 py-3 text-left transition-colors",
-                    pendingPayrollMapping === emp.id ? "bg-emerald-50" : "hover:bg-gray-50"
+                    pendingPayrollMappings.includes(emp.id) ? "bg-emerald-50" : "hover:bg-gray-50"
                   )}
                   data-testid={`button-select-payroll-${emp.id}`}
                 >
                   <div className={cn(
-                    "w-5 h-5 rounded-full border-2 flex items-center justify-center",
-                    pendingPayrollMapping === emp.id ? "border-emerald-600 bg-emerald-600" : "border-gray-300"
+                    "w-5 h-5 rounded border-2 flex items-center justify-center shrink-0",
+                    pendingPayrollMappings.includes(emp.id) ? "border-emerald-600 bg-emerald-600" : "border-gray-300"
                   )}>
-                    {pendingPayrollMapping === emp.id && <Check className="h-3 w-3 text-white" />}
+                    {pendingPayrollMappings.includes(emp.id) && <Check className="h-3 w-3 text-white" />}
                   </div>
-                  <div>
-                    <div className="text-sm font-medium">{emp.name}</div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">{emp.name}</span>
+                      <span className="text-xs text-muted-foreground truncate">{emp.email}</span>
+                    </div>
                     <div className="text-xs text-muted-foreground">{emp.payrollSystem}</div>
                   </div>
                 </button>
               ))}
-              {mockPayrollEmployees.filter(emp => !selectedStaff?.payrollEmployeeIds.includes(emp.id)).length === 0 && (
+              {mockPayrollEmployees.filter(emp => !selectedStaff?.payrollEmployeeIds.includes(emp.id)).filter(emp => 
+                emp.name.toLowerCase().includes(payrollSearchQuery.toLowerCase()) ||
+                emp.email.toLowerCase().includes(payrollSearchQuery.toLowerCase())
+              ).length === 0 && (
                 <div className="px-4 py-6 text-center text-sm text-muted-foreground">
-                  All payroll employees are already mapped
+                  {payrollSearchQuery ? "No matching employees found" : "All payroll employees are already mapped"}
                 </div>
               )}
             </div>
+            {pendingPayrollMappings.length > 0 && (
+              <div className="text-sm text-muted-foreground">
+                {pendingPayrollMappings.length} employee{pendingPayrollMappings.length > 1 ? 's' : ''} selected
+              </div>
+            )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowAddPayrollMappingDialog(false)}>
               Cancel
             </Button>
-            <Button onClick={confirmAddPayrollMapping} disabled={!pendingPayrollMapping} data-testid="button-confirm-payroll-mapping">
-              Confirm Mapping
+            <Button onClick={confirmAddPayrollMapping} disabled={pendingPayrollMappings.length === 0} data-testid="button-confirm-payroll-mapping">
+              Confirm Mapping{pendingPayrollMappings.length > 0 ? ` (${pendingPayrollMappings.length})` : ''}
             </Button>
           </DialogFooter>
         </DialogContent>
