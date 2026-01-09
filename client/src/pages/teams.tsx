@@ -778,7 +778,7 @@ export default function Teams() {
                                 )}>{staffAtJob}</span>
                                 {job.name}
                               </div>
-                              <div className="text-xs text-muted-foreground ml-[26px]">${job.baseRate}/hr</div>
+                              <div className="text-xs text-muted-foreground ml-[26px]">Base Rate: ${job.baseRate}/hr</div>
                             </div>
                             <div className="flex items-center gap-2">
                               <Edit2 
