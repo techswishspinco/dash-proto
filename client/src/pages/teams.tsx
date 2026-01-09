@@ -60,6 +60,7 @@ interface JobRole {
 interface JobAssignment {
   locationId: string;
   jobRoleId: string;
+  customRate?: number;
 }
 
 interface Staff {
@@ -1103,6 +1104,7 @@ export default function Teams() {
               <Tabs value={staffDetailTab} onValueChange={setStaffDetailTab} className="mt-4">
                 <TabsList className="w-full">
                   <TabsTrigger value="overview" className="flex-1" data-testid="tab-staff-overview">Overview</TabsTrigger>
+                  <TabsTrigger value="payrates" className="flex-1" data-testid="tab-staff-payrates">Pay Rates</TabsTrigger>
                   <TabsTrigger value="mappings" className="flex-1" data-testid="tab-staff-mappings">Mappings</TabsTrigger>
                 </TabsList>
 
@@ -1147,6 +1149,115 @@ export default function Teams() {
                       </Button>
                     )}
                   </div>
+                </TabsContent>
+
+                <TabsContent value="payrates" className="mt-4 space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Set custom pay rates for this employee's job assignments. Leave blank to use the base rate.
+                  </p>
+                  
+                  {(() => {
+                    const assignedLocationIds = Array.from(new Set(selectedStaff.jobAssignments.map(ja => ja.locationId)));
+                    
+                    if (assignedLocationIds.length === 0) {
+                      return (
+                        <div className="text-center py-8 text-muted-foreground">
+                          <Briefcase className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                          <p>No job assignments yet</p>
+                          <p className="text-xs mt-1">Assign jobs to this employee first</p>
+                        </div>
+                      );
+                    }
+                    
+                    return assignedLocationIds.map(locId => {
+                      const location = locations.find(l => l.id === locId);
+                      const jobsAtThisLocation = selectedStaff.jobAssignments.filter(ja => ja.locationId === locId);
+                      
+                      return (
+                        <div key={locId} className="space-y-2">
+                          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                            <MapPin className="h-3.5 w-3.5" />
+                            {location?.name}
+                          </div>
+                          <div className="border rounded-lg divide-y">
+                            {jobsAtThisLocation.map(assignment => {
+                              const job = jobRoles.find(j => j.id === assignment.jobRoleId);
+                              if (!job) return null;
+                              
+                              return (
+                                <div key={`${locId}-${assignment.jobRoleId}`} className="p-3 space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <div className="font-medium text-sm">{job.name}</div>
+                                    <div className="text-xs text-muted-foreground">
+                                      Base: ${job.baseRate}/{job.payType === "hourly" ? "hr" : "yr"}
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <Label className="text-xs text-muted-foreground shrink-0 w-20">Custom Rate:</Label>
+                                    <div className="relative flex-1">
+                                      <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">$</span>
+                                      <Input
+                                        type="number"
+                                        step="0.01"
+                                        placeholder={job.baseRate.toString()}
+                                        value={assignment.customRate ?? ""}
+                                        onChange={(e) => {
+                                          const value = e.target.value ? parseFloat(e.target.value) : undefined;
+                                          const updatedAssignments = selectedStaff.jobAssignments.map(ja =>
+                                            ja.locationId === locId && ja.jobRoleId === assignment.jobRoleId
+                                              ? { ...ja, customRate: value }
+                                              : ja
+                                          );
+                                          setSelectedStaff({ ...selectedStaff, jobAssignments: updatedAssignments });
+                                          setStaff(staff.map(s =>
+                                            s.id === selectedStaff.id
+                                              ? { ...s, jobAssignments: updatedAssignments }
+                                              : s
+                                          ));
+                                        }}
+                                        className="pl-6 h-8 text-sm"
+                                        data-testid={`input-custom-rate-${locId}-${assignment.jobRoleId}`}
+                                      />
+                                    </div>
+                                    <span className="text-xs text-muted-foreground">/{job.payType === "hourly" ? "hr" : "yr"}</span>
+                                    {assignment.customRate && (
+                                      <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="h-8 px-2 text-muted-foreground hover:text-foreground"
+                                        onClick={() => {
+                                          const updatedAssignments = selectedStaff.jobAssignments.map(ja =>
+                                            ja.locationId === locId && ja.jobRoleId === assignment.jobRoleId
+                                              ? { ...ja, customRate: undefined }
+                                              : ja
+                                          );
+                                          setSelectedStaff({ ...selectedStaff, jobAssignments: updatedAssignments });
+                                          setStaff(staff.map(s =>
+                                            s.id === selectedStaff.id
+                                              ? { ...s, jobAssignments: updatedAssignments }
+                                              : s
+                                          ));
+                                        }}
+                                        data-testid={`button-clear-rate-${locId}-${assignment.jobRoleId}`}
+                                      >
+                                        <X className="h-3.5 w-3.5" />
+                                      </Button>
+                                    )}
+                                  </div>
+                                  {assignment.customRate && assignment.customRate !== job.baseRate && (
+                                    <div className="text-xs text-amber-600 flex items-center gap-1">
+                                      <AlertCircle className="h-3 w-3" />
+                                      Custom rate differs from base rate
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    });
+                  })()}
                 </TabsContent>
 
                 <TabsContent value="mappings" className="mt-4 space-y-6">
