@@ -3617,41 +3617,167 @@ export default function PnlRelease() {
                              </Popover>
                           </div>
                        </div>
-                       {/* Role Toggle */}
+                       {/* Role Toggle - matches curated view */}
                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2 text-sm text-gray-500">
-                             <span>Viewing as:</span>
-                             <span className={cn(
-                                "font-medium",
-                                selectedRole === "owner" ? "text-blue-600" : 
-                                selectedRole === "gm" ? "text-purple-600" : 
-                                "text-orange-600"
-                             )}>
-                                {selectedRole === "owner" ? "Owner" : selectedRole === "gm" ? "General Manager" : "Executive Chef"}
-                             </span>
+                          <div className="flex items-center gap-3">
+                             <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                <LayoutDashboard className="h-5 w-5 text-blue-600" />
+                             </div>
+                             <div>
+                                <h3 className="font-medium text-gray-900">Role Preview Mode</h3>
+                                <p className="text-sm text-gray-500">Preview how each role will see their curated report</p>
+                             </div>
                           </div>
                           <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
                              <button 
                                 data-testid="button-owner-role-owner"
-                                onClick={() => setLocation("/finance/pnl-release?view=owner")}
-                                className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", selectedRole === "owner" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700")}
+                                onClick={() => { setSelectedRole("owner"); setLocation("/finance/pnl-release?view=owner"); }}
+                                className={cn("px-4 py-2 text-sm font-medium rounded-md transition-colors", selectedRole === "owner" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700")}
                              >
                                 Owner
                              </button>
                              <button 
                                 data-testid="button-owner-role-gm"
-                                onClick={() => setLocation("/finance/pnl-release?view=gm")}
-                                className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", selectedRole === "gm" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700")}
+                                onClick={() => { setSelectedRole("gm"); setLocation("/finance/pnl-release?view=gm"); }}
+                                className={cn("px-4 py-2 text-sm font-medium rounded-md transition-colors", selectedRole === "gm" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700")}
                              >
                                 GM
                              </button>
                              <button 
                                 data-testid="button-owner-role-chef"
-                                onClick={() => setLocation("/finance/pnl-release?view=chef")}
-                                className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", selectedRole === "chef" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700")}
+                                onClick={() => { setSelectedRole("chef"); setLocation("/finance/pnl-release?view=chef"); }}
+                                className={cn("px-4 py-2 text-sm font-medium rounded-md transition-colors", selectedRole === "chef" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700")}
                              >
                                 Executive Chef
                              </button>
+                          </div>
+                       </div>
+
+                       {/* First-time user hint */}
+                       {!curatedPrefs.hasSeenHint && (
+                          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-center justify-between">
+                             <div className="flex items-center gap-2">
+                                <Lightbulb className="h-4 w-4 text-blue-600" />
+                                <p className="text-sm text-blue-800">
+                                   This view is customized for your role. You can change it anytime using the <strong>Customize View</strong> button.
+                                </p>
+                             </div>
+                             <button 
+                                onClick={dismissHint}
+                                className="text-blue-600 hover:text-blue-800 p-1"
+                                data-testid="button-dismiss-hint-owner"
+                             >
+                                <X className="h-4 w-4" />
+                             </button>
+                          </div>
+                       )}
+
+                       {/* Role Description Banner with Customize Button */}
+                       <div className={cn(
+                          "rounded-xl p-4 flex items-center gap-3",
+                          selectedRole === "owner" ? "bg-blue-50 border border-blue-200" : 
+                          selectedRole === "gm" ? "bg-purple-50 border border-purple-200" : 
+                          "bg-orange-50 border border-orange-200"
+                       )}>
+                          <div className={cn(
+                             "h-10 w-10 rounded-full flex items-center justify-center font-bold text-white flex-shrink-0",
+                             selectedRole === "owner" ? "bg-blue-500" : 
+                             selectedRole === "gm" ? "bg-purple-500" : 
+                             "bg-orange-500"
+                          )}>
+                             {selectedRole === "owner" ? "O" : selectedRole === "gm" ? "GM" : "EC"}
+                          </div>
+                          <div className="flex-1">
+                             <h3 className={cn(
+                                "font-medium",
+                                selectedRole === "owner" ? "text-blue-900" : 
+                                selectedRole === "gm" ? "text-purple-900" : 
+                                "text-orange-900"
+                             )}>
+                                {selectedRole === "owner" ? "Owner View" : selectedRole === "gm" ? "General Manager View" : "Executive Chef View"}
+                             </h3>
+                             <p className={cn(
+                                "text-sm",
+                                selectedRole === "owner" ? "text-blue-700" : 
+                                selectedRole === "gm" ? "text-purple-700" : 
+                                "text-orange-700"
+                             )}>
+                                {selectedRole === "owner" ? "Full access to all financial data and insights" : 
+                                 selectedRole === "gm" ? "Focus on FOH labor, operations, and overall revenue performance" : 
+                                 "Focus on COGS, BOH labor, and kitchen operations"}
+                             </p>
+                          </div>
+
+                          {/* Customize View Button */}
+                          <div ref={curatedFilterRef} className="relative flex-shrink-0">
+                             <button 
+                                data-testid="button-customize-view-owner"
+                                onClick={() => setShowCuratedFilterDropdown(!showCuratedFilterDropdown)}
+                                className={cn(
+                                   "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border transition-colors",
+                                   selectedRole === "owner" ? "bg-white/80 border-blue-200 hover:bg-white text-blue-900" :
+                                   selectedRole === "gm" ? "bg-white/80 border-purple-200 hover:bg-white text-purple-900" :
+                                   "bg-white/80 border-orange-200 hover:bg-white text-orange-900",
+                                   showCuratedFilterDropdown && "bg-white shadow-sm"
+                                )}
+                             >
+                                <Filter className="h-4 w-4" />
+                                Customize
+                                {activeFilters.length < filterOptions.length && (
+                                   <span className={cn(
+                                      "text-xs px-1.5 py-0.5 rounded-full",
+                                      selectedRole === "owner" ? "bg-blue-100 text-blue-700" :
+                                      selectedRole === "gm" ? "bg-purple-100 text-purple-700" :
+                                      "bg-orange-100 text-orange-700"
+                                   )}>
+                                      {activeFilters.length}/{filterOptions.length}
+                                   </span>
+                                )}
+                             </button>
+
+                             {/* Filter Dropdown */}
+                             {showCuratedFilterDropdown && (
+                                <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-xl border border-gray-200 shadow-xl z-50 overflow-hidden">
+                                   <div className="p-3 border-b border-gray-100 flex items-center justify-between">
+                                      <span className="text-sm font-semibold text-gray-900">Show Insights</span>
+                                      <button
+                                         data-testid="button-reset-filters-owner"
+                                         onClick={resetToRoleDefaults}
+                                         className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+                                      >
+                                         Restore defaults
+                                      </button>
+                                   </div>
+                                   <div className="max-h-80 overflow-y-auto p-2">
+                                      {Object.entries(
+                                         filterOptions.reduce((acc, opt) => {
+                                            if (!acc[opt.group]) acc[opt.group] = [];
+                                            acc[opt.group].push(opt);
+                                            return acc;
+                                         }, {} as Record<string, CuratedFilterOption[]>)
+                                      ).map(([group, options]) => (
+                                         <div key={group} className="mb-3 last:mb-0">
+                                            <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">{group}</div>
+                                            {options.map(opt => (
+                                               <label 
+                                                  key={opt.id}
+                                                  className="flex items-center gap-3 px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
+                                               >
+                                                  <input
+                                                     type="checkbox"
+                                                     checked={isFilterEnabled(opt.id)}
+                                                     onChange={() => toggleCuratedFilter(opt.id)}
+                                                     className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                                     data-testid={`checkbox-filter-owner-${opt.id}`}
+                                                  />
+                                                  <span className="text-sm text-gray-700">{opt.label}</span>
+                                               </label>
+                                            ))}
+                                         </div>
+                                      ))}
+                                   </div>
+                                </div>
+                             )}
                           </div>
                        </div>
                     </div>
