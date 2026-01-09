@@ -1506,6 +1506,7 @@ function PnLDashboard({ onInsightClick, highlightedNodeId, onHighlightClear, onT
         
         {/* Comparison Period - Inline with header */}
         <div className="flex items-center gap-2">
+          <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Comparing</span>
           <select
             data-testid="select-current-month"
             value={comparisonPeriod.currentMonth}
