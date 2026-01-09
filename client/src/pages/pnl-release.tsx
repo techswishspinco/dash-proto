@@ -1296,17 +1296,18 @@ const filterItemsBySearch = (items: PnLLineItem[], searchTerm: string): PnLLineI
 // Metric to P&L node ID mapping
 const METRIC_TO_PNL_NODE: Record<string, { nodeId: string; ancestors: string[] }> = {
   'net_income': { nodeId: 'net-income', ancestors: [] },
+  'net_profit': { nodeId: 'net-income', ancestors: [] },
   'revenue': { nodeId: 'revenue', ancestors: [] },
-  'labor': { nodeId: 'labor', ancestors: [] },
-  'labor_percent': { nodeId: 'labor', ancestors: [] },
+  'labor': { nodeId: 'direct-labor-cost', ancestors: ['cogs'] },
+  'labor_percent': { nodeId: 'direct-labor-cost', ancestors: ['cogs'] },
   'cogs': { nodeId: 'cogs', ancestors: [] },
   'cogs_percent': { nodeId: 'cogs', ancestors: [] },
   'prime_cost': { nodeId: 'cogs', ancestors: [] }, // Prime cost = COGS + Labor
-  'operating_expenses': { nodeId: 'operating-expenses', ancestors: [] },
-  'foh_labor': { nodeId: 'foh-labor', ancestors: ['labor'] },
-  'boh_labor': { nodeId: 'boh-labor', ancestors: ['labor'] },
-  'food_cost': { nodeId: 'food-costs', ancestors: ['cogs'] },
-  'beverage_cost': { nodeId: 'beverage-costs', ancestors: ['cogs'] },
+  'operating_expenses': { nodeId: 'expenses', ancestors: [] },
+  'foh_labor': { nodeId: 'server-plater', ancestors: ['cogs', 'direct-labor-cost'] },
+  'boh_labor': { nodeId: 'dishwasher', ancestors: ['cogs', 'direct-labor-cost'] },
+  'food_cost': { nodeId: 'food-cost', ancestors: ['cogs'] },
+  'beverage_cost': { nodeId: 'beverage-cost', ancestors: ['cogs'] },
 };
 
 // Mapping from P&L line item IDs to Health Snapshot trend metric IDs
