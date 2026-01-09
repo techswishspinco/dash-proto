@@ -42,6 +42,7 @@ import {
   Link2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import TaskBanner from "@/components/task-banner";
 
 function SidebarItem({ icon: Icon, label, href }: { icon: any, label: string, href: string }) {
   const [location] = useLocation();
@@ -133,6 +134,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
+        {/* Task Banner */}
+        <TaskBanner />
+        
         {/* Header */}
         <header className="h-16 px-8 flex items-center justify-between bg-white border-b border-border sticky top-0 z-10">
            <div className="flex items-center gap-4 text-sm text-muted-foreground">

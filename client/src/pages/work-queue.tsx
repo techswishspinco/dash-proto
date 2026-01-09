@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import Layout from "@/components/layout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,25 +16,22 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Search,
-  Filter,
   Clock,
   AlertTriangle,
   CheckCircle2,
   ChevronRight,
-  MoreHorizontal,
   User,
   Building2,
   MapPin,
@@ -44,12 +42,12 @@ import {
   Users,
   FileWarning,
   RefreshCw,
-  Bell,
   CircleDot,
   Pause,
-  X,
   ExternalLink,
   History,
+  Play,
+  ArrowRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -57,6 +55,12 @@ type Priority = "critical" | "high" | "medium" | "low";
 type Status = "open" | "in_progress" | "snoozed" | "resolved";
 type TaskType = "onboarding" | "mapping" | "payroll" | "tax" | "anomaly";
 type Role = "operator" | "manager" | "accountant" | "support" | "onboarding_specialist";
+
+interface TaskStep {
+  id: string;
+  label: string;
+  completed: boolean;
+}
 
 interface Task {
   id: string;
@@ -73,6 +77,9 @@ interface Task {
   employees?: number;
   payrollRun?: string;
   escalationHistory?: { date: string; from: Priority; to: Priority }[];
+  workPage?: string;
+  steps?: TaskStep[];
+  snoozedUntil?: string;
 }
 
 const mockTasks: Task[] = [
@@ -95,6 +102,12 @@ const mockTasks: Task[] = [
     escalationHistory: [
       { date: "2026-01-08T12:00:00", from: "high", to: "critical" },
     ],
+    workPage: "/payroll/run",
+    steps: [
+      { id: "1", label: "Review failed payroll details", completed: false },
+      { id: "2", label: "Fix missing tax information for 3 employees", completed: false },
+      { id: "3", label: "Re-run payroll", completed: false },
+    ],
   },
   {
     id: "2",
@@ -111,6 +124,12 @@ const mockTasks: Task[] = [
     company: "KOQ LLC",
     location: "Capitol Hill",
     employees: 12,
+    workPage: "/payroll/onboarding",
+    steps: [
+      { id: "1", label: "Review employee list from POS", completed: true },
+      { id: "2", label: "Collect missing information", completed: false },
+      { id: "3", label: "Map employees to payroll", completed: false },
+    ],
   },
   {
     id: "3",
@@ -127,6 +146,12 @@ const mockTasks: Task[] = [
     dueDate: "2026-01-15T09:00:00",
     company: "KOQ LLC",
     payrollRun: "PR-2026-01-15",
+    workPage: "/payroll/home",
+    steps: [
+      { id: "1", label: "Review timesheet imports", completed: false },
+      { id: "2", label: "Verify employee hours", completed: false },
+      { id: "3", label: "Approve payroll preview", completed: false },
+    ],
   },
   {
     id: "4",
@@ -141,6 +166,12 @@ const mockTasks: Task[] = [
     createdAt: "2026-01-02T10:00:00",
     dueDate: "2026-02-01T17:00:00",
     company: "KOQ LLC",
+    workPage: "/payroll/tax-center",
+    steps: [
+      { id: "1", label: "Gather required documentation", completed: false },
+      { id: "2", label: "Complete registration form", completed: false },
+      { id: "3", label: "Submit to state agency", completed: false },
+    ],
   },
   {
     id: "5",
@@ -156,6 +187,12 @@ const mockTasks: Task[] = [
     dueDate: "2026-01-12T17:00:00",
     company: "KOQ LLC",
     location: "All Locations",
+    workPage: "/payroll/home",
+    steps: [
+      { id: "1", label: "Identify sync errors", completed: false },
+      { id: "2", label: "Retry failed imports", completed: false },
+      { id: "3", label: "Verify data accuracy", completed: false },
+    ],
   },
   {
     id: "6",
@@ -172,6 +209,12 @@ const mockTasks: Task[] = [
     company: "KOQ LLC",
     location: "Ballard",
     employees: 5,
+    workPage: "/payroll/mapping",
+    steps: [
+      { id: "1", label: "Open Mapping screen", completed: false },
+      { id: "2", label: "Select unmapped employees at Ballard", completed: false },
+      { id: "3", label: "Create payroll records", completed: false },
+    ],
   },
   {
     id: "7",
@@ -186,6 +229,13 @@ const mockTasks: Task[] = [
     createdAt: "2026-01-01T09:00:00",
     dueDate: "2026-01-31T17:00:00",
     company: "KOQ LLC",
+    snoozedUntil: "2026-01-20T09:00:00",
+    workPage: "/payroll/tax-center",
+    steps: [
+      { id: "1", label: "Review quarterly payroll totals", completed: false },
+      { id: "2", label: "Verify tax withholdings", completed: false },
+      { id: "3", label: "Submit 941 form", completed: false },
+    ],
   },
   {
     id: "8",
@@ -201,6 +251,12 @@ const mockTasks: Task[] = [
     dueDate: "2026-01-20T17:00:00",
     company: "KOQ LLC",
     location: "Downtown Seattle",
+    workPage: "/payroll/home",
+    steps: [
+      { id: "1", label: "Review tip report", completed: false },
+      { id: "2", label: "Identify discrepancies", completed: false },
+      { id: "3", label: "Adjust or confirm allocations", completed: false },
+    ],
   },
   {
     id: "9",
@@ -215,7 +271,20 @@ const mockTasks: Task[] = [
     createdAt: "2025-12-28T10:00:00",
     dueDate: "2026-01-05T17:00:00",
     company: "KOQ LLC",
+    workPage: "/payroll/home",
+    steps: [
+      { id: "1", label: "Review current schedule", completed: true },
+      { id: "2", label: "Confirm Q1 settings", completed: true },
+    ],
   },
+];
+
+const teamMembers = [
+  { name: "Sarah Chen", initials: "SC", role: "support" as Role },
+  { name: "Michael Park", initials: "MP", role: "accountant" as Role },
+  { name: "Emily Rodriguez", initials: "ER", role: "onboarding_specialist" as Role },
+  { name: "James Wilson", initials: "JW", role: "manager" as Role },
+  { name: "David Kim", initials: "DK", role: "operator" as Role },
 ];
 
 const priorityConfig: Record<Priority, { label: string; color: string; bgColor: string; icon: typeof AlertCircle }> = {
@@ -278,6 +347,12 @@ function TaskCard({ task, onClick }: { task: Task; onClick: () => void }) {
               <TypeIcon className="h-3 w-3 mr-1" />
               {type.label}
             </Badge>
+            {task.status === "snoozed" && task.snoozedUntil && (
+              <Badge variant="outline" className="text-xs bg-gray-100">
+                <Pause className="h-3 w-3 mr-1" />
+                Until {new Date(task.snoozedUntil).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+              </Badge>
+            )}
           </div>
 
           <h3 className="font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1">
@@ -343,12 +418,20 @@ function TaskCard({ task, onClick }: { task: Task; onClick: () => void }) {
   );
 }
 
-function TaskDetailPanel({ task, onClose, onResolve, onSnooze, onReassign }: {
+function TaskDetailPanel({ 
+  task, 
+  onClose, 
+  onResolve, 
+  onSnooze, 
+  onReassign,
+  onStartWork,
+}: {
   task: Task;
   onClose: () => void;
   onResolve: () => void;
   onSnooze: () => void;
   onReassign: () => void;
+  onStartWork: () => void;
 }) {
   const priority = priorityConfig[task.priority];
   const type = typeConfig[task.type];
@@ -356,6 +439,9 @@ function TaskDetailPanel({ task, onClose, onResolve, onSnooze, onReassign }: {
   const PriorityIcon = priority.icon;
   const TypeIcon = type.icon;
   const StatusIcon = status.icon;
+
+  const completedSteps = task.steps?.filter(s => s.completed).length || 0;
+  const totalSteps = task.steps?.length || 0;
 
   return (
     <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col p-0">
@@ -387,6 +473,39 @@ function TaskDetailPanel({ task, onClose, onResolve, onSnooze, onReassign }: {
             <h4 className="text-sm font-medium text-muted-foreground mb-2">Description</h4>
             <p className="text-foreground">{task.description}</p>
           </div>
+
+          {task.steps && task.steps.length > 0 && (
+            <>
+              <Separator />
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="text-sm font-medium text-muted-foreground">Steps to Complete</h4>
+                  <span className="text-xs text-muted-foreground">{completedSteps}/{totalSteps} completed</span>
+                </div>
+                <div className="space-y-2">
+                  {task.steps.map((step, index) => (
+                    <div 
+                      key={step.id} 
+                      className={cn(
+                        "flex items-center gap-3 p-3 rounded-sm border",
+                        step.completed ? "bg-emerald-50 border-emerald-200" : "bg-gray-50 border-gray-200"
+                      )}
+                    >
+                      <div className={cn(
+                        "h-6 w-6 rounded-full flex items-center justify-center text-xs font-medium",
+                        step.completed ? "bg-emerald-500 text-white" : "bg-gray-300 text-gray-600"
+                      )}>
+                        {step.completed ? <CheckCircle2 className="h-4 w-4" /> : index + 1}
+                      </div>
+                      <span className={cn("text-sm", step.completed && "text-muted-foreground line-through")}>
+                        {step.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
 
           <Separator />
 
@@ -427,14 +546,20 @@ function TaskDetailPanel({ task, onClose, onResolve, onSnooze, onReassign }: {
               <div className="space-y-2 text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Created</span>
-                  <span>{new Date(task.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}</span>
+                  <span>{new Date(task.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Due</span>
                   <span className={cn(new Date(task.dueDate) < new Date() && task.status !== "resolved" && "text-red-600 font-medium")}>
-                    {new Date(task.dueDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
+                    {new Date(task.dueDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                   </span>
                 </div>
+                {task.snoozedUntil && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Snoozed until</span>
+                    <span>{new Date(task.snoozedUntil).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -477,7 +602,7 @@ function TaskDetailPanel({ task, onClose, onResolve, onSnooze, onReassign }: {
                         to <Badge variant="outline" className={cn("text-xs mx-1", priorityConfig[escalation.to].bgColor, priorityConfig[escalation.to].color)}>{priorityConfig[escalation.to].label}</Badge>
                       </span>
                       <span className="text-muted-foreground ml-auto">
-                        {new Date(escalation.date).toLocaleDateString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}
+                        {new Date(escalation.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                       </span>
                     </div>
                   ))}
@@ -503,7 +628,14 @@ function TaskDetailPanel({ task, onClose, onResolve, onSnooze, onReassign }: {
             <User className="h-4 w-4 mr-2" />
             Reassign
           </Button>
-          {task.status !== "resolved" && (
+          {task.status !== "resolved" && task.workPage && (
+            <Button onClick={onStartWork} data-testid="button-start-work" className="gap-2">
+              <Play className="h-4 w-4" />
+              {task.status === "in_progress" ? "Continue Work" : "Start Work"}
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          )}
+          {task.status !== "resolved" && !task.workPage && (
             <Button onClick={onResolve} data-testid="button-resolve-task">
               <CheckCircle2 className="h-4 w-4 mr-2" />
               Resolve
@@ -512,6 +644,147 @@ function TaskDetailPanel({ task, onClose, onResolve, onSnooze, onReassign }: {
         </div>
       </div>
     </DialogContent>
+  );
+}
+
+function SnoozeDialog({ 
+  open, 
+  onOpenChange, 
+  onConfirm 
+}: { 
+  open: boolean; 
+  onOpenChange: (open: boolean) => void;
+  onConfirm: (duration: string) => void;
+}) {
+  const [duration, setDuration] = useState("1day");
+
+  const handleConfirm = () => {
+    onConfirm(duration);
+    onOpenChange(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>Snooze Task</DialogTitle>
+          <DialogDescription>
+            Temporarily hide this task until you're ready to work on it. You'll be reminded when the snooze period ends.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="py-4">
+          <RadioGroup value={duration} onValueChange={setDuration} className="space-y-3">
+            <div className="flex items-center space-x-3 p-3 border rounded-sm hover:bg-gray-50 cursor-pointer">
+              <RadioGroupItem value="4hours" id="4hours" />
+              <Label htmlFor="4hours" className="flex-1 cursor-pointer">
+                <span className="font-medium">4 hours</span>
+                <span className="text-sm text-muted-foreground block">Remind me later today</span>
+              </Label>
+            </div>
+            <div className="flex items-center space-x-3 p-3 border rounded-sm hover:bg-gray-50 cursor-pointer">
+              <RadioGroupItem value="1day" id="1day" />
+              <Label htmlFor="1day" className="flex-1 cursor-pointer">
+                <span className="font-medium">1 day</span>
+                <span className="text-sm text-muted-foreground block">Remind me tomorrow</span>
+              </Label>
+            </div>
+            <div className="flex items-center space-x-3 p-3 border rounded-sm hover:bg-gray-50 cursor-pointer">
+              <RadioGroupItem value="3days" id="3days" />
+              <Label htmlFor="3days" className="flex-1 cursor-pointer">
+                <span className="font-medium">3 days</span>
+                <span className="text-sm text-muted-foreground block">Remind me in a few days</span>
+              </Label>
+            </div>
+            <div className="flex items-center space-x-3 p-3 border rounded-sm hover:bg-gray-50 cursor-pointer">
+              <RadioGroupItem value="1week" id="1week" />
+              <Label htmlFor="1week" className="flex-1 cursor-pointer">
+                <span className="font-medium">1 week</span>
+                <span className="text-sm text-muted-foreground block">Remind me next week</span>
+              </Label>
+            </div>
+          </RadioGroup>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button onClick={handleConfirm} data-testid="button-confirm-snooze">
+            <Pause className="h-4 w-4 mr-2" />
+            Snooze Task
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function ReassignDialog({ 
+  open, 
+  onOpenChange, 
+  currentAssignees,
+  onConfirm 
+}: { 
+  open: boolean; 
+  onOpenChange: (open: boolean) => void;
+  currentAssignees: { name: string; initials: string; role: Role }[];
+  onConfirm: (assignees: { name: string; initials: string; role: Role }[]) => void;
+}) {
+  const [selected, setSelected] = useState<string[]>(currentAssignees.map(a => a.name));
+
+  const handleToggle = (name: string) => {
+    setSelected(prev => 
+      prev.includes(name) 
+        ? prev.filter(n => n !== name)
+        : [...prev, name]
+    );
+  };
+
+  const handleConfirm = () => {
+    const newAssignees = teamMembers.filter(m => selected.includes(m.name));
+    onConfirm(newAssignees);
+    onOpenChange(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>Reassign Task</DialogTitle>
+          <DialogDescription>
+            Select team members to assign this task to. You can assign to multiple people.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="py-4 space-y-2">
+          {teamMembers.map((member) => (
+            <div 
+              key={member.name}
+              onClick={() => handleToggle(member.name)}
+              className={cn(
+                "flex items-center gap-3 p-3 border rounded-sm cursor-pointer transition-colors",
+                selected.includes(member.name) ? "bg-primary/5 border-primary" : "hover:bg-gray-50"
+              )}
+            >
+              <Checkbox 
+                checked={selected.includes(member.name)} 
+                onCheckedChange={() => handleToggle(member.name)}
+              />
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className="text-xs bg-gray-200">{member.initials}</AvatarFallback>
+              </Avatar>
+              <div className="flex-1">
+                <p className="text-sm font-medium">{member.name}</p>
+                <p className="text-xs text-muted-foreground">{roleLabels[member.role]}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button onClick={handleConfirm} disabled={selected.length === 0} data-testid="button-confirm-reassign">
+            <User className="h-4 w-4 mr-2" />
+            Reassign ({selected.length})
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -530,6 +803,7 @@ function PriorityBadgeCount({ priority, count }: { priority: Priority; count: nu
 }
 
 export default function WorkQueue() {
+  const [, navigate] = useLocation();
   const [tasks, setTasks] = useState<Task[]>(mockTasks);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [activeTab, setActiveTab] = useState("open");
@@ -537,6 +811,8 @@ export default function WorkQueue() {
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [roleFilter, setRoleFilter] = useState<string>("all");
+  const [showSnoozeDialog, setShowSnoozeDialog] = useState(false);
+  const [showReassignDialog, setShowReassignDialog] = useState(false);
 
   const filteredTasks = tasks.filter((task) => {
     if (activeTab === "open" && task.status !== "open") return false;
@@ -584,12 +860,57 @@ export default function WorkQueue() {
     setSelectedTask(null);
   };
 
-  const handleSnooze = () => {
+  const handleSnooze = (duration: string) => {
     if (!selectedTask) return;
+    
+    const now = new Date();
+    let snoozedUntil: Date;
+    
+    switch (duration) {
+      case "4hours":
+        snoozedUntil = new Date(now.getTime() + 4 * 60 * 60 * 1000);
+        break;
+      case "1day":
+        snoozedUntil = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        break;
+      case "3days":
+        snoozedUntil = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
+        break;
+      case "1week":
+        snoozedUntil = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+        break;
+      default:
+        snoozedUntil = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    }
+
     setTasks((prev) =>
-      prev.map((t) => (t.id === selectedTask.id ? { ...t, status: "snoozed" as Status } : t))
+      prev.map((t) => (t.id === selectedTask.id ? { 
+        ...t, 
+        status: "snoozed" as Status,
+        snoozedUntil: snoozedUntil.toISOString()
+      } : t))
     );
     setSelectedTask(null);
+  };
+
+  const handleReassign = (assignees: { name: string; initials: string; role: Role }[]) => {
+    if (!selectedTask) return;
+    setTasks((prev) =>
+      prev.map((t) => (t.id === selectedTask.id ? { ...t, assignedTo: assignees } : t))
+    );
+    setSelectedTask(null);
+  };
+
+  const handleStartWork = () => {
+    if (!selectedTask || !selectedTask.workPage) return;
+    
+    setTasks((prev) =>
+      prev.map((t) => (t.id === selectedTask.id ? { ...t, status: "in_progress" as Status } : t))
+    );
+    
+    localStorage.setItem("activeTask", JSON.stringify(selectedTask));
+    setSelectedTask(null);
+    navigate(selectedTask.workPage);
   };
 
   return (
@@ -598,7 +919,7 @@ export default function WorkQueue() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
             <div>
-              <h1 className="text-3xl font-serif font-bold text-foreground">Work Queue</h1>
+              <h1 className="text-3xl font-serif font-bold text-foreground">Work Pipeline</h1>
               <p className="text-muted-foreground mt-1">
                 Your prioritized task queue — always know what to work on next
               </p>
@@ -733,17 +1054,39 @@ export default function WorkQueue() {
         </Tabs>
       </div>
 
-      <Dialog open={!!selectedTask} onOpenChange={() => setSelectedTask(null)}>
+      <Dialog open={!!selectedTask && !showSnoozeDialog && !showReassignDialog} onOpenChange={() => setSelectedTask(null)}>
         {selectedTask && (
           <TaskDetailPanel
             task={selectedTask}
             onClose={() => setSelectedTask(null)}
             onResolve={handleResolve}
-            onSnooze={handleSnooze}
-            onReassign={() => {}}
+            onSnooze={() => setShowSnoozeDialog(true)}
+            onReassign={() => setShowReassignDialog(true)}
+            onStartWork={handleStartWork}
           />
         )}
       </Dialog>
+
+      <SnoozeDialog
+        open={showSnoozeDialog}
+        onOpenChange={(open) => {
+          setShowSnoozeDialog(open);
+          if (!open) setSelectedTask(null);
+        }}
+        onConfirm={handleSnooze}
+      />
+
+      {selectedTask && (
+        <ReassignDialog
+          open={showReassignDialog}
+          onOpenChange={(open) => {
+            setShowReassignDialog(open);
+            if (!open) setSelectedTask(null);
+          }}
+          currentAssignees={selectedTask.assignedTo}
+          onConfirm={handleReassign}
+        />
+      )}
     </Layout>
   );
 }
