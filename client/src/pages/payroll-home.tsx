@@ -234,7 +234,11 @@ export default function PayrollHome() {
   
   const allPOSMappingsApproved = unapprovedPOSMappings.length === 0 && existingPOSMappings.length > 0;
   const allPayrollMappingsApproved = unapprovedPayrollMappings.length === 0 && existingPayrollMappings.length > 0;
-  const canEnableAutoImport = allPOSMappingsApproved && allPayrollMappingsApproved && unmappedPOSEmployees.length === 0 && usersWithoutPayrollMapping.length === 0;
+  
+  // For complete entities, Auto Import is already enabled
+  const currentEntity = entities.find(e => e.id === selectedEntity);
+  const isEntityComplete = currentEntity?.isComplete ?? false;
+  const canEnableAutoImport = isEntityComplete || (allPOSMappingsApproved && allPayrollMappingsApproved && unmappedPOSEmployees.length === 0 && usersWithoutPayrollMapping.length === 0);
 
   const openMappingApproval = (type: "pos" | "payroll") => {
     setMappingApprovalType(type);
@@ -277,8 +281,6 @@ export default function PayrollHome() {
   };
 
   const displayedRecentPayrolls = showAllRecent ? recentPayrolls : recentPayrolls.slice(0, 2);
-  const currentEntity = entities.find(e => e.id === selectedEntity);
-  const isEntityComplete = currentEntity?.isComplete ?? false;
 
   return (
     <Layout>

@@ -492,7 +492,7 @@ export default function PayrollRun() {
                         <th className="px-6 py-3 font-medium">Type</th>
                         <th className="px-6 py-3 font-medium">Regular</th>
                         <th className="px-6 py-3 font-medium">Overtime</th>
-                        <th className="px-6 py-3 font-medium">Spread</th>
+                        <th className="px-6 py-3 font-medium">Spread of hours</th>
                         <th className="px-6 py-3 font-medium text-right">Est. Gross Pay</th>
                       </tr>
                     </thead>
