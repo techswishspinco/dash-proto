@@ -5076,6 +5076,247 @@ export default function PnlRelease() {
                 onClose={() => setShowChat(false)} 
                 triggerQuery={chatTrigger ? chatTrigger.split(" ").slice(0, -1).join(" ") : null}
               />
+
+              {/* Email Report Modal for Owner View */}
+              <AnimatePresence>
+                {showEmailReportModal && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50"
+                    onClick={() => {
+                      setShowEmailReportModal(false);
+                      setShowEmailPreview(false);
+                    }}
+                  >
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                      transition={{ duration: 0.2 }}
+                      onClick={(e) => e.stopPropagation()}
+                      className="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden border border-gray-200"
+                    >
+                      {/* Modal Header */}
+                      <div className="flex items-center justify-between p-5 border-b border-gray-100">
+                        <div className="flex items-center gap-3">
+                          <div className="h-12 w-12 rounded-xl bg-gray-100 flex items-center justify-center">
+                            <Mail className="h-6 w-6 text-gray-600" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-gray-900">Email Report</h3>
+                            <p className="text-sm text-gray-500">Send Manager Scoreboard summary</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setShowEmailReportModal(false);
+                            setShowEmailPreview(false);
+                          }}
+                          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                          data-testid="button-close-email-modal-owner"
+                        >
+                          <X className="h-5 w-5 text-gray-400" />
+                        </button>
+                      </div>
+
+                      {!showEmailPreview ? (
+                        <>
+                          {/* Recipients */}
+                          <div className="p-5 space-y-4">
+                            <div>
+                              <label className="text-sm font-medium text-gray-700 block mb-2">Recipients</label>
+                              <div className="flex flex-wrap gap-2 mb-2">
+                                {emailRecipients.map((email) => (
+                                  <span
+                                    key={email}
+                                    className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg"
+                                  >
+                                    {email}
+                                    <button
+                                      onClick={() => removeRecipient(email)}
+                                      className="hover:text-gray-900"
+                                      data-testid={`button-remove-owner-${email}`}
+                                    >
+                                      <X className="h-3 w-3" />
+                                    </button>
+                                  </span>
+                                ))}
+                              </div>
+                              <div className="flex gap-2">
+                                <input
+                                  type="email"
+                                  placeholder="Add email address..."
+                                  value={newRecipient}
+                                  onChange={(e) => setNewRecipient(e.target.value)}
+                                  onKeyDown={(e) => e.key === "Enter" && addRecipient()}
+                                  className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                                  data-testid="input-new-recipient-owner"
+                                />
+                                <button
+                                  onClick={addRecipient}
+                                  className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                                  data-testid="button-add-recipient-owner"
+                                >
+                                  <Plus className="h-4 w-4" />
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* Subject */}
+                            <div>
+                              <label className="text-sm font-medium text-gray-700 block mb-2">Subject</label>
+                              <input
+                                type="text"
+                                value={emailSubject}
+                                onChange={(e) => setEmailSubject(e.target.value)}
+                                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                                data-testid="input-email-subject-owner"
+                              />
+                            </div>
+
+                            {/* Message */}
+                            <div>
+                              <label className="text-sm font-medium text-gray-700 block mb-2">Message (optional)</label>
+                              <textarea
+                                value={emailMessage}
+                                onChange={(e) => setEmailMessage(e.target.value)}
+                                placeholder="Add a personal note..."
+                                rows={3}
+                                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent resize-none"
+                                data-testid="textarea-email-message-owner"
+                              />
+                            </div>
+
+                            {/* Report Preview Summary */}
+                            <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                              <div className="flex items-center justify-between mb-3">
+                                <span className="text-sm font-medium text-gray-900">Report Summary</span>
+                                <button
+                                  onClick={() => setShowEmailPreview(true)}
+                                  className="text-xs text-gray-600 hover:text-gray-900 font-medium flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-200 transition-colors"
+                                  data-testid="button-preview-report-owner"
+                                >
+                                  <Eye className="h-3 w-3" />
+                                  Preview
+                                </button>
+                              </div>
+                              <div className="text-sm text-gray-600 space-y-1">
+                                <p>• Manager Scoreboard - {getScoreboardData().quarter}</p>
+                                <p>• Location: {getScoreboardData().location}</p>
+                                <p>• {getScoreboardData().manager}'s Goals & Bonus Summary</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Footer */}
+                          <div className="flex items-center justify-end gap-3 p-5 border-t border-gray-100 bg-gray-50">
+                            <button
+                              onClick={() => {
+                                setShowEmailReportModal(false);
+                                setShowEmailPreview(false);
+                              }}
+                              className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 rounded-lg transition-colors"
+                              data-testid="button-cancel-email-owner"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              onClick={sendEmailReport}
+                              disabled={emailRecipients.length === 0 || emailSending}
+                              className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                              data-testid="button-send-report-owner"
+                            >
+                              {emailSending ? (
+                                <>
+                                  <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                  Sending...
+                                </>
+                              ) : (
+                                <>
+                                  <Send className="h-4 w-4" />
+                                  Send Report
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {/* Email Preview */}
+                          <div className="p-5">
+                            <div className="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
+                              <div className="p-4 border-b border-gray-200 bg-white">
+                                <p className="text-sm"><strong>To:</strong> {emailRecipients.join(", ")}</p>
+                                <p className="text-sm"><strong>Subject:</strong> {emailSubject}</p>
+                              </div>
+                              <div className="p-4 space-y-4">
+                                {emailMessage && (
+                                  <p className="text-sm text-gray-700">{emailMessage}</p>
+                                )}
+                                <div className="bg-white rounded-lg border border-gray-200 p-4">
+                                  <h4 className="font-semibold text-gray-900 mb-3">Manager Scoreboard - {getScoreboardData().quarter}</h4>
+                                  <div className="space-y-2 text-sm">
+                                    <p><strong>Location:</strong> {getScoreboardData().location}</p>
+                                    <p><strong>Manager:</strong> {getScoreboardData().manager} ({getScoreboardData().role})</p>
+                                    <p><strong>Goals Hit:</strong> {getScoreboardData().goalsHit}</p>
+                                    <div className="mt-3 pt-3 border-t border-gray-100">
+                                      <p className="font-medium mb-2">Performance Summary:</p>
+                                      {getScoreboardData().goals.map((goal, i) => (
+                                        <div key={i} className="flex items-center justify-between py-1">
+                                          <span className={goal.achieved ? "text-emerald-600" : "text-amber-600"}>
+                                            {goal.achieved ? "✓" : "○"} {goal.name}
+                                          </span>
+                                          <span className="font-medium">{goal.bonus}</span>
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
+                                      <span className="font-semibold">Total Bonus</span>
+                                      <span className="text-lg font-bold text-emerald-600">{getScoreboardData().totalBonus}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Preview Footer */}
+                          <div className="flex items-center justify-between gap-3 p-5 border-t border-gray-100 bg-gray-50">
+                            <button
+                              onClick={() => setShowEmailPreview(false)}
+                              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 rounded-lg transition-colors"
+                              data-testid="button-back-edit-owner"
+                            >
+                              <ChevronLeft className="h-4 w-4" />
+                              Back to Edit
+                            </button>
+                            <button
+                              onClick={sendEmailReport}
+                              disabled={emailSending}
+                              className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50"
+                              data-testid="button-send-preview-owner"
+                            >
+                              {emailSending ? (
+                                <>
+                                  <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                  Sending...
+                                </>
+                              ) : (
+                                <>
+                                  <Send className="h-4 w-4" />
+                                  Send Report
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
            </div>
         </Layout>
      );
