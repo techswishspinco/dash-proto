@@ -638,17 +638,12 @@ export default function Teams() {
                         <div
                           key={job.id}
                           className={cn(
-                            "flex items-center gap-3 px-6 py-3 min-h-[55px] hover:bg-gray-50 transition-colors group",
+                            "flex items-center justify-between px-6 py-3 min-h-[55px] hover:bg-gray-50 transition-colors group",
                             index !== arr.length - 1 && "border-b"
                           )}
                           data-testid={`row-job-${job.id}`}
                         >
-                          <Checkbox
-                            checked={job.selected}
-                            onCheckedChange={() => toggleJobSelection(job.id)}
-                            data-testid={`checkbox-job-${job.id}`}
-                          />
-                          <div className="flex-1">
+                          <div>
                             <div className="text-sm font-medium">{job.name}</div>
                             <div className="text-xs text-muted-foreground">
                               {job.payType === "salaried" ? `$${job.baseRate.toLocaleString()}/yr` : `$${job.baseRate}/hr`}
