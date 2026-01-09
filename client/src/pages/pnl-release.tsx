@@ -3025,6 +3025,71 @@ export default function PnlRelease() {
   const activeActions = actionItems.filter(item => !item.completed);
   const completedActions = actionItems.filter(item => item.completed);
 
+  // Assign Modal State
+  const [assignModal, setAssignModal] = useState<{
+    isOpen: boolean;
+    actionId: string | null;
+    actionTitle: string;
+    recipients: string[];
+    newEmail: string;
+    subject: string;
+    message: string;
+  }>({
+    isOpen: false,
+    actionId: null,
+    actionTitle: "",
+    recipients: [],
+    newEmail: "",
+    subject: "",
+    message: ""
+  });
+
+  const openAssignModal = (actionId: string, actionTitle: string, owner: string) => {
+    const defaultRecipient = owner.toLowerCase().replace(/\s+/g, '') + "@restaurant.com";
+    setAssignModal({
+      isOpen: true,
+      actionId,
+      actionTitle,
+      recipients: [defaultRecipient],
+      newEmail: "",
+      subject: `Action Item: ${actionTitle}`,
+      message: ""
+    });
+  };
+
+  const closeAssignModal = () => {
+    setAssignModal({
+      isOpen: false,
+      actionId: null,
+      actionTitle: "",
+      recipients: [],
+      newEmail: "",
+      subject: "",
+      message: ""
+    });
+  };
+
+  const addRecipient = () => {
+    if (assignModal.newEmail.trim() && assignModal.newEmail.includes("@")) {
+      setAssignModal(prev => ({
+        ...prev,
+        recipients: [...prev.recipients, prev.newEmail.trim()],
+        newEmail: ""
+      }));
+    }
+  };
+
+  const removeRecipient = (email: string) => {
+    setAssignModal(prev => ({
+      ...prev,
+      recipients: prev.recipients.filter(r => r !== email)
+    }));
+  };
+
+  const sendAssignment = () => {
+    closeAssignModal();
+  };
+
   // Initialize role from URL param if viewing as owner/gm/chef, otherwise default to owner
   const [selectedRole, setSelectedRole] = useState<"owner" | "gm" | "chef">(urlRole || "owner");
   const [showFullPnl, setShowFullPnl] = useState(false);
@@ -5417,10 +5482,17 @@ export default function PnlRelease() {
                                            Owner: <span className="font-medium">{item.owner}</span> &nbsp;•&nbsp; Impact: {item.impact}
                                         </p>
                                      </div>
-                                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                     <div className="flex items-center gap-2">
+                                        <button
+                                           onClick={() => openAssignModal(item.id, item.title, item.owner)}
+                                           className="px-3 py-1.5 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                                           data-testid={`button-assign-${item.id}`}
+                                        >
+                                           Assign
+                                        </button>
                                         <button
                                            onClick={() => startEditingAction(item.id, item.title)}
-                                           className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                           className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
                                            data-testid={`button-edit-${item.id}`}
                                         >
                                            <Pencil className="h-4 w-4" />
@@ -5505,6 +5577,138 @@ export default function PnlRelease() {
                             <p className="text-sm text-orange-800">Reinstate marketing spend ($5k budget) focused on weekday traffic for the soft January period.</p>
                          </div>
                       </div>
+
+                      {/* Assign Action Item Modal */}
+                      <AnimatePresence>
+                         {assignModal.isOpen && (
+                            <motion.div
+                               initial={{ opacity: 0 }}
+                               animate={{ opacity: 1 }}
+                               exit={{ opacity: 0 }}
+                               className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+                               onClick={closeAssignModal}
+                            >
+                               <motion.div
+                                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                                  exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4"
+                                  onClick={(e) => e.stopPropagation()}
+                               >
+                                  <div className="p-6 border-b border-gray-100">
+                                     <div className="flex items-start justify-between">
+                                        <div className="flex items-center gap-3">
+                                           <div className="h-12 w-12 rounded-xl bg-gray-100 flex items-center justify-center">
+                                              <Mail className="h-6 w-6 text-gray-600" />
+                                           </div>
+                                           <div>
+                                              <h3 className="font-semibold text-gray-900">Assign Action Item</h3>
+                                              <p className="text-sm text-gray-500">Send assignment notification</p>
+                                           </div>
+                                        </div>
+                                        <button
+                                           onClick={closeAssignModal}
+                                           className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                        >
+                                           <X className="h-5 w-5" />
+                                        </button>
+                                     </div>
+                                  </div>
+
+                                  <div className="p-6 space-y-5">
+                                     <div>
+                                        <label className="block text-sm font-medium text-gray-900 mb-2">Recipients</label>
+                                        <div className="flex flex-wrap gap-2 mb-2">
+                                           {assignModal.recipients.map((email) => (
+                                              <span
+                                                 key={email}
+                                                 className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm"
+                                              >
+                                                 {email}
+                                                 <button
+                                                    onClick={() => removeRecipient(email)}
+                                                    className="p-0.5 hover:bg-gray-200 rounded-full transition-colors"
+                                                 >
+                                                    <X className="h-3.5 w-3.5" />
+                                                 </button>
+                                              </span>
+                                           ))}
+                                        </div>
+                                        <div className="flex gap-2">
+                                           <input
+                                              type="email"
+                                              value={assignModal.newEmail}
+                                              onChange={(e) => setAssignModal(prev => ({ ...prev, newEmail: e.target.value }))}
+                                              onKeyDown={(e) => e.key === "Enter" && addRecipient()}
+                                              placeholder="Add email address..."
+                                              className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
+                                           />
+                                           <button
+                                              onClick={addRecipient}
+                                              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                                           >
+                                              <Plus className="h-4 w-4" />
+                                           </button>
+                                        </div>
+                                     </div>
+
+                                     <div>
+                                        <label className="block text-sm font-medium text-gray-900 mb-2">Subject</label>
+                                        <input
+                                           type="text"
+                                           value={assignModal.subject}
+                                           onChange={(e) => setAssignModal(prev => ({ ...prev, subject: e.target.value }))}
+                                           className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
+                                        />
+                                     </div>
+
+                                     <div>
+                                        <label className="block text-sm font-medium text-gray-900 mb-2">Message (optional)</label>
+                                        <textarea
+                                           value={assignModal.message}
+                                           onChange={(e) => setAssignModal(prev => ({ ...prev, message: e.target.value }))}
+                                           placeholder="Add a personal note..."
+                                           rows={3}
+                                           className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300 resize-none"
+                                        />
+                                     </div>
+
+                                     <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-gray-300">
+                                        <div className="flex items-center justify-between mb-2">
+                                           <h4 className="font-medium text-gray-900">Action Item Summary</h4>
+                                           <button className="flex items-center gap-1 text-xs text-gray-500 hover:text-gray-700">
+                                              <Eye className="h-3.5 w-3.5" />
+                                              Preview
+                                           </button>
+                                        </div>
+                                        <ul className="text-sm text-gray-600 space-y-1">
+                                           <li>• {assignModal.actionTitle}</li>
+                                           <li>• Period: September 2025</li>
+                                           <li>• Location: STMARKS</li>
+                                        </ul>
+                                     </div>
+                                  </div>
+
+                                  <div className="p-6 border-t border-gray-100 flex items-center justify-end gap-3">
+                                     <button
+                                        onClick={closeAssignModal}
+                                        className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                                     >
+                                        Cancel
+                                     </button>
+                                     <button
+                                        onClick={sendAssignment}
+                                        className="px-4 py-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-2"
+                                     >
+                                        <Send className="h-4 w-4" />
+                                        Send Assignment
+                                     </button>
+                                  </div>
+                               </motion.div>
+                            </motion.div>
+                         )}
+                      </AnimatePresence>
                    </section>
 
                    {/* Accountant Note */}
