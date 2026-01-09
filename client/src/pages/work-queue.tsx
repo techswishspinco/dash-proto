@@ -60,6 +60,7 @@ interface TaskStep {
   id: string;
   label: string;
   completed: boolean;
+  page?: string;
 }
 
 interface Task {
@@ -104,9 +105,9 @@ const mockTasks: Task[] = [
     ],
     workPage: "/payroll/run",
     steps: [
-      { id: "1", label: "Review failed payroll details", completed: false },
-      { id: "2", label: "Fix missing tax information for 3 employees", completed: false },
-      { id: "3", label: "Re-run payroll", completed: false },
+      { id: "1", label: "Review failed payroll details", completed: false, page: "/payroll/run" },
+      { id: "2", label: "Fix missing tax information", completed: false, page: "/payroll/onboarding" },
+      { id: "3", label: "Re-run payroll", completed: false, page: "/payroll/run" },
     ],
   },
   {
@@ -126,9 +127,9 @@ const mockTasks: Task[] = [
     employees: 12,
     workPage: "/payroll/onboarding",
     steps: [
-      { id: "1", label: "Review employee list from POS", completed: true },
-      { id: "2", label: "Collect missing information", completed: false },
-      { id: "3", label: "Map employees to payroll", completed: false },
+      { id: "1", label: "Review employee list from POS", completed: true, page: "/payroll/onboarding" },
+      { id: "2", label: "Collect missing information", completed: false, page: "/payroll/onboarding" },
+      { id: "3", label: "Map employees to payroll", completed: false, page: "/payroll/mapping" },
     ],
   },
   {
@@ -148,9 +149,9 @@ const mockTasks: Task[] = [
     payrollRun: "PR-2026-01-15",
     workPage: "/payroll/home",
     steps: [
-      { id: "1", label: "Review timesheet imports", completed: false },
-      { id: "2", label: "Verify employee hours", completed: false },
-      { id: "3", label: "Approve payroll preview", completed: false },
+      { id: "1", label: "Review timesheet imports", completed: false, page: "/payroll/home" },
+      { id: "2", label: "Verify employee hours", completed: false, page: "/payroll/home" },
+      { id: "3", label: "Approve payroll preview", completed: false, page: "/payroll/run" },
     ],
   },
   {
@@ -168,9 +169,9 @@ const mockTasks: Task[] = [
     company: "KOQ LLC",
     workPage: "/payroll/tax-center",
     steps: [
-      { id: "1", label: "Gather required documentation", completed: false },
-      { id: "2", label: "Complete registration form", completed: false },
-      { id: "3", label: "Submit to state agency", completed: false },
+      { id: "1", label: "Gather required documentation", completed: false, page: "/payroll/tax-center" },
+      { id: "2", label: "Complete registration form", completed: false, page: "/payroll/tax-center" },
+      { id: "3", label: "Submit to state agency", completed: false, page: "/payroll/tax-center" },
     ],
   },
   {
@@ -189,9 +190,9 @@ const mockTasks: Task[] = [
     location: "All Locations",
     workPage: "/payroll/home",
     steps: [
-      { id: "1", label: "Identify sync errors", completed: false },
-      { id: "2", label: "Retry failed imports", completed: false },
-      { id: "3", label: "Verify data accuracy", completed: false },
+      { id: "1", label: "Identify sync errors", completed: false, page: "/payroll/home" },
+      { id: "2", label: "Retry failed imports", completed: false, page: "/payroll/home" },
+      { id: "3", label: "Verify data accuracy", completed: false, page: "/payroll/mapping" },
     ],
   },
   {
@@ -211,9 +212,9 @@ const mockTasks: Task[] = [
     employees: 5,
     workPage: "/payroll/mapping",
     steps: [
-      { id: "1", label: "Open Mapping screen", completed: false },
-      { id: "2", label: "Select unmapped employees at NYC - Queens", completed: false },
-      { id: "3", label: "Create payroll records", completed: false },
+      { id: "1", label: "Open Mapping screen", completed: false, page: "/payroll/mapping" },
+      { id: "2", label: "Select unmapped employees at NYC - Queens", completed: false, page: "/payroll/mapping" },
+      { id: "3", label: "Create payroll records", completed: false, page: "/payroll/mapping" },
     ],
   },
   {
@@ -232,9 +233,9 @@ const mockTasks: Task[] = [
     snoozedUntil: "2026-01-20T09:00:00",
     workPage: "/payroll/tax-center",
     steps: [
-      { id: "1", label: "Review quarterly payroll totals", completed: false },
-      { id: "2", label: "Verify tax withholdings", completed: false },
-      { id: "3", label: "Submit 941 form", completed: false },
+      { id: "1", label: "Review quarterly payroll totals", completed: false, page: "/payroll/home" },
+      { id: "2", label: "Verify tax withholdings", completed: false, page: "/payroll/tax-center" },
+      { id: "3", label: "Submit 941 form", completed: false, page: "/payroll/tax-center" },
     ],
   },
   {
@@ -253,9 +254,9 @@ const mockTasks: Task[] = [
     location: "Downtown Seattle",
     workPage: "/payroll/home",
     steps: [
-      { id: "1", label: "Review tip report", completed: false },
-      { id: "2", label: "Identify discrepancies", completed: false },
-      { id: "3", label: "Adjust or confirm allocations", completed: false },
+      { id: "1", label: "Review tip report", completed: false, page: "/payroll/home" },
+      { id: "2", label: "Identify discrepancies", completed: false, page: "/payroll/home" },
+      { id: "3", label: "Adjust or confirm allocations", completed: false, page: "/payroll/home" },
     ],
   },
   {
@@ -273,8 +274,8 @@ const mockTasks: Task[] = [
     company: "KOQ LLC",
     workPage: "/payroll/home",
     steps: [
-      { id: "1", label: "Review current schedule", completed: true },
-      { id: "2", label: "Confirm Q1 settings", completed: true },
+      { id: "1", label: "Review current schedule", completed: true, page: "/payroll/home" },
+      { id: "2", label: "Confirm Q1 settings", completed: true, page: "/payroll/home" },
     ],
   },
 ];

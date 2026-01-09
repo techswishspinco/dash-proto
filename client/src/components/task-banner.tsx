@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "wouter";
+import { Link, useLocation, useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -12,6 +12,7 @@ import {
   ChevronDown,
   ChevronUp,
   ArrowLeft,
+  ArrowRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +22,7 @@ interface TaskStep {
   id: string;
   label: string;
   completed: boolean;
+  page?: string;
 }
 
 interface ActiveTask {
@@ -173,24 +175,46 @@ export default function TaskBanner() {
           <div className="mt-4 pt-4 border-t border-border/50">
             <div className="flex items-start gap-6">
               {steps.map((step, index) => (
-                <div 
-                  key={step.id}
-                  onClick={() => handleToggleStep(step.id)}
-                  className={cn(
-                    "flex items-center gap-2 px-3 py-2 rounded-sm border cursor-pointer transition-all",
-                    step.completed 
-                      ? "bg-emerald-100 border-emerald-300 text-emerald-800" 
-                      : "bg-white border-gray-200 hover:border-gray-300"
-                  )}
-                >
-                  <div className={cn(
-                    "h-5 w-5 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0",
-                    step.completed ? "bg-emerald-500 text-white" : "bg-gray-200 text-gray-600"
-                  )}>
-                    {step.completed ? <CheckCircle2 className="h-3 w-3" /> : index + 1}
+                step.page ? (
+                  <Link key={step.id} href={step.page}>
+                    <div 
+                      className={cn(
+                        "flex items-center gap-2 px-3 py-2 rounded-sm border cursor-pointer transition-all",
+                        step.completed 
+                          ? "bg-emerald-100 border-emerald-300 text-emerald-800" 
+                          : "bg-white border-gray-200 hover:border-primary hover:bg-primary/5"
+                      )}
+                    >
+                      <div className={cn(
+                        "h-5 w-5 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0",
+                        step.completed ? "bg-emerald-500 text-white" : "bg-gray-200 text-gray-600"
+                      )}>
+                        {step.completed ? <CheckCircle2 className="h-3 w-3" /> : index + 1}
+                      </div>
+                      <span className={cn("text-sm", step.completed && "line-through")}>{step.label}</span>
+                      {!step.completed && <ArrowRight className="h-3 w-3 ml-1 text-primary" />}
+                    </div>
+                  </Link>
+                ) : (
+                  <div 
+                    key={step.id}
+                    onClick={() => handleToggleStep(step.id)}
+                    className={cn(
+                      "flex items-center gap-2 px-3 py-2 rounded-sm border cursor-pointer transition-all",
+                      step.completed 
+                        ? "bg-emerald-100 border-emerald-300 text-emerald-800" 
+                        : "bg-white border-gray-200 hover:border-gray-300"
+                    )}
+                  >
+                    <div className={cn(
+                      "h-5 w-5 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0",
+                      step.completed ? "bg-emerald-500 text-white" : "bg-gray-200 text-gray-600"
+                    )}>
+                      {step.completed ? <CheckCircle2 className="h-3 w-3" /> : index + 1}
+                    </div>
+                    <span className={cn("text-sm", step.completed && "line-through")}>{step.label}</span>
                   </div>
-                  <span className={cn("text-sm", step.completed && "line-through")}>{step.label}</span>
-                </div>
+                )
               ))}
             </div>
           </div>
