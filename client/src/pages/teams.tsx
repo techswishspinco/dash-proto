@@ -1107,12 +1107,11 @@ export default function Teams() {
               <Tabs value={staffDetailTab} onValueChange={setStaffDetailTab} className="mt-4">
                 <TabsList className="w-full">
                   <TabsTrigger value="overview" className="flex-1" data-testid="tab-staff-overview">Overview</TabsTrigger>
-                  <TabsTrigger value="payrates" className="flex-1" data-testid="tab-staff-payrates">Pay Rates</TabsTrigger>
                   <TabsTrigger value="mappings" className="flex-1" data-testid="tab-staff-mappings">Mappings</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="overview" className="mt-4 space-y-4">
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <div className="flex items-center gap-3 text-sm">
                       <Mail className="h-4 w-4 text-muted-foreground" />
                       <span>{selectedStaff.email}</span>
@@ -1122,24 +1121,94 @@ export default function Teams() {
                       <span>{selectedStaff.phone}</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
-                      <Briefcase className="h-4 w-4 text-muted-foreground" />
-                      <span>{getJobRoleNames(selectedStaff.jobAssignments) || "No jobs assigned"}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span>{getLocationNames(selectedStaff.jobAssignments) || "No locations assigned"}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm">
                       <Shield className="h-4 w-4 text-muted-foreground" />
                       <span className="capitalize">{selectedStaff.role} Access</span>
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t space-y-3">
-                    <Button variant="outline" className="w-full gap-2" onClick={() => openEditDialog(selectedStaff)} data-testid="button-edit-staff">
-                      <Edit2 className="h-4 w-4" />
-                      Edit Staff Details
-                    </Button>
+                  <Separator />
+
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-medium">Job Assignments & Pay Rates</Label>
+                      <Button variant="ghost" size="sm" className="h-7 text-xs gap-1" onClick={() => openEditDialog(selectedStaff)}>
+                        <Edit2 className="h-3 w-3" />
+                        Edit
+                      </Button>
+                    </div>
+                    
+                    {(() => {
+                      const assignedLocationIds = Array.from(new Set(selectedStaff.jobAssignments.map(ja => ja.locationId)));
+                      
+                      if (assignedLocationIds.length === 0) {
+                        return (
+                          <div className="text-center py-6 text-muted-foreground border rounded-lg bg-gray-50/50">
+                            <Briefcase className="h-6 w-6 mx-auto mb-2 opacity-50" />
+                            <p className="text-sm">No job assignments</p>
+                            <Button variant="link" size="sm" className="text-xs mt-1" onClick={() => openEditDialog(selectedStaff)}>
+                              Assign jobs
+                            </Button>
+                          </div>
+                        );
+                      }
+                      
+                      return (
+                        <div className="space-y-3">
+                          {assignedLocationIds.map(locId => {
+                            const location = locations.find(l => l.id === locId);
+                            const jobsAtThisLocation = selectedStaff.jobAssignments.filter(ja => ja.locationId === locId);
+                            
+                            return (
+                              <div key={locId} className="border rounded-lg overflow-hidden">
+                                <div className="bg-gray-50 px-3 py-2 flex items-center gap-2 border-b">
+                                  <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
+                                  <span className="text-sm font-medium">{location?.name}</span>
+                                  <span className="text-xs text-muted-foreground ml-auto">{jobsAtThisLocation.length} job{jobsAtThisLocation.length !== 1 ? 's' : ''}</span>
+                                </div>
+                                <div className="divide-y">
+                                  {jobsAtThisLocation.map(assignment => {
+                                    const job = jobRoles.find(j => j.id === assignment.jobRoleId);
+                                    if (!job) return null;
+                                    const hasCustomRate = assignment.customRate !== undefined && assignment.customRate !== job.baseRate;
+                                    const displayRate = assignment.customRate ?? job.baseRate;
+                                    
+                                    return (
+                                      <div key={`${locId}-${assignment.jobRoleId}`} className="px-3 py-2 flex items-center justify-between">
+                                        <div>
+                                          <div className="text-sm font-medium">{job.name}</div>
+                                          <div className="text-xs text-muted-foreground">
+                                            {departments.find(d => d.id === job.departmentId)?.name}
+                                          </div>
+                                        </div>
+                                        <div className="text-right">
+                                          <div className={cn(
+                                            "text-sm font-medium",
+                                            hasCustomRate && "text-amber-600"
+                                          )}>
+                                            ${displayRate}/{job.payType === "hourly" ? "hr" : "yr"}
+                                            {hasCustomRate && <span className="ml-1 text-xs">★</span>}
+                                          </div>
+                                          {hasCustomRate && (
+                                            <div className="text-xs text-muted-foreground line-through">
+                                              Base: ${job.baseRate}
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    })()}
+                  </div>
+
+                  <Separator />
+
+                  <div className="space-y-3">
                     {selectedStaff.status !== "inactive" ? (
                       <Button variant="outline" className="w-full gap-2 text-red-600 hover:text-red-700 hover:bg-red-50" onClick={() => setShowRevokeDialog(true)} data-testid="button-revoke-access">
                         <UserX className="h-4 w-4" />
@@ -1152,115 +1221,6 @@ export default function Teams() {
                       </Button>
                     )}
                   </div>
-                </TabsContent>
-
-                <TabsContent value="payrates" className="mt-4 space-y-4">
-                  <p className="text-sm text-muted-foreground">
-                    Set custom pay rates for this employee's job assignments. Leave blank to use the base rate.
-                  </p>
-                  
-                  {(() => {
-                    const assignedLocationIds = Array.from(new Set(selectedStaff.jobAssignments.map(ja => ja.locationId)));
-                    
-                    if (assignedLocationIds.length === 0) {
-                      return (
-                        <div className="text-center py-8 text-muted-foreground">
-                          <Briefcase className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                          <p>No job assignments yet</p>
-                          <p className="text-xs mt-1">Assign jobs to this employee first</p>
-                        </div>
-                      );
-                    }
-                    
-                    return assignedLocationIds.map(locId => {
-                      const location = locations.find(l => l.id === locId);
-                      const jobsAtThisLocation = selectedStaff.jobAssignments.filter(ja => ja.locationId === locId);
-                      
-                      return (
-                        <div key={locId} className="space-y-2">
-                          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                            <MapPin className="h-3.5 w-3.5" />
-                            {location?.name}
-                          </div>
-                          <div className="border rounded-lg divide-y">
-                            {jobsAtThisLocation.map(assignment => {
-                              const job = jobRoles.find(j => j.id === assignment.jobRoleId);
-                              if (!job) return null;
-                              
-                              return (
-                                <div key={`${locId}-${assignment.jobRoleId}`} className="p-3 space-y-2">
-                                  <div className="flex items-center justify-between">
-                                    <div className="font-medium text-sm">{job.name}</div>
-                                    <div className="text-xs text-muted-foreground">
-                                      Base: ${job.baseRate}/{job.payType === "hourly" ? "hr" : "yr"}
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    <Label className="text-xs text-muted-foreground shrink-0 w-20">Custom Rate:</Label>
-                                    <div className="relative flex-1">
-                                      <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">$</span>
-                                      <Input
-                                        type="number"
-                                        step="0.01"
-                                        placeholder={job.baseRate.toString()}
-                                        value={assignment.customRate ?? ""}
-                                        onChange={(e) => {
-                                          const value = e.target.value ? parseFloat(e.target.value) : undefined;
-                                          const updatedAssignments = selectedStaff.jobAssignments.map(ja =>
-                                            ja.locationId === locId && ja.jobRoleId === assignment.jobRoleId
-                                              ? { ...ja, customRate: value }
-                                              : ja
-                                          );
-                                          setSelectedStaff({ ...selectedStaff, jobAssignments: updatedAssignments });
-                                          setStaff(staff.map(s =>
-                                            s.id === selectedStaff.id
-                                              ? { ...s, jobAssignments: updatedAssignments }
-                                              : s
-                                          ));
-                                        }}
-                                        className="pl-6 h-8 text-sm"
-                                        data-testid={`input-custom-rate-${locId}-${assignment.jobRoleId}`}
-                                      />
-                                    </div>
-                                    <span className="text-xs text-muted-foreground">/{job.payType === "hourly" ? "hr" : "yr"}</span>
-                                    {assignment.customRate && (
-                                      <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="h-8 px-2 text-muted-foreground hover:text-foreground"
-                                        onClick={() => {
-                                          const updatedAssignments = selectedStaff.jobAssignments.map(ja =>
-                                            ja.locationId === locId && ja.jobRoleId === assignment.jobRoleId
-                                              ? { ...ja, customRate: undefined }
-                                              : ja
-                                          );
-                                          setSelectedStaff({ ...selectedStaff, jobAssignments: updatedAssignments });
-                                          setStaff(staff.map(s =>
-                                            s.id === selectedStaff.id
-                                              ? { ...s, jobAssignments: updatedAssignments }
-                                              : s
-                                          ));
-                                        }}
-                                        data-testid={`button-clear-rate-${locId}-${assignment.jobRoleId}`}
-                                      >
-                                        <X className="h-3.5 w-3.5" />
-                                      </Button>
-                                    )}
-                                  </div>
-                                  {assignment.customRate && assignment.customRate !== job.baseRate && (
-                                    <div className="text-xs text-amber-600 flex items-center gap-1">
-                                      <AlertCircle className="h-3 w-3" />
-                                      Custom rate differs from base rate
-                                    </div>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      );
-                    });
-                  })()}
                 </TabsContent>
 
                 <TabsContent value="mappings" className="mt-4 space-y-6">
@@ -1697,36 +1657,40 @@ export default function Teams() {
                         </div>
                         
                         {isAssigned && (
-                          <div className="flex items-center gap-2 ml-7">
-                            <Label className="text-xs text-muted-foreground shrink-0">Custom Rate:</Label>
-                            <div className="relative flex-1">
-                              <span className="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">$</span>
-                              <Input
-                                type="number"
-                                step="0.01"
-                                placeholder={job.baseRate.toString()}
-                                value={assignment?.customRate ?? ""}
-                                onChange={(e) => {
-                                  const value = e.target.value ? parseFloat(e.target.value) : undefined;
-                                  setEditForm({
-                                    ...editForm,
-                                    jobAssignments: editForm.jobAssignments.map(ja =>
-                                      ja.locationId === editDialogLocation && ja.jobRoleId === job.id
-                                        ? { ...ja, customRate: value }
-                                        : ja
-                                    )
-                                  });
-                                }}
-                                className="pl-5 h-7 text-xs"
-                                data-testid={`input-edit-rate-${editDialogLocation}-${job.id}`}
-                              />
-                            </div>
-                            <span className="text-xs text-muted-foreground">/{job.payType === "hourly" ? "hr" : "yr"}</span>
-                            {assignment?.customRate && (
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-7 px-1.5"
+                          <div className="space-y-1.5 ml-7">
+                            <div className="flex items-center gap-2">
+                              <Label className="text-xs text-muted-foreground shrink-0">Custom Rate:</Label>
+                              <div className="relative flex-1">
+                                <span className="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">$</span>
+                                <Input
+                                  type="number"
+                                  step="0.01"
+                                  placeholder={`${job.baseRate} (base)`}
+                                  value={assignment?.customRate ?? ""}
+                                  onChange={(e) => {
+                                    const value = e.target.value ? parseFloat(e.target.value) : undefined;
+                                    setEditForm({
+                                      ...editForm,
+                                      jobAssignments: editForm.jobAssignments.map(ja =>
+                                        ja.locationId === editDialogLocation && ja.jobRoleId === job.id
+                                          ? { ...ja, customRate: value }
+                                          : ja
+                                      )
+                                    });
+                                  }}
+                                  className={cn(
+                                    "pl-5 h-7 text-xs",
+                                    assignment?.customRate && assignment.customRate !== job.baseRate && "border-amber-400 bg-amber-50"
+                                  )}
+                                  data-testid={`input-edit-rate-${editDialogLocation}-${job.id}`}
+                                />
+                              </div>
+                              <span className="text-xs text-muted-foreground">/{job.payType === "hourly" ? "hr" : "yr"}</span>
+                              {assignment?.customRate && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-7 px-1.5"
                                 onClick={() => {
                                   setEditForm({
                                     ...editForm,
@@ -1739,7 +1703,14 @@ export default function Teams() {
                                 }}
                               >
                                 <X className="h-3 w-3" />
-                              </Button>
+                                </Button>
+                              )}
+                            </div>
+                            {assignment?.customRate && assignment.customRate !== job.baseRate && (
+                              <div className="flex items-center gap-1 text-xs text-amber-600">
+                                <AlertCircle className="h-3 w-3" />
+                                Custom rate differs from base (${job.baseRate})
+                              </div>
                             )}
                           </div>
                         )}
