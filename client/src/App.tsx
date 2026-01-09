@@ -20,6 +20,8 @@ import PayrollHome from "@/pages/payroll-home";
 import PayrollTaxCenter from "@/pages/payroll-tax-center";
 import PayrollRun from "@/pages/payroll-run";
 import Teams from "@/pages/teams";
+import WorkQueue from "@/pages/work-queue";
+import Mapping from "@/pages/mapping";
 
 function Router() {
   return (
@@ -58,6 +60,10 @@ function Router() {
       <Route path="/payroll/home" component={PayrollHome} />
       <Route path="/payroll/run" component={PayrollRun} />
       <Route path="/payroll/tax-center" component={PayrollTaxCenter} />
+      <Route path="/payroll/mapping" component={Mapping} />
+
+      {/* Work Pipeline */}
+      <Route path="/work-queue" component={WorkQueue} />
 
       {/* Settings / Profile */}
       <Route path="/settings" component={Settings} />

@@ -37,7 +37,9 @@ import {
   Gift,
   Receipt,
   Truck,
-  Banknote
+  Banknote,
+  ListTodo,
+  Link2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -92,6 +94,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         <nav className="flex-1 flex flex-col w-full overflow-y-auto overflow-x-hidden scrollbar-hide">
           <div className="mb-6 w-full">
+            <SidebarItem icon={ListTodo} label="Work Queue" href="/work-queue" />
             <SidebarItem icon={Users} label="Team" href="/teams" />
           </div>
 
@@ -122,6 +125,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <SidebarSection title="Payroll">
             <SidebarItem icon={Sparkles} label="Onboarding" href="/payroll/onboarding" />
             <SidebarItem icon={Home} label="Home" href="/payroll/home" />
+            <SidebarItem icon={Link2} label="Mapping" href="/payroll/mapping" />
             <SidebarItem icon={FileText} label="Tax Center" href="/payroll/tax-center" />
           </SidebarSection>
         </nav>
