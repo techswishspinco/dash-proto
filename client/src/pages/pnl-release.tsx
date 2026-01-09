@@ -3200,6 +3200,7 @@ export default function PnlRelease() {
   const [curatedPrefs, setCuratedPrefs] = useState<CuratedViewPrefs>(loadCuratedPrefs);
   const [showCuratedFilterDropdown, setShowCuratedFilterDropdown] = useState(false);
   const [roleBannerExpanded, setRoleBannerExpanded] = useState(true);
+  const [ownerViewTab, setOwnerViewTab] = useState<"curated" | "detailed">("curated");
   const curatedFilterRef = React.useRef<HTMLDivElement>(null);
 
   // Get active filters for current role
@@ -3642,8 +3643,45 @@ export default function PnlRelease() {
                              </Popover>
                           </div>
                        </div>
+
+                       {/* View Toggle Tabs - same as accounting/pnl */}
+                       <div className="px-6 flex gap-1 border-t border-gray-100 mt-2">
+                          <button
+                             data-testid="tab-owner-curated-view"
+                             onClick={() => setOwnerViewTab("curated")}
+                             className={cn(
+                                "px-4 py-3 text-sm font-medium border-b-2 transition-colors",
+                                ownerViewTab === "curated"
+                                   ? "border-black text-gray-900"
+                                   : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                             )}
+                          >
+                             <div className="flex items-center gap-2">
+                                <LayoutDashboard className="h-4 w-4" />
+                                Curated View
+                             </div>
+                          </button>
+                          <button
+                             data-testid="tab-owner-detailed-view"
+                             onClick={() => setOwnerViewTab("detailed")}
+                             className={cn(
+                                "px-4 py-3 text-sm font-medium border-b-2 transition-colors",
+                                ownerViewTab === "detailed"
+                                   ? "border-black text-gray-900"
+                                   : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                             )}
+                          >
+                             <div className="flex items-center gap-2">
+                                <FileSpreadsheet className="h-4 w-4" />
+                                Detailed View
+                             </div>
+                          </button>
+                       </div>
                     </div>
 
+                    {/* Curated View Content */}
+                    {ownerViewTab === "curated" && (
+                    <>
                     {/* Role Banner - Collapsible section */}
                     <div className="px-8 pt-4">
                        {/* Collapsible Role Section */}
@@ -4178,16 +4216,109 @@ export default function PnlRelease() {
                           </div>
                        </section>
 
-                       {/* Full P&L Dashboard - Matches accounting/pnl detailed view */}
-                       <div className="border-t border-gray-100 pt-8">
-                          <PnLDashboard 
-                            onInsightClick={handleInsightClick} 
-                            highlightedNodeId={highlightedPnlNodeId}
-                            onHighlightClear={() => setHighlightedPnlNodeId(null)}
-                            onTrendClick={openTrendModal}
-                          />
-                       </div>
                     </div>
+                    </>
+                    )}
+
+                    {/* Detailed View Content */}
+                    {ownerViewTab === "detailed" && (
+                    <div className="p-8 space-y-8">
+                       {/* P&L Dashboard - Full detailed view */}
+                       <PnLDashboard 
+                         onInsightClick={handleInsightClick} 
+                         highlightedNodeId={highlightedPnlNodeId}
+                         onHighlightClear={() => setHighlightedPnlNodeId(null)}
+                         onTrendClick={openTrendModal}
+                       />
+
+                       {/* Health Snapshot */}
+                       <section id="owner-health-snapshot" className="scroll-mt-4">
+                          <div className="flex items-center justify-between mb-1">
+                             <h2 className="text-xl font-serif font-bold text-gray-900">Health Snapshot</h2>
+                             <div className="flex items-center gap-2">
+                                <span className={cn("text-xs font-medium transition-colors", healthSnapshotMode === "percentage" ? "text-gray-900" : "text-gray-400")}>%</span>
+                                <button
+                                   onClick={() => setHealthSnapshotMode(healthSnapshotMode === "percentage" ? "actual" : "percentage")}
+                                   className="relative w-11 h-6 bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-1"
+                                   data-testid="toggle-owner-health-switch"
+                                >
+                                   <span className={cn(
+                                      "absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200",
+                                      healthSnapshotMode === "actual" && "translate-x-5"
+                                   )} />
+                                </button>
+                                <span className={cn("text-xs font-medium transition-colors", healthSnapshotMode === "actual" ? "text-gray-900" : "text-gray-400")}>$</span>
+                             </div>
+                          </div>
+                          <p className="text-sm text-muted-foreground mb-4">Key Performance Indicators</p>
+                          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                             <table className="w-full text-sm">
+                                <thead>
+                                   <tr className="border-b border-gray-100">
+                                      <th className="text-left px-6 py-4 font-medium text-gray-500">Metric</th>
+                                      <th className="text-left px-6 py-4 font-medium text-gray-500">Actual</th>
+                                      <th className="text-left px-6 py-4 font-medium text-gray-500">Target</th>
+                                      <th className="text-left px-6 py-4 font-medium text-gray-500">Variance</th>
+                                      <th className="text-right px-6 py-4 font-medium text-gray-500">Status</th>
+                                   </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-100">
+                                   <tr className="hover:bg-gray-50 cursor-pointer group transition-colors" onClick={() => openTrendModal('net-sales')}>
+                                      <td className="px-6 py-4 text-gray-900 flex items-center gap-2">
+                                        Net Sales
+                                        <TrendingUp className="h-3.5 w-3.5 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                      </td>
+                                      <td className="px-6 py-4 font-semibold text-gray-900">{healthSnapshotMode === "actual" ? "$133,042" : "100.0%"}</td>
+                                      <td className="px-6 py-4 text-gray-500">{healthSnapshotMode === "actual" ? "$150,000" : "100.0%"}</td>
+                                      <td className="px-6 py-4 text-red-600 font-medium">{healthSnapshotMode === "actual" ? "-$16,958" : "-11.3%"}</td>
+                                      <td className="px-6 py-4 text-right"><span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">NEEDS ATTENTION</span></td>
+                                   </tr>
+                                   <tr className="hover:bg-gray-50 cursor-pointer group transition-colors" onClick={() => openTrendModal('prime-cost')}>
+                                      <td className="px-6 py-4 text-gray-900 flex items-center gap-2">
+                                        Prime Cost
+                                        <TrendingUp className="h-3.5 w-3.5 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                      </td>
+                                      <td className="px-6 py-4 font-semibold text-gray-900">{healthSnapshotMode === "actual" ? "$71,826" : "54.0%"}</td>
+                                      <td className="px-6 py-4 text-gray-500">{healthSnapshotMode === "actual" ? "$66,521" : "50.0%"}</td>
+                                      <td className="px-6 py-4 text-red-600 font-medium">{healthSnapshotMode === "actual" ? "+$5,305" : "+4.0pts"}</td>
+                                      <td className="px-6 py-4 text-right"><span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">NEEDS ATTENTION</span></td>
+                                   </tr>
+                                   <tr className="hover:bg-gray-50 cursor-pointer group transition-colors" onClick={() => openTrendModal('labor')}>
+                                      <td className="px-6 py-4 text-gray-900 flex items-center gap-2">
+                                        Labor
+                                        <TrendingUp className="h-3.5 w-3.5 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                      </td>
+                                      <td className="px-6 py-4 font-semibold text-gray-900">{healthSnapshotMode === "actual" ? "$16,156" : "12.1%"}</td>
+                                      <td className="px-6 py-4 text-gray-500">{healthSnapshotMode === "actual" ? "$15,965" : "12.0%"}</td>
+                                      <td className="px-6 py-4 text-amber-600 font-medium">{healthSnapshotMode === "actual" ? "+$191" : "+0.1pts"}</td>
+                                      <td className="px-6 py-4 text-right"><span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">ON TRACK</span></td>
+                                   </tr>
+                                   <tr className="hover:bg-gray-50 cursor-pointer group transition-colors" onClick={() => openTrendModal('cogs')}>
+                                      <td className="px-6 py-4 text-gray-900 flex items-center gap-2">
+                                        COGS
+                                        <TrendingUp className="h-3.5 w-3.5 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                      </td>
+                                      <td className="px-6 py-4 font-semibold text-gray-900">{healthSnapshotMode === "actual" ? "$41,243" : "31.0%"}</td>
+                                      <td className="px-6 py-4 text-gray-500">{healthSnapshotMode === "actual" ? "$39,913" : "30.0%"}</td>
+                                      <td className="px-6 py-4 text-red-600 font-medium">{healthSnapshotMode === "actual" ? "+$1,330" : "+1.0pts"}</td>
+                                      <td className="px-6 py-4 text-right"><span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">NEEDS ATTENTION</span></td>
+                                   </tr>
+                                   <tr className="hover:bg-gray-50 cursor-pointer group transition-colors" onClick={() => openTrendModal('net-income')}>
+                                      <td className="px-6 py-4 text-gray-900 flex items-center gap-2">
+                                        Net Income
+                                        <TrendingUp className="h-3.5 w-3.5 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                      </td>
+                                      <td className="px-6 py-4 font-semibold text-gray-900">{healthSnapshotMode === "actual" ? "$17,722" : "13.3%"}</td>
+                                      <td className="px-6 py-4 text-gray-500">{healthSnapshotMode === "actual" ? "$15,000" : "10.0%"}</td>
+                                      <td className="px-6 py-4 text-emerald-600 font-medium">{healthSnapshotMode === "actual" ? "+$2,722" : "+3.3pts"}</td>
+                                      <td className="px-6 py-4 text-right"><span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">ON TRACK</span></td>
+                                   </tr>
+                                </tbody>
+                             </table>
+                          </div>
+                       </section>
+                    </div>
+                    )}
                  </div>
               </div>
 
