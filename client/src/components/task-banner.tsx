@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -39,6 +39,7 @@ const priorityConfig: Record<Priority, { label: string; color: string; bgColor: 
 };
 
 export default function TaskBanner() {
+  const [location] = useLocation();
   const [activeTask, setActiveTask] = useState<ActiveTask | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [steps, setSteps] = useState<TaskStep[]>([]);
@@ -98,7 +99,7 @@ export default function TaskBanner() {
     setActiveTask(null);
   };
 
-  if (!activeTask) return null;
+  if (!activeTask || location === "/work-queue") return null;
 
   const config = priorityConfig[activeTask.priority];
   const PriorityIcon = config.icon;
