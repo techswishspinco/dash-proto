@@ -769,8 +769,13 @@ export default function Teams() {
                             data-testid={`button-job-${job.id}`}
                           >
                             <div className="min-w-0 flex-1">
-                              <div className="text-sm font-medium truncate">
-                                <span className="text-muted-foreground mr-1.5">{staffAtJob}</span>
+                              <div className="text-sm font-medium truncate flex items-center gap-1.5">
+                                <span className={cn(
+                                  "inline-flex items-center justify-center w-5 h-5 rounded text-xs font-medium",
+                                  staffAtJob > 0 
+                                    ? "bg-emerald-100 text-emerald-700" 
+                                    : "bg-gray-100 text-gray-400"
+                                )}>{staffAtJob}</span>
                                 {job.name}
                               </div>
                               <div className="text-xs text-muted-foreground">${job.baseRate}/hr</div>
