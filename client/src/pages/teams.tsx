@@ -1151,7 +1151,7 @@ export default function Teams() {
                       size="sm"
                       className="w-full gap-2"
                       onClick={() => {
-                        setPendingPOSMapping(null);
+                        setPendingPOSMappings([]);
                         setShowAddPOSMappingDialog(true);
                       }}
                       data-testid="button-add-pos-mapping"
@@ -1219,7 +1219,7 @@ export default function Teams() {
                       size="sm"
                       className="w-full gap-2"
                       onClick={() => {
-                        setPendingPayrollMapping(null);
+                        setPendingPayrollMappings([]);
                         setShowAddPayrollMappingDialog(true);
                       }}
                       data-testid="button-add-payroll-mapping"
