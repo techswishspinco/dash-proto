@@ -52,6 +52,7 @@ interface JobRole {
   id: string;
   name: string;
   departmentId: string;
+  locationIds: string[];
   baseRate: number;
   payType: "hourly" | "salaried";
   selected: boolean;
@@ -147,21 +148,21 @@ const initialDepartments: Department[] = [
 ];
 
 const initialJobRoles: JobRole[] = [
-  { id: "1", name: "Server", departmentId: "1", baseRate: 18, payType: "hourly", selected: true },
-  { id: "2", name: "Host", departmentId: "1", baseRate: 16, payType: "hourly", selected: false },
-  { id: "3", name: "Busser", departmentId: "1", baseRate: 15, payType: "hourly", selected: true },
-  { id: "4", name: "Food Runner", departmentId: "1", baseRate: 15, payType: "hourly", selected: false },
-  { id: "5", name: "Line Cook", departmentId: "2", baseRate: 20, payType: "hourly", selected: true },
-  { id: "6", name: "Prep Cook", departmentId: "2", baseRate: 17, payType: "hourly", selected: false },
-  { id: "7", name: "Dishwasher", departmentId: "2", baseRate: 15, payType: "hourly", selected: true },
-  { id: "8", name: "Sous Chef", departmentId: "2", baseRate: 28, payType: "hourly", selected: false },
-  { id: "9", name: "Bartender", departmentId: "3", baseRate: 20, payType: "hourly", selected: true },
-  { id: "10", name: "Barback", departmentId: "3", baseRate: 16, payType: "hourly", selected: false },
-  { id: "11", name: "General Manager", departmentId: "4", baseRate: 75000, payType: "salaried", selected: true },
-  { id: "12", name: "Assistant Manager", departmentId: "4", baseRate: 55000, payType: "salaried", selected: false },
-  { id: "13", name: "Catering Manager", departmentId: "5", baseRate: 60000, payType: "salaried", selected: true },
-  { id: "14", name: "Events Coordinator", departmentId: "6", baseRate: 52000, payType: "salaried", selected: false },
-  { id: "15", name: "Marketing Director", departmentId: "8", baseRate: 85000, payType: "salaried", selected: true },
+  { id: "1", name: "Server", departmentId: "1", locationIds: ["1", "2"], baseRate: 18, payType: "hourly", selected: true },
+  { id: "2", name: "Host", departmentId: "1", locationIds: ["1", "2", "3"], baseRate: 16, payType: "hourly", selected: false },
+  { id: "3", name: "Busser", departmentId: "1", locationIds: ["1", "2"], baseRate: 15, payType: "hourly", selected: true },
+  { id: "4", name: "Food Runner", departmentId: "1", locationIds: ["2", "3"], baseRate: 15, payType: "hourly", selected: false },
+  { id: "5", name: "Line Cook", departmentId: "2", locationIds: ["1", "2", "3"], baseRate: 20, payType: "hourly", selected: true },
+  { id: "6", name: "Prep Cook", departmentId: "2", locationIds: ["1", "3"], baseRate: 17, payType: "hourly", selected: false },
+  { id: "7", name: "Dishwasher", departmentId: "2", locationIds: ["1", "2", "3"], baseRate: 15, payType: "hourly", selected: true },
+  { id: "8", name: "Sous Chef", departmentId: "2", locationIds: ["1"], baseRate: 28, payType: "hourly", selected: false },
+  { id: "9", name: "Bartender", departmentId: "3", locationIds: ["1", "3"], baseRate: 20, payType: "hourly", selected: true },
+  { id: "10", name: "Barback", departmentId: "3", locationIds: ["1", "3"], baseRate: 16, payType: "hourly", selected: false },
+  { id: "11", name: "General Manager", departmentId: "4", locationIds: ["1", "2", "3"], baseRate: 75000, payType: "salaried", selected: true },
+  { id: "12", name: "Assistant Manager", departmentId: "4", locationIds: ["1", "2"], baseRate: 55000, payType: "salaried", selected: false },
+  { id: "13", name: "Catering Manager", departmentId: "5", locationIds: ["2"], baseRate: 60000, payType: "salaried", selected: true },
+  { id: "14", name: "Events Coordinator", departmentId: "6", locationIds: ["2", "3"], baseRate: 52000, payType: "salaried", selected: false },
+  { id: "15", name: "Marketing Director", departmentId: "8", locationIds: ["1"], baseRate: 85000, payType: "salaried", selected: true },
 ];
 
 const initialStaff: Staff[] = [
@@ -1381,45 +1382,83 @@ export default function Teams() {
             </div>
             <div className="space-y-2">
               <Label>Locations</Label>
+              <p className="text-xs text-muted-foreground mb-2">Select locations first, then assign job roles available at each location</p>
               <div className="grid grid-cols-2 gap-2">
-                {locations.map((loc) => (
-                  <label key={loc.id} className="flex items-center gap-2 text-sm cursor-pointer">
-                    <Checkbox
-                      checked={editForm.locations.includes(loc.id)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          setEditForm({ ...editForm, locations: [...editForm.locations, loc.id] });
-                        } else {
-                          setEditForm({ ...editForm, locations: editForm.locations.filter(l => l !== loc.id) });
-                        }
-                      }}
-                      data-testid={`checkbox-edit-location-${loc.id}`}
-                    />
-                    {loc.name}
-                  </label>
-                ))}
+                {locations.map((loc) => {
+                  const locationJobCount = jobRoles.filter(j => j.locationIds.includes(loc.id)).length;
+                  const assignedJobsAtLocation = editForm.jobRoles.filter(jrId => {
+                    const job = jobRoles.find(j => j.id === jrId);
+                    return job?.locationIds.includes(loc.id);
+                  }).length;
+                  return (
+                    <label key={loc.id} className="flex items-center gap-2 text-sm cursor-pointer p-2 rounded border hover:bg-gray-50 transition-colors">
+                      <Checkbox
+                        checked={editForm.locations.includes(loc.id)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setEditForm({ ...editForm, locations: [...editForm.locations, loc.id] });
+                          } else {
+                            const jobsToRemove = jobRoles.filter(j => j.locationIds.includes(loc.id) && j.locationIds.every(lid => lid === loc.id || !editForm.locations.includes(lid))).map(j => j.id);
+                            setEditForm({ 
+                              ...editForm, 
+                              locations: editForm.locations.filter(l => l !== loc.id),
+                              jobRoles: editForm.jobRoles.filter(jr => !jobsToRemove.includes(jr))
+                            });
+                          }
+                        }}
+                        data-testid={`checkbox-edit-location-${loc.id}`}
+                      />
+                      <div className="flex-1">
+                        <span>{loc.name}</span>
+                        <span className="text-xs text-muted-foreground ml-1">({locationJobCount} roles)</span>
+                      </div>
+                      {editForm.locations.includes(loc.id) && assignedJobsAtLocation > 0 && (
+                        <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">{assignedJobsAtLocation} assigned</span>
+                      )}
+                    </label>
+                  );
+                })}
               </div>
             </div>
             <div className="space-y-2">
               <Label>Job Roles</Label>
-              <div className="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto">
-                {jobRoles.map((job) => (
-                  <label key={job.id} className="flex items-center gap-2 text-sm cursor-pointer">
-                    <Checkbox
-                      checked={editForm.jobRoles.includes(job.id)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          setEditForm({ ...editForm, jobRoles: [...editForm.jobRoles, job.id] });
-                        } else {
-                          setEditForm({ ...editForm, jobRoles: editForm.jobRoles.filter(j => j !== job.id) });
-                        }
-                      }}
-                      data-testid={`checkbox-edit-job-${job.id}`}
-                    />
-                    {job.name}
-                  </label>
-                ))}
-              </div>
+              {editForm.locations.length === 0 ? (
+                <div className="text-sm text-muted-foreground bg-gray-50 rounded-lg p-4 text-center">
+                  Select at least one location to see available job roles
+                </div>
+              ) : (
+                <div className="max-h-48 overflow-y-auto border rounded-lg divide-y">
+                  {editForm.locations.map((locId) => {
+                    const location = locations.find(l => l.id === locId);
+                    const availableJobs = jobRoles.filter(j => j.locationIds.includes(locId));
+                    if (availableJobs.length === 0) return null;
+                    return (
+                      <div key={locId} className="p-3">
+                        <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">{location?.name}</div>
+                        <div className="grid grid-cols-2 gap-1.5">
+                          {availableJobs.map((job) => (
+                            <label key={`${locId}-${job.id}`} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors">
+                              <Checkbox
+                                checked={editForm.jobRoles.includes(job.id)}
+                                onCheckedChange={(checked) => {
+                                  if (checked) {
+                                    setEditForm({ ...editForm, jobRoles: [...editForm.jobRoles, job.id] });
+                                  } else {
+                                    setEditForm({ ...editForm, jobRoles: editForm.jobRoles.filter(j => j !== job.id) });
+                                  }
+                                }}
+                                data-testid={`checkbox-edit-job-${locId}-${job.id}`}
+                              />
+                              <span>{job.name}</span>
+                              <span className="text-xs text-muted-foreground ml-auto">{job.payType === "salaried" ? `$${(job.baseRate/1000).toFixed(0)}k` : `$${job.baseRate}/hr`}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
           <DialogFooter>
