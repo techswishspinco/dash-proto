@@ -719,7 +719,16 @@ export default function Teams() {
                               setSelectedDepartment(dept.id);
                               const jobsInDept = jobRoles.filter(j => j.departmentId === dept.id);
                               if (jobsInDept.length > 0) {
-                                setSelectedJobRole(jobsInDept[0].id);
+                                const firstJob = jobsInDept[0];
+                                setSelectedJobRole(firstJob.id);
+                                const staffForJob = staff.filter(s => 
+                                  s.status === "active" && 
+                                  s.jobAssignments.some(ja => ja.jobRoleId === firstJob.id && ja.locationId === jobAssignmentLocation)
+                                );
+                                if (staffForJob.length > 0) {
+                                  setSelectedStaff(staffForJob[0]);
+                                  setShowStaffDetail(true);
+                                }
                               }
                             }}
                             className={cn(
@@ -772,7 +781,17 @@ export default function Teams() {
                         return (
                           <button
                             key={job.id}
-                            onClick={() => setSelectedJobRole(job.id)}
+                            onClick={() => {
+                              setSelectedJobRole(job.id);
+                              const staffForJob = staff.filter(s => 
+                                s.status === "active" && 
+                                s.jobAssignments.some(ja => ja.jobRoleId === job.id && ja.locationId === jobAssignmentLocation)
+                              );
+                              if (staffForJob.length > 0) {
+                                setSelectedStaff(staffForJob[0]);
+                                setShowStaffDetail(true);
+                              }
+                            }}
                             className={cn(
                               "w-full flex items-center justify-between px-4 h-[48px] text-left transition-colors group",
                               selectedJobRole === job.id
