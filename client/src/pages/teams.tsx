@@ -850,7 +850,11 @@ export default function Teams() {
                   </div>
                   <div className="relative">
                     <div className="max-h-[400px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setStaffScrolledToBottom)}>
-                      {staff
+                      {filteredJobs.length === 0 ? (
+                        <div className="px-4 py-8 text-sm text-muted-foreground text-center">
+                          No jobs to assign staff
+                        </div>
+                      ) : staff
                       .filter(s => s.status === "active" && s.name.toLowerCase().includes(personnelSearch.toLowerCase()))
                       .sort((a, b) => {
                         const aAssigned = a.jobAssignments.some(ja => ja.jobRoleId === selectedJobRole && ja.locationId === jobAssignmentLocation);
