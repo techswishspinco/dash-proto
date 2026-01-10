@@ -715,7 +715,13 @@ export default function Teams() {
                         .map((dept, index, arr) => (
                           <button
                             key={dept.id}
-                            onClick={() => setSelectedDepartment(dept.id)}
+                            onClick={() => {
+                              setSelectedDepartment(dept.id);
+                              const jobsInDept = jobRoles.filter(j => j.departmentId === dept.id);
+                              if (jobsInDept.length > 0) {
+                                setSelectedJobRole(jobsInDept[0].id);
+                              }
+                            }}
                             className={cn(
                               "w-full flex items-center justify-between px-4 h-[44px] text-left transition-colors group",
                               selectedDepartment === dept.id
