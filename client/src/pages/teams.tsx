@@ -709,7 +709,7 @@ export default function Teams() {
                     />
                   </div>
                   <div className="relative">
-                    <div className="max-h-[400px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptScrolledToBottom)}>
+                    <div className="h-[504px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptScrolledToBottom)}>
                       {departments
                         .filter(d => d.locationId === jobAssignmentLocation && d.name.toLowerCase().includes(deptSearch.toLowerCase()))
                         .map((dept, index, arr) => (
@@ -771,7 +771,7 @@ export default function Teams() {
                     />
                   </div>
                   <div className="relative">
-                    <div className="max-h-[400px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setJobScrolledToBottom)}>
+                    <div className="h-[504px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setJobScrolledToBottom)}>
                       {filteredJobs.filter(j => j.name.toLowerCase().includes(jobSearch.toLowerCase())).map((job, index, arr) => {
                         const staffAtJob = staff.filter(s => 
                           s.status === "active" && 
@@ -849,7 +849,7 @@ export default function Teams() {
                     />
                   </div>
                   <div className="relative">
-                    <div className="max-h-[400px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setStaffScrolledToBottom)}>
+                    <div className="h-[504px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setStaffScrolledToBottom)}>
                       {filteredJobs.length === 0 ? (
                         <div className="px-4 py-8 text-sm text-muted-foreground text-center">
                           No jobs to assign staff
