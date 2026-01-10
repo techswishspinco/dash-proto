@@ -44,15 +44,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Plus, ChevronRight, Search, UserPlus, Mail, Phone, MapPin, Briefcase, Shield, Link2, AlertCircle, Check, X, Edit2, UserX, ChevronLeft } from "lucide-react";
 
-interface LegalEntity {
-  id: string;
-  name: string;
-}
-
 interface Department {
   id: string;
   name: string;
-  legalEntityId: string;
+  locationId: string;
 }
 
 interface JobRole {
@@ -105,11 +100,6 @@ interface PayrollEmployee {
   payrollSystem: string;
 }
 
-const initialLegalEntities: LegalEntity[] = [
-  { id: "le-1", name: "Seattle Restaurant Group LLC" },
-  { id: "le-2", name: "Eastside Dining Inc" },
-];
-
 const initialLocations: Location[] = [
   { id: "1", name: "Downtown", address: "123 Main St, Seattle, WA" },
   { id: "2", name: "Capitol Hill", address: "456 Pine St, Seattle, WA" },
@@ -148,21 +138,21 @@ const avatarColors = [
 ];
 
 const initialDepartments: Department[] = [
-  { id: "1", name: "Front of House", legalEntityId: "le-1" },
-  { id: "2", name: "Back of House", legalEntityId: "le-1" },
-  { id: "3", name: "Bar", legalEntityId: "le-1" },
-  { id: "4", name: "Management", legalEntityId: "le-1" },
-  { id: "5", name: "Catering", legalEntityId: "le-1" },
-  { id: "6", name: "Events", legalEntityId: "le-1" },
-  { id: "7", name: "Maintenance", legalEntityId: "le-2" },
-  { id: "8", name: "Marketing", legalEntityId: "le-2" },
-  { id: "9", name: "Finance", legalEntityId: "le-2" },
-  { id: "10", name: "Human Resources", legalEntityId: "le-2" },
-  { id: "11", name: "Operations", legalEntityId: "le-1" },
-  { id: "12", name: "Purchasing", legalEntityId: "le-1" },
-  { id: "13", name: "Training", legalEntityId: "le-2" },
-  { id: "14", name: "Quality Control", legalEntityId: "le-2" },
-  { id: "15", name: "Guest Services", legalEntityId: "le-1" },
+  { id: "1", name: "Front of House", locationId: "1" },
+  { id: "2", name: "Back of House", locationId: "1" },
+  { id: "3", name: "Bar", locationId: "1" },
+  { id: "4", name: "Management", locationId: "1" },
+  { id: "5", name: "Catering", locationId: "2" },
+  { id: "6", name: "Events", locationId: "2" },
+  { id: "7", name: "Front of House", locationId: "2" },
+  { id: "8", name: "Back of House", locationId: "2" },
+  { id: "9", name: "Bar", locationId: "2" },
+  { id: "10", name: "Management", locationId: "2" },
+  { id: "11", name: "Front of House", locationId: "3" },
+  { id: "12", name: "Back of House", locationId: "3" },
+  { id: "13", name: "Bar", locationId: "3" },
+  { id: "14", name: "Management", locationId: "3" },
+  { id: "15", name: "Guest Services", locationId: "3" },
 ];
 
 const initialJobRoles: JobRole[] = [
@@ -196,7 +186,6 @@ const initialStaff: Staff[] = [
 
 export default function Teams() {
   const [activeTab, setActiveTab] = useState<"departments" | "staff">("departments");
-  const [legalEntities] = useState<LegalEntity[]>(initialLegalEntities);
   const [departments, setDepartments] = useState<Department[]>(initialDepartments);
   const [jobRoles, setJobRoles] = useState<JobRole[]>(initialJobRoles);
   const [staff, setStaff] = useState<Staff[]>(initialStaff);
@@ -704,7 +693,7 @@ export default function Teams() {
           <Card data-testid="card-unified-management">
             <CardContent className="p-0">
               <div className="grid grid-cols-12 border-b">
-                {/* Column 1: Departments (by Legal Entity) - Narrow */}
+                {/* Column 1: Departments (by Location) */}
                 <div className="col-span-3 border-r">
                   <div className="px-4 h-11 border-b bg-gray-50 flex items-center">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Departments</span>
@@ -722,39 +711,32 @@ export default function Teams() {
                   <div className="relative">
                     <div className="max-h-[400px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptScrolledToBottom)}>
                       {departments
-                        .filter(d => d.name.toLowerCase().includes(deptSearch.toLowerCase()))
-                        .map((dept, index, arr) => {
-                          const leIndex = legalEntities.findIndex(le => le.id === dept.legalEntityId);
-                          const entityColor = leIndex === 0 ? "bg-blue-500" : leIndex === 1 ? "bg-emerald-500" : "bg-purple-500";
-                          return (
-                            <button
-                              key={dept.id}
-                              onClick={() => setSelectedDepartment(dept.id)}
-                              className={cn(
-                                "w-full flex items-center justify-between px-4 h-[44px] text-left transition-colors group",
-                                selectedDepartment === dept.id
-                                  ? "bg-muted"
-                                  : "hover:bg-gray-50",
-                                index !== arr.length - 1 && "border-b"
+                        .filter(d => d.locationId === jobAssignmentLocation && d.name.toLowerCase().includes(deptSearch.toLowerCase()))
+                        .map((dept, index, arr) => (
+                          <button
+                            key={dept.id}
+                            onClick={() => setSelectedDepartment(dept.id)}
+                            className={cn(
+                              "w-full flex items-center justify-between px-4 h-[44px] text-left transition-colors group",
+                              selectedDepartment === dept.id
+                                ? "bg-muted"
+                                : "hover:bg-gray-50",
+                              index !== arr.length - 1 && "border-b"
+                            )}
+                            data-testid={`button-department-${dept.id}`}
+                          >
+                            <span className="font-medium text-sm truncate">{dept.name}</span>
+                            <div className="flex items-center gap-2">
+                              <Edit2 
+                                className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-foreground cursor-pointer transition-opacity"
+                                onClick={(e) => { e.stopPropagation(); openEditDepartmentDialog(dept); }}
+                              />
+                              {selectedDepartment === dept.id && (
+                                <ChevronRight className="h-4 w-4 flex-shrink-0" />
                               )}
-                              data-testid={`button-department-${dept.id}`}
-                            >
-                              <div className="flex items-center gap-2.5">
-                                <div className={cn("w-1.5 h-1.5 rounded-full shrink-0", entityColor)} />
-                                <span className="font-medium text-sm truncate">{dept.name}</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Edit2 
-                                  className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-foreground cursor-pointer transition-opacity"
-                                  onClick={(e) => { e.stopPropagation(); openEditDepartmentDialog(dept); }}
-                                />
-                                {selectedDepartment === dept.id && (
-                                  <ChevronRight className="h-4 w-4 flex-shrink-0" />
-                                )}
-                              </div>
-                            </button>
-                          );
-                        })}
+                            </div>
+                          </button>
+                        ))}
                     </div>
                   </div>
                 </div>
