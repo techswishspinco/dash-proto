@@ -44,9 +44,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Plus, ChevronRight, Search, UserPlus, Mail, Phone, MapPin, Briefcase, Shield, Link2, AlertCircle, Check, X, Edit2, UserX, ChevronLeft } from "lucide-react";
 
+interface LegalEntity {
+  id: string;
+  name: string;
+}
+
 interface Department {
   id: string;
   name: string;
+  legalEntityId: string;
 }
 
 interface JobRole {
@@ -99,6 +105,11 @@ interface PayrollEmployee {
   payrollSystem: string;
 }
 
+const initialLegalEntities: LegalEntity[] = [
+  { id: "le-1", name: "Seattle Restaurant Group LLC" },
+  { id: "le-2", name: "Eastside Dining Inc" },
+];
+
 const initialLocations: Location[] = [
   { id: "1", name: "Downtown", address: "123 Main St, Seattle, WA" },
   { id: "2", name: "Capitol Hill", address: "456 Pine St, Seattle, WA" },
@@ -137,21 +148,21 @@ const avatarColors = [
 ];
 
 const initialDepartments: Department[] = [
-  { id: "1", name: "Front of House" },
-  { id: "2", name: "Back of House" },
-  { id: "3", name: "Bar" },
-  { id: "4", name: "Management" },
-  { id: "5", name: "Catering" },
-  { id: "6", name: "Events" },
-  { id: "7", name: "Maintenance" },
-  { id: "8", name: "Marketing" },
-  { id: "9", name: "Finance" },
-  { id: "10", name: "Human Resources" },
-  { id: "11", name: "Operations" },
-  { id: "12", name: "Purchasing" },
-  { id: "13", name: "Training" },
-  { id: "14", name: "Quality Control" },
-  { id: "15", name: "Guest Services" },
+  { id: "1", name: "Front of House", legalEntityId: "le-1" },
+  { id: "2", name: "Back of House", legalEntityId: "le-1" },
+  { id: "3", name: "Bar", legalEntityId: "le-1" },
+  { id: "4", name: "Management", legalEntityId: "le-1" },
+  { id: "5", name: "Catering", legalEntityId: "le-1" },
+  { id: "6", name: "Events", legalEntityId: "le-1" },
+  { id: "7", name: "Maintenance", legalEntityId: "le-2" },
+  { id: "8", name: "Marketing", legalEntityId: "le-2" },
+  { id: "9", name: "Finance", legalEntityId: "le-2" },
+  { id: "10", name: "Human Resources", legalEntityId: "le-2" },
+  { id: "11", name: "Operations", legalEntityId: "le-1" },
+  { id: "12", name: "Purchasing", legalEntityId: "le-1" },
+  { id: "13", name: "Training", legalEntityId: "le-2" },
+  { id: "14", name: "Quality Control", legalEntityId: "le-2" },
+  { id: "15", name: "Guest Services", legalEntityId: "le-1" },
 ];
 
 const initialJobRoles: JobRole[] = [
@@ -185,6 +196,7 @@ const initialStaff: Staff[] = [
 
 export default function Teams() {
   const [activeTab, setActiveTab] = useState<"departments" | "staff">("departments");
+  const [legalEntities] = useState<LegalEntity[]>(initialLegalEntities);
   const [departments, setDepartments] = useState<Department[]>(initialDepartments);
   const [jobRoles, setJobRoles] = useState<JobRole[]>(initialJobRoles);
   const [staff, setStaff] = useState<Staff[]>(initialStaff);
@@ -692,11 +704,10 @@ export default function Teams() {
           <Card data-testid="card-unified-management">
             <CardContent className="p-0">
               <div className="grid grid-cols-12 border-b">
-                {/* Column 1: Departments (Chain-wide) - Narrow */}
+                {/* Column 1: Departments (by Legal Entity) - Narrow */}
                 <div className="col-span-3 border-r">
-                  <div className="px-4 h-11 border-b bg-gray-50 flex items-center justify-between">
+                  <div className="px-4 h-11 border-b bg-gray-50 flex items-center">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Departments</span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-gray-200 text-gray-600">Chain-wide</span>
                   </div>
                   <div className="relative border-b h-10 flex items-center">
                     <Search className="absolute left-3 h-3.5 w-3.5 text-muted-foreground" />
@@ -710,31 +721,43 @@ export default function Teams() {
                   </div>
                   <div className="relative">
                     <div className="max-h-[400px] overflow-y-auto scrollable-list" onScroll={(e) => handleScroll(e, setDeptScrolledToBottom)}>
-                      {departments.filter(d => d.name.toLowerCase().includes(deptSearch.toLowerCase())).map((dept, index, arr) => (
-                        <button
-                          key={dept.id}
-                          onClick={() => setSelectedDepartment(dept.id)}
-                          className={cn(
-                            "w-full flex items-center justify-between px-4 h-[48px] text-left transition-colors group",
-                            selectedDepartment === dept.id
-                              ? "bg-muted"
-                              : "hover:bg-gray-50",
-                            index !== arr.length - 1 && "border-b"
-                          )}
-                          data-testid={`button-department-${dept.id}`}
-                        >
-                          <span className="font-medium text-sm truncate">{dept.name}</span>
-                          <div className="flex items-center gap-2">
-                            <Edit2 
-                              className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-foreground cursor-pointer transition-opacity"
-                              onClick={(e) => { e.stopPropagation(); openEditDepartmentDialog(dept); }}
-                            />
-                            {selectedDepartment === dept.id && (
-                              <ChevronRight className="h-4 w-4 flex-shrink-0" />
-                            )}
+                      {legalEntities.map((le) => {
+                        const leDepts = departments
+                          .filter(d => d.legalEntityId === le.id && d.name.toLowerCase().includes(deptSearch.toLowerCase()));
+                        if (leDepts.length === 0) return null;
+                        return (
+                          <div key={le.id}>
+                            <div className="px-3 py-1.5 bg-gray-100 border-b sticky top-0">
+                              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">{le.name}</span>
+                            </div>
+                            {leDepts.map((dept, index, arr) => (
+                              <button
+                                key={dept.id}
+                                onClick={() => setSelectedDepartment(dept.id)}
+                                className={cn(
+                                  "w-full flex items-center justify-between px-4 h-[44px] text-left transition-colors group",
+                                  selectedDepartment === dept.id
+                                    ? "bg-muted"
+                                    : "hover:bg-gray-50",
+                                  index !== arr.length - 1 && "border-b"
+                                )}
+                                data-testid={`button-department-${dept.id}`}
+                              >
+                                <span className="font-medium text-sm truncate">{dept.name}</span>
+                                <div className="flex items-center gap-2">
+                                  <Edit2 
+                                    className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-foreground cursor-pointer transition-opacity"
+                                    onClick={(e) => { e.stopPropagation(); openEditDepartmentDialog(dept); }}
+                                  />
+                                  {selectedDepartment === dept.id && (
+                                    <ChevronRight className="h-4 w-4 flex-shrink-0" />
+                                  )}
+                                </div>
+                              </button>
+                            ))}
                           </div>
-                        </button>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
