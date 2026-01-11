@@ -5019,6 +5019,14 @@ export default function PnlRelease() {
                                                   </BarChart>
                                                </ResponsiveContainer>
                                             </div>
+                                            <div className="mt-3 pt-3 border-t border-gray-100">
+                                               <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                               <div className="flex flex-wrap gap-1.5">
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Show overtime breakdown</button>
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Compare to last year</button>
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Which shifts drove this?</button>
+                                               </div>
+                                            </div>
                                          </div>
                                       </PopoverContent>
                                    </Popover>
@@ -5062,6 +5070,13 @@ export default function PnlRelease() {
                                                   </BarChart>
                                                </ResponsiveContainer>
                                             </div>
+                                            <div className="mt-3 pt-3 border-t border-gray-100">
+                                               <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                               <div className="flex flex-wrap gap-1.5">
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">When does training end?</button>
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Show headcount trend</button>
+                                               </div>
+                                            </div>
                                          </div>
                                       </PopoverContent>
                                    </Popover>
@@ -5104,6 +5119,13 @@ export default function PnlRelease() {
                                                      <Bar dataKey="budget" fill="#d1d5db" name="Budget" radius={[4, 4, 0, 0]} />
                                                   </BarChart>
                                                </ResponsiveContainer>
+                                            </div>
+                                            <div className="mt-3 pt-3 border-t border-gray-100">
+                                               <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                               <div className="flex flex-wrap gap-1.5">
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Hours by day of week</button>
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Is this sustainable?</button>
+                                               </div>
                                             </div>
                                          </div>
                                       </PopoverContent>
@@ -5155,6 +5177,14 @@ export default function PnlRelease() {
                                                   </BarChart>
                                                </ResponsiveContainer>
                                             </div>
+                                            <div className="mt-3 pt-3 border-t border-gray-100">
+                                               <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                               <div className="flex flex-wrap gap-1.5">
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Show patio vs indoor split</button>
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">When to scale back?</button>
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Revenue per server</button>
+                                               </div>
+                                            </div>
                                          </div>
                                       </PopoverContent>
                                    </Popover>
@@ -5198,6 +5228,13 @@ export default function PnlRelease() {
                                                   </BarChart>
                                                </ResponsiveContainer>
                                             </div>
+                                            <div className="mt-3 pt-3 border-t border-gray-100">
+                                               <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                               <div className="flex flex-wrap gap-1.5">
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Happy hour revenue impact</button>
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Bar sales per hour</button>
+                                               </div>
+                                            </div>
                                          </div>
                                       </PopoverContent>
                                    </Popover>
@@ -5240,6 +5277,13 @@ export default function PnlRelease() {
                                                      <Bar dataKey="budget" fill="#d1d5db" name="Budget" radius={[4, 4, 0, 0]} />
                                                   </BarChart>
                                                </ResponsiveContainer>
+                                            </div>
+                                            <div className="mt-3 pt-3 border-t border-gray-100">
+                                               <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                               <div className="flex flex-wrap gap-1.5">
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Covers per host hour</button>
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Wait time trends</button>
+                                               </div>
                                             </div>
                                          </div>
                                       </PopoverContent>
@@ -5291,6 +5335,13 @@ export default function PnlRelease() {
                                                   </BarChart>
                                                </ResponsiveContainer>
                                             </div>
+                                            <div className="mt-3 pt-3 border-t border-gray-100">
+                                               <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                               <div className="flex flex-wrap gap-1.5">
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Show bonus structure</button>
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">YoY comparison</button>
+                                               </div>
+                                            </div>
                                          </div>
                                       </PopoverContent>
                                    </Popover>
@@ -5333,6 +5384,13 @@ export default function PnlRelease() {
                                                      <Bar dataKey="budget" fill="#d1d5db" name="Budget" radius={[4, 4, 0, 0]} />
                                                   </BarChart>
                                                </ResponsiveContainer>
+                                            </div>
+                                            <div className="mt-3 pt-3 border-t border-gray-100">
+                                               <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                               <div className="flex flex-wrap gap-1.5">
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Shifts per week</button>
+                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Coverage efficiency</button>
+                                               </div>
                                             </div>
                                          </div>
                                       </PopoverContent>
@@ -7637,6 +7695,14 @@ export default function PnlRelease() {
                                               </BarChart>
                                            </ResponsiveContainer>
                                         </div>
+                                        <div className="mt-3 pt-3 border-t border-gray-100">
+                                           <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                           <div className="flex flex-wrap gap-1.5">
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Show overtime breakdown</button>
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Compare to last year</button>
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Which shifts drove this?</button>
+                                           </div>
+                                        </div>
                                      </div>
                                   </PopoverContent>
                                </Popover>
@@ -7680,6 +7746,13 @@ export default function PnlRelease() {
                                               </BarChart>
                                            </ResponsiveContainer>
                                         </div>
+                                        <div className="mt-3 pt-3 border-t border-gray-100">
+                                           <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                           <div className="flex flex-wrap gap-1.5">
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">When does training end?</button>
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Show headcount trend</button>
+                                           </div>
+                                        </div>
                                      </div>
                                   </PopoverContent>
                                </Popover>
@@ -7722,6 +7795,13 @@ export default function PnlRelease() {
                                                  <Bar dataKey="budget" fill="#d1d5db" name="Budget" radius={[4, 4, 0, 0]} />
                                               </BarChart>
                                            </ResponsiveContainer>
+                                        </div>
+                                        <div className="mt-3 pt-3 border-t border-gray-100">
+                                           <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                           <div className="flex flex-wrap gap-1.5">
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Hours by day of week</button>
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Is this sustainable?</button>
+                                           </div>
                                         </div>
                                      </div>
                                   </PopoverContent>
@@ -7773,6 +7853,14 @@ export default function PnlRelease() {
                                               </BarChart>
                                            </ResponsiveContainer>
                                         </div>
+                                        <div className="mt-3 pt-3 border-t border-gray-100">
+                                           <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                           <div className="flex flex-wrap gap-1.5">
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Show patio vs indoor split</button>
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">When to scale back?</button>
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Revenue per server</button>
+                                           </div>
+                                        </div>
                                      </div>
                                   </PopoverContent>
                                </Popover>
@@ -7816,6 +7904,13 @@ export default function PnlRelease() {
                                               </BarChart>
                                            </ResponsiveContainer>
                                         </div>
+                                        <div className="mt-3 pt-3 border-t border-gray-100">
+                                           <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                           <div className="flex flex-wrap gap-1.5">
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Happy hour revenue impact</button>
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Bar sales per hour</button>
+                                           </div>
+                                        </div>
                                      </div>
                                   </PopoverContent>
                                </Popover>
@@ -7858,6 +7953,13 @@ export default function PnlRelease() {
                                                  <Bar dataKey="budget" fill="#d1d5db" name="Budget" radius={[4, 4, 0, 0]} />
                                               </BarChart>
                                            </ResponsiveContainer>
+                                        </div>
+                                        <div className="mt-3 pt-3 border-t border-gray-100">
+                                           <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                           <div className="flex flex-wrap gap-1.5">
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Covers per host hour</button>
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Wait time trends</button>
+                                           </div>
                                         </div>
                                      </div>
                                   </PopoverContent>
@@ -7909,6 +8011,13 @@ export default function PnlRelease() {
                                               </BarChart>
                                            </ResponsiveContainer>
                                         </div>
+                                        <div className="mt-3 pt-3 border-t border-gray-100">
+                                           <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                           <div className="flex flex-wrap gap-1.5">
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Show bonus structure</button>
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">YoY comparison</button>
+                                           </div>
+                                        </div>
                                      </div>
                                   </PopoverContent>
                                </Popover>
@@ -7951,6 +8060,13 @@ export default function PnlRelease() {
                                                  <Bar dataKey="budget" fill="#d1d5db" name="Budget" radius={[4, 4, 0, 0]} />
                                               </BarChart>
                                            </ResponsiveContainer>
+                                        </div>
+                                        <div className="mt-3 pt-3 border-t border-gray-100">
+                                           <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
+                                           <div className="flex flex-wrap gap-1.5">
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Shifts per week</button>
+                                              <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Coverage efficiency</button>
+                                           </div>
                                         </div>
                                      </div>
                                   </PopoverContent>
