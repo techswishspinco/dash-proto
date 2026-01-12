@@ -3036,7 +3036,7 @@ export default function PnlRelease() {
   const [isDragOver, setIsDragOver] = useState(false);
   const [chatTrigger, setChatTrigger] = useState<string | null>(null);
   const [floatingChatTrigger, setFloatingChatTrigger] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"detailed" | "curated">("detailed");
+  const [activeTab, setActiveTab] = useState<"detailed" | "curated" | "pnl">("curated");
   const [activeSection, setActiveSection] = useState<string>("executive-narrative");
   const [tocDropdownOpen, setTocDropdownOpen] = useState(false);
   const [selectedState, setSelectedState] = useState<StateBenchmark | null>(null);
@@ -6624,6 +6624,24 @@ export default function PnlRelease() {
 
                 {/* View Toggle Tabs */}
                 <div className="px-6 flex gap-1 border-t border-gray-100">
+                   {/* Curated View Tab - First */}
+                   <button
+                      data-testid="tab-curated-view"
+                      onClick={() => setActiveTab("curated")}
+                      className={cn(
+                         "px-4 py-3 text-sm font-medium border-b-2 transition-colors",
+                         activeTab === "curated"
+                            ? "border-black text-gray-900"
+                            : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      )}
+                   >
+                      <div className="flex items-center gap-2">
+                         <LayoutDashboard className="h-4 w-4" />
+                         Curated View
+                      </div>
+                   </button>
+
+                   {/* Detailed View Tab - Second */}
                    <div 
                       ref={tocDropdownRef}
                       className="relative group"
@@ -6693,19 +6711,21 @@ export default function PnlRelease() {
                          ))}
                       </div>
                    </div>
+
+                   {/* P&L Dashboard Tab - Third */}
                    <button
-                      data-testid="tab-curated-view"
-                      onClick={() => setActiveTab("curated")}
+                      data-testid="tab-pnl-view"
+                      onClick={() => setActiveTab("pnl")}
                       className={cn(
                          "px-4 py-3 text-sm font-medium border-b-2 transition-colors",
-                         activeTab === "curated"
+                         activeTab === "pnl"
                             ? "border-black text-gray-900"
                             : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                       )}
                    >
                       <div className="flex items-center gap-2">
-                         <LayoutDashboard className="h-4 w-4" />
-                         Curated View
+                         <PieChart className="h-4 w-4" />
+                         P&L Dashboard
                       </div>
                    </button>
                 </div>
@@ -6717,7 +6737,23 @@ export default function PnlRelease() {
 
                 {/* Main Scrollable Content */}
                 <div ref={scrollContainerRef} className="flex-1 overflow-y-auto h-full">
-                {activeTab === "detailed" ? (
+                
+                {/* P&L Dashboard Tab */}
+                {activeTab === "pnl" && (
+                <div className="p-8">
+                  <div className="max-w-5xl mx-auto">
+                    <PnLDashboard 
+                      onInsightClick={handleInsightClick} 
+                      highlightedNodeId={highlightedPnlNodeId}
+                      onHighlightClear={() => setHighlightedPnlNodeId(null)}
+                      onTrendClick={openTrendModal}
+                    />
+                  </div>
+                </div>
+                )}
+
+                {/* Detailed View Tab */}
+                {activeTab === "detailed" && (
                 <div className="p-8">
                       <div className="max-w-5xl mx-auto flex flex-col gap-8">
 
@@ -6922,18 +6958,6 @@ export default function PnlRelease() {
                          )}
                       </div>
                    </section>
-                   )}
-
-                   {/* 3. P&L Dashboard - Intelligent Hierarchical View */}
-                   {isSectionVisible("pnl-dashboard") && (
-                   <div style={{ order: getSectionOrderIndex("pnl-dashboard") }}>
-                   <PnLDashboard 
-                     onInsightClick={handleInsightClick} 
-                     highlightedNodeId={highlightedPnlNodeId}
-                     onHighlightClear={() => setHighlightedPnlNodeId(null)}
-                     onTrendClick={openTrendModal}
-                   />
-                   </div>
                    )}
 
                    {/* 3. Health Snapshot */}
@@ -8646,8 +8670,10 @@ export default function PnlRelease() {
 
                       </div>
                 </div>
-                ) : (
-                /* Curated View - Role-based Preview */
+                )}
+
+                {/* Curated View Tab */}
+                {activeTab === "curated" && (
                 <div className="max-w-4xl mx-auto space-y-10 p-8">
 
                    {/* Role Toggle */}
