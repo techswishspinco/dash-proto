@@ -3541,28 +3541,63 @@ export default function PnlRelease() {
     return { status: 'ON TRACK', color: 'bg-emerald-100 text-emerald-700' };
   };
 
-  // Editable COGS Budgets
-  const [cogsBudgets, setCogsBudgets] = useState({
-    'total-cogs': 79910,
-    'food-cost': 62880,
-    'beverage-cost': 13100,
-    'paper-supplies': 3930,
-  });
+  // Editable COGS Budgets - Default 25% of Revenue per spec
+  const DEFAULT_COGS_TARGET_PCT = 25;
+  const PERIOD_REVENUE = 293000; // Revenue for the period
+  
+  const [cogsBudgetPct, setCogsBudgetPct] = useState(DEFAULT_COGS_TARGET_PCT);
+  const [isCustomCogsBudget, setIsCustomCogsBudget] = useState(false);
+  
+  // Calculate budget from percentage
+  const cogsBudgetAmount = Math.round(PERIOD_REVENUE * (cogsBudgetPct / 100));
+  
   const cogsActuals = {
     'total-cogs': 86800,
     'food-cost': 68400,
     'beverage-cost': 14200,
     'paper-supplies': 4200,
   };
+  
+  // Category percentages of total COGS for budget breakdown
+  const cogsCategoryPcts = {
+    'food-cost': 0.788, // ~78.8% of COGS is food
+    'beverage-cost': 0.164, // ~16.4% is beverage
+    'paper-supplies': 0.048, // ~4.8% is paper/supplies
+  };
+  
+  const getCogsBudgetForCategory = (id: string) => {
+    if (id === 'total-cogs') return cogsBudgetAmount;
+    return Math.round(cogsBudgetAmount * (cogsCategoryPcts[id as keyof typeof cogsCategoryPcts] || 0));
+  };
+  
   const getCogsVariance = (id: string) => {
     const actual = cogsActuals[id as keyof typeof cogsActuals] || 0;
-    const budget = cogsBudgets[id as keyof typeof cogsBudgets] || 0;
-    const variance = actual - budget;
+    const budget = getCogsBudgetForCategory(id);
+    const varianceDollar = actual - budget;
+    const actualPct = (actual / PERIOD_REVENUE) * 100;
+    const variancePct = actualPct - cogsBudgetPct * (id === 'total-cogs' ? 1 : (cogsCategoryPcts[id as keyof typeof cogsCategoryPcts] || 0));
     return {
-      variance,
-      formatted: variance === 0 ? '$0' : variance > 0 ? `+$${variance.toLocaleString()}` : `-$${Math.abs(variance).toLocaleString()}`,
-      color: variance > 0 ? 'text-red-600' : variance < 0 ? 'text-emerald-600' : 'text-gray-600'
+      varianceDollar,
+      variancePct,
+      formattedDollar: varianceDollar === 0 ? '$0' : varianceDollar > 0 ? `+$${varianceDollar.toLocaleString()}` : `-$${Math.abs(varianceDollar).toLocaleString()}`,
+      formattedPct: variancePct === 0 ? '0.0%' : variancePct > 0 ? `+${variancePct.toFixed(1)}%` : `${variancePct.toFixed(1)}%`,
+      color: varianceDollar > 0 ? 'text-red-600' : varianceDollar < 0 ? 'text-emerald-600' : 'text-gray-600',
+      status: varianceDollar > budget * 0.05 ? 'over' : varianceDollar < -budget * 0.02 ? 'under' : 'on-target',
+      statusColor: varianceDollar > budget * 0.05 ? 'bg-red-100 text-red-700' : varianceDollar < -budget * 0.02 ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700',
+      statusText: varianceDollar > budget * 0.05 ? 'OVER' : varianceDollar < -budget * 0.02 ? 'UNDER' : 'ON TARGET'
     };
+  };
+  
+  const handleCogsBudgetChange = (newPct: number) => {
+    if (newPct > 0 && newPct < 100) {
+      setCogsBudgetPct(newPct);
+      setIsCustomCogsBudget(newPct !== DEFAULT_COGS_TARGET_PCT);
+    }
+  };
+  
+  const resetCogsBudgetToDefault = () => {
+    setCogsBudgetPct(DEFAULT_COGS_TARGET_PCT);
+    setIsCustomCogsBudget(false);
   };
 
   // Editable Controllable Expenses Budgets
@@ -9168,8 +9203,51 @@ export default function PnlRelease() {
 
                       {/* COGS Deep Dive */}
                       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                         <div className="px-6 py-4 border-b border-gray-100">
-                            <h3 className="font-semibold text-gray-900">COGS Deep Dive</h3>
+                         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                               <h3 className="font-semibold text-gray-900">COGS Deep Dive</h3>
+                               <span className={cn(
+                                  "px-2 py-0.5 rounded-full text-xs font-medium",
+                                  getCogsVariance('total-cogs').statusColor
+                               )}>
+                                  {getCogsVariance('total-cogs').statusText}
+                               </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                               <span className="text-xs text-gray-500">COGS Budget:</span>
+                               {(selectedRole === "owner" || selectedRole === "gm") ? (
+                                  <div className="flex items-center gap-1">
+                                     <input
+                                        type="number"
+                                        value={cogsBudgetPct}
+                                        onChange={(e) => handleCogsBudgetChange(parseFloat(e.target.value) || 25)}
+                                        min="1"
+                                        max="99"
+                                        className="w-14 px-2 py-1 text-gray-700 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-sm text-right"
+                                        data-testid="cogs-budget-pct"
+                                        disabled={selectedRole === "gm"}
+                                     />
+                                     <span className="text-sm text-gray-600">%</span>
+                                  </div>
+                               ) : (
+                                  <span className="text-sm font-medium text-gray-700">{cogsBudgetPct}%</span>
+                               )}
+                               <span className={cn(
+                                  "px-1.5 py-0.5 rounded text-xs",
+                                  isCustomCogsBudget ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"
+                               )}>
+                                  {isCustomCogsBudget ? "Custom" : "Default"}
+                               </span>
+                               {isCustomCogsBudget && selectedRole === "owner" && (
+                                  <button
+                                     onClick={resetCogsBudgetToDefault}
+                                     className="text-xs text-gray-500 hover:text-gray-700 underline"
+                                     data-testid="reset-cogs-budget"
+                                  >
+                                     Reset
+                                  </button>
+                               )}
+                            </div>
                          </div>
                          <table className="w-full text-sm">
                             <thead>
@@ -9177,91 +9255,88 @@ export default function PnlRelease() {
                                   <th className="text-left px-6 py-3 font-medium text-gray-500">Category</th>
                                   <th className="text-right px-6 py-3 font-medium text-gray-500">Actual</th>
                                   <th className="text-right px-6 py-3 font-medium text-gray-500">Budget</th>
-                                  <th className="text-right px-6 py-3 font-medium text-gray-500">% Revenue</th>
-                                  <th className="text-right px-6 py-3 font-medium text-gray-500">% of Sales</th>
+                                  <th className="text-right px-6 py-3 font-medium text-gray-500">Variance $</th>
+                                  <th className="text-right px-6 py-3 font-medium text-gray-500">% of Revenue</th>
+                                  <th className="text-right px-6 py-3 font-medium text-gray-500">Status</th>
                                </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
-                               <tr className="hover:bg-gray-50 font-semibold">
+                               <tr className="hover:bg-gray-50 font-semibold bg-gray-50/30">
                                   <td className="px-6 py-4 text-gray-900">Total COGS</td>
                                   <td className="px-6 py-4 text-right">${cogsActuals['total-cogs'].toLocaleString()}</td>
-                                  <td className="px-6 py-4 text-right">
-                                     <input
-                                        type="text"
-                                        value={`$${cogsBudgets['total-cogs'].toLocaleString()}`}
-                                        onChange={(e) => {
-                                           const val = e.target.value.replace(/[$,]/g, '');
-                                           const num = parseFloat(val);
-                                           if (!isNaN(num)) setCogsBudgets(prev => ({ ...prev, 'total-cogs': num }));
-                                        }}
-                                        className="w-24 px-2 py-1 text-gray-600 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-sm text-right"
-                                        data-testid="budget-total-cogs"
-                                     />
+                                  <td className="px-6 py-4 text-right text-gray-600">${getCogsBudgetForCategory('total-cogs').toLocaleString()}</td>
+                                  <td className={cn("px-6 py-4 text-right font-medium", getCogsVariance('total-cogs').color)}>
+                                     {getCogsVariance('total-cogs').formattedDollar}
                                   </td>
-                                  <td className={cn("px-6 py-4 text-right font-medium", getCogsVariance('total-cogs').color)}>{getCogsVariance('total-cogs').formatted}</td>
-                                  <td className="px-6 py-4 text-right text-gray-600">29.6%</td>
+                                  <td className="px-6 py-4 text-right text-gray-700">
+                                     {((cogsActuals['total-cogs'] / PERIOD_REVENUE) * 100).toFixed(1)}%
+                                     <span className={cn("ml-1 text-xs", getCogsVariance('total-cogs').color)}>
+                                        ({getCogsVariance('total-cogs').formattedPct})
+                                     </span>
+                                  </td>
+                                  <td className="px-6 py-4 text-right">
+                                     <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", getCogsVariance('total-cogs').statusColor)}>
+                                        {getCogsVariance('total-cogs').statusText}
+                                     </span>
+                                  </td>
                                </tr>
                                <tr className="hover:bg-gray-50">
                                   <td className="px-6 py-4 text-gray-700 pl-10">Food Cost</td>
                                   <td className="px-6 py-4 text-right">${cogsActuals['food-cost'].toLocaleString()}</td>
-                                  <td className="px-6 py-4 text-right">
-                                     <input
-                                        type="text"
-                                        value={`$${cogsBudgets['food-cost'].toLocaleString()}`}
-                                        onChange={(e) => {
-                                           const val = e.target.value.replace(/[$,]/g, '');
-                                           const num = parseFloat(val);
-                                           if (!isNaN(num)) setCogsBudgets(prev => ({ ...prev, 'food-cost': num }));
-                                        }}
-                                        className="w-24 px-2 py-1 text-gray-500 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-sm text-right"
-                                        data-testid="budget-food-cost"
-                                     />
+                                  <td className="px-6 py-4 text-right text-gray-500">${getCogsBudgetForCategory('food-cost').toLocaleString()}</td>
+                                  <td className={cn("px-6 py-4 text-right font-medium", getCogsVariance('food-cost').color)}>
+                                     {getCogsVariance('food-cost').formattedDollar}
                                   </td>
-                                  <td className={cn("px-6 py-4 text-right font-medium", getCogsVariance('food-cost').color)}>{getCogsVariance('food-cost').formatted}</td>
-                                  <td className="px-6 py-4 text-right text-gray-600">23.3%</td>
+                                  <td className="px-6 py-4 text-right text-gray-600">
+                                     {((cogsActuals['food-cost'] / PERIOD_REVENUE) * 100).toFixed(1)}%
+                                  </td>
+                                  <td className="px-6 py-4 text-right">
+                                     <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", getCogsVariance('food-cost').statusColor)}>
+                                        {getCogsVariance('food-cost').statusText}
+                                     </span>
+                                  </td>
                                </tr>
                                <tr className="hover:bg-gray-50">
                                   <td className="px-6 py-4 text-gray-700 pl-10">Beverage Cost</td>
                                   <td className="px-6 py-4 text-right">${cogsActuals['beverage-cost'].toLocaleString()}</td>
-                                  <td className="px-6 py-4 text-right">
-                                     <input
-                                        type="text"
-                                        value={`$${cogsBudgets['beverage-cost'].toLocaleString()}`}
-                                        onChange={(e) => {
-                                           const val = e.target.value.replace(/[$,]/g, '');
-                                           const num = parseFloat(val);
-                                           if (!isNaN(num)) setCogsBudgets(prev => ({ ...prev, 'beverage-cost': num }));
-                                        }}
-                                        className="w-24 px-2 py-1 text-gray-500 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-sm text-right"
-                                        data-testid="budget-beverage-cost"
-                                     />
+                                  <td className="px-6 py-4 text-right text-gray-500">${getCogsBudgetForCategory('beverage-cost').toLocaleString()}</td>
+                                  <td className={cn("px-6 py-4 text-right font-medium", getCogsVariance('beverage-cost').color)}>
+                                     {getCogsVariance('beverage-cost').formattedDollar}
                                   </td>
-                                  <td className={cn("px-6 py-4 text-right font-medium", getCogsVariance('beverage-cost').color)}>{getCogsVariance('beverage-cost').formatted}</td>
-                                  <td className="px-6 py-4 text-right text-gray-600">4.8%</td>
+                                  <td className="px-6 py-4 text-right text-gray-600">
+                                     {((cogsActuals['beverage-cost'] / PERIOD_REVENUE) * 100).toFixed(1)}%
+                                  </td>
+                                  <td className="px-6 py-4 text-right">
+                                     <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", getCogsVariance('beverage-cost').statusColor)}>
+                                        {getCogsVariance('beverage-cost').statusText}
+                                     </span>
+                                  </td>
                                </tr>
                                <tr className="hover:bg-gray-50">
                                   <td className="px-6 py-4 text-gray-700 pl-10">Paper & Supplies</td>
                                   <td className="px-6 py-4 text-right">${cogsActuals['paper-supplies'].toLocaleString()}</td>
-                                  <td className="px-6 py-4 text-right">
-                                     <input
-                                        type="text"
-                                        value={`$${cogsBudgets['paper-supplies'].toLocaleString()}`}
-                                        onChange={(e) => {
-                                           const val = e.target.value.replace(/[$,]/g, '');
-                                           const num = parseFloat(val);
-                                           if (!isNaN(num)) setCogsBudgets(prev => ({ ...prev, 'paper-supplies': num }));
-                                        }}
-                                        className="w-24 px-2 py-1 text-gray-500 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-sm text-right"
-                                        data-testid="budget-paper-supplies"
-                                     />
+                                  <td className="px-6 py-4 text-right text-gray-500">${getCogsBudgetForCategory('paper-supplies').toLocaleString()}</td>
+                                  <td className={cn("px-6 py-4 text-right font-medium", getCogsVariance('paper-supplies').color)}>
+                                     {getCogsVariance('paper-supplies').formattedDollar}
                                   </td>
-                                  <td className={cn("px-6 py-4 text-right font-medium", getCogsVariance('paper-supplies').color)}>{getCogsVariance('paper-supplies').formatted}</td>
-                                  <td className="px-6 py-4 text-right text-gray-600">1.4%</td>
+                                  <td className="px-6 py-4 text-right text-gray-600">
+                                     {((cogsActuals['paper-supplies'] / PERIOD_REVENUE) * 100).toFixed(1)}%
+                                  </td>
+                                  <td className="px-6 py-4 text-right">
+                                     <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", getCogsVariance('paper-supplies').statusColor)}>
+                                        {getCogsVariance('paper-supplies').statusText}
+                                     </span>
+                                  </td>
                                </tr>
                             </tbody>
                          </table>
-                         <div className="px-6 py-3 bg-gray-50 border-t border-gray-100">
-                            <p className="text-xs text-gray-600">Note: COGS variance is favorable as a % of sales (-0.9pts) despite higher absolute dollars due to volume increase.</p>
+                         <div className="px-6 py-3 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+                            <p className="text-xs text-gray-600">
+                               Budget calculated as {cogsBudgetPct}% of period revenue (${PERIOD_REVENUE.toLocaleString()})
+                            </p>
+                            <p className="text-xs text-gray-500">
+                               Actual COGS: {((cogsActuals['total-cogs'] / PERIOD_REVENUE) * 100).toFixed(1)}% of revenue
+                            </p>
                          </div>
                       </div>
                    </section>

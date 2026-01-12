@@ -1,0 +1,139 @@
+Accounting / P&L – COGS Deep Dive Budget Defaults
+
+Area: Accounting / P&L
+View: Detailed View → COGS Deep Dive
+Type: Feature / Budgeting Logic
+
+Problem
+
+In the COGS Deep Dive, users see actual food costs but lack a clear benchmark to judge performance.
+
+Most restaurant operators and CFOs evaluate COGS against a target % of revenue, but today this benchmark is either missing or inconsistent.
+
+Goal
+
+Set a default COGS budget of 25% of revenue in the COGS Deep Dive, while allowing users to customize the budget per restaurant.
+
+This provides:
+
+Immediate context for under / over performance
+
+CFO-aligned defaults
+
+Flexibility for concept-specific targets
+
+Default Budget Logic (Required)
+Default Rule
+COGS Budget = 25% of Revenue
+
+
+Applies automatically when no custom budget is set
+
+Clearly labeled as “Default”
+
+Budget Calculation
+
+For a given period:
+
+COGS Budget ($) = Revenue × 0.25
+COGS Variance ($) = Actual COGS – Budget COGS
+COGS Variance (%) = (Actual COGS / Revenue) – 25%
+
+Display Requirements (COGS Deep Dive)
+
+For each section / category:
+
+Actual COGS ($)
+
+Budget COGS ($)
+
+Variance ($ and %)
+
+Visual Indicators
+
+🟢 Under budget
+
+🟡 On target
+
+🔴 Over budget
+
+Budget Customization (Required)
+Editable Budget
+
+Users can edit the COGS budget percentage
+
+Editing replaces the default 25%
+
+Edit Scope (v1)
+
+Per restaurant
+
+Applies to all future periods
+
+UX Behavior
+
+Inline edit or modal:
+
+“COGS Budget %”
+
+Validation:
+
+0% < value < 100%
+
+Labeling & Transparency (Important)
+
+When using default:
+
+“COGS Budget: 25% (Default)”
+
+When customized:
+
+“COGS Budget: 28% (Custom)”
+
+This avoids confusion and supports CFO trust.
+
+Permissions
+Role	Can View	Can Edit
+Owner	✅	✅
+Accountant	✅	✅
+GM	✅	❌
+Executive Chef	Optional	❌
+Non-Goals (v1)
+
+Category-level budgets
+
+Historical budget changes
+
+Forecasting
+
+Multi-entity overrides
+
+Acceptance Criteria
+
+ Default COGS budget is 25% of revenue
+
+ Budget labeled clearly as default or custom
+
+ Users can edit budget %
+
+ Variance updates immediately on edit
+
+ Budget persists across sessions
+
+ No impact to revenue or actual COGS data
+
+Notes
+
+This default aligns with industry-standard restaurant benchmarks and provides immediate value without configuration.
+
+Default smart. Customize when needed.
+
+Future Extensions (Not Required)
+
+Category-level COGS budgets
+
+Period-specific overrides
+
+Budget vs actual trendlines
+
+Concept-based budget presets (QSR vs FSR)
