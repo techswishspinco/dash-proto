@@ -5703,7 +5703,7 @@ export default function PnlRelease() {
 
                        {/* ===== PROFITABILITY SECTION - Owner Only ===== */}
                        {selectedRole === "owner" && (
-                       <section data-testid="profitability-section" className="relative">
+                       <section data-testid="profitability-section" className="relative bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border-2 border-blue-200">
                           <div className="flex items-center justify-between mb-6">
                              <div>
                                 <h2 className="text-lg font-serif font-bold text-gray-900 flex items-center gap-2">
