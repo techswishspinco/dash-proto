@@ -4198,9 +4198,111 @@ export default function PnlRelease() {
     ]
   };
   
-  const currentShiftData = shiftBreakdownData[gmTimeRange];
+  // Zoom state for shift breakdown graph
+  const [shiftZoomLevel, setShiftZoomLevel] = useState<'60min' | '15min' | '5min' | '1min'>('60min');
+  const [shiftZoomWindow, setShiftZoomWindow] = useState<{ start: number; end: number } | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState<number | null>(null);
+  const [dragEnd, setDragEnd] = useState<number | null>(null);
+  
+  // Generate data at different resolutions
+  const generateZoomedData = (baseHour: number, resolution: '15min' | '5min' | '1min') => {
+    const baseData = shiftBreakdownData[gmTimeRange].find(d => {
+      const hourNum = parseInt(d.hour.replace('am', '').replace('pm', ''));
+      const isPM = d.hour.includes('pm') && hourNum !== 12;
+      const isAM = d.hour.includes('am') || hourNum === 12;
+      const hour24 = isPM ? hourNum + 12 : (hourNum === 12 && d.hour.includes('am') ? 0 : hourNum);
+      return hour24 === baseHour;
+    });
+    
+    if (!baseData) return [];
+    
+    const intervals = resolution === '15min' ? 4 : resolution === '5min' ? 12 : 60;
+    const minuteStep = resolution === '15min' ? 15 : resolution === '5min' ? 5 : 1;
+    
+    return Array.from({ length: intervals }, (_, i) => {
+      const minute = i * minuteStep;
+      const variation = 0.7 + Math.random() * 0.6;
+      const salesPerInterval = (baseData.sales / intervals) * variation;
+      const laborPerInterval = (baseData.labor / intervals) * (0.8 + Math.random() * 0.4);
+      const hourLabel = baseHour > 12 ? `${baseHour - 12}` : baseHour === 0 ? '12' : `${baseHour}`;
+      const ampm = baseHour >= 12 ? 'pm' : 'am';
+      
+      return {
+        time: `${hourLabel}:${minute.toString().padStart(2, '0')}${ampm}`,
+        sales: Math.round(salesPerInterval),
+        labor: Math.round(laborPerInterval),
+        laborPct: laborPerInterval > 0 ? Math.round((laborPerInterval / salesPerInterval) * 100 * 10) / 10 : 0
+      };
+    });
+  };
+  
+  // Get zoomed data for a window
+  const getZoomedShiftData = () => {
+    if (!shiftZoomWindow || shiftZoomLevel === '60min') {
+      return shiftBreakdownData[gmTimeRange];
+    }
+    
+    const startHour = Math.floor(shiftZoomWindow.start);
+    const endHour = Math.ceil(shiftZoomWindow.end);
+    let zoomedData: any[] = [];
+    
+    for (let h = startHour; h < endHour; h++) {
+      const hourData = generateZoomedData(h, shiftZoomLevel);
+      zoomedData = [...zoomedData, ...hourData];
+    }
+    
+    return zoomedData;
+  };
+  
+  const currentShiftData = getZoomedShiftData();
   const shiftTotalSales = currentShiftData.reduce((sum, s) => sum + s.sales, 0);
   const shiftTotalLabor = currentShiftData.reduce((sum, s) => sum + s.labor, 0);
+  
+  // Reset zoom when time range changes
+  useEffect(() => {
+    setShiftZoomLevel('60min');
+    setShiftZoomWindow(null);
+  }, [gmTimeRange]);
+  
+  // Handle zoom from drag selection
+  const handleShiftChartMouseDown = (e: any) => {
+    if (e && e.activeLabel) {
+      setIsDragging(true);
+      setDragStart(e.activeTooltipIndex);
+    }
+  };
+  
+  const handleShiftChartMouseMove = (e: any) => {
+    if (isDragging && e && e.activeTooltipIndex !== undefined) {
+      setDragEnd(e.activeTooltipIndex);
+    }
+  };
+  
+  const handleShiftChartMouseUp = () => {
+    if (isDragging && dragStart !== null && dragEnd !== null && dragStart !== dragEnd) {
+      const start = Math.min(dragStart, dragEnd);
+      const end = Math.max(dragStart, dragEnd);
+      
+      // Zoom in based on selection width
+      if (shiftZoomLevel === '60min') {
+        setShiftZoomLevel('15min');
+        setShiftZoomWindow({ start: start + 9, end: end + 10 }); // 9am offset
+      } else if (shiftZoomLevel === '15min') {
+        setShiftZoomLevel('5min');
+      } else if (shiftZoomLevel === '5min') {
+        setShiftZoomLevel('1min');
+      }
+    }
+    setIsDragging(false);
+    setDragStart(null);
+    setDragEnd(null);
+  };
+  
+  const handleShiftChartDoubleClick = () => {
+    setShiftZoomLevel('60min');
+    setShiftZoomWindow(null);
+  };
   
   // Shift time customization state
   const [lunchStart, setLunchStart] = useState("11:00");
@@ -11113,6 +11215,18 @@ export default function PnlRelease() {
                                <span className="text-xs font-normal text-gray-500">
                                   {gmTimeRange === 'today' ? 'Today' : gmTimeRange === 'week' ? 'This Week (Avg/Day)' : gmTimeRange === 'month' ? 'This Month (Avg/Day)' : 'YTD (Avg/Day)'}
                                </span>
+                               {shiftZoomLevel !== '60min' && (
+                                  <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-medium rounded-full flex items-center gap-1">
+                                     {shiftZoomLevel === '15min' ? '15-min' : shiftZoomLevel === '5min' ? '5-min' : '1-min'} resolution
+                                     <button 
+                                        onClick={handleShiftChartDoubleClick}
+                                        className="ml-1 hover:text-blue-900"
+                                        title="Reset to hourly view"
+                                     >
+                                        ×
+                                     </button>
+                                  </span>
+                               )}
                             </h3>
                             <div className="flex items-center gap-4 text-xs">
                                <div className="flex items-center gap-1.5">
@@ -11127,19 +11241,33 @@ export default function PnlRelease() {
                                   <div className="w-2 h-2 rounded-full bg-red-500" />
                                   <span className="text-gray-600">Labor %</span>
                                </div>
+                               {shiftZoomLevel === '60min' && (
+                                  <span className="text-[10px] text-gray-400 italic">Drag to zoom</span>
+                               )}
                             </div>
                          </div>
                          
-                         {/* Combined Bar + Line Chart */}
-                         <div className="h-64">
+                         {/* Combined Bar + Line Chart with Zoom */}
+                         <div 
+                            className="h-64 cursor-crosshair select-none" 
+                            onDoubleClick={handleShiftChartDoubleClick}
+                         >
                             <ResponsiveContainer width="100%" height="100%">
-                               <ComposedChart data={currentShiftData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
+                               <ComposedChart 
+                                  data={currentShiftData} 
+                                  margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
+                                  onMouseDown={handleShiftChartMouseDown}
+                                  onMouseMove={handleShiftChartMouseMove}
+                                  onMouseUp={handleShiftChartMouseUp}
+                                  onMouseLeave={handleShiftChartMouseUp}
+                               >
                                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                                   <XAxis 
-                                     dataKey="hour" 
-                                     tick={{ fontSize: 10, fill: '#6b7280' }}
+                                     dataKey={shiftZoomLevel === '60min' ? 'hour' : 'time'} 
+                                     tick={{ fontSize: shiftZoomLevel === '1min' ? 8 : 10, fill: '#6b7280' }}
                                      axisLine={{ stroke: '#e5e7eb' }}
                                      tickLine={false}
+                                     interval={shiftZoomLevel === '1min' ? 9 : shiftZoomLevel === '5min' ? 2 : 0}
                                   />
                                   <YAxis 
                                      yAxisId="left"
@@ -11161,9 +11289,10 @@ export default function PnlRelease() {
                                      content={({ active, payload, label }) => {
                                         if (active && payload && payload.length) {
                                            const data = payload[0].payload;
+                                           const timeLabel = data.time || data.hour;
                                            return (
                                               <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-sm">
-                                                 <div className="font-semibold text-gray-900 mb-2">{data.hour}</div>
+                                                 <div className="font-semibold text-gray-900 mb-2">{timeLabel}</div>
                                                  <div className="space-y-1">
                                                     <div className="flex justify-between gap-4">
                                                        <span className="text-gray-600">Sales:</span>
