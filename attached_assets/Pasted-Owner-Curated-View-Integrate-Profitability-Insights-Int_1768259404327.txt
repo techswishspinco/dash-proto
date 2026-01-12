@@ -1,0 +1,265 @@
+Owner Curated View – Integrate Profitability Insights Into Existing Cards (No New Sections)
+
+Area: Accounting / P&L
+View: Curated View → Owner
+Type: Feature Enhancement / Insight Integration
+
+Constraint (Locked)
+
+✅ Do NOT add duplicate cards
+
+✅ Do NOT add a new “Profitability” section or title
+
+✅ Reuse and enhance existing cards only
+
+✅ Visual layout remains recognizable
+
+✅ Can add:
+
+Sub-rows
+
+Expand / dropdown behavior
+
+Inline tables
+
+Action labels
+
+Chatbot triggers
+
+Problem
+
+The current Owner Curated View surfaces strong top-line signals, but profitability context is fragmented:
+
+Gross profit, margins, NOI, and expense ratios are implicit, not explicit
+
+Month-to-month drivers are not visible
+
+Owners must mentally connect cards to understand why profitability changed
+
+We want CFO-level profitability clarity without clutter or repetition.
+
+Goal
+
+Embed profitability intelligence directly into the existing Owner cards, so the owner can answer:
+
+“Are we more profitable this month — and why?”
+
+Without adding new cards or sections.
+
+Existing Cards (Baseline)
+
+These cards already exist and must remain:
+
+Income
+
+Marketing
+
+Operating Expenses
+
+Growth
+
+Cash Flow (Owner Only)
+
+Compensation Overview (Owner Only)
+
+Enhancements by Card
+1️⃣ Income Card → Add Gross Profit Context
+
+Current
+
+Revenue
+
+% change vs prior
+
+Enhancement (Expandable)
+On click or dropdown, reveal:
+
+Metric	Current	Prior	Δ
+Gross Profit	$	$	↑ / ↓
+Gross Margin	%	%	pts
+
+Rules
+
+Gross Profit = Revenue – COGS
+
+Gross Margin = Gross Profit / Revenue
+
+Values read from Sep / Oct JSON
+
+No new card created
+
+Action Label
+
+“Why did gross margin change?”
+
+→ Opens chatbot with revenue + COGS context
+
+2️⃣ Operating Expenses Card → Expense Quality Breakdown
+
+Current
+
+OpEx $
+
+% of revenue
+
+Enhancement (Inline Rows)
+Add 2–3 inline rows under % of revenue:
+
+Operating Expense Ratio
+
+Expense as % of Revenue
+
+Month-over-Month change (↑ / ↓)
+
+Rules
+
+Expense % = OpEx / Revenue
+
+Expense as % = (COGS + OpEx) / Revenue
+
+Action Labels
+
+“What’s driving higher expenses?”
+
+“Which categories increased most?”
+
+3️⃣ Growth Card → Profit-Aware Growth
+
+Current
+
+Revenue growth status (Growing / Flat / Declining)
+
+Enhancement
+Append one line of context:
+
+“Growth is profitable / margin-dilutive / expense-driven”
+
+Logic
+
+If revenue ↑ and operating margin ↑ → Profitable growth
+
+If revenue ↑ and margin ↓ → Margin-dilutive growth
+
+If revenue ↑ but NOI ↓ → Expense-driven growth
+
+Action Label
+
+“Is growth helping profitability?”
+
+4️⃣ Cash Flow Card → Profitability Connection (Owner Only)
+
+Current
+
+Balance
+
+Net change
+
+Coverage bar
+
+Enhancement (Subtext)
+Add explanatory line:
+
+“Net operating income contributed $X this period”
+
+Tie NOI change → cash change (narrative only, no re-calc)
+
+Action Label
+
+“How does profitability affect cash?”
+
+5️⃣ Compensation Overview → Margin Impact
+
+Current
+
+Executive spend
+
+Manager spend
+
+Total management compensation
+
+Enhancement
+Add a subtle footer line:
+
+“Management comp = X% of revenue”
+
+“Up / down vs prior month”
+
+Action Label
+
+“Is management compensation in line?”
+
+Embedded Profitability Table (No Title)
+
+Instead of a new section, add a collapsed inline table accessible via:
+
+“View profitability breakdown” link
+
+Or expanding the Income / OpEx cards
+
+Table Rows (Exact)
+
+Gross Profit
+
+Gross Profit Margin
+
+Operating Expenses
+
+Operating Expense Ratio
+
+Expense as % of Revenue
+
+Net Operating Income
+
+Operating Margin
+
+Columns
+
+Current (Oct)
+
+Prior (Sep)
+
+Δ ($ / pts)
+
+Δ %
+
+Action Labels → Chatbot (Required)
+
+Every expandable profitability row must:
+
+Be clickable
+
+Open chatbot with:
+
+Metric
+
+Oct value
+
+Sep value
+
+Drivers (from JSON)
+
+No generic explanations.
+
+Financial Health (Implicit, Not a Card)
+
+Instead of a new card:
+
+Add a small badge near top (next to Growth)
+
+Examples:
+
+🟢 Financially Healthy
+
+🟡 Watch Margins
+
+🔴 Profitability at Risk
+
+Derived from
+
+Operating Margin
+
+Expense as % of revenue
+
+NOI trend
+
+Badge click → chatbot explains score.

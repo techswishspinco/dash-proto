@@ -59,7 +59,8 @@ import {
   Sun,
   Moon,
   Package,
-  TrendingDown
+  TrendingDown,
+  MessageCircle
 } from "lucide-react";
 import {
   Popover,
@@ -4890,6 +4891,7 @@ export default function PnlRelease() {
   const [showEmailReportModal, setShowEmailReportModal] = useState(false);
   const [showImpactAnalysis, setShowImpactAnalysis] = useState(false);
   const [expandedMissedTarget, setExpandedMissedTarget] = useState<string | null>(null);
+  const [expandedOwnerCard, setExpandedOwnerCard] = useState<string | null>(null);
   const [emailRecipients, setEmailRecipients] = useState<string[]>([
     "owner@restaurant.com",
     "gm@restaurant.com"
@@ -5574,20 +5576,78 @@ export default function PnlRelease() {
                              </div>
                           </div>
 
+                          {/* Financial Health Badge */}
+                          <div className="flex items-center gap-3 mb-4">
+                             <button
+                                onClick={() => handleInsightClick("Explain our current financial health score and what's driving it based on Oct vs Sep 2025 data.")}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 border border-emerald-200 rounded-full hover:bg-emerald-100 transition-colors cursor-pointer"
+                                data-testid="financial-health-badge"
+                             >
+                                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                                <span className="text-xs font-medium text-emerald-700">Financially Healthy</span>
+                                <MessageCircle className="h-3 w-3 text-emerald-600" />
+                             </button>
+                             <span className="text-xs text-gray-400">Oct 2025 vs Sep 2025</span>
+                          </div>
+
                           {/* Summary Cards Grid */}
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                             {/* Income Card */}
-                             <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
-                                <div className="flex items-center justify-between mb-3">
-                                   <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Income</span>
-                                   <DollarSign className="h-4 w-4 text-gray-400" />
-                                </div>
-                                <div className="text-2xl font-bold text-gray-900">$124,500</div>
-                                <div className="flex items-center gap-1 mt-1">
-                                   <TrendingUp className="h-3 w-3 text-emerald-600" />
-                                   <span className="text-xs font-medium text-emerald-600">+3.7%</span>
-                                   <span className="text-xs text-gray-500">vs prior</span>
-                                </div>
+                             {/* Income Card - Enhanced with Gross Profit */}
+                             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                                <button
+                                   onClick={() => setExpandedOwnerCard(expandedOwnerCard === 'income' ? null : 'income')}
+                                   className="w-full p-4 text-left"
+                                   data-testid="income-card-expand"
+                                >
+                                   <div className="flex items-center justify-between mb-3">
+                                      <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Income</span>
+                                      <div className="flex items-center gap-1">
+                                         <DollarSign className="h-4 w-4 text-gray-400" />
+                                         <ChevronDown className={cn("h-3 w-3 text-gray-400 transition-transform", expandedOwnerCard === 'income' && "rotate-180")} />
+                                      </div>
+                                   </div>
+                                   <div className="text-2xl font-bold text-gray-900">$133,042</div>
+                                   <div className="flex items-center gap-1 mt-1">
+                                      <TrendingDown className="h-3 w-3 text-red-600" />
+                                      <span className="text-xs font-medium text-red-600">-13.8%</span>
+                                      <span className="text-xs text-gray-500">vs Sep</span>
+                                   </div>
+                                </button>
+                                <AnimatePresence>
+                                   {expandedOwnerCard === 'income' && (
+                                      <motion.div
+                                         initial={{ height: 0, opacity: 0 }}
+                                         animate={{ height: 'auto', opacity: 1 }}
+                                         exit={{ height: 0, opacity: 0 }}
+                                         className="border-t border-gray-100 bg-gray-50 px-4 py-3"
+                                      >
+                                         <div className="space-y-2 text-xs">
+                                            <div className="flex justify-between">
+                                               <span className="text-gray-600">Gross Profit</span>
+                                               <div className="flex items-center gap-2">
+                                                  <span className="font-medium">$77,372</span>
+                                                  <span className="text-red-600">↓ $19.5k</span>
+                                               </div>
+                                            </div>
+                                            <div className="flex justify-between">
+                                               <span className="text-gray-600">Gross Margin</span>
+                                               <div className="flex items-center gap-2">
+                                                  <span className="font-medium">58.2%</span>
+                                                  <span className="text-red-600">-4.6 pts</span>
+                                               </div>
+                                            </div>
+                                         </div>
+                                         <button
+                                            onClick={(e) => { e.stopPropagation(); handleInsightClick("Why did gross margin change from 62.8% in September to 58.2% in October? Analyze revenue ($133,042 Oct vs $154,351 Sep) and COGS ($55,670 Oct vs $57,494 Sep) drivers."); }}
+                                            className="mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                                            data-testid="income-ask-why"
+                                         >
+                                            <MessageCircle className="h-3 w-3" />
+                                            Why did gross margin change?
+                                         </button>
+                                      </motion.div>
+                                   )}
+                                </AnimatePresence>
                              </div>
 
                              {/* Marketing Spend Card */}
@@ -5596,106 +5656,317 @@ export default function PnlRelease() {
                                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Marketing</span>
                                    <Target className="h-4 w-4 text-gray-400" />
                                 </div>
-                                <div className="text-2xl font-bold text-gray-900">$3,200</div>
+                                <div className="text-2xl font-bold text-gray-900">$989</div>
                                 <div className="flex items-center gap-1 mt-1">
-                                   <span className="text-xs font-medium text-gray-600">2.6%</span>
-                                   <span className="text-xs text-gray-500">of revenue</span>
+                                   <TrendingDown className="h-3 w-3 text-emerald-600" />
+                                   <span className="text-xs font-medium text-emerald-600">-52.9%</span>
+                                   <span className="text-xs text-gray-500">vs Sep</span>
                                 </div>
+                                <div className="text-xs text-gray-500 mt-1">0.7% of revenue</div>
                              </div>
 
-                             {/* Operating Expenses Card */}
-                             <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
-                                <div className="flex items-center justify-between mb-3">
-                                   <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Op. Expenses</span>
-                                   <CreditCard className="h-4 w-4 text-gray-400" />
-                                </div>
-                                <div className="text-2xl font-bold text-gray-900">$44,500</div>
-                                <div className="flex items-center gap-1 mt-1">
-                                   <span className="text-xs font-medium text-amber-600">35.7%</span>
-                                   <span className="text-xs text-gray-500">of revenue</span>
-                                </div>
+                             {/* Operating Expenses Card - Enhanced with Expense Breakdown */}
+                             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                                <button
+                                   onClick={() => setExpandedOwnerCard(expandedOwnerCard === 'opex' ? null : 'opex')}
+                                   className="w-full p-4 text-left"
+                                   data-testid="opex-card-expand"
+                                >
+                                   <div className="flex items-center justify-between mb-3">
+                                      <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Op. Expenses</span>
+                                      <div className="flex items-center gap-1">
+                                         <CreditCard className="h-4 w-4 text-gray-400" />
+                                         <ChevronDown className={cn("h-3 w-3 text-gray-400 transition-transform", expandedOwnerCard === 'opex' && "rotate-180")} />
+                                      </div>
+                                   </div>
+                                   <div className="text-2xl font-bold text-gray-900">$59,650</div>
+                                   <div className="flex items-center gap-1 mt-1">
+                                      <TrendingDown className="h-3 w-3 text-emerald-600" />
+                                      <span className="text-xs font-medium text-emerald-600">-12.1%</span>
+                                      <span className="text-xs text-gray-500">vs Sep</span>
+                                   </div>
+                                </button>
+                                <AnimatePresence>
+                                   {expandedOwnerCard === 'opex' && (
+                                      <motion.div
+                                         initial={{ height: 0, opacity: 0 }}
+                                         animate={{ height: 'auto', opacity: 1 }}
+                                         exit={{ height: 0, opacity: 0 }}
+                                         className="border-t border-gray-100 bg-gray-50 px-4 py-3"
+                                      >
+                                         <div className="space-y-2 text-xs">
+                                            <div className="flex justify-between">
+                                               <span className="text-gray-600">OpEx Ratio</span>
+                                               <div className="flex items-center gap-2">
+                                                  <span className="font-medium">44.8%</span>
+                                                  <span className="text-red-600">+0.8 pts</span>
+                                               </div>
+                                            </div>
+                                            <div className="flex justify-between">
+                                               <span className="text-gray-600">Expense as % of Rev</span>
+                                               <div className="flex items-center gap-2">
+                                                  <span className="font-medium">86.7%</span>
+                                                  <span className="text-red-600">+5.4 pts</span>
+                                               </div>
+                                            </div>
+                                            <div className="flex justify-between">
+                                               <span className="text-gray-600">MoM Change</span>
+                                               <div className="flex items-center gap-2">
+                                                  <span className="font-medium text-emerald-600">-$8,241</span>
+                                                  <span className="text-emerald-600">↓</span>
+                                               </div>
+                                            </div>
+                                         </div>
+                                         <div className="mt-3 flex gap-2">
+                                            <button
+                                               onClick={(e) => { e.stopPropagation(); handleInsightClick("What's driving higher expenses as a percentage of revenue in October? OpEx ratio increased to 44.8% despite absolute expenses dropping."); }}
+                                               className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                                               data-testid="opex-driving-expenses"
+                                            >
+                                               <MessageCircle className="h-3 w-3" />
+                                               What's driving this?
+                                            </button>
+                                            <button
+                                               onClick={(e) => { e.stopPropagation(); handleInsightClick("Which expense categories increased most between September and October 2025? Break down by Direct Operating, Payroll, G&A, and Occupancy."); }}
+                                               className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-white border border-gray-300 text-gray-700 text-xs font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                                               data-testid="opex-categories"
+                                            >
+                                               Top categories
+                                            </button>
+                                         </div>
+                                      </motion.div>
+                                   )}
+                                </AnimatePresence>
                              </div>
 
-                             {/* Growth Card */}
-                             <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
-                                <div className="flex items-center justify-between mb-3">
-                                   <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Growth</span>
-                                   <TrendingUp className="h-4 w-4 text-emerald-500" />
-                                </div>
-                                <div className="flex items-center gap-2">
-                                   <div className="text-2xl font-bold text-emerald-600">↑ Growing</div>
-                                </div>
-                                <div className="flex items-center gap-1 mt-1">
-                                   <span className="text-xs font-medium text-emerald-600">+3.7%</span>
-                                   <span className="text-xs text-gray-500">revenue YoY</span>
-                                </div>
+                             {/* Growth Card - Enhanced with Profitability Context */}
+                             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                                <button
+                                   onClick={() => setExpandedOwnerCard(expandedOwnerCard === 'growth' ? null : 'growth')}
+                                   className="w-full p-4 text-left"
+                                   data-testid="growth-card-expand"
+                                >
+                                   <div className="flex items-center justify-between mb-3">
+                                      <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Growth</span>
+                                      <div className="flex items-center gap-1">
+                                         <TrendingDown className="h-4 w-4 text-red-500" />
+                                         <ChevronDown className={cn("h-3 w-3 text-gray-400 transition-transform", expandedOwnerCard === 'growth' && "rotate-180")} />
+                                      </div>
+                                   </div>
+                                   <div className="flex items-center gap-2">
+                                      <div className="text-2xl font-bold text-red-600">↓ Declining</div>
+                                   </div>
+                                   <div className="flex items-center gap-1 mt-1">
+                                      <span className="text-xs font-medium text-red-600">-13.8%</span>
+                                      <span className="text-xs text-gray-500">revenue MoM</span>
+                                   </div>
+                                </button>
+                                <AnimatePresence>
+                                   {expandedOwnerCard === 'growth' && (
+                                      <motion.div
+                                         initial={{ height: 0, opacity: 0 }}
+                                         animate={{ height: 'auto', opacity: 1 }}
+                                         exit={{ height: 0, opacity: 0 }}
+                                         className="border-t border-gray-100 bg-amber-50 px-4 py-3"
+                                      >
+                                         <div className="flex items-start gap-2 mb-3">
+                                            <AlertTriangle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                                            <p className="text-xs text-amber-800">
+                                               <span className="font-medium">Margin-dilutive decline:</span> Revenue down but operating margin also compressed (-2.3 pts). Both top and bottom line under pressure.
+                                            </p>
+                                         </div>
+                                         <button
+                                            onClick={(e) => { e.stopPropagation(); handleInsightClick("Is the current revenue decline affecting profitability? Analyze Oct vs Sep: Revenue -13.8%, NOI dropped from $28,966 to $17,722. What's the relationship?"); }}
+                                            className="w-full flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                                            data-testid="growth-profitability"
+                                         >
+                                            <MessageCircle className="h-3 w-3" />
+                                            Is decline hurting profitability?
+                                         </button>
+                                      </motion.div>
+                                   )}
+                                </AnimatePresence>
                              </div>
                           </div>
 
                           {/* Second Row - Owner Only Cards */}
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                             {/* Cash Flow Card */}
-                             <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
-                                <div className="flex items-center justify-between mb-3">
-                                   <div className="flex items-center gap-2">
-                                      <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Cash Flow</span>
-                                      <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-medium rounded">OWNER ONLY</span>
-                                   </div>
-                                   <Wallet className="h-4 w-4 text-gray-400" />
-                                </div>
-                                <div className="flex items-center justify-between">
-                                   <div>
-                                      <div className="text-xl font-bold text-gray-900">$48,200</div>
-                                      <div className="text-xs text-gray-500">Current balance</div>
-                                   </div>
-                                   <div className="text-right">
-                                      <div className="flex items-center gap-1 justify-end">
-                                         <TrendingUp className="h-3 w-3 text-emerald-600" />
-                                         <span className="text-sm font-medium text-emerald-600">+$8,450</span>
+                             {/* Cash Flow Card - Enhanced with NOI Connection */}
+                             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                                <div className="p-4">
+                                   <div className="flex items-center justify-between mb-3">
+                                      <div className="flex items-center gap-2">
+                                         <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Cash Flow</span>
+                                         <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-medium rounded">OWNER ONLY</span>
                                       </div>
-                                      <div className="text-xs text-gray-500">Net change this period</div>
+                                      <Wallet className="h-4 w-4 text-gray-400" />
+                                   </div>
+                                   <div className="flex items-center justify-between">
+                                      <div>
+                                         <div className="text-xl font-bold text-gray-900">$48,200</div>
+                                         <div className="text-xs text-gray-500">Current balance</div>
+                                      </div>
+                                      <div className="text-right">
+                                         <div className="flex items-center gap-1 justify-end">
+                                            <TrendingUp className="h-3 w-3 text-emerald-600" />
+                                            <span className="text-sm font-medium text-emerald-600">+$8,450</span>
+                                         </div>
+                                         <div className="text-xs text-gray-500">Net change this period</div>
+                                      </div>
+                                   </div>
+                                   <div className="mt-3 pt-3 border-t border-gray-100">
+                                      <div className="flex items-center gap-2">
+                                         <div className="flex-1 bg-gray-100 rounded-full h-2">
+                                            <div className="bg-emerald-500 h-2 rounded-full" style={{ width: '75%' }} />
+                                         </div>
+                                         <span className="text-xs text-gray-600">2.4 mo coverage</span>
+                                      </div>
                                    </div>
                                 </div>
-                                <div className="mt-3 pt-3 border-t border-gray-100">
-                                   <div className="flex items-center gap-2">
-                                      <div className="flex-1 bg-gray-100 rounded-full h-2">
-                                         <div className="bg-emerald-500 h-2 rounded-full" style={{ width: '75%' }} />
+                                {/* NOI Connection Subtext */}
+                                <div className="px-4 py-3 bg-gray-50 border-t border-gray-100">
+                                   <div className="flex items-center justify-between">
+                                      <div className="flex items-center gap-2">
+                                         <Lightbulb className="h-3.5 w-3.5 text-gray-500" />
+                                         <span className="text-xs text-gray-600">
+                                            Net operating income contributed <span className="font-medium text-gray-900">$17,722</span> this period
+                                         </span>
                                       </div>
-                                      <span className="text-xs text-gray-600">2.4 mo coverage</span>
+                                      <button
+                                         onClick={() => handleInsightClick("How does profitability affect our cash flow? NOI was $17,722 in October vs $28,966 in September. Explain the relationship between operating income and cash position.")}
+                                         className="text-xs text-gray-500 hover:text-gray-700 underline decoration-dotted"
+                                         data-testid="cashflow-noi-explain"
+                                      >
+                                         Explain
+                                      </button>
                                    </div>
                                 </div>
                              </div>
 
-                             {/* Spend Visibility Card */}
-                             <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
-                                <div className="flex items-center justify-between mb-3">
-                                   <div className="flex items-center gap-2">
-                                      <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Compensation Overview</span>
-                                      <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-medium rounded">OWNER ONLY</span>
+                             {/* Compensation Overview - Enhanced with Margin Impact */}
+                             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                                <div className="p-4">
+                                   <div className="flex items-center justify-between mb-3">
+                                      <div className="flex items-center gap-2">
+                                         <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Compensation Overview</span>
+                                         <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-medium rounded">OWNER ONLY</span>
+                                      </div>
+                                      <Users className="h-4 w-4 text-gray-400" />
                                    </div>
-                                   <Users className="h-4 w-4 text-gray-400" />
+                                   <div className="space-y-3">
+                                      <div className="flex items-center justify-between">
+                                         <div className="flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-indigo-500" />
+                                            <span className="text-sm text-gray-700">Executive Spend</span>
+                                         </div>
+                                         <span className="text-sm font-semibold text-gray-900">$9,974</span>
+                                      </div>
+                                      <div className="flex items-center justify-between">
+                                         <div className="flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-purple-500" />
+                                            <span className="text-sm text-gray-700">Admin/Marketing</span>
+                                         </div>
+                                         <span className="text-sm font-semibold text-gray-900">$4,275</span>
+                                      </div>
+                                      <div className="pt-2 border-t border-gray-100 flex items-center justify-between">
+                                         <span className="text-xs text-gray-500">Total Management Compensation</span>
+                                         <span className="text-sm font-bold text-gray-900">$14,249</span>
+                                      </div>
+                                   </div>
                                 </div>
-                                <div className="space-y-3">
+                                {/* Margin Impact Footer */}
+                                <div className="px-4 py-3 bg-gray-50 border-t border-gray-100">
                                    <div className="flex items-center justify-between">
                                       <div className="flex items-center gap-2">
-                                         <div className="w-2 h-2 rounded-full bg-indigo-500" />
-                                         <span className="text-sm text-gray-700">Executive Spend</span>
+                                         <span className="text-xs text-gray-600">
+                                            Management comp = <span className="font-medium text-gray-900">10.7%</span> of revenue
+                                         </span>
+                                         <span className="text-xs text-emerald-600 flex items-center gap-0.5">
+                                            <TrendingDown className="h-3 w-3" /> -0.8 pts vs Sep
+                                         </span>
                                       </div>
-                                      <span className="text-sm font-semibold text-gray-900">$12,400</span>
-                                   </div>
-                                   <div className="flex items-center justify-between">
-                                      <div className="flex items-center gap-2">
-                                         <div className="w-2 h-2 rounded-full bg-purple-500" />
-                                         <span className="text-sm text-gray-700">Manager Spend</span>
-                                      </div>
-                                      <span className="text-sm font-semibold text-gray-900">$18,600</span>
-                                   </div>
-                                   <div className="pt-2 border-t border-gray-100 flex items-center justify-between">
-                                      <span className="text-xs text-gray-500">Total Management Compensation</span>
-                                      <span className="text-sm font-bold text-gray-900">$31,000</span>
+                                      <button
+                                         onClick={() => handleInsightClick("Is management compensation in line with revenue? At 10.7% of revenue (down from 10.5% in September), are we efficiently allocating management costs?")}
+                                         className="text-xs text-gray-500 hover:text-gray-700 underline decoration-dotted"
+                                         data-testid="comp-margin-explain"
+                                      >
+                                         In line?
+                                      </button>
                                    </div>
                                 </div>
                              </div>
+                          </div>
+
+                          {/* Profitability Breakdown - Collapsible Inline Table */}
+                          <div className="mt-6">
+                             <button
+                                onClick={() => setExpandedOwnerCard(expandedOwnerCard === 'profitability' ? null : 'profitability')}
+                                className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                                data-testid="view-profitability-breakdown"
+                             >
+                                <ChevronRight className={cn("h-4 w-4 transition-transform", expandedOwnerCard === 'profitability' && "rotate-90")} />
+                                <span className="underline decoration-dotted underline-offset-4">View profitability breakdown</span>
+                             </button>
+                             <AnimatePresence>
+                                {expandedOwnerCard === 'profitability' && (
+                                   <motion.div
+                                      initial={{ height: 0, opacity: 0 }}
+                                      animate={{ height: 'auto', opacity: 1 }}
+                                      exit={{ height: 0, opacity: 0 }}
+                                      className="mt-4 overflow-hidden"
+                                   >
+                                      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                                         <div className="grid grid-cols-5 gap-4 px-4 py-3 bg-gray-50 border-b border-gray-200 text-xs font-medium text-gray-500 uppercase tracking-wide">
+                                            <div className="col-span-1">Metric</div>
+                                            <div className="text-right">Oct 2025</div>
+                                            <div className="text-right">Sep 2025</div>
+                                            <div className="text-right">Δ</div>
+                                            <div className="text-right">Δ %</div>
+                                         </div>
+                                         <div className="divide-y divide-gray-100">
+                                            {[
+                                               { name: 'Gross Profit', oct: 77372, sep: 96857, unit: '$' },
+                                               { name: 'Gross Profit Margin', oct: 58.2, sep: 62.8, unit: '%', isPct: true },
+                                               { name: 'Operating Expenses', oct: 59650, sep: 67891, unit: '$' },
+                                               { name: 'Operating Expense Ratio', oct: 44.8, sep: 44.0, unit: '%', isPct: true },
+                                               { name: 'Expense as % of Revenue', oct: 86.7, sep: 81.3, unit: '%', isPct: true },
+                                               { name: 'Net Operating Income', oct: 17722, sep: 28966, unit: '$' },
+                                               { name: 'Operating Margin', oct: 13.3, sep: 18.8, unit: '%', isPct: true },
+                                            ].map((row, idx) => {
+                                               const delta = row.oct - row.sep;
+                                               const deltaPct = row.sep !== 0 ? ((row.oct - row.sep) / row.sep * 100) : 0;
+                                               const isGood = row.name.includes('Expense') || row.name.includes('Ratio') ? delta < 0 : delta > 0;
+                                               return (
+                                                  <button
+                                                     key={idx}
+                                                     onClick={() => handleInsightClick(`Explain the ${row.name} change: Oct 2025 was ${row.isPct ? row.oct + '%' : '$' + row.oct.toLocaleString()} vs Sep 2025 ${row.isPct ? row.sep + '%' : '$' + row.sep.toLocaleString()}. What drove this ${delta > 0 ? 'increase' : 'decrease'}?`)}
+                                                     className="grid grid-cols-5 gap-4 px-4 py-3 hover:bg-gray-50 transition-colors text-left w-full"
+                                                     data-testid={`profitability-row-${idx}`}
+                                                  >
+                                                     <div className="col-span-1 text-sm font-medium text-gray-900 flex items-center gap-2">
+                                                        {row.name}
+                                                        <MessageCircle className="h-3 w-3 text-gray-300" />
+                                                     </div>
+                                                     <div className="text-sm text-gray-900 text-right font-medium">
+                                                        {row.isPct ? `${row.oct}%` : `$${row.oct.toLocaleString()}`}
+                                                     </div>
+                                                     <div className="text-sm text-gray-500 text-right">
+                                                        {row.isPct ? `${row.sep}%` : `$${row.sep.toLocaleString()}`}
+                                                     </div>
+                                                     <div className={cn("text-sm text-right font-medium", isGood ? "text-emerald-600" : "text-red-600")}>
+                                                        {row.isPct ? `${delta > 0 ? '+' : ''}${delta.toFixed(1)} pts` : `${delta > 0 ? '+' : ''}$${delta.toLocaleString()}`}
+                                                     </div>
+                                                     <div className={cn("text-sm text-right", isGood ? "text-emerald-600" : "text-red-600")}>
+                                                        {deltaPct > 0 ? '+' : ''}{deltaPct.toFixed(1)}%
+                                                     </div>
+                                                  </button>
+                                               );
+                                            })}
+                                         </div>
+                                      </div>
+                                   </motion.div>
+                                )}
+                             </AnimatePresence>
                           </div>
                        </section>
                        )}
