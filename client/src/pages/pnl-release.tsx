@@ -9987,7 +9987,7 @@ export default function PnlRelease() {
                                <div className="flex items-center gap-1 justify-end text-emerald-600">
                                   <TrendingUp className="h-4 w-4" />
                                   <span className="text-sm font-medium">
-                                     {healthComparisonPeriod === "week" ? "+2 pts" : healthComparisonPeriod === "month" ? "+5 pts" : healthComparisonPeriod === "quarter" ? "+8 pts" : "+12 pts"}
+                                     {healthComparisonPeriod === "week" ? "+2%" : healthComparisonPeriod === "month" ? "+5%" : healthComparisonPeriod === "quarter" ? "+8%" : "+12%"}
                                   </span>
                                </div>
                                <span className="text-xs text-gray-500 block">
