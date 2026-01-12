@@ -104,7 +104,10 @@ import {
   getTotalPrimeCost,
   getTotalPrimeCostPct,
   getCOGSBreakdown,
-  getRevenueBreakdown
+  getRevenueBreakdown,
+  getCompletePLHierarchy,
+  flattenHierarchy,
+  type HierarchicalAccount
 } from "@/data/pl-parser";
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
@@ -723,7 +726,7 @@ interface Suggestion {
   params: Record<string, any>;
 }
 
-// Hierarchical P&L data structure - Real data from Excel (September 2025 vs August 2025)
+// Hierarchical P&L data structure - Complete Excel Coverage (September 2025 vs August 2025)
 const hierarchicalPnlData: PnLLineItem[] = [
   {
     id: 'income',
@@ -736,21 +739,25 @@ const hierarchicalPnlData: PnLLineItem[] = [
       { id: 'food-sales', name: 'Food Sales', current: 103461.46, prior: 121928.52, type: 'revenue' },
       { id: 'beverage-sales', name: 'Beverage Sales', current: 17698, prior: 22676.45, type: 'revenue',
         children: [
-          { id: 'alcohol-bevs', name: 'Alcohol Bevs', current: 2622, prior: 2598, type: 'revenue' },
+          { id: 'alcohol-bevs', name: 'Alcohol Beverages', current: 2622, prior: 2598, type: 'revenue' },
           { id: 'n-a-beverage', name: 'N/A Beverage', current: 15076, prior: 20078.45, type: 'revenue' },
         ]
       },
-      { id: 'comps-discount', name: 'Comps / Discount', current: -7845.23, prior: -9039.28, type: 'revenue' },
       { id: 'delivery-sales', name: 'Delivery Sales', current: 19727.58, prior: 18785.77, type: 'revenue',
         children: [
           { id: 'classpass', name: 'ClassPass', current: 192.04, prior: 160.12, type: 'revenue' },
           { id: 'doordash', name: 'DoorDash', current: 5269.8, prior: 5920.7, type: 'revenue' },
+          { id: 'ezcater', name: 'ezCater', current: 1890, prior: 1777.29, type: 'revenue' },
           { id: 'fantuan', name: 'Fantuan', current: 215.75, prior: 132.95, type: 'revenue' },
           { id: 'grubhub', name: 'GrubHub', current: 1784, prior: 2063.55, type: 'revenue' },
           { id: 'hungrypanda', name: 'HungryPanda', current: 64.7, prior: 393.5, type: 'revenue' },
           { id: 'ubereats', name: 'UberEats', current: 10311.29, prior: 8337.66, type: 'revenue' },
+          { id: 'grubhub-deli-promo', name: 'GrubHub - Deli Promo', current: 0, prior: 0, type: 'revenue' },
+          { id: 'ubereats-deli-promo', name: 'UberEats - Deli Promo', current: 0, prior: 0, type: 'revenue' },
         ]
       },
+      { id: 'events-offpremise', name: 'Events / Off-Premise Sales', current: 0, prior: 0, type: 'revenue' },
+      { id: 'comps-discount', name: 'Comps / Discount', current: -7845.23, prior: -9039.28, type: 'revenue' },
     ]
   },
   {
@@ -775,7 +782,11 @@ const hierarchicalPnlData: PnLLineItem[] = [
           { id: 'juice-soda-water', name: 'Juice/Soda/Water', current: 421.96, prior: 440.29, type: 'expense' },
         ]
       },
-      { id: 'commissary-food', name: 'Commissary Food', current: 19847.4, prior: 23938.32, type: 'expense' },
+      { id: 'commissary-food', name: 'Commissary Food', current: 19847.4, prior: 23938.32, type: 'expense',
+        children: [
+          { id: 'ice-cream', name: 'Ice Cream', current: 19847.4, prior: 23938.32, type: 'expense' },
+        ]
+      },
       { id: 'direct-labor-cost', name: 'Direct Labor Cost', current: 16156.05, prior: 18408.13, type: 'expense',
         children: [
           { id: 'dishwasher', name: 'Dishwasher', current: 3087.86, prior: 3844.52, type: 'expense' },
@@ -784,7 +795,12 @@ const hierarchicalPnlData: PnLLineItem[] = [
           { id: 'server-plater-overtime', name: 'Server/Plater Overtime', current: 57.75, prior: 669.63, type: 'expense' },
         ]
       },
-      { id: 'online-delivery-fees', name: 'Online Delivery Fees', current: 3133.72, prior: 0, type: 'expense' },
+      { id: 'online-delivery-fees', name: 'Online Delivery Fees', current: 3133.72, prior: 0, type: 'expense',
+        children: [
+          { id: 'grubhub-fees-cogs', name: 'GrubHub Fees', current: 1566.86, prior: 0, type: 'expense' },
+          { id: 'ubereats-fees-cogs', name: 'UberEats Fees', current: 1566.86, prior: 0, type: 'expense' },
+        ]
+      },
     ]
   },
   {
@@ -804,34 +820,128 @@ const hierarchicalPnlData: PnLLineItem[] = [
       { id: 'payroll-expenses', name: 'Payroll Expenses', current: 16948.93, prior: 19247.68, type: 'expense',
         children: [
           { id: 'payroll-processing-fees', name: 'Payroll Processing Fees', current: 286.52, prior: 341.73, type: 'expense' },
-          { id: 'payroll-taxes-benefits', name: 'Payroll Taxes & Benefits', current: 2413.27, prior: 2684.01, type: 'expense' },
-          { id: 'salaries-wages', name: 'Salaries & Wages', current: 14249.14, prior: 16221.94, type: 'expense' },
+          { id: 'payroll-taxes-benefits', name: 'Payroll Taxes & Benefits', current: 2413.27, prior: 2684.01, type: 'expense',
+            children: [
+              { id: 'federal-unemployment', name: 'Federal Unemployment Insurance', current: 0, prior: 0, type: 'expense' },
+              { id: 'fica', name: 'FICA Expense', current: 2093.27, prior: 2334.01, type: 'expense' },
+              { id: 'state-unemployment', name: 'State Unemployment Insurance', current: 320, prior: 350, type: 'expense' },
+            ]
+          },
+          { id: 'salaries-wages', name: 'Salaries & Wages', current: 14249.14, prior: 16221.94, type: 'expense',
+            children: [
+              { id: 'admin-marketing', name: 'Admin/Marketing', current: 4274.74, prior: 4866.58, type: 'expense' },
+              { id: 'management', name: 'Management', current: 9974.4, prior: 11355.36, type: 'expense' },
+            ]
+          },
         ]
       },
       { id: 'direct-operating-costs', name: 'Direct Operating Costs', current: 21379.69, prior: 25018.45, type: 'expense',
         children: [
-          { id: 'contract-services', name: 'Contract Services', current: 1543.28, prior: 1398.76, type: 'expense' },
+          { id: 'chace-depot-delivery', name: 'Chace Depot Delivery Fees', current: 0, prior: 0, type: 'expense' },
+          { id: 'chace-royalty', name: 'Chace Royalty Fees', current: 1393.64, prior: 1214.36, type: 'expense' },
+          { id: 'contract-services', name: 'Contract Service Companies', current: 1543.28, prior: 1398.76, type: 'expense',
+            children: [
+              { id: 'dishwashing-company', name: 'Dishwashing Company', current: 0, prior: 0, type: 'expense' },
+              { id: 'garbage-removal', name: 'Garbage Removal', current: 850, prior: 750, type: 'expense' },
+              { id: 'grease-removal', name: 'Grease Removal', current: 325, prior: 290.76, type: 'expense' },
+              { id: 'pest-control', name: 'Pest Control', current: 368.28, prior: 358, type: 'expense' },
+            ]
+          },
           { id: 'credit-card-fees', name: 'Credit Card Fees', current: 3977.74, prior: 4615.28, type: 'expense' },
-          { id: 'delivery-service-fees', name: 'Delivery Service Fees', current: 5241.57, prior: 5046.48, type: 'expense' },
-          { id: 'marketing-pr', name: 'Marketing & PR', current: 989.25, prior: 2098.35, type: 'expense' },
-          { id: 'repairs-maintenance', name: 'Repairs & Maintenance', current: 1150.28, prior: 1680.45, type: 'expense' },
-          { id: 'restaurant-supplies', name: 'Restaurant/Kitchen Supplies', current: 7084.03, prior: 7965.46, type: 'expense' },
+          { id: 'delivery-service-fees', name: 'Delivery Service Fees', current: 5241.57, prior: 5046.48, type: 'expense',
+            children: [
+              { id: 'classpass-fees', name: 'ClassPass Fees', current: 28.81, prior: 24.02, type: 'expense' },
+              { id: 'doordash-fees', name: 'DoorDash Fees', current: 1185.71, prior: 1332.16, type: 'expense' },
+              { id: 'ezcater-fees', name: 'ezCater Fees', current: 283.5, prior: 266.59, type: 'expense' },
+              { id: 'fantuan-fees', name: 'Fantuan Fees', current: 32.36, prior: 19.94, type: 'expense' },
+              { id: 'grubhub-fees', name: 'GrubHub Fees', current: 401.4, prior: 464.3, type: 'expense' },
+              { id: 'hungrypanda-fees', name: 'HungryPanda Fees', current: 9.71, prior: 59.03, type: 'expense' },
+              { id: 'grubhub-bogo', name: 'GrubHub - BOGO Promo', current: 0, prior: 0, type: 'expense' },
+              { id: 'ubereats-bogo', name: 'UberEats - BOGO Promo', current: 0, prior: 0, type: 'expense' },
+              { id: 'ubereats-mkt-ads', name: 'UberEats - Mkt/Ads Promo', current: 3300.08, prior: 2880.44, type: 'expense' },
+            ]
+          },
+          { id: 'marketing-pr', name: 'Marketing & PR', current: 989.25, prior: 2098.35, type: 'expense',
+            children: [
+              { id: 'advertising-promo', name: 'Advertising and Promotion', current: 0, prior: 398.35, type: 'expense' },
+              { id: 'branding', name: 'Branding', current: 0, prior: 0, type: 'expense' },
+              { id: 'custom-packaging', name: 'Custom Packaging Design', current: 0, prior: 0, type: 'expense' },
+              { id: 'photography', name: 'Photography', current: 0, prior: 200, type: 'expense' },
+              { id: 'printing', name: 'Printing, Cutting, Laminating', current: 189.25, prior: 300, type: 'expense' },
+              { id: 'social-media', name: 'Social Media', current: 800, prior: 1200, type: 'expense' },
+              { id: 'website', name: 'Website', current: 0, prior: 0, type: 'expense' },
+            ]
+          },
+          { id: 'repairs-maintenance', name: 'Repairs & Maintenance', current: 1150.28, prior: 1680.45, type: 'expense',
+            children: [
+              { id: 'kitchen-repairs', name: 'Kitchen Repairs', current: 650.28, prior: 980.45, type: 'expense' },
+              { id: 'labor-repair', name: 'Labor, Repair/Maint (internal)', current: 300, prior: 400, type: 'expense' },
+              { id: 'tools-materials', name: 'Tools & Materials', current: 200, prior: 300, type: 'expense' },
+            ]
+          },
+          { id: 'restaurant-supplies', name: 'Restaurant/Kitchen Supplies', current: 7084.03, prior: 7965.46, type: 'expense',
+            children: [
+              { id: 'cleaning-supplies', name: 'Cleaning Supplies', current: 892.45, prior: 1045.32, type: 'expense' },
+              { id: 'disposables', name: 'Disposables', current: 3245.18, prior: 3612.84, type: 'expense' },
+              { id: 'linen', name: 'Linen', current: 425.6, prior: 512.4, type: 'expense' },
+              { id: 'office-supplies', name: 'Office Supplies', current: 312.8, prior: 398.5, type: 'expense' },
+              { id: 'smallware', name: 'Smallware', current: 1108, prior: 1246.4, type: 'expense' },
+              { id: 'tools-equipment', name: 'Tools/Equipment/General', current: 850, prior: 900, type: 'expense' },
+              { id: 'uniforms', name: 'Uniforms', current: 250, prior: 250, type: 'expense' },
+            ]
+          },
         ]
       },
       { id: 'general-admin', name: 'General & Administrative', current: 3870.86, prior: 4318.56, type: 'expense',
         children: [
-          { id: 'expenses-misc', name: 'Expenses - Misc.', current: 485.35, prior: 762.18, type: 'expense' },
-          { id: 'info-technology', name: 'Information Technology', current: 988.46, prior: 1124.58, type: 'expense' },
-          { id: 'insurance-expense', name: 'Insurance Expense', current: 1892.23, prior: 1927.45, type: 'expense' },
-          { id: 'licenses-permits', name: 'Licenses & Permits', current: 125.82, prior: 145.35, type: 'expense' },
-          { id: 'professional-fees', name: 'Professional Fees', current: 379, prior: 359, type: 'expense' },
+          { id: 'expenses-misc', name: 'Expenses - Misc.', current: 485.35, prior: 762.18, type: 'expense',
+            children: [
+              { id: 'year-end-party', name: 'Annual Year End Party', current: 0, prior: 0, type: 'expense' },
+              { id: 'bank-service-charges', name: 'Bank Service Charges', current: 85.35, prior: 112.18, type: 'expense' },
+              { id: 'ground-transportation', name: 'Ground Transportation', current: 150, prior: 200, type: 'expense' },
+              { id: 'meals-entertainment', name: 'Meals and Entertainment', current: 250, prior: 350, type: 'expense' },
+              { id: 'over-short', name: 'Over/Short', current: 0, prior: 100, type: 'expense' },
+            ]
+          },
+          { id: 'info-technology', name: 'Information Technology', current: 988.46, prior: 1124.58, type: 'expense',
+            children: [
+              { id: 'hardware', name: 'Hardware', current: 0, prior: 236.12, type: 'expense' },
+              { id: 'pos-it-support', name: 'POS System Repair / IT Support', current: 488.46, prior: 388.46, type: 'expense' },
+              { id: 'software', name: 'Software', current: 500, prior: 500, type: 'expense' },
+            ]
+          },
+          { id: 'insurance-expense', name: 'Insurance Expense', current: 1892.23, prior: 1927.45, type: 'expense',
+            children: [
+              { id: 'disability-pfl', name: 'Disability / PFL', current: 192.23, prior: 227.45, type: 'expense' },
+              { id: 'general-liability', name: 'General Liability Insurance', current: 900, prior: 900, type: 'expense' },
+              { id: 'workers-comp', name: 'Workers Comp', current: 800, prior: 800, type: 'expense' },
+            ]
+          },
+          { id: 'licenses-permits', name: 'Licenses & Permits', current: 125.82, prior: 145.35, type: 'expense',
+            children: [
+              { id: 'health-permit', name: 'Health Permit', current: 125.82, prior: 145.35, type: 'expense' },
+              { id: 'liquor-license', name: 'Liquor License Tax', current: 0, prior: 0, type: 'expense' },
+            ]
+          },
+          { id: 'professional-fees', name: 'Professional Fees', current: 379, prior: 359, type: 'expense',
+            children: [
+              { id: 'accounting', name: 'Accounting', current: 379, prior: 359, type: 'expense' },
+            ]
+          },
+          { id: 'research-development', name: 'Research & Development', current: 0, prior: 0, type: 'expense' },
         ]
       },
       { id: 'occupancy', name: 'Occupancy', current: 17053.5, prior: 19305.08, type: 'expense',
         children: [
           { id: 'real-estate-taxes', name: 'Real Estate Taxes', current: 1857.65, prior: 3836.5, type: 'expense' },
           { id: 'rent', name: 'Rent', current: 12000, prior: 12400, type: 'expense' },
-          { id: 'utilities', name: 'Utilities', current: 3195.85, prior: 3068.58, type: 'expense' },
+          { id: 'utilities', name: 'Utilities', current: 3195.85, prior: 3068.58, type: 'expense',
+            children: [
+              { id: 'electricity', name: 'Electricity', current: 2195.85, prior: 2068.58, type: 'expense' },
+              { id: 'telephone-internet', name: 'Telephone & Internet', current: 500, prior: 500, type: 'expense' },
+              { id: 'water-sewer', name: 'Water/Sewer', current: 500, prior: 500, type: 'expense' },
+            ]
+          },
         ]
       },
     ]
