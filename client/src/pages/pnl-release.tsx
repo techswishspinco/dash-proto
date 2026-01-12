@@ -785,7 +785,15 @@ const getSuggestions = (lineItem: PnLLineItem, varianceInfo: VarianceInfo): Sugg
   const suggestions: Suggestion[] = [];
   const iconClass = "h-3.5 w-3.5";
 
-  // If flagged with variance
+  // Always show "Why did this change?" first
+  suggestions.push({
+    icon: <HelpCircle className={iconClass} />,
+    text: 'Why did this change?',
+    action: 'ai_explain',
+    params: { metric: lineItem.id, variance: varianceInfo }
+  });
+
+  // If flagged with variance, add additional analysis options
   if (varianceInfo.level === 'critical' || varianceInfo.level === 'attention') {
     suggestions.push({
       icon: <BarChart3 className={iconClass} />,
@@ -799,13 +807,6 @@ const getSuggestions = (lineItem: PnLLineItem, varianceInfo: VarianceInfo): Sugg
       text: 'See daily breakdown',
       action: 'breakdown',
       params: { metric: lineItem.id, granularity: 'day' }
-    });
-
-    suggestions.push({
-      icon: <HelpCircle className={iconClass} />,
-      text: 'Why did this change?',
-      action: 'ai_explain',
-      params: { metric: lineItem.id, variance: varianceInfo }
     });
   }
 
