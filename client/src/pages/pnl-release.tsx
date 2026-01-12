@@ -499,7 +499,6 @@ const navigationYears = [
 const tocSections = [
   { id: "executive-narrative", label: "Executive Narrative" },
   { id: "bottom-line", label: "Bottom Line" },
-  { id: "pnl-dashboard", label: "P&L Dashboard" },
   { id: "health-snapshot", label: "Health Snapshot" },
   { id: "revenue-analysis", label: "Revenue Analysis" },
   { id: "prime-cost-analysis", label: "Prime Cost Analysis" },
@@ -517,7 +516,6 @@ interface EditableSection {
 const defaultSections: EditableSection[] = [
   { id: "executive-narrative", label: "Executive Narrative", visible: true },
   { id: "bottom-line", label: "Bottom Line", visible: true },
-  { id: "pnl-dashboard", label: "P&L Dashboard", visible: true },
   { id: "health-snapshot", label: "Health Snapshot", visible: true },
   { id: "revenue-analysis", label: "Revenue Analysis", visible: true },
   { id: "prime-cost-analysis", label: "Prime Cost Analysis", visible: true },
@@ -1515,16 +1513,7 @@ function PnLDashboard({ onInsightClick, highlightedNodeId, onHighlightClear, onT
   return (
     <section id="pnl-dashboard" className="scroll-mt-4">
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-        <button 
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="flex items-center gap-2 group"
-        >
-          <ChevronDown className={cn(
-            "h-5 w-5 text-gray-400 transition-transform",
-            isCollapsed && "-rotate-90"
-          )} />
-          <h2 className="text-xl font-serif font-bold text-gray-900">P&L Dashboard</h2>
-        </button>
+        <h2 className="text-xl font-serif font-bold text-gray-900">P&L Dashboard</h2>
         
         {/* Comparison Period - Inline with header */}
         <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg">
@@ -1564,9 +1553,6 @@ function PnLDashboard({ onInsightClick, highlightedNodeId, onHighlightClear, onT
           </select>
         </div>
       </div>
-
-      {!isCollapsed && (
-        <>
 
       <div className="flex items-center gap-3 mb-4 flex-wrap">
         <div className="relative">
@@ -1682,8 +1668,6 @@ function PnLDashboard({ onInsightClick, highlightedNodeId, onHighlightClear, onT
         onSuggestionClick={handlePanelSuggestionClick}
         netProfit={netProfit}
       />
-        </>
-      )}
     </section>
   );
 }
