@@ -3475,6 +3475,34 @@ export default function PnlRelease() {
 
   // Editable Labor Deep Dive Budgets - Default 30% of Revenue per spec
   const DEFAULT_LABOR_TARGET_PCT = 30;
+
+  // Prime Cost Target Range - Default 55-60% per spec
+  const DEFAULT_PRIME_COST_LOWER = 55;
+  const DEFAULT_PRIME_COST_UPPER = 60;
+  
+  const [primeCostTargetLower, setPrimeCostTargetLower] = useState(DEFAULT_PRIME_COST_LOWER);
+  const [primeCostTargetUpper, setPrimeCostTargetUpper] = useState(DEFAULT_PRIME_COST_UPPER);
+  const [isCustomPrimeCostTarget, setIsCustomPrimeCostTarget] = useState(false);
+  
+  const handlePrimeCostTargetChange = (type: 'lower' | 'upper', value: number) => {
+    if (type === 'lower') {
+      if (value >= 0 && value < primeCostTargetUpper) {
+        setPrimeCostTargetLower(value);
+        setIsCustomPrimeCostTarget(true);
+      }
+    } else {
+      if (value > primeCostTargetLower && value <= 100) {
+        setPrimeCostTargetUpper(value);
+        setIsCustomPrimeCostTarget(true);
+      }
+    }
+  };
+  
+  const resetPrimeCostTarget = () => {
+    setPrimeCostTargetLower(DEFAULT_PRIME_COST_LOWER);
+    setPrimeCostTargetUpper(DEFAULT_PRIME_COST_UPPER);
+    setIsCustomPrimeCostTarget(false);
+  };
   
   const [laborBudgetPct, setLaborBudgetPct] = useState(DEFAULT_LABOR_TARGET_PCT);
   const [isCustomLaborBudget, setIsCustomLaborBudget] = useState(false);
@@ -3715,6 +3743,21 @@ export default function PnlRelease() {
       formatted: variance === 0 ? '$0' : variance > 0 ? `+$${variance.toLocaleString()}` : `-$${Math.abs(variance).toLocaleString()}`,
       color: variance > 0 ? 'text-red-600' : variance < 0 ? 'text-emerald-600' : 'text-gray-600'
     };
+  };
+
+  // Calculate actual prime cost from COGS + Labor
+  const actualPrimeCostPct = ((cogsActuals['total-cogs'] + laborActuals['total-labor']) / PERIOD_REVENUE) * 100;
+  
+  const getPrimeCostStatus = () => {
+    if (actualPrimeCostPct <= primeCostTargetLower) {
+      return { status: '🟢 EXCELLENT', color: 'bg-emerald-50 text-emerald-700', text: 'Below target range' };
+    } else if (actualPrimeCostPct <= primeCostTargetUpper) {
+      return { status: '🟢 IN RANGE', color: 'bg-emerald-50 text-emerald-700', text: 'Within target range' };
+    } else if (actualPrimeCostPct <= primeCostTargetUpper + 2) {
+      return { status: '🟡 NEAR LIMIT', color: 'bg-amber-50 text-amber-700', text: 'Near upper limit' };
+    } else {
+      return { status: '🔴 OVER TARGET', color: 'bg-red-50 text-red-700', text: 'Exceeds target range' };
+    }
   };
 
   // Report Archive Sidebar State
@@ -8231,6 +8274,133 @@ export default function PnlRelease() {
                          </div>
                       </div>
                       <p className="text-sm text-muted-foreground mb-4">The heart of the P&L</p>
+
+                      {/* Prime Cost Target Range Card */}
+                      <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">
+                         <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-3">
+                               <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
+                                  <Target className="h-5 w-5 text-white" />
+                               </div>
+                               <div>
+                                  <h3 className="font-semibold text-gray-900">Prime Cost Target</h3>
+                                  <p className="text-xs text-gray-500">COGS + Labor as % of Revenue</p>
+                               </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                               <span className={cn(
+                                  "px-2.5 py-1 rounded-full text-xs font-medium",
+                                  isCustomPrimeCostTarget ? "bg-blue-50 text-blue-700" : "bg-gray-100 text-gray-600"
+                               )}>
+                                  {isCustomPrimeCostTarget ? "Custom" : "Industry Default"}
+                               </span>
+                               {isCustomPrimeCostTarget && (
+                                  <button
+                                     onClick={resetPrimeCostTarget}
+                                     className="px-2.5 py-1 text-xs font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                                  >
+                                     Reset
+                                  </button>
+                               )}
+                            </div>
+                         </div>
+
+                         <div className="grid grid-cols-3 gap-4 mb-4">
+                            {/* Target Range */}
+                            <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                               <p className="text-xs text-gray-500 mb-2">Target Range</p>
+                               <div className="flex items-center gap-2">
+                                  {selectedRole === 'owner' ? (
+                                     <>
+                                        <input
+                                           type="text"
+                                           value={`${primeCostTargetLower}%`}
+                                           onChange={(e) => {
+                                              const val = parseFloat(e.target.value.replace(/%/g, ''));
+                                              if (!isNaN(val)) handlePrimeCostTargetChange('lower', val);
+                                           }}
+                                           className="w-14 px-2 py-1 text-lg font-bold text-gray-900 bg-white border border-gray-200 rounded hover:border-gray-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 focus:outline-none transition-colors text-center"
+                                           data-testid="prime-cost-lower"
+                                        />
+                                        <span className="text-gray-400">–</span>
+                                        <input
+                                           type="text"
+                                           value={`${primeCostTargetUpper}%`}
+                                           onChange={(e) => {
+                                              const val = parseFloat(e.target.value.replace(/%/g, ''));
+                                              if (!isNaN(val)) handlePrimeCostTargetChange('upper', val);
+                                           }}
+                                           className="w-14 px-2 py-1 text-lg font-bold text-gray-900 bg-white border border-gray-200 rounded hover:border-gray-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 focus:outline-none transition-colors text-center"
+                                           data-testid="prime-cost-upper"
+                                        />
+                                     </>
+                                  ) : (
+                                     <p className="text-lg font-bold text-gray-900">{primeCostTargetLower}% – {primeCostTargetUpper}%</p>
+                                  )}
+                               </div>
+                            </div>
+
+                            {/* Actual Prime Cost */}
+                            <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                               <p className="text-xs text-gray-500 mb-2">Actual Prime Cost</p>
+                               <p className="text-2xl font-bold text-gray-900">{actualPrimeCostPct.toFixed(1)}%</p>
+                               <p className="text-xs text-gray-500 mt-1">
+                                  ${(cogsActuals['total-cogs'] + laborActuals['total-labor']).toLocaleString()}
+                               </p>
+                            </div>
+
+                            {/* Status */}
+                            <div className={cn("rounded-lg p-4 border", getPrimeCostStatus().color)}>
+                               <p className="text-xs opacity-70 mb-2">Status</p>
+                               <p className="text-lg font-bold">{getPrimeCostStatus().status}</p>
+                               <p className="text-xs mt-1 opacity-80">{getPrimeCostStatus().text}</p>
+                            </div>
+                         </div>
+
+                         {/* Variance from Target Midpoint */}
+                         {(() => {
+                            const midpoint = (primeCostTargetLower + primeCostTargetUpper) / 2;
+                            const variance = actualPrimeCostPct - midpoint;
+                            const varianceDollar = (variance / 100) * PERIOD_REVENUE;
+                            
+                            return (
+                               <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                  <div className="flex items-center gap-3">
+                                     <div className={cn(
+                                        "h-8 w-8 rounded-full flex items-center justify-center",
+                                        variance <= 0 ? "bg-emerald-100" : "bg-red-100"
+                                     )}>
+                                        {variance <= 0 ? (
+                                           <TrendingDown className="h-4 w-4 text-emerald-600" />
+                                        ) : (
+                                           <TrendingUp className="h-4 w-4 text-red-600" />
+                                        )}
+                                     </div>
+                                     <div>
+                                        <p className="text-sm font-medium text-gray-900">Variance vs Target Midpoint ({midpoint.toFixed(1)}%)</p>
+                                        <p className="text-xs text-gray-500">
+                                           COGS: ${cogsActuals['total-cogs'].toLocaleString()} + Labor: ${laborActuals['total-labor'].toLocaleString()}
+                                        </p>
+                                     </div>
+                                  </div>
+                                  <div className="text-right">
+                                     <span className={cn(
+                                        "text-lg font-bold",
+                                        variance <= 0 ? "text-emerald-600" : "text-red-600"
+                                     )}>
+                                        {variance > 0 ? "+" : ""}{variance.toFixed(1)}%
+                                     </span>
+                                     <p className={cn(
+                                        "text-xs",
+                                        variance <= 0 ? "text-emerald-600" : "text-red-600"
+                                     )}>
+                                        {variance > 0 ? "+" : ""}${Math.round(varianceDollar).toLocaleString()}
+                                     </p>
+                                  </div>
+                               </div>
+                            );
+                         })()}
+                      </div>
 
                       {/* State Benchmark Comparison */}
                       {selectedState && (
