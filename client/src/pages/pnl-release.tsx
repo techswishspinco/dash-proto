@@ -2233,7 +2233,7 @@ function InsightCard({ insight, onDelete, onUpdate }: { insight: any, onDelete: 
   );
 }
 
-function GoalProgress({ label, current, target, unit = "%", inverted = false }: { label: string, current: number, target: number, unit?: string, inverted?: boolean }) {
+function GoalProgress({ label, current, target, unit = "%", inverted = false, onTrendClick }: { label: string, current: number, target: number, unit?: string, inverted?: boolean, onTrendClick?: () => void }) {
   const progress = Math.min((current / target) * 100, 100);
   const isGood = inverted ? current <= target : current >= target;
 
@@ -2244,6 +2244,16 @@ function GoalProgress({ label, current, target, unit = "%", inverted = false }: 
           <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider block mb-1">{label}</span>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold font-serif">{current}{unit}</span>
+            {onTrendClick && (
+              <button
+                onClick={onTrendClick}
+                className="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+                title={`View ${label} trend`}
+                data-testid={`trend-btn-${label.toLowerCase().replace(/\s+/g, '-')}`}
+              >
+                <BarChart3 className="h-4 w-4" />
+              </button>
+            )}
             <span className="text-xs text-muted-foreground mb-1">/ {target}{unit} Goal</span>
           </div>
         </div>
@@ -4312,10 +4322,10 @@ export default function PnlRelease() {
                        <section>
                           <h2 className="text-lg font-serif font-bold text-gray-900 mb-6">Financial Overview</h2>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                             <GoalProgress label="Total Sales" current={124.5} target={120} unit="k" />
-                             <GoalProgress label="Net Profit %" current={18} target={15} unit="%" />
-                             <GoalProgress label="COGS %" current={31} target={30} unit="%" inverted={true} />
-                             <GoalProgress label="Labor %" current={33} target={35} unit="%" inverted={true} />
+                             <GoalProgress label="Total Sales" current={124.5} target={120} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
+                             <GoalProgress label="Net Profit %" current={18} target={15} unit="%" onTrendClick={() => openTrendModal('net-income')} />
+                             <GoalProgress label="COGS %" current={31} target={30} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
+                             <GoalProgress label="Labor %" current={33} target={35} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
                           </div>
                        </section>
 
