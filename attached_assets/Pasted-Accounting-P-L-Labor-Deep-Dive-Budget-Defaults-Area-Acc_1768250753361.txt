@@ -1,0 +1,117 @@
+Accounting / P&L – Labor Deep Dive Budget Defaults
+
+Area: Accounting / P&L
+View: Detailed View → Labor Deep Dive
+Type: Feature / Budgeting Logic
+
+Problem
+
+In the Labor Deep Dive, users can see actual labor spend but lack a clear benchmark to evaluate performance.
+
+Restaurant operators and CFOs typically manage labor against a target % of revenue, but without a default, users must guess whether labor is healthy or not.
+
+Goal
+
+Set a default Labor budget of 30% of revenue in the Labor Deep Dive, while allowing the budget to be customizable per restaurant.
+
+This provides:
+
+Immediate context for labor performance
+
+Industry-standard defaults
+
+Flexibility for different restaurant concepts
+
+Default Budget Logic (Required)
+Default Rule
+Labor Budget = 30% of Revenue
+
+
+Applies automatically if no custom labor budget is set
+
+Clearly labeled as “Default”
+
+Budget Calculations
+
+For a given period:
+
+Labor Budget ($) = Revenue × 0.30
+Labor Variance ($) = Actual Labor – Budget Labor
+Labor Variance (%) = (Actual Labor / Revenue) – 30%
+
+Display Requirements (Labor Deep Dive)
+
+Show:
+
+Actual Labor ($)
+
+Budget Labor ($)
+
+Variance ($ and %)
+
+Visual Indicators
+
+🟢 Under budget
+
+🟡 On target
+
+🔴 Over budget
+
+Budget Customization (Required)
+Editable Budget
+
+Users can edit the labor budget percentage
+
+Editing overrides the default 30%
+
+Scope (v1)
+
+Per restaurant
+
+Applies to all future periods
+
+Validation
+
+Value must be between 0% and 100%
+
+Labeling & Transparency
+
+Default:
+
+“Labor Budget: 30% (Default)”
+
+Custom:
+
+“Labor Budget: X% (Custom)”
+
+Permissions
+Role	View	Edit
+Owner	✅	✅
+Accountant	✅	✅
+GM	✅	❌
+Executive Chef	Optional	❌
+Non-Goals (v1)
+
+FOH vs BOH labor budgets
+
+Shift-level budgets
+
+Historical budget versioning
+
+Forecasting
+
+Acceptance Criteria
+
+ Default labor budget is 30% of revenue
+
+ Budget clearly labeled as default or custom
+
+ Users can edit labor budget %
+
+ Variance updates immediately on edit
+
+ Budget persists across sessions
+
+Notes
+
+This aligns with industry-standard restaurant labor benchmarks and pairs directly with COGS budgeting.

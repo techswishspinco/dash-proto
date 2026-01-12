@@ -3473,8 +3473,8 @@ export default function PnlRelease() {
     }));
   };
 
-  // Editable Labor Deep Dive Budgets - Default 32% of Revenue
-  const DEFAULT_LABOR_TARGET_PCT = 32;
+  // Editable Labor Deep Dive Budgets - Default 30% of Revenue per spec
+  const DEFAULT_LABOR_TARGET_PCT = 30;
   
   const [laborBudgetPct, setLaborBudgetPct] = useState(DEFAULT_LABOR_TARGET_PCT);
   const [isCustomLaborBudget, setIsCustomLaborBudget] = useState(false);
