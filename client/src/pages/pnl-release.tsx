@@ -9394,7 +9394,7 @@ export default function PnlRelease() {
                                      <td className="py-3 text-gray-900">Sales per Labor Hour</td>
                                      <td className="py-3 text-right font-medium">${laborEfficiencyActuals['sales-per-hour'].toFixed(2)}</td>
                                      <td className="py-3 text-right">
-                                        <div className="flex items-center gap-1">
+                                        <div className="flex items-center gap-1 justify-end">
                                            <input
                                               type="text"
                                               value={`$${laborEfficiencyTargets['sales-per-hour'].toFixed(2)}`}
@@ -9417,7 +9417,7 @@ export default function PnlRelease() {
                                      <td className="py-3 text-gray-900">Labor Hours / Guest</td>
                                      <td className="py-3 text-right font-medium">{laborEfficiencyActuals['hours-per-guest'].toFixed(2)}</td>
                                      <td className="py-3 text-right">
-                                        <div className="flex items-center gap-1">
+                                        <div className="flex items-center gap-1 justify-end">
                                            <input
                                               type="text"
                                               value={laborEfficiencyTargets['hours-per-guest'].toFixed(2)}
@@ -9439,7 +9439,7 @@ export default function PnlRelease() {
                                      <td className="py-3 text-gray-900">Overtime % of Total</td>
                                      <td className="py-3 text-right font-medium">{laborEfficiencyActuals['overtime-pct'].toFixed(1)}%</td>
                                      <td className="py-3 text-right">
-                                        <div className="flex items-center gap-1">
+                                        <div className="flex items-center gap-1 justify-end">
                                            <input
                                               type="text"
                                               value={`${laborEfficiencyTargets['overtime-pct'].toFixed(1)}%`}
