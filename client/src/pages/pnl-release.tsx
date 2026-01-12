@@ -3388,6 +3388,54 @@ export default function PnlRelease() {
     }));
   };
 
+  // Editable Labor Deep Dive Budgets (detailed view)
+  const [laborBudgets, setLaborBudgets] = useState({
+    'total-labor': 81220,
+    'boh-labor': 35500,
+    'line-cook': 17000,
+    'prep-cook': 11500,
+    'dishwasher': 7000,
+    'foh-labor': 37800,
+    'server': 19800,
+    'bartender': 10500,
+    'host': 7500,
+    'management': 12600,
+    'gm': 6800,
+    'supervisor': 5800,
+    'payroll-taxes': 9320,
+  });
+  
+  const laborActuals = {
+    'total-labor': 95400,
+    'boh-labor': 38200,
+    'line-cook': 18400,
+    'prep-cook': 12200,
+    'dishwasher': 7600,
+    'foh-labor': 42100,
+    'server': 22500,
+    'bartender': 11800,
+    'host': 7800,
+    'management': 12600,
+    'gm': 6800,
+    'supervisor': 5800,
+    'payroll-taxes': 10500,
+  };
+  
+  const getLaborVariance = (id: string) => {
+    const actual = laborActuals[id as keyof typeof laborActuals] || 0;
+    const budget = laborBudgets[id as keyof typeof laborBudgets] || 0;
+    const variance = actual - budget;
+    return {
+      variance,
+      formatted: variance === 0 ? '$0' : variance > 0 ? `+$${variance.toLocaleString()}` : `-$${Math.abs(variance).toLocaleString()}`,
+      color: variance > 0 ? 'text-red-600' : variance < 0 ? 'text-emerald-600' : 'text-gray-600'
+    };
+  };
+  
+  const updateLaborBudget = (id: string, value: number) => {
+    setLaborBudgets(prev => ({ ...prev, [id]: value }));
+  };
+
   // Report Archive Sidebar State
   const [archiveSidebarWidth, setArchiveSidebarWidth] = useState(256); // default 256px (w-64)
   const [archiveSidebarCollapsed, setArchiveSidebarCollapsed] = useState(false);
@@ -7943,16 +7991,40 @@ export default function PnlRelease() {
                             <tbody className="divide-y divide-gray-100">
                                <tr className="hover:bg-gray-50 font-semibold bg-gray-50/30">
                                   <td className="px-6 py-4 text-gray-900">Total Labor</td>
-                                  <td className="px-6 py-4 text-right">$95,400</td>
-                                  <td className="px-6 py-4 text-right text-gray-500">$81,220</td>
-                                  <td className="px-6 py-4 text-right text-red-600">+$14,180</td>
+                                  <td className="px-6 py-4 text-right">${laborActuals['total-labor'].toLocaleString()}</td>
+                                  <td className="px-6 py-4 text-right">
+                                     <input
+                                        type="text"
+                                        value={`$${laborBudgets['total-labor'].toLocaleString()}`}
+                                        onChange={(e) => {
+                                           const val = e.target.value.replace(/[$,]/g, '');
+                                           const num = parseFloat(val);
+                                           if (!isNaN(num)) updateLaborBudget('total-labor', num);
+                                        }}
+                                        className="w-24 px-2 py-1 text-gray-600 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-sm text-right"
+                                        data-testid="budget-input-total-labor"
+                                     />
+                                  </td>
+                                  <td className={cn("px-6 py-4 text-right font-medium", getLaborVariance('total-labor').color)}>{getLaborVariance('total-labor').formatted}</td>
                                   <td className="px-6 py-4 text-right text-gray-600">32.5%</td>
                                </tr>
                                <tr className="hover:bg-gray-50">
                                   <td className="px-6 py-4 text-gray-700 pl-10">BOH Labor</td>
-                                  <td className="px-6 py-4 text-right">$38,200</td>
-                                  <td className="px-6 py-4 text-right text-gray-500">$35,500</td>
-                                  <td className="px-6 py-4 text-right text-red-600">+$2,700</td>
+                                  <td className="px-6 py-4 text-right">${laborActuals['boh-labor'].toLocaleString()}</td>
+                                  <td className="px-6 py-4 text-right">
+                                     <input
+                                        type="text"
+                                        value={`$${laborBudgets['boh-labor'].toLocaleString()}`}
+                                        onChange={(e) => {
+                                           const val = e.target.value.replace(/[$,]/g, '');
+                                           const num = parseFloat(val);
+                                           if (!isNaN(num)) updateLaborBudget('boh-labor', num);
+                                        }}
+                                        className="w-24 px-2 py-1 text-gray-600 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-sm text-right"
+                                        data-testid="budget-input-boh-labor"
+                                     />
+                                  </td>
+                                  <td className={cn("px-6 py-4 text-right font-medium", getLaborVariance('boh-labor').color)}>{getLaborVariance('boh-labor').formatted}</td>
                                   <td className="px-6 py-4 text-right text-gray-600">13.0%</td>
                                </tr>
                                <Popover>
@@ -8108,9 +8180,21 @@ export default function PnlRelease() {
                                </Popover>
                                <tr className="hover:bg-gray-50">
                                   <td className="px-6 py-4 text-gray-700 pl-10">FOH Labor</td>
-                                  <td className="px-6 py-4 text-right">$42,100</td>
-                                  <td className="px-6 py-4 text-right text-gray-500">$37,800</td>
-                                  <td className="px-6 py-4 text-right text-red-600">+$4,300</td>
+                                  <td className="px-6 py-4 text-right">${laborActuals['foh-labor'].toLocaleString()}</td>
+                                  <td className="px-6 py-4 text-right">
+                                     <input
+                                        type="text"
+                                        value={`$${laborBudgets['foh-labor'].toLocaleString()}`}
+                                        onChange={(e) => {
+                                           const val = e.target.value.replace(/[$,]/g, '');
+                                           const num = parseFloat(val);
+                                           if (!isNaN(num)) updateLaborBudget('foh-labor', num);
+                                        }}
+                                        className="w-24 px-2 py-1 text-gray-600 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-sm text-right"
+                                        data-testid="budget-input-foh-labor"
+                                     />
+                                  </td>
+                                  <td className={cn("px-6 py-4 text-right font-medium", getLaborVariance('foh-labor').color)}>{getLaborVariance('foh-labor').formatted}</td>
                                   <td className="px-6 py-4 text-right text-gray-600">14.3%</td>
                                </tr>
                                <Popover>
@@ -8266,9 +8350,21 @@ export default function PnlRelease() {
                                </Popover>
                                <tr className="hover:bg-gray-50">
                                   <td className="px-6 py-4 text-gray-700 pl-10">Management</td>
-                                  <td className="px-6 py-4 text-right">$12,600</td>
-                                  <td className="px-6 py-4 text-right text-gray-500">$12,600</td>
-                                  <td className="px-6 py-4 text-right text-gray-600">$0</td>
+                                  <td className="px-6 py-4 text-right">${laborActuals['management'].toLocaleString()}</td>
+                                  <td className="px-6 py-4 text-right">
+                                     <input
+                                        type="text"
+                                        value={`$${laborBudgets['management'].toLocaleString()}`}
+                                        onChange={(e) => {
+                                           const val = e.target.value.replace(/[$,]/g, '');
+                                           const num = parseFloat(val);
+                                           if (!isNaN(num)) updateLaborBudget('management', num);
+                                        }}
+                                        className="w-24 px-2 py-1 text-gray-600 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-sm text-right"
+                                        data-testid="budget-input-management"
+                                     />
+                                  </td>
+                                  <td className={cn("px-6 py-4 text-right font-medium", getLaborVariance('management').color)}>{getLaborVariance('management').formatted}</td>
                                   <td className="px-6 py-4 text-right text-gray-600">4.3%</td>
                                </tr>
                                <Popover>
@@ -8373,9 +8469,21 @@ export default function PnlRelease() {
                                </Popover>
                                <tr className="hover:bg-gray-50">
                                   <td className="px-6 py-4 text-gray-700 pl-10">Payroll Taxes & Benefits</td>
-                                  <td className="px-6 py-4 text-right">$10,500</td>
-                                  <td className="px-6 py-4 text-right text-gray-500">$9,320</td>
-                                  <td className="px-6 py-4 text-right text-red-600">+$1,180</td>
+                                  <td className="px-6 py-4 text-right">${laborActuals['payroll-taxes'].toLocaleString()}</td>
+                                  <td className="px-6 py-4 text-right">
+                                     <input
+                                        type="text"
+                                        value={`$${laborBudgets['payroll-taxes'].toLocaleString()}`}
+                                        onChange={(e) => {
+                                           const val = e.target.value.replace(/[$,]/g, '');
+                                           const num = parseFloat(val);
+                                           if (!isNaN(num)) updateLaborBudget('payroll-taxes', num);
+                                        }}
+                                        className="w-24 px-2 py-1 text-gray-600 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-sm text-right"
+                                        data-testid="budget-input-payroll-taxes"
+                                     />
+                                  </td>
+                                  <td className={cn("px-6 py-4 text-right font-medium", getLaborVariance('payroll-taxes').color)}>{getLaborVariance('payroll-taxes').formatted}</td>
                                   <td className="px-6 py-4 text-right text-gray-600">3.6%</td>
                                </tr>
                             </tbody>
