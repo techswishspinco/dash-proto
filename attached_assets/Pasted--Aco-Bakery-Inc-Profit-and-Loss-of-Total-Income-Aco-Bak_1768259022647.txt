@@ -1,0 +1,670 @@
+[
+  {
+    "Aco Bakery Inc": "Profit and Loss % of Total Income ",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "January - October, 2025",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": "% of Income"
+  },
+  {
+    "Aco Bakery Inc": "Income",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "   400-000 Food Sales",
+    "": "77.74%"
+  },
+  {
+    "Aco Bakery Inc": "   400-200 Beverage Sales",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "      400-210 Alcohol Bevs",
+    "": "1.35%"
+  },
+  {
+    "Aco Bakery Inc": "      400-240 N/A Beverage",
+    "": "12.95%"
+  },
+  {
+    "Aco Bakery Inc": "   Total 400-200 Beverage Sales",
+    "": "14.30%"
+  },
+  {
+    "Aco Bakery Inc": "   400-400 Comps / Discount",
+    "": "-4.84%"
+  },
+  {
+    "Aco Bakery Inc": "   400-500 Delivery Sales",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "      400-510 UberEats",
+    "": "5.56%"
+  },
+  {
+    "Aco Bakery Inc": "      400-520 GrubHub",
+    "": "1.84%"
+  },
+  {
+    "Aco Bakery Inc": "      400-530 DoorDash",
+    "": "4.16%"
+  },
+  {
+    "Aco Bakery Inc": "      400-540 ezCater",
+    "": "0.03%"
+  },
+  {
+    "Aco Bakery Inc": "      400-560 Fantuan",
+    "": "0.21%"
+  },
+  {
+    "Aco Bakery Inc": "      400-570 HungryPanda",
+    "": "0.39%"
+  },
+  {
+    "Aco Bakery Inc": "      400-580 ClassPass",
+    "": "0.05%"
+  },
+  {
+    "Aco Bakery Inc": "      400-710 UberEats -Deli Promo (excl.tax)",
+    "": "0.44%"
+  },
+  {
+    "Aco Bakery Inc": "      400-720 GrubHub - Deli Promo (excl.tax)",
+    "": "0.03%"
+  },
+  {
+    "Aco Bakery Inc": "      400-730 DoorDash -Deli Promo (excl.tax)",
+    "": "0.01%"
+  },
+  {
+    "Aco Bakery Inc": "   Total 400-500 Delivery Sales",
+    "": "12.72%"
+  },
+  {
+    "Aco Bakery Inc": "   400-800 Events\\\\ Off-Premise Sales",
+    "": "0.09%"
+  },
+  {
+    "Aco Bakery Inc": "Total Income",
+    "": "100.00%"
+  },
+  {
+    "Aco Bakery Inc": "Cost of Goods Sold",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "   500-000 Food Cost",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "      500-003 Dairy",
+    "": "1.19%"
+  },
+  {
+    "Aco Bakery Inc": "      500-004 Dry Goods",
+    "": "1.54%"
+  },
+  {
+    "Aco Bakery Inc": "      500-006 Produce",
+    "": "1.07%"
+  },
+  {
+    "Aco Bakery Inc": "   Total 500-000 Food Cost",
+    "": "3.80%"
+  },
+  {
+    "Aco Bakery Inc": "   500-200 Beverage Cost",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "      500-201 Beer/Wine/Cider",
+    "": "0.37%"
+  },
+  {
+    "Aco Bakery Inc": "      500-202 Coffee/Tea",
+    "": "1.00%"
+  },
+  {
+    "Aco Bakery Inc": "      500-203 Juice/Soda/Water",
+    "": "0.24%"
+  },
+  {
+    "Aco Bakery Inc": "   Total 500-200 Beverage Cost",
+    "": "1.61%"
+  },
+  {
+    "Aco Bakery Inc": "   500-300 Commissary Food",
+    "": "15.58%"
+  },
+  {
+    "Aco Bakery Inc": "   500-303 Ice Cream",
+    "": "6.99%"
+  },
+  {
+    "Aco Bakery Inc": "   500-400 Direct Labor Cost",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "      500-501 Dishwasher",
+    "": "2.24%"
+  },
+  {
+    "Aco Bakery Inc": "      500-502 Dishwasher OVERTIME",
+    "": "0.35%"
+  },
+  {
+    "Aco Bakery Inc": "      500-533 Server/ Plater",
+    "": "8.70%"
+  },
+  {
+    "Aco Bakery Inc": "      500-534 Server/ Plater OVERTIME",
+    "": "0.17%"
+  },
+  {
+    "Aco Bakery Inc": "   Total 500-400 Direct Labor Cost",
+    "": "11.46%"
+  },
+  {
+    "Aco Bakery Inc": "Total Cost of Goods Sold",
+    "": "39.45%"
+  },
+  {
+    "Aco Bakery Inc": "Gross Profit",
+    "": "60.55%"
+  },
+  {
+    "Aco Bakery Inc": "Expenses",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "   599-350 Payroll Expenses",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "      599-440 Payroll Processing Fees",
+    "": "0.27%"
+  },
+  {
+    "Aco Bakery Inc": "      599-450 Payroll Taxes & Benefits",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         599-500 Federal Unemployment Ins",
+    "": "0.06%"
+  },
+  {
+    "Aco Bakery Inc": "         599-510 FICA Expense",
+    "": "2.26%"
+  },
+  {
+    "Aco Bakery Inc": "         599-650 State Unemployment Ins",
+    "": "0.53%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 599-450 Payroll Taxes & Benefits",
+    "": "2.85%"
+  },
+  {
+    "Aco Bakery Inc": "      599-660 Salaries & Wages",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         599-670 Admin/ Marketing",
+    "": "1.27%"
+  },
+  {
+    "Aco Bakery Inc": "         599-890 Management",
+    "": "3.44%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 599-660 Salaries & Wages",
+    "": "4.71%"
+  },
+  {
+    "Aco Bakery Inc": "   Total 599-350 Payroll Expenses",
+    "": "7.83%"
+  },
+  {
+    "Aco Bakery Inc": "   600-100 Direct Operating Costs",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "      600-101 Chace Royalty Fees",
+    "": "5.05%"
+  },
+  {
+    "Aco Bakery Inc": "      600-102 Chace Depot Delivery Fees",
+    "": "0.96%"
+  },
+  {
+    "Aco Bakery Inc": "      600-103 Credit Card Fees",
+    "": "2.88%"
+  },
+  {
+    "Aco Bakery Inc": "      600-110 Delivery Service Fees",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         600-111 UberEats Fees",
+    "": "1.93%"
+  },
+  {
+    "Aco Bakery Inc": "         600-112 GrubHub Fees",
+    "": "0.53%"
+  },
+  {
+    "Aco Bakery Inc": "         600-113 DoorDash Fees",
+    "": "1.04%"
+  },
+  {
+    "Aco Bakery Inc": "         600-114 ezCater Fees",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         600-116 Fantuan Fees",
+    "": "0.07%"
+  },
+  {
+    "Aco Bakery Inc": "         600-117 HungryPanda Fees",
+    "": "0.16%"
+  },
+  {
+    "Aco Bakery Inc": "         600-118 ClassPass Fees",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         600-121 UberEats Fees - BOGO Promo",
+    "": "0.44%"
+  },
+  {
+    "Aco Bakery Inc": "         600-122 UberEats Fees - Mkt/ Ads Promo",
+    "": "0.13%"
+  },
+  {
+    "Aco Bakery Inc": "         600-123 GrubHub Fees - BOGO Promo",
+    "": "0.03%"
+  },
+  {
+    "Aco Bakery Inc": "         600-124 GrubHub Fees - Mkt/ Ads Promo",
+    "": "0.06%"
+  },
+  {
+    "Aco Bakery Inc": "         600-125 DoorDash Fees - BOGO Promo",
+    "": "0.01%"
+  },
+  {
+    "Aco Bakery Inc": "         600-126 DoorDash Fees - Mkt/ Ads Promo",
+    "": "0.01%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 600-110 Delivery Service Fees",
+    "": "4.41%"
+  },
+  {
+    "Aco Bakery Inc": "      600-211 Events \\\\Special\\\\ Off-Premise",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         600-215 Event Participation Fees",
+    "": "0.17%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 600-211 Events \\\\Special\\\\ Off-Premise",
+    "": "0.17%"
+  },
+  {
+    "Aco Bakery Inc": "      600-300 Contract Service Companies",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         600-301 Dishwashing Company",
+    "": "0.35%"
+  },
+  {
+    "Aco Bakery Inc": "         600-303 Garbage Removal",
+    "": "0.42%"
+  },
+  {
+    "Aco Bakery Inc": "         600-304 Grease Removal",
+    "": "0.05%"
+  },
+  {
+    "Aco Bakery Inc": "         600-305 Pest Control",
+    "": "0.17%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 600-300 Contract Service Companies",
+    "": "0.98%"
+  },
+  {
+    "Aco Bakery Inc": "      600-400 Marketing & PR",
+    "": "0.01%"
+  },
+  {
+    "Aco Bakery Inc": "         600-401 Advertising and Promotion",
+    "": "0.21%"
+  },
+  {
+    "Aco Bakery Inc": "         600-402 Custom Packaging Design",
+    "": "0.69%"
+  },
+  {
+    "Aco Bakery Inc": "         600-404 Branding",
+    "": "0.88%"
+  },
+  {
+    "Aco Bakery Inc": "         600-405 Photography",
+    "": "0.10%"
+  },
+  {
+    "Aco Bakery Inc": "         600-406 Printing, Cutting, Laminating",
+    "": "0.07%"
+  },
+  {
+    "Aco Bakery Inc": "         600-407 Social Media",
+    "": "0.06%"
+  },
+  {
+    "Aco Bakery Inc": "         600-408 Website",
+    "": "0.22%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 600-400 Marketing & PR",
+    "": "2.24%"
+  },
+  {
+    "Aco Bakery Inc": "      600-500 Repairs & Maintenance",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         600-504 Kitchen Repairs",
+    "": "0.61%"
+  },
+  {
+    "Aco Bakery Inc": "         600-505 Labor, Repair/Maint (internal)",
+    "": "0.14%"
+  },
+  {
+    "Aco Bakery Inc": "         600-506 Tools & Materials",
+    "": "0.12%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 600-500 Repairs & Maintenance",
+    "": "0.88%"
+  },
+  {
+    "Aco Bakery Inc": "      600-600 Restaurant/Kitchen Supplies",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         600-601 Cleaning Supplies",
+    "": "0.16%"
+  },
+  {
+    "Aco Bakery Inc": "         600-602 Disposables",
+    "": "1.32%"
+  },
+  {
+    "Aco Bakery Inc": "         600-603 Linen",
+    "": "0.13%"
+  },
+  {
+    "Aco Bakery Inc": "         600-605 Office Supplies",
+    "": "0.09%"
+  },
+  {
+    "Aco Bakery Inc": "         600-606 Smallware",
+    "": "0.09%"
+  },
+  {
+    "Aco Bakery Inc": "         600-607 Tools/Equipments/General",
+    "": "0.26%"
+  },
+  {
+    "Aco Bakery Inc": "         600-608 Uniforms",
+    "": "0.05%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 600-600 Restaurant/Kitchen Supplies",
+    "": "2.10%"
+  },
+  {
+    "Aco Bakery Inc": "   Total 600-100 Direct Operating Costs",
+    "": "19.68%"
+  },
+  {
+    "Aco Bakery Inc": "   601-000 General & Administrative",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "      601-100 Expenses - Misc.",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         601-200 Annual Year End Party",
+    "": "0.23%"
+  },
+  {
+    "Aco Bakery Inc": "         601-210 Bank Service Charges",
+    "": "0.02%"
+  },
+  {
+    "Aco Bakery Inc": "         601-220 Donations",
+    "": "0.01%"
+  },
+  {
+    "Aco Bakery Inc": "         601-240 Ground Transportation",
+    "": "0.21%"
+  },
+  {
+    "Aco Bakery Inc": "         601-250 Meals and Entertainment",
+    "": "0.04%"
+  },
+  {
+    "Aco Bakery Inc": "         601-270 Over/Short",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 601-100 Expenses - Misc.",
+    "": "0.51%"
+  },
+  {
+    "Aco Bakery Inc": "      601-290 Informational Technology",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         601-300 Hardware",
+    "": "0.01%"
+  },
+  {
+    "Aco Bakery Inc": "         601-310 POS System Repair / IT Support",
+    "": "0.14%"
+  },
+  {
+    "Aco Bakery Inc": "         601-320 Software",
+    "": "0.97%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 601-290 Informational Technology",
+    "": "1.12%"
+  },
+  {
+    "Aco Bakery Inc": "      601-350 Insurance Expense",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         601-360 Disability / PFL",
+    "": "-0.04%"
+  },
+  {
+    "Aco Bakery Inc": "         601-380 General Liability Insurance",
+    "": "0.85%"
+  },
+  {
+    "Aco Bakery Inc": "         601-400 Workers Comp",
+    "": "0.53%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 601-350 Insurance Expense",
+    "": "1.34%"
+  },
+  {
+    "Aco Bakery Inc": "      601-450 Licenses & Permits",
+    "": "0.02%"
+  },
+  {
+    "Aco Bakery Inc": "         601-460 Beer&Wine License",
+    "": "0.12%"
+  },
+  {
+    "Aco Bakery Inc": "         601-530 Health Permit",
+    "": "0.01%"
+  },
+  {
+    "Aco Bakery Inc": "         601-550 Liquor License Tax",
+    "": "0.01%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 601-450 Licenses & Permits",
+    "": "0.16%"
+  },
+  {
+    "Aco Bakery Inc": "      601-570 Professional Fees",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         601-580 Accounting",
+    "": "1.09%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 601-570 Professional Fees",
+    "": "1.09%"
+  },
+  {
+    "Aco Bakery Inc": "      601-710 Research & Development",
+    "": "0.84%"
+  },
+  {
+    "Aco Bakery Inc": "   Total 601-000 General & Administrative",
+    "": "5.06%"
+  },
+  {
+    "Aco Bakery Inc": "   602-000 Occupancy",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "      602-040 Real Estate Taxes",
+    "": "0.18%"
+  },
+  {
+    "Aco Bakery Inc": "      602-100 Rent",
+    "": "9.28%"
+  },
+  {
+    "Aco Bakery Inc": "      602-200 Utilities",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "         602-210 Electricity",
+    "": "1.63%"
+  },
+  {
+    "Aco Bakery Inc": "         602-280 Telephone & Internet",
+    "": "0.23%"
+  },
+  {
+    "Aco Bakery Inc": "         602-330 Water/Sewer",
+    "": "0.25%"
+  },
+  {
+    "Aco Bakery Inc": "      Total 602-200 Utilities",
+    "": "2.11%"
+  },
+  {
+    "Aco Bakery Inc": "   Total 602-000 Occupancy",
+    "": "11.57%"
+  },
+  {
+    "Aco Bakery Inc": "   66900 Reconciliation Discrepancies",
+    "": "0.00%"
+  },
+  {
+    "Aco Bakery Inc": "Total Expenses",
+    "": "44.15%"
+  },
+  {
+    "Aco Bakery Inc": "Net Operating Income",
+    "": "16.41%"
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "",
+    "": ""
+  },
+  {
+    "Aco Bakery Inc": "Tuesday, Nov 18, 2025 03:45:15 AM GMT-8 - Accrual Basis",
+    "": ""
+  }
+]

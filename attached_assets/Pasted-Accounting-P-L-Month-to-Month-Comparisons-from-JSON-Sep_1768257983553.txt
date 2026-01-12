@@ -1,0 +1,204 @@
+Accounting / P&L – Month-to-Month Comparisons from JSON (Sep 2025 → Oct 2025)
+
+Area: Accounting / P&L
+Views: Curated View (Owner / GM / Executive Chef), Detailed View, P&L Dashboard
+Type: Data Integration / Comparison Logic
+
+Problem
+
+Month-to-month comparisons across Accounting / P&L must be:
+
+Consistent
+
+Deterministic
+
+Traceable to source data
+
+We now have September 2025 and October 2025 P&L data available as JSON, but comparisons are not yet guaranteed to:
+
+Read directly from these files
+
+Use the same logic everywhere
+
+Reconcile across cards, charts, narratives, and pop-ups
+
+Goal
+
+Standardize all month-to-month comparisons by:
+
+Reading directly from the September 2025 and October 2025 P&L JSON files
+
+Treating:
+
+October 2025 as current month
+
+September 2025 as prior month
+
+Ensuring every comparison, action item, and narrative references this same data
+
+Source of Truth (Required)
+
+All month-to-month logic must read from:
+
+2025_09_SPOT_SM_PL.json
+
+2025_10_SPOT_SM_PL.json
+
+No hardcoded values.
+No derived “mock” months.
+No dynamic rolling logic in this phase.
+
+Required Comparison Logic
+Definition (Non-Negotiable)
+Month-to-Month Change =
+October 2025 value – September 2025 value
+
+Percentage Metrics
+Δ pts = Oct % – Sep %
+
+Growth Metrics
+Growth % = (Oct – Sep) / Sep
+
+Scope (Applies To)
+Curated Views
+
+Owner financial summaries
+
+GM performance summaries
+
+Executive Chef summaries (where applicable)
+
+Detailed Views
+
+Revenue
+
+COGS Deep Dive
+
+Labor Deep Dive
+
+Prime Cost Analysis
+
+Prime Cost Bridge
+
+P&L Dashboard
+
+KPI cards
+
+Trend arrows (↑ ↓ →)
+
+Month-to-month deltas
+
+Charts and summaries
+
+Data Consumption Rules (Critical)
+
+All “current month” values must come from October 2025 JSON
+
+All “previous month” values must come from September 2025 JSON
+
+Each metric must:
+
+Read from the same account(s) in both files
+
+Use identical aggregation logic
+
+If a value appears on screen, it must be traceable to one of the two JSON files.
+
+Action Items (Required)
+
+Action items driven by month-to-month changes must:
+
+Be calculated from Oct vs Sep JSON values
+
+Reference visible numbers from both months
+
+Use explicit language:
+
+“Up vs September 2025”
+
+“Down month-over-month (Sep → Oct)”
+
+No generic “last month” phrasing.
+
+Narrative (“What happened”) Alignment
+
+Narratives must:
+
+Reflect Oct vs Sep comparisons
+
+Match the computed deltas exactly
+
+Avoid implying trends outside these two months
+
+Examples:
+
+“Labor increased in October compared to September.”
+
+“Prime cost improved month-over-month.”
+
+Pop-Up / Drill-In Graph Rules
+
+All pop-ups and expanded charts must:
+
+Read from the same JSON files
+
+Display September and October values consistently
+
+Reconcile numerically with parent cards and summaries
+
+Validation Requirements
+Data Integrity Checks
+
+Account totals match between views
+
+Parent rollups equal sum of sub-accounts
+
+Prime Cost = COGS + Labor (for both months)
+
+QA Expectations
+
+Switching views does not change Oct/Sep numbers
+
+All MoM deltas match manual calculation from JSON
+
+No discrepancies between dashboard, curated, and detailed views
+
+Out of Scope (This Ticket)
+
+Rolling month logic
+
+Auto-advancing periods
+
+Comparisons beyond Sep ↔ Oct
+
+Forecasting or budgeting changes
+
+Acceptance Criteria
+
+ All MoM comparisons read from Sep & Oct 2025 JSON files
+
+ October is always treated as current month
+
+ September is always treated as prior month
+
+ Deltas and growth rates calculate correctly
+
+ Action items are justified by JSON data
+
+ Narratives and pop-ups reconcile with source data
+
+ No hardcoded month values remain
+
+Notes
+
+This ticket intentionally locks time and data to ensure:
+
+Reliable demos
+
+Deterministic QA
+
+High trust in numbers
+
+It should feel like:
+
+“Every month-to-month insight is reading from the same two files.”
