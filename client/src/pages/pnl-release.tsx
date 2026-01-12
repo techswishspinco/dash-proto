@@ -2807,9 +2807,9 @@ function SidePanelAssistant({ onClose, triggerQuery }: { onClose: () => void; tr
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full max-h-full overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 shrink-0">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 shrink-0 bg-white">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 bg-gray-50 rounded-xl flex items-center justify-center border border-gray-100">
             <Sparkles className="h-5 w-5 text-gray-600" />
@@ -3249,7 +3249,7 @@ export default function PnlRelease() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [locationName, setLocationName] = useState("STMARKS");
   const [period, setPeriod] = useState("September 2025");
-  const [showChat, setShowChat] = useState(false); // Disabled - using floating assistant instead
+  const [showChat, setShowChat] = useState(true); // Open by default
   
   // New Release Flow States
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -10127,7 +10127,8 @@ export default function PnlRelease() {
                 animate={{ width: 380, opacity: 1 }}
                 exit={{ width: 0, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="h-full bg-white border-l border-gray-200 flex flex-col overflow-hidden shrink-0"
+                className="h-full max-h-full bg-white border-l border-gray-200 flex flex-col shrink-0"
+                style={{ overflow: 'hidden' }}
                 data-testid="assistant-side-panel"
               >
                 <SidePanelAssistant 
