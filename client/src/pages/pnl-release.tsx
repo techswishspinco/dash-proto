@@ -53,7 +53,9 @@ import {
   Mail,
   Eye,
   Pencil,
-  RotateCcw
+  RotateCcw,
+  Wallet,
+  CreditCard
 } from "lucide-react";
 import {
   Popover,
@@ -4522,6 +4524,218 @@ export default function PnlRelease() {
                     </div>
 
                     <div className="p-8 space-y-10">
+
+                       {/* Executive Summary Cards - Owner Only */}
+                       {selectedRole === "owner" && (
+                       <section data-testid="executive-summary-section">
+                          <h2 className="text-lg font-serif font-bold text-gray-900 mb-6 flex items-center gap-2">
+                             <TrendingUp className="h-5 w-5 text-gray-600" />
+                             Executive Summary
+                          </h2>
+                          
+                          {/* Financial Health Card - Primary */}
+                          <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-6 mb-6">
+                             <div className="flex items-start justify-between">
+                                <div>
+                                   <div className="flex items-center gap-2 mb-1">
+                                      <span className="text-sm font-medium text-emerald-700 uppercase tracking-wide">Financial Health</span>
+                                      <div className="px-2 py-0.5 bg-emerald-500 text-white text-xs font-bold rounded-full">
+                                         🟢 HEALTHY
+                                      </div>
+                                   </div>
+                                   <div className="flex items-baseline gap-2 mt-2">
+                                      <span className="text-5xl font-bold text-gray-900">82</span>
+                                      <span className="text-lg text-gray-500">/100</span>
+                                   </div>
+                                </div>
+                                <div className="text-right">
+                                   <div className="flex items-center gap-1 text-emerald-600">
+                                      <TrendingUp className="h-4 w-4" />
+                                      <span className="text-sm font-medium">+5 pts</span>
+                                   </div>
+                                   <span className="text-xs text-gray-500">vs prior period</span>
+                                </div>
+                             </div>
+                             
+                             {/* Health Pillars */}
+                             <div className="grid grid-cols-3 gap-4 mt-6">
+                                <div className="bg-white/60 rounded-lg p-3">
+                                   <div className="flex items-center justify-between mb-1">
+                                      <span className="text-xs font-medium text-gray-500">Profitability</span>
+                                      <span className="text-xs text-gray-400">40%</span>
+                                   </div>
+                                   <div className="flex items-baseline gap-1">
+                                      <span className="text-xl font-bold text-gray-900">85</span>
+                                      <span className="text-xs text-emerald-600">↑</span>
+                                   </div>
+                                   <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                      <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '85%' }} />
+                                   </div>
+                                </div>
+                                <div className="bg-white/60 rounded-lg p-3">
+                                   <div className="flex items-center justify-between mb-1">
+                                      <span className="text-xs font-medium text-gray-500">Efficiency</span>
+                                      <span className="text-xs text-gray-400">35%</span>
+                                   </div>
+                                   <div className="flex items-baseline gap-1">
+                                      <span className="text-xl font-bold text-gray-900">78</span>
+                                      <span className="text-xs text-amber-500">→</span>
+                                   </div>
+                                   <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                      <div className="bg-amber-400 h-1.5 rounded-full" style={{ width: '78%' }} />
+                                   </div>
+                                </div>
+                                <div className="bg-white/60 rounded-lg p-3">
+                                   <div className="flex items-center justify-between mb-1">
+                                      <span className="text-xs font-medium text-gray-500">Stability</span>
+                                      <span className="text-xs text-gray-400">25%</span>
+                                   </div>
+                                   <div className="flex items-baseline gap-1">
+                                      <span className="text-xl font-bold text-gray-900">84</span>
+                                      <span className="text-xs text-emerald-600">↑</span>
+                                   </div>
+                                   <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                      <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '84%' }} />
+                                   </div>
+                                </div>
+                             </div>
+                             
+                             {/* CFO Narrative */}
+                             <div className="mt-4 p-3 bg-white/80 rounded-lg border border-emerald-100">
+                                <div className="flex items-start gap-2">
+                                   <Lightbulb className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+                                   <div className="text-sm text-gray-700">
+                                      <span className="font-medium text-gray-900">CFO Insight:</span> Strong profitability driven by improved labor efficiency (+3pts). Prime cost held at 62%, slightly above target. Revenue growth of 3.7% provides stability cushion.
+                                   </div>
+                                </div>
+                             </div>
+                          </div>
+
+                          {/* Summary Cards Grid */}
+                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                             {/* Income Card */}
+                             <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                                <div className="flex items-center justify-between mb-3">
+                                   <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Income</span>
+                                   <DollarSign className="h-4 w-4 text-gray-400" />
+                                </div>
+                                <div className="text-2xl font-bold text-gray-900">$124,500</div>
+                                <div className="flex items-center gap-1 mt-1">
+                                   <TrendingUp className="h-3 w-3 text-emerald-600" />
+                                   <span className="text-xs font-medium text-emerald-600">+3.7%</span>
+                                   <span className="text-xs text-gray-500">vs prior</span>
+                                </div>
+                             </div>
+
+                             {/* Marketing Spend Card */}
+                             <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                                <div className="flex items-center justify-between mb-3">
+                                   <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Marketing</span>
+                                   <Target className="h-4 w-4 text-gray-400" />
+                                </div>
+                                <div className="text-2xl font-bold text-gray-900">$3,200</div>
+                                <div className="flex items-center gap-1 mt-1">
+                                   <span className="text-xs font-medium text-gray-600">2.6%</span>
+                                   <span className="text-xs text-gray-500">of revenue</span>
+                                </div>
+                             </div>
+
+                             {/* Operating Expenses Card */}
+                             <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                                <div className="flex items-center justify-between mb-3">
+                                   <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Op. Expenses</span>
+                                   <CreditCard className="h-4 w-4 text-gray-400" />
+                                </div>
+                                <div className="text-2xl font-bold text-gray-900">$44,500</div>
+                                <div className="flex items-center gap-1 mt-1">
+                                   <span className="text-xs font-medium text-amber-600">35.7%</span>
+                                   <span className="text-xs text-gray-500">of revenue</span>
+                                </div>
+                             </div>
+
+                             {/* Growth Card */}
+                             <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                                <div className="flex items-center justify-between mb-3">
+                                   <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Growth</span>
+                                   <TrendingUp className="h-4 w-4 text-emerald-500" />
+                                </div>
+                                <div className="flex items-center gap-2">
+                                   <div className="text-2xl font-bold text-emerald-600">↑ Growing</div>
+                                </div>
+                                <div className="flex items-center gap-1 mt-1">
+                                   <span className="text-xs font-medium text-emerald-600">+3.7%</span>
+                                   <span className="text-xs text-gray-500">revenue YoY</span>
+                                </div>
+                             </div>
+                          </div>
+
+                          {/* Second Row - Owner Only Cards */}
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                             {/* Cash Flow Card */}
+                             <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                                <div className="flex items-center justify-between mb-3">
+                                   <div className="flex items-center gap-2">
+                                      <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Cash Flow</span>
+                                      <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-medium rounded">OWNER ONLY</span>
+                                   </div>
+                                   <Wallet className="h-4 w-4 text-gray-400" />
+                                </div>
+                                <div className="flex items-center justify-between">
+                                   <div>
+                                      <div className="text-xl font-bold text-gray-900">$48,200</div>
+                                      <div className="text-xs text-gray-500">Current balance</div>
+                                   </div>
+                                   <div className="text-right">
+                                      <div className="flex items-center gap-1 justify-end">
+                                         <TrendingUp className="h-3 w-3 text-emerald-600" />
+                                         <span className="text-sm font-medium text-emerald-600">+$8,450</span>
+                                      </div>
+                                      <div className="text-xs text-gray-500">Net change this period</div>
+                                   </div>
+                                </div>
+                                <div className="mt-3 pt-3 border-t border-gray-100">
+                                   <div className="flex items-center gap-2">
+                                      <div className="flex-1 bg-gray-100 rounded-full h-2">
+                                         <div className="bg-emerald-500 h-2 rounded-full" style={{ width: '75%' }} />
+                                      </div>
+                                      <span className="text-xs text-gray-600">2.4 mo coverage</span>
+                                   </div>
+                                </div>
+                             </div>
+
+                             {/* Spend Visibility Card */}
+                             <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                                <div className="flex items-center justify-between mb-3">
+                                   <div className="flex items-center gap-2">
+                                      <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Compensation Overview</span>
+                                      <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-medium rounded">OWNER ONLY</span>
+                                   </div>
+                                   <Users className="h-4 w-4 text-gray-400" />
+                                </div>
+                                <div className="space-y-3">
+                                   <div className="flex items-center justify-between">
+                                      <div className="flex items-center gap-2">
+                                         <div className="w-2 h-2 rounded-full bg-indigo-500" />
+                                         <span className="text-sm text-gray-700">Executive Spend</span>
+                                      </div>
+                                      <span className="text-sm font-semibold text-gray-900">$12,400</span>
+                                   </div>
+                                   <div className="flex items-center justify-between">
+                                      <div className="flex items-center gap-2">
+                                         <div className="w-2 h-2 rounded-full bg-purple-500" />
+                                         <span className="text-sm text-gray-700">Manager Spend</span>
+                                      </div>
+                                      <span className="text-sm font-semibold text-gray-900">$18,600</span>
+                                   </div>
+                                   <div className="pt-2 border-t border-gray-100 flex items-center justify-between">
+                                      <span className="text-xs text-gray-500">Total Management Compensation</span>
+                                      <span className="text-sm font-bold text-gray-900">$31,000</span>
+                                   </div>
+                                </div>
+                             </div>
+                          </div>
+                       </section>
+                       )}
 
                        {/* Financial Overview - New Section */}
                        <section>

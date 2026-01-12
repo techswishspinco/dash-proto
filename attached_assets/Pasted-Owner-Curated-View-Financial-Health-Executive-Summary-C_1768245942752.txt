@@ -1,0 +1,258 @@
+Owner Curated View – Financial Health & Executive Summary Cards
+
+Area: Accounting / P&L
+View: Curated View → Owner
+Type: Feature / Dashboard
+
+Problem
+
+Restaurant owners need a clear, opinionated snapshot of their business that answers:
+
+Are we financially healthy?
+
+Are costs under control?
+
+Are we growing or slipping?
+
+Where is money being spent — without leaking sensitive payroll data?
+
+Traditional P&Ls are detailed but do not provide judgment. Owners expect a CFO-style interpretation, not raw numbers.
+
+Goal
+
+Create an Owner-only Curated View in Accounting / P&L that surfaces high-level financial insight cards, including a CFO-aligned Financial Health score, while respecting strict permission boundaries around compensation and cash.
+
+Cards Included (v1)
+
+Cards render at the top of Accounting → P&L → Curated View → Owner, above detailed tables.
+
+1️⃣ Income Card
+
+Purpose: Revenue awareness
+
+Metrics
+
+Total income (selected period)
+
+% change vs prior period
+
+2️⃣ Marketing Spend Card
+
+Purpose: Growth efficiency
+
+Metrics
+
+Total marketing spend
+
+Marketing spend as % of income
+
+3️⃣ Operating Expense Card
+
+Purpose: Cost control
+
+Metrics
+
+Total operating expenses (excluding COGS)
+
+Operating expenses as % of income
+
+4️⃣ Growth Card
+
+Purpose: Directional signal
+
+Metrics
+
+Revenue growth % (period over period)
+
+Indicator
+
+↑ Growing
+
+→ Flat
+
+↓ Declining
+
+5️⃣ Financial Health Card (Core)
+
+Purpose: CFO-style judgment of overall business health
+
+Output
+
+Health Status
+
+🟢 Healthy
+
+🟡 Watch
+
+🔴 Risk
+
+Health Score (0–100)
+
+Primary & Secondary Drivers (textual explanation)
+
+Financial Health Formula (Required)
+
+Financial Health is a weighted composite score across three CFO pillars.
+
+Pillar 1: Profitability (40%)
+
+Metrics
+
+Gross Margin = (Revenue – COGS) / Revenue
+Net Margin = Net Income / Revenue
+
+
+Scoring Logic
+
+Gross Margin weighted 60%
+
+Net Margin weighted 40%
+
+Benchmarks
+
+Gross Margin: 65%+ healthy, <60% risk
+
+Net Margin: 10%+ healthy, <5% risk
+
+Pillar 2: Efficiency (35%)
+
+Metrics
+
+Prime Cost Ratio = (COGS + Labor) / Revenue
+Operating Expense Ratio = Operating Expenses / Revenue
+
+
+Scoring Logic
+
+Prime Cost weighted 70%
+
+OpEx weighted 30%
+
+Benchmarks
+
+Prime Cost ≤ 60% healthy, >65% risk
+
+OpEx ≤ 30% healthy, >35% risk
+
+Pillar 3: Stability (25%)
+
+Metrics
+
+Revenue Growth = (Current Period – Prior Period) / Prior Period
+Cash Coverage = Cash / Avg Monthly OpEx
+
+
+Rules
+
+If cash data is unavailable, stability is based solely on revenue trend
+
+Cash coverage ≥ 3 months = healthy
+
+Final Score
+Financial Health =
+(Profitability × 0.40)
++ (Efficiency × 0.35)
++ (Stability × 0.25)
+
+Health Status Mapping
+Score	Status
+80–100	🟢 Healthy
+60–79	🟡 Watch
+< 60	🔴 Risk
+CFO Narrative (Displayed in Card)
+
+Each Financial Health card must include why:
+
+Examples:
+
+“Prime cost increased above target”
+
+“Net margin declined despite revenue growth”
+
+“Cash coverage below 1 month”
+
+6️⃣ Cash Flow Card (Restricted)
+
+Purpose: Liquidity awareness
+
+Visibility
+
+Owner only
+
+Behavior
+
+If bank data not connected:
+“Cash Flow: Not Connected”
+
+If connected:
+
+Current cash balance
+
+Net cash change for period
+
+7️⃣ Spend Visibility Card (Compensation-Sensitive)
+
+Purpose: Reinforce owner-only payroll visibility
+
+Content
+
+Aggregate spend buckets only:
+
+Executive spend (total)
+
+Manager spend (total)
+
+Rules
+
+No individual compensation
+
+No breakdown visible to non-owners
+
+Card does not render for any other role
+
+Permission Model (Strict)
+Role	Access
+Owner	Full access
+Executive Chef	No access
+Manager	No access
+Staff	No access
+
+No partial redaction
+
+Cards are either visible or hidden
+
+Non-Goals (Out of Scope v1)
+
+Forecasting
+
+Budget editing
+
+Multi-entity rollups
+
+Payroll detail views
+
+Individual compensation visibility
+
+Acceptance Criteria
+
+ Cards render only in Owner Curated View
+
+ Financial Health score matches defined formulas
+
+ Health status labels render correctly
+
+ Primary/secondary drivers displayed
+
+ Cash card hidden if data unavailable
+
+ No compensation leakage to non-owners
+
+ Period selector updates all cards
+
+Notes
+
+This view should feel like:
+
+“A CFO looked at my books and told me what matters.”
+
+It is interpretive, opinionated, and owner-first.
