@@ -1,0 +1,171 @@
+Accounting / P&L – Month-to-Month Comparisons Using Sep 2025 → Oct 2025
+
+Area: Accounting / P&L
+Views: Curated View (Owner / GM / Executive Chef), Detailed View, P&L Dashboard
+Type: Data Comparison / Time-Series Logic
+
+Problem
+
+Month-to-month comparisons across Accounting / P&L views are currently inconsistent or implicit, which can cause:
+
+Unclear “prior period” logic
+
+Mismatched deltas across pages
+
+Confusion during design, QA, and demos
+
+We now have validated P&L data for September 2025 and October 2025, which should be used consistently as the reference months for all month-over-month comparisons.
+
+Goal
+
+Standardize all month-to-month comparisons in Accounting / P&L so that:
+
+October 2025 is the current month
+
+September 2025 is the prior comparison month
+
+All deltas, trends, action items, and narratives reference this same pairing
+
+Source Data (Authoritative)
+
+September 2025 P&L JSON
+
+October 2025 P&L JSON
+
+These two files are the only sources used for month-to-month comparisons in this phase.
+
+Required Comparison Logic
+Definition (Non-Negotiable)
+Month-to-Month Change =
+October 2025 value – September 2025 value
+
+
+For percentage metrics:
+
+Δ % = (Oct – Sep)
+
+
+For growth rates:
+
+Growth % = (Oct – Sep) / Sep
+
+Scope (Applies To)
+Curated Views
+
+Owner financial summaries
+
+GM performance summaries
+
+Executive Chef operational summaries
+
+Detailed Views
+
+Revenue
+
+COGS Deep Dive
+
+Labor Deep Dive
+
+Prime Cost Analysis
+
+Prime Cost Bridge
+
+Dashboard Elements
+
+KPI cards
+
+Trend indicators (↑ ↓ →)
+
+“What happened” narratives
+
+Action labels
+
+Pop-up / drill-in graphs
+
+Data Consistency Rules (Critical)
+
+All “previous month” references must point to September 2025
+
+All “current month” references must point to October 2025
+
+No dynamic or rolling month logic in this phase
+
+No mixing of other months in calculations
+
+Action Item Alignment
+
+Action items triggered by month-to-month logic must:
+
+Be based on Oct vs Sep deltas
+
+Reference visible numbers from both months
+
+Use correct language:
+
+“Up vs last month (Sep 2025)”
+
+“Down vs September”
+
+No generic “last month” without context.
+
+Narrative Copy Requirements
+
+Examples:
+
+“October labor increased compared to September.”
+
+“Prime cost improved month-over-month in October.”
+
+“COGS rose 2.1 pts vs September.”
+
+Narratives must match the data exactly.
+
+Pop-Up / Drill-Down Behavior
+
+Any chart or modal showing month-to-month data must:
+
+Show both September and October values
+
+Use the same calculation logic as summary cards
+
+Reconcile numerically with parent components
+
+Out of Scope (This Ticket)
+
+Rolling month logic
+
+Auto-advancing months
+
+Historical comparisons beyond Sep ↔ Oct
+
+Forecasting
+
+Acceptance Criteria
+
+ All month-to-month comparisons use Sep 2025 → Oct 2025
+
+ Deltas and growth rates calculate correctly
+
+ KPI arrows and indicators align with comparisons
+
+ Action items reference Sep vs Oct explicitly
+
+ Narratives match the underlying numbers
+
+ Pop-ups reconcile with parent views
+
+Notes
+
+This ticket intentionally locks time to create:
+
+Deterministic behavior
+
+Easier QA
+
+Reliable demos
+
+Clean design iteration
+
+This should feel like:
+
+“Every month-over-month insight is telling the same story.”
