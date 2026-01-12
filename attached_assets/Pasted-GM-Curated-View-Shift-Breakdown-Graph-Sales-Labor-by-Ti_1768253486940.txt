@@ -1,0 +1,169 @@
+GM Curated View – Shift Breakdown Graph (Sales & Labor by Time of Day)
+
+Area: Accounting / P&L
+View: Curated View → General Manager
+Section: Performance Summary → Shift Breakdown
+Type: Feature / Visualization
+
+Problem
+
+GMs need to understand how sales and labor behave at different times of the day, not just at a daily total level.
+
+Today, shift insights are:
+
+Mostly textual
+
+Hard to correlate sales vs labor visually
+
+Not clearly aligned with the selected time range (day / week / month / year)
+
+This makes it difficult to answer:
+
+“Did labor match demand during lunch vs dinner?”
+
+Goal
+
+Add a Shift Breakdown graph that visually shows:
+
+Sales
+
+Labor cost
+
+Across different times of day, and that fully respects the selected time range from the Performance Summary.
+
+Core Behavior
+Time-Range Alignment (Critical)
+
+The Shift Breakdown graph must always match the currently selected time range from the Performance Summary:
+
+Day
+
+Week
+
+Month
+
+Year
+
+One selector controls all related views.
+
+Graph Requirements
+Graph Type
+
+Combined bar + line chart (or dual-axis bar chart)
+
+X-Axis (Time of Day Buckets)
+
+Default buckets:
+
+Breakfast (optional / configurable)
+
+Lunch
+
+Dinner
+
+Late Night (if applicable)
+
+OR (implementation-friendly fallback):
+
+Hour blocks (e.g. 10–12, 12–2, 2–4, etc.)
+
+Bucket logic must be consistent across time ranges.
+
+Y-Axis
+
+Sales ($)
+
+Labor Cost ($)
+
+If dual-axis:
+
+Left axis: Sales
+
+Right axis: Labor cost
+
+Time Range Aggregation Rules
+Day
+
+Show sales and labor for each time-of-day bucket for that day
+
+Week
+
+Aggregate sales and labor by time-of-day bucket across the week
+
+Example:
+
+Avg or total Lunch sales this week
+
+Avg or total Lunch labor this week
+
+Month / Year
+
+Aggregate consistently using the same logic as Week
+
+Use either:
+
+Average per day
+
+Total for the period
+(Choose one and keep consistent; default recommendation: average per day)
+
+Hover / Tooltip Behavior
+
+On hover over a bucket:
+
+Time-of-day label
+
+Sales ($)
+
+Labor cost ($)
+
+Optional:
+
+Labor % of sales
+
+Example:
+
+Lunch
+Sales: $18,400
+Labor: $6,200
+Labor %: 33.7%
+
+Data Consistency Rules
+
+Sales and labor must reconcile to:
+
+Performance Summary totals for the same period
+
+Shift breakdown totals must equal the sum of all buckets
+
+No independent calculations outside the selected time range
+
+Permissions
+Role	Access
+GM	✅
+Owner	Optional
+Executive Chef	Optional (view-only)
+Staff	❌
+Non-Goals (v1)
+
+Editing schedules
+
+Hour-by-hour drilldown
+
+Staff-level labor attribution
+
+Forecasting or recommendations
+
+Acceptance Criteria
+
+ Shift Breakdown renders as a graph
+
+ Shows sales and labor cost by time of day
+
+ Fully synced with Performance Summary time range
+
+ Hover shows clear dollar values
+
+ Totals reconcile with summary metrics
+
+ Works for Day / Week / Month / Year

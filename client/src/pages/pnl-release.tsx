@@ -79,7 +79,8 @@ import {
   Line,
   Cell,
   PieChart as RechartsPieChart,
-  Pie
+  Pie,
+  ComposedChart
 } from "recharts";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -4128,6 +4129,42 @@ export default function PnlRelease() {
   };
   
   const whatHappenedData = getWhatHappenedNarrative();
+  
+  // Shift Breakdown data by time range (synced with Performance Summary)
+  const shiftBreakdownData = {
+    today: [
+      { shift: 'Morning', label: '9am–11am', sales: 420, labor: 180, laborPct: 42.9 },
+      { shift: 'Lunch', label: '11am–2pm', sales: 1840, labor: 710, laborPct: 38.6 },
+      { shift: 'Afternoon', label: '2pm–5pm', sales: 680, labor: 290, laborPct: 42.6 },
+      { shift: 'Dinner', label: '5pm–9pm', sales: 1580, labor: 280, laborPct: 17.7 },
+      { shift: 'Late', label: '9pm–Close', sales: 300, labor: 75, laborPct: 25.0 },
+    ],
+    week: [
+      { shift: 'Morning', label: '9am–11am', sales: 2940, labor: 1260, laborPct: 42.9 },
+      { shift: 'Lunch', label: '11am–2pm', sales: 12880, labor: 4200, laborPct: 32.6 },
+      { shift: 'Afternoon', label: '2pm–5pm', sales: 4760, labor: 1890, laborPct: 39.7 },
+      { shift: 'Dinner', label: '5pm–9pm', sales: 11060, labor: 1960, laborPct: 17.7 },
+      { shift: 'Late', label: '9pm–Close', sales: 2100, labor: 450, laborPct: 21.4 },
+    ],
+    month: [
+      { shift: 'Morning', label: '9am–11am', sales: 5040, labor: 2160, laborPct: 42.9 },
+      { shift: 'Lunch', label: '11am–2pm', sales: 22080, labor: 6840, laborPct: 31.0 },
+      { shift: 'Afternoon', label: '2pm–5pm', sales: 8160, labor: 3060, laborPct: 37.5 },
+      { shift: 'Dinner', label: '5pm–9pm', sales: 18960, labor: 3150, laborPct: 16.6 },
+      { shift: 'Late', label: '9pm–Close', sales: 3600, labor: 720, laborPct: 20.0 },
+    ],
+    year: [
+      { shift: 'Morning', label: '9am–11am', sales: 5040, labor: 2160, laborPct: 42.9 },
+      { shift: 'Lunch', label: '11am–2pm', sales: 22080, labor: 6480, laborPct: 29.3 },
+      { shift: 'Afternoon', label: '2pm–5pm', sales: 8160, labor: 2940, laborPct: 36.0 },
+      { shift: 'Dinner', label: '5pm–9pm', sales: 18960, labor: 3000, laborPct: 15.8 },
+      { shift: 'Late', label: '9pm–Close', sales: 3600, labor: 680, laborPct: 18.9 },
+    ]
+  };
+  
+  const currentShiftData = shiftBreakdownData[gmTimeRange];
+  const shiftTotalSales = currentShiftData.reduce((sum, s) => sum + s.sales, 0);
+  const shiftTotalLabor = currentShiftData.reduce((sum, s) => sum + s.labor, 0);
   
   // Shift time customization state
   const [lunchStart, setLunchStart] = useState("11:00");
@@ -11031,136 +11068,129 @@ export default function PnlRelease() {
                          </div>
                       </div>
 
-                      {/* Shift Breakdown */}
-                      <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
-                         <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                            <Clock className="h-4 w-4 text-gray-500" />
-                            Shift Breakdown
-                         </h3>
-                         <div className="grid grid-cols-2 gap-4">
-                            {/* Lunch Shift */}
-                            <div className={`border rounded-lg p-4 ${lunchData.hasIssue ? 'border-red-200 bg-red-50/50' : 'border-emerald-200 bg-emerald-50/50'}`}>
-                               <div className="flex items-center justify-between mb-3">
-                                  <div className="flex items-center gap-2">
-                                     <Sun className="h-4 w-4 text-amber-500" />
-                                     <span className="font-medium text-gray-900">Lunch</span>
-                                  </div>
-                                  <div className={`px-2 py-0.5 text-xs font-medium rounded-full ${lunchData.hasIssue ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>
-                                     {lunchData.hasIssue ? '⚠️ Issue' : '✓ Normal'}
-                                  </div>
+                      {/* Shift Breakdown Graph */}
+                      <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6" data-testid="shift-breakdown-graph">
+                         <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                               <Clock className="h-4 w-4 text-gray-500" />
+                               Shift Breakdown
+                               <span className="text-xs font-normal text-gray-500">
+                                  {gmTimeRange === 'today' ? 'Today' : gmTimeRange === 'week' ? 'This Week (Avg/Day)' : gmTimeRange === 'month' ? 'This Month (Avg/Day)' : 'YTD (Avg/Day)'}
+                               </span>
+                            </h3>
+                            <div className="flex items-center gap-4 text-xs">
+                               <div className="flex items-center gap-1.5">
+                                  <div className="w-3 h-3 rounded-sm bg-blue-500" />
+                                  <span className="text-gray-600">Sales</span>
                                </div>
-                               {/* Time Selectors */}
-                               <div className="flex items-center gap-2 mb-3 text-xs">
-                                  <select 
-                                     value={lunchStart}
-                                     onChange={(e) => setLunchStart(e.target.value)}
-                                     className="px-2 py-1 border border-gray-200 rounded bg-white text-gray-700 text-xs"
-                                  >
-                                     {Array.from({ length: 8 }, (_, i) => i + 9).map(h => (
-                                        <option key={h} value={`${h}:00`}>{h}:00</option>
-                                     ))}
-                                  </select>
-                                  <span className="text-gray-400">–</span>
-                                  <select 
-                                     value={lunchEnd}
-                                     onChange={(e) => {
-                                        setLunchEnd(e.target.value);
-                                        setDinnerStart(e.target.value);
-                                     }}
-                                     className="px-2 py-1 border border-gray-200 rounded bg-white text-gray-700 text-xs"
-                                  >
-                                     {Array.from({ length: 8 }, (_, i) => i + 13).map(h => (
-                                        <option key={h} value={`${h}:00`}>{h}:00</option>
-                                     ))}
-                                  </select>
-                                  <span className="text-gray-400 ml-1">({lunchData.hours}h)</span>
+                               <div className="flex items-center gap-1.5">
+                                  <div className="w-3 h-3 rounded-sm bg-orange-400" />
+                                  <span className="text-gray-600">Labor Cost</span>
                                </div>
-                               <div className="grid grid-cols-3 gap-3 text-center">
-                                  <div>
-                                     <div className="text-xs text-gray-500 mb-1">Sales</div>
-                                     <div className="text-sm font-semibold text-gray-900">${lunchData.sales.toLocaleString()}</div>
-                                     <div className={`text-xs ${parseFloat(lunchData.salesVariance) < 0 ? 'text-red-600' : 'text-emerald-600'}`}>
-                                        {parseFloat(lunchData.salesVariance) >= 0 ? '+' : ''}{lunchData.salesVariance}%
-                                     </div>
-                                  </div>
-                                  <div>
-                                     <div className="text-xs text-gray-500 mb-1">Labor %</div>
-                                     <div className="text-sm font-semibold text-gray-900">{lunchData.laborPct}%</div>
-                                     <div className={`text-xs ${parseFloat(lunchData.laborVariance) > 0 ? 'text-red-600' : 'text-emerald-600'}`}>
-                                        {parseFloat(lunchData.laborVariance) >= 0 ? '+' : ''}{lunchData.laborVariance} pts
-                                     </div>
-                                  </div>
-                                  <div>
-                                     <div className="text-xs text-gray-500 mb-1">Prime</div>
-                                     <div className="text-sm font-semibold text-gray-900">{lunchData.primePct}%</div>
-                                     <div className={`text-xs ${parseFloat(lunchData.primeVariance) > 0 ? 'text-red-600' : 'text-emerald-600'}`}>
-                                        {parseFloat(lunchData.primeVariance) >= 0 ? '+' : ''}{lunchData.primeVariance} pts
-                                     </div>
-                                  </div>
+                               <div className="flex items-center gap-1.5">
+                                  <div className="w-2 h-2 rounded-full bg-red-500" />
+                                  <span className="text-gray-600">Labor %</span>
                                </div>
                             </div>
-
-                            {/* Dinner Shift */}
-                            <div className={`border rounded-lg p-4 ${dinnerData.hasIssue ? 'border-red-200 bg-red-50/50' : 'border-emerald-200 bg-emerald-50/50'}`}>
-                               <div className="flex items-center justify-between mb-3">
-                                  <div className="flex items-center gap-2">
-                                     <Moon className="h-4 w-4 text-indigo-500" />
-                                     <span className="font-medium text-gray-900">Dinner</span>
-                                  </div>
-                                  <div className={`px-2 py-0.5 text-xs font-medium rounded-full ${dinnerData.hasIssue ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>
-                                     {dinnerData.hasIssue ? '⚠️ Issue' : '✓ Normal'}
-                                  </div>
-                               </div>
-                               {/* Time Selectors */}
-                               <div className="flex items-center gap-2 mb-3 text-xs">
-                                  <select 
-                                     value={dinnerStart}
-                                     onChange={(e) => {
-                                        setDinnerStart(e.target.value);
-                                        setLunchEnd(e.target.value);
+                         </div>
+                         
+                         {/* Combined Bar + Line Chart */}
+                         <div className="h-64">
+                            <ResponsiveContainer width="100%" height="100%">
+                               <ComposedChart data={currentShiftData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
+                                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                                  <XAxis 
+                                     dataKey="shift" 
+                                     tick={{ fontSize: 11, fill: '#6b7280' }}
+                                     axisLine={{ stroke: '#e5e7eb' }}
+                                     tickLine={false}
+                                  />
+                                  <YAxis 
+                                     yAxisId="left"
+                                     tick={{ fontSize: 11, fill: '#6b7280' }}
+                                     axisLine={{ stroke: '#e5e7eb' }}
+                                     tickLine={false}
+                                     tickFormatter={(value) => `$${(value / 1000).toFixed(1)}k`}
+                                  />
+                                  <YAxis 
+                                     yAxisId="right"
+                                     orientation="right"
+                                     domain={[0, 50]}
+                                     tick={{ fontSize: 11, fill: '#6b7280' }}
+                                     axisLine={{ stroke: '#e5e7eb' }}
+                                     tickLine={false}
+                                     tickFormatter={(value) => `${value}%`}
+                                  />
+                                  <Tooltip 
+                                     content={({ active, payload, label }) => {
+                                        if (active && payload && payload.length) {
+                                           const data = payload[0].payload;
+                                           return (
+                                              <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-sm">
+                                                 <div className="font-semibold text-gray-900 mb-2">{data.shift}</div>
+                                                 <div className="text-xs text-gray-500 mb-2">{data.label}</div>
+                                                 <div className="space-y-1">
+                                                    <div className="flex justify-between gap-4">
+                                                       <span className="text-gray-600">Sales:</span>
+                                                       <span className="font-medium text-blue-600">${data.sales.toLocaleString()}</span>
+                                                    </div>
+                                                    <div className="flex justify-between gap-4">
+                                                       <span className="text-gray-600">Labor Cost:</span>
+                                                       <span className="font-medium text-orange-600">${data.labor.toLocaleString()}</span>
+                                                    </div>
+                                                    <div className="flex justify-between gap-4 pt-1 border-t border-gray-100">
+                                                       <span className="text-gray-600">Labor %:</span>
+                                                       <span className={cn(
+                                                          "font-medium",
+                                                          data.laborPct > 35 ? "text-red-600" : data.laborPct > 25 ? "text-amber-600" : "text-emerald-600"
+                                                       )}>{data.laborPct}%</span>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                           );
+                                        }
+                                        return null;
                                      }}
-                                     className="px-2 py-1 border border-gray-200 rounded bg-white text-gray-700 text-xs"
-                                  >
-                                     {Array.from({ length: 8 }, (_, i) => i + 13).map(h => (
-                                        <option key={h} value={`${h}:00`}>{h}:00</option>
-                                     ))}
-                                  </select>
-                                  <span className="text-gray-400">–</span>
-                                  <select 
-                                     value={dinnerEnd}
-                                     onChange={(e) => setDinnerEnd(e.target.value)}
-                                     className="px-2 py-1 border border-gray-200 rounded bg-white text-gray-700 text-xs"
-                                  >
-                                     {Array.from({ length: 5 }, (_, i) => i + 20).map(h => (
-                                        <option key={h} value={`${h}:00`}>{h}:00</option>
-                                     ))}
-                                  </select>
-                                  <span className="text-gray-400 ml-1">({dinnerData.hours}h)</span>
+                                  />
+                                  <Bar yAxisId="left" dataKey="sales" fill="#3b82f6" radius={[4, 4, 0, 0]} name="Sales" />
+                                  <Bar yAxisId="left" dataKey="labor" fill="#fb923c" radius={[4, 4, 0, 0]} name="Labor" />
+                                  <Line 
+                                     yAxisId="right" 
+                                     type="monotone" 
+                                     dataKey="laborPct" 
+                                     stroke="#ef4444" 
+                                     strokeWidth={2}
+                                     dot={{ fill: '#ef4444', strokeWidth: 2, r: 4 }}
+                                     name="Labor %"
+                                  />
+                               </ComposedChart>
+                            </ResponsiveContainer>
+                         </div>
+                         
+                         {/* Summary Footer */}
+                         <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+                            <div className="flex items-center gap-6">
+                               <div className="flex items-center gap-2">
+                                  <span className="text-gray-500">Total Sales:</span>
+                                  <span className="font-semibold text-gray-900">${shiftTotalSales.toLocaleString()}</span>
                                </div>
-                               <div className="grid grid-cols-3 gap-3 text-center">
-                                  <div>
-                                     <div className="text-xs text-gray-500 mb-1">Sales</div>
-                                     <div className="text-sm font-semibold text-gray-900">${dinnerData.sales.toLocaleString()}</div>
-                                     <div className={`text-xs ${parseFloat(dinnerData.salesVariance) < 0 ? 'text-red-600' : 'text-emerald-600'}`}>
-                                        {parseFloat(dinnerData.salesVariance) >= 0 ? '+' : ''}{dinnerData.salesVariance}%
-                                     </div>
-                                  </div>
-                                  <div>
-                                     <div className="text-xs text-gray-500 mb-1">Labor %</div>
-                                     <div className="text-sm font-semibold text-gray-900">{dinnerData.laborPct}%</div>
-                                     <div className={`text-xs ${parseFloat(dinnerData.laborVariance) > 0 ? 'text-red-600' : 'text-emerald-600'}`}>
-                                        {parseFloat(dinnerData.laborVariance) >= 0 ? '+' : ''}{dinnerData.laborVariance} pts
-                                     </div>
-                                  </div>
-                                  <div>
-                                     <div className="text-xs text-gray-500 mb-1">Prime</div>
-                                     <div className="text-sm font-semibold text-gray-900">{dinnerData.primePct}%</div>
-                                     <div className={`text-xs ${parseFloat(dinnerData.primeVariance) > 0 ? 'text-red-600' : 'text-emerald-600'}`}>
-                                        {parseFloat(dinnerData.primeVariance) >= 0 ? '+' : ''}{dinnerData.primeVariance} pts
-                                     </div>
-                                  </div>
+                               <div className="flex items-center gap-2">
+                                  <span className="text-gray-500">Total Labor:</span>
+                                  <span className="font-semibold text-gray-900">${shiftTotalLabor.toLocaleString()}</span>
+                               </div>
+                               <div className="flex items-center gap-2">
+                                  <span className="text-gray-500">Overall Labor %:</span>
+                                  <span className={cn(
+                                     "font-semibold px-1.5 py-0.5 rounded",
+                                     (shiftTotalLabor / shiftTotalSales * 100) > 32 ? "bg-red-100 text-red-700" : 
+                                     (shiftTotalLabor / shiftTotalSales * 100) > 28 ? "bg-amber-100 text-amber-700" : 
+                                     "bg-emerald-100 text-emerald-700"
+                                  )}>
+                                     {((shiftTotalLabor / shiftTotalSales) * 100).toFixed(1)}%
+                                  </span>
                                </div>
                             </div>
+                            <span className="text-gray-400">Synced with Performance Summary</span>
                          </div>
                       </div>
 
