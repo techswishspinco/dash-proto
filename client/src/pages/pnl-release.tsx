@@ -11448,9 +11448,47 @@ export default function PnlRelease() {
                    </section>
                    )}
 
+                   {/* Financial Overview - Role-specific KPIs */}
+                   <section>
+                      <h2 className="text-lg font-serif font-bold text-gray-900 mb-6">
+                         {selectedRole === "owner" ? "Financial Overview" : 
+                          selectedRole === "gm" ? "Operations Overview" : 
+                          "Kitchen Performance"}
+                      </h2>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         {/* Owner sees everything */}
+                         {selectedRole === "owner" && (
+                            <>
+                               <GoalProgress label="Total Sales" current={124.5} target={120} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
+                               <GoalProgress label="Net Profit %" current={18} target={15} unit="%" onTrendClick={() => openTrendModal('net-income')} />
+                               <GoalProgress label="COGS %" current={31} target={30} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
+                               <GoalProgress label="Labor %" current={33} target={35} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
+                            </>
+                         )}
+                         {/* GM sees sales, labor (FOH focus), and operations */}
+                         {selectedRole === "gm" && (
+                            <>
+                               <GoalProgress label="Total Sales" current={124.5} target={120} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
+                               <GoalProgress label="FOH Labor %" current={14.3} target={14} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
+                               <GoalProgress label="Table Turns" current={2.4} target={2.2} unit="" />
+                               <GoalProgress label="Guest Count" current={8580} target={7800} unit="" />
+                            </>
+                         )}
+                         {/* Executive Chef sees COGS, BOH labor */}
+                         {selectedRole === "chef" && (
+                            <>
+                               <GoalProgress label="COGS %" current={31} target={30} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
+                               <GoalProgress label="Food Cost %" current={23.3} target={24} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
+                               <GoalProgress label="BOH Labor %" current={13} target={12.5} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
+                               <GoalProgress label="Beverage Cost %" current={4.8} target={5} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
+                            </>
+                         )}
+                      </div>
+                   </section>
+
                    {/* ===== PROFITABILITY SECTION - Owner Only ===== */}
                    {selectedRole === "owner" && (
-                   <section data-testid="profitability-section-main" className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+                   <section data-testid="profitability-section-main" className="bg-white p-6 rounded-xl border border-gray-200">
                       <div className="flex items-center justify-between mb-6">
                          <div>
                             <h2 className="text-lg font-serif font-bold text-gray-900 flex items-center gap-2">
@@ -11596,44 +11634,6 @@ export default function PnlRelease() {
                       </div>
                    </section>
                    )}
-
-                   {/* Financial Overview - Role-specific KPIs */}
-                   <section>
-                      <h2 className="text-lg font-serif font-bold text-gray-900 mb-6">
-                         {selectedRole === "owner" ? "Financial Overview" : 
-                          selectedRole === "gm" ? "Operations Overview" : 
-                          "Kitchen Performance"}
-                      </h2>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                         {/* Owner sees everything */}
-                         {selectedRole === "owner" && (
-                            <>
-                               <GoalProgress label="Total Sales" current={124.5} target={120} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
-                               <GoalProgress label="Net Profit %" current={18} target={15} unit="%" onTrendClick={() => openTrendModal('net-income')} />
-                               <GoalProgress label="COGS %" current={31} target={30} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                               <GoalProgress label="Labor %" current={33} target={35} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
-                            </>
-                         )}
-                         {/* GM sees sales, labor (FOH focus), and operations */}
-                         {selectedRole === "gm" && (
-                            <>
-                               <GoalProgress label="Total Sales" current={124.5} target={120} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
-                               <GoalProgress label="FOH Labor %" current={14.3} target={14} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
-                               <GoalProgress label="Table Turns" current={2.4} target={2.2} unit="" />
-                               <GoalProgress label="Guest Count" current={8580} target={7800} unit="" />
-                            </>
-                         )}
-                         {/* Executive Chef sees COGS, BOH labor */}
-                         {selectedRole === "chef" && (
-                            <>
-                               <GoalProgress label="COGS %" current={31} target={30} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                               <GoalProgress label="Food Cost %" current={23.3} target={24} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                               <GoalProgress label="BOH Labor %" current={13} target={12.5} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
-                               <GoalProgress label="Beverage Cost %" current={4.8} target={5} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                            </>
-                         )}
-                      </div>
-                   </section>
 
                    {/* Performance Summary & Auto-Diagnosis - GM Only */}
                    {selectedRole === "gm" && (
