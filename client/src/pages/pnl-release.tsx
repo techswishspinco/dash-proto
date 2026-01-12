@@ -3787,6 +3787,7 @@ export default function PnlRelease() {
 
   // Initialize role from URL param if viewing as owner/gm/chef, otherwise default to owner
   const [selectedRole, setSelectedRole] = useState<"owner" | "gm" | "chef">(urlRole || "owner");
+  const [healthComparisonPeriod, setHealthComparisonPeriod] = useState<"week" | "month" | "quarter" | "year">("month");
   const [showFullPnl, setShowFullPnl] = useState(false);
   const [showReleaseModal, setShowReleaseModal] = useState(false);
   const [goalsMet, setGoalsMet] = useState(true); // Mock state for confetti
@@ -9959,16 +9960,39 @@ export default function PnlRelease() {
                                   </div>
                                </div>
                                <div className="flex items-baseline gap-2 mt-2">
-                                  <span className="text-5xl font-bold text-gray-900">82</span>
+                                  <span className="text-5xl font-bold text-gray-900">
+                                     {healthComparisonPeriod === "week" ? 84 : healthComparisonPeriod === "month" ? 82 : healthComparisonPeriod === "quarter" ? 79 : 76}
+                                  </span>
                                   <span className="text-lg text-gray-500">/100</span>
                                </div>
                             </div>
-                            <div className="text-right">
-                               <div className="flex items-center gap-1 text-emerald-600">
-                                  <TrendingUp className="h-4 w-4" />
-                                  <span className="text-sm font-medium">+5 pts</span>
+                            <div className="text-right space-y-2">
+                               <div className="flex items-center gap-1 bg-white/60 rounded-lg p-1">
+                                  {(["week", "month", "quarter", "year"] as const).map((period) => (
+                                     <button
+                                        key={period}
+                                        onClick={() => setHealthComparisonPeriod(period)}
+                                        className={cn(
+                                           "px-2 py-1 text-xs font-medium rounded-md transition-colors",
+                                           healthComparisonPeriod === period 
+                                              ? "bg-emerald-600 text-white shadow-sm" 
+                                              : "text-gray-600 hover:bg-white/80"
+                                        )}
+                                        data-testid={`button-health-period-${period}`}
+                                     >
+                                        {period === "week" ? "W" : period === "month" ? "M" : period === "quarter" ? "Q" : "Y"}
+                                     </button>
+                                  ))}
                                </div>
-                               <span className="text-xs text-gray-500">vs prior period</span>
+                               <div className="flex items-center gap-1 justify-end text-emerald-600">
+                                  <TrendingUp className="h-4 w-4" />
+                                  <span className="text-sm font-medium">
+                                     {healthComparisonPeriod === "week" ? "+2 pts" : healthComparisonPeriod === "month" ? "+5 pts" : healthComparisonPeriod === "quarter" ? "+8 pts" : "+12 pts"}
+                                  </span>
+                               </div>
+                               <span className="text-xs text-gray-500 block">
+                                  vs prior {healthComparisonPeriod}
+                               </span>
                             </div>
                          </div>
                          
@@ -9980,11 +10004,13 @@ export default function PnlRelease() {
                                   <span className="text-xs text-gray-400">40%</span>
                                </div>
                                <div className="flex items-baseline gap-1">
-                                  <span className="text-xl font-bold text-gray-900">85</span>
+                                  <span className="text-xl font-bold text-gray-900">
+                                     {healthComparisonPeriod === "week" ? 86 : healthComparisonPeriod === "month" ? 85 : healthComparisonPeriod === "quarter" ? 82 : 78}
+                                  </span>
                                   <span className="text-xs text-emerald-600">↑</span>
                                </div>
                                <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-                                  <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '85%' }} />
+                                  <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${healthComparisonPeriod === "week" ? 86 : healthComparisonPeriod === "month" ? 85 : healthComparisonPeriod === "quarter" ? 82 : 78}%` }} />
                                </div>
                             </div>
                             <div className="bg-white/60 rounded-lg p-3">
@@ -9993,11 +10019,15 @@ export default function PnlRelease() {
                                   <span className="text-xs text-gray-400">35%</span>
                                </div>
                                <div className="flex items-baseline gap-1">
-                                  <span className="text-xl font-bold text-gray-900">78</span>
-                                  <span className="text-xs text-amber-500">→</span>
+                                  <span className="text-xl font-bold text-gray-900">
+                                     {healthComparisonPeriod === "week" ? 80 : healthComparisonPeriod === "month" ? 78 : healthComparisonPeriod === "quarter" ? 75 : 72}
+                                  </span>
+                                  <span className={cn("text-xs", healthComparisonPeriod === "week" ? "text-emerald-600" : "text-amber-500")}>
+                                     {healthComparisonPeriod === "week" ? "↑" : "→"}
+                                  </span>
                                </div>
                                <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-                                  <div className="bg-amber-400 h-1.5 rounded-full" style={{ width: '78%' }} />
+                                  <div className={cn("h-1.5 rounded-full", healthComparisonPeriod === "week" ? "bg-emerald-500" : "bg-amber-400")} style={{ width: `${healthComparisonPeriod === "week" ? 80 : healthComparisonPeriod === "month" ? 78 : healthComparisonPeriod === "quarter" ? 75 : 72}%` }} />
                                </div>
                             </div>
                             <div className="bg-white/60 rounded-lg p-3">
@@ -10006,11 +10036,13 @@ export default function PnlRelease() {
                                   <span className="text-xs text-gray-400">25%</span>
                                </div>
                                <div className="flex items-baseline gap-1">
-                                  <span className="text-xl font-bold text-gray-900">84</span>
+                                  <span className="text-xl font-bold text-gray-900">
+                                     {healthComparisonPeriod === "week" ? 85 : healthComparisonPeriod === "month" ? 84 : healthComparisonPeriod === "quarter" ? 80 : 79}
+                                  </span>
                                   <span className="text-xs text-emerald-600">↑</span>
                                </div>
                                <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-                                  <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '84%' }} />
+                                  <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${healthComparisonPeriod === "week" ? 85 : healthComparisonPeriod === "month" ? 84 : healthComparisonPeriod === "quarter" ? 80 : 79}%` }} />
                                </div>
                             </div>
                          </div>
@@ -10020,7 +10052,15 @@ export default function PnlRelease() {
                             <div className="flex items-start gap-2">
                                <Lightbulb className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
                                <div className="text-sm text-gray-700">
-                                  <span className="font-medium text-gray-900">CFO Insight:</span> Strong profitability driven by improved labor efficiency (+3pts). Prime cost held at 62%, slightly above target. Revenue growth of 3.7% provides stability cushion.
+                                  <span className="font-medium text-gray-900">CFO Insight:</span>{" "}
+                                  {healthComparisonPeriod === "week" 
+                                     ? "Strong week-over-week momentum with efficiency gains (+2pts). Labor costs tracking below budget, revenue trending up 1.2%."
+                                     : healthComparisonPeriod === "month"
+                                     ? "Strong profitability driven by improved labor efficiency (+3pts). Prime cost held at 62%, slightly above target. Revenue growth of 3.7% provides stability cushion."
+                                     : healthComparisonPeriod === "quarter"
+                                     ? "Quarterly performance shows steady improvement (+8pts). COGS efficiency offset seasonal revenue dip. YTD margin of 16.2% exceeds annual target."
+                                     : "Year-over-year health improved significantly (+12pts). Major gains in profitability through menu optimization and labor scheduling. Revenue up 4.8% despite industry headwinds."
+                                  }
                                </div>
                             </div>
                          </div>
