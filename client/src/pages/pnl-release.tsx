@@ -10633,19 +10633,28 @@ export default function PnlRelease() {
                             <div className="text-xs font-medium text-gray-700 mb-2">Recommended Actions for Tomorrow:</div>
                             <div className="flex flex-wrap gap-2">
                                <button 
-                                  onClick={() => setFloatingChatTrigger("How should I optimize the lunch schedule for tomorrow based on today's overstaffing issue?")}
+                                  onClick={() => {
+                                     setFloatingChatTrigger("How should I optimize the lunch schedule for tomorrow based on today's overstaffing issue?");
+                                     setShowChat(true);
+                                  }}
                                   className="px-2.5 py-1 bg-white border border-gray-200 text-xs text-gray-700 rounded-full hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors cursor-pointer"
                                >
                                   Review Lunch schedule
                                </button>
                                <button 
-                                  onClick={() => setFloatingChatTrigger("What are the ideal portion sizes for our menu items? Today's COGS was high.")}
+                                  onClick={() => {
+                                     setFloatingChatTrigger("What are the ideal portion sizes for our menu items? Today's COGS was high.");
+                                     setShowChat(true);
+                                  }}
                                   className="px-2.5 py-1 bg-white border border-gray-200 text-xs text-gray-700 rounded-full hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors cursor-pointer"
                                >
                                   Check portion sizes
                                </button>
                                <button 
-                                  onClick={() => setFloatingChatTrigger("What strategies can I use to increase afternoon traffic? Today's sales were below average.")}
+                                  onClick={() => {
+                                     setFloatingChatTrigger("What strategies can I use to increase afternoon traffic? Today's sales were below average.");
+                                     setShowChat(true);
+                                  }}
                                   className="px-2.5 py-1 bg-white border border-gray-200 text-xs text-gray-700 rounded-full hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors cursor-pointer"
                                >
                                   Monitor afternoon traffic
