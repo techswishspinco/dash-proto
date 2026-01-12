@@ -8034,9 +8034,22 @@ export default function PnlRelease() {
                                            Line Cook
                                            <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
                                         </td>
-                                        <td className="px-6 py-3 text-right text-gray-600">$18,400</td>
-                                        <td className="px-6 py-3 text-right text-gray-400">$17,000</td>
-                                        <td className="px-6 py-3 text-right text-red-500 text-xs">+$1,400</td>
+                                        <td className="px-6 py-3 text-right text-gray-600">${laborActuals['line-cook'].toLocaleString()}</td>
+                                        <td className="px-6 py-3 text-right">
+                                           <input
+                                              type="text"
+                                              value={`$${laborBudgets['line-cook'].toLocaleString()}`}
+                                              onChange={(e) => {
+                                                 const val = e.target.value.replace(/[$,]/g, '');
+                                                 const num = parseFloat(val);
+                                                 if (!isNaN(num)) updateLaborBudget('line-cook', num);
+                                              }}
+                                              onClick={(e) => e.stopPropagation()}
+                                              className="w-20 px-2 py-0.5 text-gray-500 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-xs text-right"
+                                              data-testid="budget-input-line-cook"
+                                           />
+                                        </td>
+                                        <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('line-cook').color)}>{getLaborVariance('line-cook').formatted}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">6.3%</td>
                                      </tr>
                                   </PopoverTrigger>
@@ -8085,9 +8098,22 @@ export default function PnlRelease() {
                                            Prep Cook
                                            <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
                                         </td>
-                                        <td className="px-6 py-3 text-right text-gray-600">$12,200</td>
-                                        <td className="px-6 py-3 text-right text-gray-400">$11,500</td>
-                                        <td className="px-6 py-3 text-right text-red-500 text-xs">+$700</td>
+                                        <td className="px-6 py-3 text-right text-gray-600">${laborActuals['prep-cook'].toLocaleString()}</td>
+                                        <td className="px-6 py-3 text-right">
+                                           <input
+                                              type="text"
+                                              value={`$${laborBudgets['prep-cook'].toLocaleString()}`}
+                                              onChange={(e) => {
+                                                 const val = e.target.value.replace(/[$,]/g, '');
+                                                 const num = parseFloat(val);
+                                                 if (!isNaN(num)) updateLaborBudget('prep-cook', num);
+                                              }}
+                                              onClick={(e) => e.stopPropagation()}
+                                              className="w-20 px-2 py-0.5 text-gray-500 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-xs text-right"
+                                              data-testid="budget-input-prep-cook"
+                                           />
+                                        </td>
+                                        <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('prep-cook').color)}>{getLaborVariance('prep-cook').formatted}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">4.2%</td>
                                      </tr>
                                   </PopoverTrigger>
@@ -8135,9 +8161,22 @@ export default function PnlRelease() {
                                            Dishwasher
                                            <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
                                         </td>
-                                        <td className="px-6 py-3 text-right text-gray-600">$7,600</td>
-                                        <td className="px-6 py-3 text-right text-gray-400">$7,000</td>
-                                        <td className="px-6 py-3 text-right text-red-500 text-xs">+$600</td>
+                                        <td className="px-6 py-3 text-right text-gray-600">${laborActuals['dishwasher'].toLocaleString()}</td>
+                                        <td className="px-6 py-3 text-right">
+                                           <input
+                                              type="text"
+                                              value={`$${laborBudgets['dishwasher'].toLocaleString()}`}
+                                              onChange={(e) => {
+                                                 const val = e.target.value.replace(/[$,]/g, '');
+                                                 const num = parseFloat(val);
+                                                 if (!isNaN(num)) updateLaborBudget('dishwasher', num);
+                                              }}
+                                              onClick={(e) => e.stopPropagation()}
+                                              className="w-20 px-2 py-0.5 text-gray-500 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-xs text-right"
+                                              data-testid="budget-input-dishwasher"
+                                           />
+                                        </td>
+                                        <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('dishwasher').color)}>{getLaborVariance('dishwasher').formatted}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">2.6%</td>
                                      </tr>
                                   </PopoverTrigger>
@@ -8204,9 +8243,22 @@ export default function PnlRelease() {
                                            Server
                                            <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
                                         </td>
-                                        <td className="px-6 py-3 text-right text-gray-600">$22,500</td>
-                                        <td className="px-6 py-3 text-right text-gray-400">$19,800</td>
-                                        <td className="px-6 py-3 text-right text-red-500 text-xs">+$2,700</td>
+                                        <td className="px-6 py-3 text-right text-gray-600">${laborActuals['server'].toLocaleString()}</td>
+                                        <td className="px-6 py-3 text-right">
+                                           <input
+                                              type="text"
+                                              value={`$${laborBudgets['server'].toLocaleString()}`}
+                                              onChange={(e) => {
+                                                 const val = e.target.value.replace(/[$,]/g, '');
+                                                 const num = parseFloat(val);
+                                                 if (!isNaN(num)) updateLaborBudget('server', num);
+                                              }}
+                                              onClick={(e) => e.stopPropagation()}
+                                              className="w-20 px-2 py-0.5 text-gray-500 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-xs text-right"
+                                              data-testid="budget-input-server"
+                                           />
+                                        </td>
+                                        <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('server').color)}>{getLaborVariance('server').formatted}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">7.7%</td>
                                      </tr>
                                   </PopoverTrigger>
@@ -8255,9 +8307,22 @@ export default function PnlRelease() {
                                            Bartender
                                            <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
                                         </td>
-                                        <td className="px-6 py-3 text-right text-gray-600">$11,800</td>
-                                        <td className="px-6 py-3 text-right text-gray-400">$10,500</td>
-                                        <td className="px-6 py-3 text-right text-red-500 text-xs">+$1,300</td>
+                                        <td className="px-6 py-3 text-right text-gray-600">${laborActuals['bartender'].toLocaleString()}</td>
+                                        <td className="px-6 py-3 text-right">
+                                           <input
+                                              type="text"
+                                              value={`$${laborBudgets['bartender'].toLocaleString()}`}
+                                              onChange={(e) => {
+                                                 const val = e.target.value.replace(/[$,]/g, '');
+                                                 const num = parseFloat(val);
+                                                 if (!isNaN(num)) updateLaborBudget('bartender', num);
+                                              }}
+                                              onClick={(e) => e.stopPropagation()}
+                                              className="w-20 px-2 py-0.5 text-gray-500 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-xs text-right"
+                                              data-testid="budget-input-bartender"
+                                           />
+                                        </td>
+                                        <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('bartender').color)}>{getLaborVariance('bartender').formatted}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">4.0%</td>
                                      </tr>
                                   </PopoverTrigger>
@@ -8305,9 +8370,22 @@ export default function PnlRelease() {
                                            Host/Hostess
                                            <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
                                         </td>
-                                        <td className="px-6 py-3 text-right text-gray-600">$7,800</td>
-                                        <td className="px-6 py-3 text-right text-gray-400">$7,500</td>
-                                        <td className="px-6 py-3 text-right text-red-500 text-xs">+$300</td>
+                                        <td className="px-6 py-3 text-right text-gray-600">${laborActuals['host'].toLocaleString()}</td>
+                                        <td className="px-6 py-3 text-right">
+                                           <input
+                                              type="text"
+                                              value={`$${laborBudgets['host'].toLocaleString()}`}
+                                              onChange={(e) => {
+                                                 const val = e.target.value.replace(/[$,]/g, '');
+                                                 const num = parseFloat(val);
+                                                 if (!isNaN(num)) updateLaborBudget('host', num);
+                                              }}
+                                              onClick={(e) => e.stopPropagation()}
+                                              className="w-20 px-2 py-0.5 text-gray-500 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-xs text-right"
+                                              data-testid="budget-input-host"
+                                           />
+                                        </td>
+                                        <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('host').color)}>{getLaborVariance('host').formatted}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">2.7%</td>
                                      </tr>
                                   </PopoverTrigger>
@@ -8374,9 +8452,22 @@ export default function PnlRelease() {
                                            General Manager
                                            <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
                                         </td>
-                                        <td className="px-6 py-3 text-right text-gray-600">$6,800</td>
-                                        <td className="px-6 py-3 text-right text-gray-400">$6,800</td>
-                                        <td className="px-6 py-3 text-right text-gray-500 text-xs">$0</td>
+                                        <td className="px-6 py-3 text-right text-gray-600">${laborActuals['gm'].toLocaleString()}</td>
+                                        <td className="px-6 py-3 text-right">
+                                           <input
+                                              type="text"
+                                              value={`$${laborBudgets['gm'].toLocaleString()}`}
+                                              onChange={(e) => {
+                                                 const val = e.target.value.replace(/[$,]/g, '');
+                                                 const num = parseFloat(val);
+                                                 if (!isNaN(num)) updateLaborBudget('gm', num);
+                                              }}
+                                              onClick={(e) => e.stopPropagation()}
+                                              className="w-20 px-2 py-0.5 text-gray-500 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-xs text-right"
+                                              data-testid="budget-input-gm"
+                                           />
+                                        </td>
+                                        <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('gm').color)}>{getLaborVariance('gm').formatted}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">2.3%</td>
                                      </tr>
                                   </PopoverTrigger>
@@ -8424,9 +8515,22 @@ export default function PnlRelease() {
                                            Shift Supervisor
                                            <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
                                         </td>
-                                        <td className="px-6 py-3 text-right text-gray-600">$5,800</td>
-                                        <td className="px-6 py-3 text-right text-gray-400">$5,800</td>
-                                        <td className="px-6 py-3 text-right text-gray-500 text-xs">$0</td>
+                                        <td className="px-6 py-3 text-right text-gray-600">${laborActuals['supervisor'].toLocaleString()}</td>
+                                        <td className="px-6 py-3 text-right">
+                                           <input
+                                              type="text"
+                                              value={`$${laborBudgets['supervisor'].toLocaleString()}`}
+                                              onChange={(e) => {
+                                                 const val = e.target.value.replace(/[$,]/g, '');
+                                                 const num = parseFloat(val);
+                                                 if (!isNaN(num)) updateLaborBudget('supervisor', num);
+                                              }}
+                                              onClick={(e) => e.stopPropagation()}
+                                              className="w-20 px-2 py-0.5 text-gray-500 bg-gray-50 border border-gray-200 rounded hover:border-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors text-xs text-right"
+                                              data-testid="budget-input-supervisor"
+                                           />
+                                        </td>
+                                        <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('supervisor').color)}>{getLaborVariance('supervisor').formatted}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">2.0%</td>
                                      </tr>
                                   </PopoverTrigger>
