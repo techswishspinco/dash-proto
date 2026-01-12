@@ -1,0 +1,260 @@
+Accounting / P&L – Use Provided P&L JSON as Single Source of Truth Across All Views
+
+Area: Accounting / P&L
+Views: Curated View (Owner / GM / Executive Chef), Detailed View
+Type: Data Integration / Accuracy & Consistency
+
+Problem
+
+We now have a canonical P&L JSON file (monthly, account-level, % of income included), but Accounting / P&L pages are not yet guaranteed to:
+
+Read directly from this file
+
+Stay numerically consistent across views
+
+Generate action items that are actually supported by the data
+
+Ensure pop-up / drill-in graphs reflect the same underlying values
+
+This breaks trust and makes QA impossible.
+
+Goal
+
+Use the provided P&L JSON file as the single source of truth for all Accounting / P&L pages, ensuring:
+
+All numbers shown match the file
+
+All calculations reconcile correctly
+
+All action items are data-driven
+
+All charts and pop-ups reflect accurate, scoped data
+
+Source File (Authoritative)
+
+File:
+2025_09_SPOT_SM_PL.json
+
+Contains:
+
+Metadata (company, location, period)
+
+Monthly financials by account
+
+Percent-of-income per account
+
+Totals by section (Income, COGS, Labor, Gross Profit, etc.)
+
+Required Data Mapping
+1️⃣ Revenue (Income)
+
+Use:
+
+Total for Income
+
+Individual revenue accounts:
+
+Food Sales
+
+Beverage Sales
+
+Delivery Sales
+
+Events / Off-Premise
+
+Comps / Discounts (negative)
+
+Rules:
+
+Monthly totals must sum exactly to Total for Income
+
+Percent-of-income values must be used as-is (no recompute unless explicitly derived)
+
+2️⃣ COGS
+
+Use:
+
+Total for Cost of Goods Sold
+
+Subcategories:
+
+Food Cost
+
+Beverage Cost
+
+Commissary
+
+Online delivery fees (where applicable)
+
+Rules:
+
+COGS % = value provided in JSON
+
+Detailed view rollups must reconcile to the monthly total
+
+COGS Deep Dive charts must sum to the same totals shown in summary cards
+
+3️⃣ Labor
+
+Use:
+
+Total for 500-400 Direct Labor Cost
+
+Individual labor roles (dishwasher, server, overtime, etc.)
+
+Rules:
+
+Labor % of income must match JSON
+
+GM / Owner summaries must equal detailed totals
+
+Labor Deep Dive uses the same base values
+
+4️⃣ Prime Cost (Derived)
+
+Prime Cost is derived, not stored:
+
+Prime Cost ($) = Total COGS + Total Labor
+Prime Cost (%) = Prime Cost ($) / Total Income
+
+
+Rules:
+
+Must reconcile exactly with COGS + Labor shown elsewhere
+
+Used consistently in:
+
+Summary cards
+
+Prime Cost Analysis
+
+Prime Cost Bridge
+
+Time-Range Behavior
+
+The JSON is monthly, so:
+
+Month view = direct month values
+
+Year view = sum of months
+
+Day / Week views:
+
+Use proportional allocation or mocked breakdowns
+
+Must still reconcile back to the monthly totals
+
+No view may show numbers that cannot roll up to the file.
+
+Action Items (Critical)
+
+All action items must be derived from this data, for example:
+
+COGS % above benchmark
+
+Labor % trending higher month-over-month
+
+Prime Cost exceeding target range
+
+Delivery fees materially impacting margin
+
+Rules:
+
+No static or placeholder action items
+
+Each action item must reference:
+
+A specific account
+
+A specific variance
+
+A visible number on screen
+
+Pop-Up / Drill-In Graphs
+
+All modals, pop-ups, and expanded charts must:
+
+Use the same JSON slice as the parent
+
+Respect:
+
+Selected month / range
+
+Location
+
+Reconcile numerically with the parent view
+
+If the card says “COGS 39.1%”, the pop-up must explain that same 39.1%, not recompute differently.
+
+Data Integrity Rules (Non-Negotiable)
+
+Totals must reconcile across:
+
+Curated View ↔ Detailed View
+
+Cards ↔ Charts ↔ Pop-ups
+
+Percent-of-income values must match JSON
+
+Prime Cost math must reconcile exactly
+
+No hardcoded financial values allowed
+
+Validation / QA Requirements
+Automated Checks (Recommended)
+
+Income = sum of revenue accounts
+
+Prime Cost = COGS + Labor
+
+Percent-of-income values are consistent across views
+
+Manual QA
+
+Switching views does not change totals
+
+Action items are explainable via visible data
+
+No contradictory numbers anywhere in P&L
+
+Non-Goals (v1)
+
+Live QBO sync
+
+Editing financials
+
+Forecasting
+
+Budget planning
+
+This ticket is about correctness and trust, not new features.
+
+Acceptance Criteria
+
+ All Accounting / P&L pages read from the provided JSON
+
+ Numbers match exactly across all views
+
+ Action items are data-driven and relevant
+
+ Pop-up graphs reflect accurate data
+
+ Prime Cost reconciles correctly
+
+ No hardcoded financial values remain
+
+Notes
+
+This ticket establishes the data contract for Accounting / P&L.
+
+Once complete:
+
+Design mode becomes reliable
+
+QA becomes deterministic
+
+Backend integration becomes a direct swap
+
+This should feel like:
+
+“If it’s on screen, it came from the file.”

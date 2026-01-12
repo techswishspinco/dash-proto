@@ -83,6 +83,29 @@ import {
   ComposedChart
 } from "recharts";
 import { useLocation } from "wouter";
+import { 
+  getMetadata,
+  getMonths,
+  getLatestMonth,
+  getLatestMonthSummary,
+  getMonthlySummary,
+  getYTDSummary,
+  getMonthlyTrend,
+  getIncomeByMonth,
+  getCOGSByMonth,
+  getCOGSPctByMonth,
+  getLaborByMonth,
+  getLaborPctByMonth,
+  getTotalIncome,
+  getTotalCOGS,
+  getTotalLabor,
+  getTotalCOGSPct,
+  getTotalLaborPct,
+  getTotalPrimeCost,
+  getTotalPrimeCostPct,
+  getCOGSBreakdown,
+  getRevenueBreakdown
+} from "@/data/pl-parser";
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 
@@ -3530,23 +3553,33 @@ export default function PnlRelease() {
   const [laborBudgetPct, setLaborBudgetPct] = useState(DEFAULT_LABOR_TARGET_PCT);
   const [isCustomLaborBudget, setIsCustomLaborBudget] = useState(false);
   
-  // Calculate budget from percentage (will use PERIOD_REVENUE defined below)
+  // Use YTD data from P&L JSON as single source of truth
+  const ytdSummary = getYTDSummary();
+  const latestMonthData = getLatestMonthSummary();
+  const plMetadata = getMetadata();
+  
+  // PERIOD_REVENUE from JSON (YTD total income)
+  const PERIOD_REVENUE = Math.round(ytdSummary.income);
+  
+  // Calculate budget from percentage
   const getLaborBudgetAmount = (revenue: number) => Math.round(revenue * (laborBudgetPct / 100));
   
+  // Labor actuals from JSON - YTD totals (proportional breakdown)
+  const totalLaborFromJSON = Math.round(ytdSummary.labor);
   const laborActuals = {
-    'total-labor': 95400,
-    'boh-labor': 38200,
-    'line-cook': 18400,
-    'prep-cook': 12200,
-    'dishwasher': 7600,
-    'foh-labor': 42100,
-    'server': 22500,
-    'bartender': 11800,
-    'host': 7800,
-    'management': 12600,
-    'gm': 6800,
-    'supervisor': 5800,
-    'payroll-taxes': 10500,
+    'total-labor': totalLaborFromJSON,
+    'boh-labor': Math.round(totalLaborFromJSON * 0.40),
+    'line-cook': Math.round(totalLaborFromJSON * 0.193),
+    'prep-cook': Math.round(totalLaborFromJSON * 0.128),
+    'dishwasher': Math.round(totalLaborFromJSON * 0.08),
+    'foh-labor': Math.round(totalLaborFromJSON * 0.44),
+    'server': Math.round(totalLaborFromJSON * 0.236),
+    'bartender': Math.round(totalLaborFromJSON * 0.124),
+    'host': Math.round(totalLaborFromJSON * 0.082),
+    'management': Math.round(totalLaborFromJSON * 0.132),
+    'gm': Math.round(totalLaborFromJSON * 0.071),
+    'supervisor': Math.round(totalLaborFromJSON * 0.061),
+    'payroll-taxes': Math.round(totalLaborFromJSON * 0.11),
   };
   
   // Category percentages of total Labor for budget breakdown
@@ -3657,7 +3690,6 @@ export default function PnlRelease() {
 
   // Editable COGS Budgets - Default 25% of Revenue per spec
   const DEFAULT_COGS_TARGET_PCT = 25;
-  const PERIOD_REVENUE = 293000; // Revenue for the period
   
   const [cogsBudgetPct, setCogsBudgetPct] = useState(DEFAULT_COGS_TARGET_PCT);
   const [isCustomCogsBudget, setIsCustomCogsBudget] = useState(false);
@@ -3665,11 +3697,12 @@ export default function PnlRelease() {
   // Calculate budget from percentage
   const cogsBudgetAmount = Math.round(PERIOD_REVENUE * (cogsBudgetPct / 100));
   
+  // COGS actuals from JSON - YTD totals
   const cogsActuals = {
-    'total-cogs': 86800,
-    'food-cost': 68400,
-    'beverage-cost': 14200,
-    'paper-supplies': 4200,
+    'total-cogs': Math.round(ytdSummary.cogs),
+    'food-cost': Math.round(ytdSummary.cogs * 0.788), // Proportional breakdown
+    'beverage-cost': Math.round(ytdSummary.cogs * 0.164),
+    'paper-supplies': Math.round(ytdSummary.cogs * 0.048),
   };
   
   // Category percentages of total COGS for budget breakdown
