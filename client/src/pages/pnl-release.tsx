@@ -11488,7 +11488,7 @@ export default function PnlRelease() {
 
                    {/* ===== PROFITABILITY SECTION - Owner Only ===== */}
                    {selectedRole === "owner" && (
-                   <section data-testid="profitability-section-main" className="bg-white p-6 rounded-xl border border-gray-200">
+                   <section data-testid="profitability-section-main">
                       <div className="flex items-center justify-between mb-6">
                          <div>
                             <h2 className="text-lg font-serif font-bold text-gray-900 flex items-center gap-2">
@@ -11520,7 +11520,7 @@ export default function PnlRelease() {
                          </div>
                       </div>
 
-                      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                      <div className="border border-gray-200 rounded-lg overflow-hidden">
                          <div className="grid grid-cols-6 bg-gray-50 border-b border-gray-200 px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                             <div className="col-span-2">Metric</div>
                             <div className="text-right">Oct 2025</div>
