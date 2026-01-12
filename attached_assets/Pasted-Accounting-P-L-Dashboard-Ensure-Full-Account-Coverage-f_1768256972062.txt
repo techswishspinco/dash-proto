@@ -1,0 +1,153 @@
+Accounting / P&L Dashboard – Ensure Full Account Coverage from Excel P&L
+
+Area: Accounting / P&L
+Page: P&L Dashboard
+Type: Data Mapping / Completeness & Accuracy
+
+Problem
+
+The current P&L Dashboard in Accounting / P&L follows the correct visual and interaction specs, but it is not guaranteed that every account present in the P&L Excel is being represented in the dashboard structure.
+
+This creates risk of:
+
+Missing accounts in totals
+
+Incorrect rollups
+
+Incomplete analysis compared to the source-of-truth P&L
+
+Goal
+
+Keep the existing P&L dashboard specs exactly as-is, but ensure that:
+
+All accounts from the attached P&L Excel are accounted for
+
+Each account appears in the correct section
+
+Sub-accounts are grouped logically under their parent accounts
+
+Totals and rollups fully reconcile to the Excel
+
+No visual redesign, no metric changes — this is a coverage and correctness pass.
+
+Source of Truth
+
+Attached File:
+2025 09 SPOT SM_PL%.xlsx
+
+This Excel defines:
+
+All P&L accounts
+
+Their hierarchy (parent → sub-accounts)
+
+The authoritative list of what must appear in the dashboard
+
+Required Behavior
+1️⃣ Account Coverage (Mandatory)
+
+Every account present in the Excel must be represented in the P&L dashboard
+
+No account may be omitted from:
+
+Totals
+
+Section rollups
+
+Detailed views
+
+2️⃣ Account Hierarchy & Grouping
+
+Accounts must be grouped using parent → sub-account hierarchy
+
+Use indentation to represent structure
+
+Example (illustrative only):
+
+Cost of Goods Sold
+  Food Cost
+    Meat
+    Produce
+    Dry Goods
+  Beverage Cost
+    Alcohol
+    Non-Alcoholic
+
+3️⃣ Naming Rules
+
+Use plain account names only
+
+Do NOT display account code numbers
+
+Names must match Excel naming (case-insensitive, punctuation tolerant)
+
+4️⃣ Dashboard Structure (Unchanged)
+
+Do NOT change:
+
+Page layout
+
+Sections
+
+KPIs
+
+Charts
+
+Interactions
+
+This ticket only affects:
+
+Data mapping
+
+Account inclusion
+
+Hierarchy accuracy
+
+Validation Rules
+Rollup Accuracy
+
+Parent totals must equal the sum of sub-accounts
+
+Section totals must reconcile to Excel totals
+
+Completeness Check
+
+A 1:1 checklist must confirm:
+
+Each Excel account exists in dashboard data
+
+Each account rolls up into exactly one parent
+
+Out of Scope (Explicit)
+
+Renaming accounts
+
+Creating new accounts
+
+Changing dashboard visuals
+
+Adding or removing sections
+
+Editing Excel values
+
+Acceptance Criteria
+
+ All accounts from the Excel appear in the P&L dashboard data model
+
+ Sub-accounts are grouped correctly using indentation
+
+ No account codes are shown in the UI
+
+ Parent totals reconcile to sub-accounts
+
+ Dashboard totals reconcile to Excel totals
+
+ Existing P&L dashboard specs remain unchanged
+
+Notes
+
+This ticket is about trust and accounting correctness, not UX iteration.
+
+The end result should feel like:
+
+“The dashboard is a faithful representation of the Excel P&L — nothing missing, nothing invented.”
