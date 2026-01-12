@@ -3262,7 +3262,9 @@ export default function PnlRelease() {
   const [activeTab, setActiveTab] = useState<"detailed" | "curated" | "pnl">("curated");
   const [activeSection, setActiveSection] = useState<string>("executive-narrative");
   const [tocDropdownOpen, setTocDropdownOpen] = useState(false);
-  const [selectedState, setSelectedState] = useState<StateBenchmark | null>(null);
+  const [selectedState, setSelectedState] = useState<StateBenchmark | null>(
+  stateBenchmarks.find(s => s.code === "NY") || null
+);
   const [stateDropdownOpen, setStateDropdownOpen] = useState(false);
   const [stateSearchQuery, setStateSearchQuery] = useState("");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -7490,70 +7492,10 @@ export default function PnlRelease() {
                       <div className="flex items-center justify-between mb-1">
                          <h2 className="text-xl font-serif font-bold text-gray-900">Prime Cost Analysis</h2>
                          <div className="flex items-center gap-2">
-                            {/* State Benchmark Selector */}
-                            <div ref={stateDropdownRef} className="relative">
-                               <button
-                                  data-testid="state-selector-btn"
-                                  onClick={() => setStateDropdownOpen(!stateDropdownOpen)}
-                                  className={cn(
-                                     "flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors",
-                                     selectedState 
-                                        ? "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
-                                        : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
-                                  )}
-                               >
-                                  <Target className="h-3.5 w-3.5" />
-                                  {selectedState ? selectedState.code : "Select State"}
-                                  <ChevronDown className={cn(
-                                     "h-3 w-3 transition-transform duration-150",
-                                     stateDropdownOpen && "rotate-180"
-                                  )} />
-                               </button>
-                               
-                               {/* State Dropdown */}
-                               {stateDropdownOpen && (
-                                  <div className="absolute right-0 top-full mt-1 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                                     <div className="px-3 pb-2 border-b border-gray-100">
-                                        <div className="relative">
-                                           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
-                                           <input
-                                              type="text"
-                                              placeholder="Search states..."
-                                              value={stateSearchQuery}
-                                              onChange={(e) => setStateSearchQuery(e.target.value)}
-                                              className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                              autoFocus
-                                           />
-                                        </div>
-                                     </div>
-                                     <div className="max-h-48 overflow-y-auto">
-                                        {stateBenchmarks
-                                           .filter(s => 
-                                              s.name.toLowerCase().includes(stateSearchQuery.toLowerCase()) ||
-                                              s.code.toLowerCase().includes(stateSearchQuery.toLowerCase())
-                                           )
-                                           .map((state) => (
-                                              <button
-                                                 key={state.code}
-                                                 data-testid={`state-option-${state.code}`}
-                                                 onClick={() => {
-                                                    setSelectedState(state);
-                                                    setStateDropdownOpen(false);
-                                                    setStateSearchQuery("");
-                                                 }}
-                                                 className={cn(
-                                                    "w-full text-left px-3 py-2 text-sm flex items-center justify-between hover:bg-gray-50 transition-colors",
-                                                    selectedState?.code === state.code && "bg-blue-50 text-blue-700"
-                                                 )}
-                                              >
-                                                 <span>{state.name}</span>
-                                                 <span className="text-gray-400 text-xs">{state.code}</span>
-                                              </button>
-                                           ))
-                                        }
-                                     </div>
-                                  </div>
-                               )}
+                            {/* Location Badge */}
+                            <div className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-50 text-blue-700 border border-blue-200">
+                               <Target className="h-3.5 w-3.5" />
+                               NY Benchmark
                             </div>
                             
                             {/* Info Tooltip */}
@@ -7562,7 +7504,7 @@ export default function PnlRelease() {
                                   <HelpCircle className="h-4 w-4" />
                                </button>
                                <div className="absolute right-0 top-full mt-1 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50 shadow-lg">
-                                  Prime cost benchmarks vary by state based on regional labor costs and food pricing. Select your state to compare your performance against industry standards.
+                                  Prime cost benchmarks are based on New York regional labor costs and food pricing to compare your performance against industry standards.
                                </div>
                             </div>
                             
