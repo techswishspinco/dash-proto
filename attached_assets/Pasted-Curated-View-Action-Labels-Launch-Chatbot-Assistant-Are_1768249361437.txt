@@ -1,0 +1,190 @@
+Curated View – Action Labels Launch Chatbot Assistant
+
+Area: Accounting / P&L
+View: Curated View (Owner, GM, Executive Chef)
+Type: Interaction / AI Assistant Integration
+
+Problem
+
+In Curated Views, sections labeled “Action Labels” surface recommended actions, but they are currently passive text.
+
+Users expect:
+
+To click an action
+
+To be guided on how to do it
+
+To understand why it matters
+
+Without an execution path, insights stall.
+
+Goal
+
+Make all “Action Labels” in Curated Views clickable so they open the chatbot assistant, preloaded with the specific action context, enabling guided execution.
+
+Scope
+
+This applies to all roles:
+
+Owner
+
+General Manager
+
+Executive Chef
+
+And to all Curated Views under:
+
+Accounting → P&L
+
+Core Rule (Non-Negotiable)
+
+Every Action Label is a chatbot entry point.
+
+If it’s labeled as an action, it must:
+
+Be clickable
+
+Open the chatbot assistant
+
+Pass the action context into the assistant
+
+Interaction Behavior
+UI
+
+Action Labels appear visually clickable (hover, cursor, subtle affordance)
+
+Clicking an Action Label:
+
+Opens chatbot assistant (side panel or modal)
+
+Focuses input on the assistant
+
+Context Passed to Assistant (Required)
+
+Each click must inject structured context:
+
+{
+  role: "Owner" | "GM" | "ExecutiveChef",
+  view: "Accounting/PnL/Curated",
+  action_label: "<label text>",
+  triggering_metrics: {
+    metric_name,
+    value,
+    comparison_value,
+    delta
+  },
+  timeframe,
+  shift (optional)
+}
+
+Example Action Labels → Assistant Launch
+GM
+
+Action Label
+
+“Lunch overstaffed vs average Monday”
+
+Assistant Opens With
+
+Explains the deviation
+
+Asks clarifying questions
+
+Guides scheduling adjustments
+
+Owner
+
+Action Label
+
+“Prime cost trending above target”
+
+Assistant Opens With
+
+CFO-level explanation
+
+Identifies main driver
+
+Suggests owner-level next steps
+
+Executive Chef
+
+Action Label
+
+“Red tickets spiked during dinner rush”
+
+Assistant Opens With
+
+Ticket-time breakdown
+
+Possible kitchen bottlenecks
+
+Operational recommendations
+
+Assistant Behavior
+
+Role-aware (no permission leakage)
+
+Action-oriented
+
+Step-by-step guidance
+
+No auto-execution in v1
+
+Completion Feedback (v1)
+
+At end of assistant flow:
+
+Prompt user:
+
+✅ Mark as addressed
+
+⏳ Review later
+
+❌ Not relevant
+
+Status may feed back to UI (future).
+
+Permissions
+Role	Can Click Action Labels
+Owner	✅
+GM	✅
+Executive Chef	✅
+Staff	❌
+
+Assistant responses must respect role visibility rules.
+
+Non-Goals (v1)
+
+Editing schedules directly
+
+Posting accounting entries
+
+Messaging staff automatically
+
+Closing the action without user confirmation
+
+Acceptance Criteria
+
+ All Action Labels are clickable
+
+ Clicking opens chatbot assistant
+
+ Correct action context is injected
+
+ Assistant response aligns with role
+
+ No sensitive data exposed incorrectly
+
+ Works consistently across Owner, GM, Exec Chef views
+
+Notes
+
+This is the bridge from insight → execution.
+
+Curated Views should feel like:
+
+“Click → understand → act”
+
+Not:
+
+“See problem → figure it out yourself.”

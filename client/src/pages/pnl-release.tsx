@@ -4347,6 +4347,7 @@ export default function PnlRelease() {
 
   const handleInsightClick = (query: string) => {
     setFloatingChatTrigger(query + " " + Date.now()); // Unique trigger for floating chat
+    setShowChat(true); // Open the chat panel
   };
 
   // --- Owner View (Customer Facing) ---
@@ -10837,6 +10838,124 @@ Help me investigate why food cost was high today and what specific actions I sho
                                   <div className="text-xs text-gray-500">Problematic tickets</div>
                                </div>
                             </div>
+                         </div>
+                      </div>
+                      
+                      {/* Kitchen Action Items */}
+                      <div className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 rounded-xl p-5 mt-6">
+                         <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <AlertTriangle className="h-4 w-4 text-red-600" />
+                            Kitchen Issues Today
+                            <span className="text-xs font-normal text-gray-500 ml-auto">Click to get guided help</span>
+                         </h3>
+                         <div className="space-y-3">
+                            {/* Issue 1: Red Tickets Spike */}
+                            <button 
+                               onClick={() => {
+                                  setFloatingChatTrigger(`[CONTEXT]
+Role: Executive Chef
+Day: Monday, Jan 12
+Issue: Red tickets spiked during dinner rush
+Metrics:
+• Peak hour: 7pm with 9 red tickets (11% of hour)
+• Total red tickets today: 35 (6% of all tickets)
+• Worst stations: Grill (12 red), Sauté (8 red)
+• Avg ticket time during rush: 9.2 min (target: 7 min)
+
+Help me understand what caused the red ticket spike during dinner and how to prevent it tomorrow.`);
+                                  setShowChat(true);
+                               }}
+                               className="w-full text-left flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-red-100 hover:bg-white hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group"
+                            >
+                               <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-100">
+                                  <Clock className="h-3.5 w-3.5 text-red-600 group-hover:text-blue-600" />
+                               </div>
+                               <div className="flex-1">
+                                  <div className="text-sm font-medium text-gray-900 group-hover:text-blue-700 flex items-center gap-2">
+                                     Red tickets spiked during dinner rush
+                                     <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </div>
+                                  <div className="text-xs text-gray-600 mt-0.5">
+                                     9 problematic tickets at 7pm — check grill and sauté stations for bottlenecks.
+                                  </div>
+                                  <div className="flex items-center gap-2 mt-2">
+                                     <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">Hour: 7pm</span>
+                                     <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded">9 red tickets</span>
+                                  </div>
+                               </div>
+                            </button>
+                            
+                            {/* Issue 2: Food Cost High */}
+                            <button 
+                               onClick={() => {
+                                  setFloatingChatTrigger(`[CONTEXT]
+Role: Executive Chef
+Day: Monday, Jan 12
+Issue: Food cost running above target
+Metrics:
+• Today's Food Cost %: 23.3%
+• Target: 24% (within range but trending up)
+• Waste log: 2.1% of inventory
+• High-cost items: Ribeye (4 over-portions), Salmon (3 remakes)
+
+Help me identify where we're losing margin on food cost and what kitchen adjustments to make.`);
+                                  setShowChat(true);
+                               }}
+                               className="w-full text-left flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-red-100 hover:bg-white hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group"
+                            >
+                               <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-100">
+                                  <Package className="h-3.5 w-3.5 text-orange-600 group-hover:text-blue-600" />
+                               </div>
+                               <div className="flex-1">
+                                  <div className="text-sm font-medium text-gray-900 group-hover:text-blue-700 flex items-center gap-2">
+                                     Protein waste above normal
+                                     <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </div>
+                                  <div className="text-xs text-gray-600 mt-0.5">
+                                     Ribeye over-portions and salmon remakes driving waste — review portioning with line.
+                                  </div>
+                                  <div className="flex items-center gap-2 mt-2">
+                                     <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">Items: Ribeye, Salmon</span>
+                                     <span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded">7 issues flagged</span>
+                                  </div>
+                               </div>
+                            </button>
+
+                            {/* Issue 3: Prep Timing */}
+                            <button 
+                               onClick={() => {
+                                  setFloatingChatTrigger(`[CONTEXT]
+Role: Executive Chef
+Day: Monday, Jan 12
+Issue: Prep completion delayed before dinner service
+Metrics:
+• Prep completed: 4:45pm (target: 4:00pm)
+• Delay: 45 minutes
+• Impact: Slow start to dinner, backed up tickets at 5:30pm
+• Cause: Late produce delivery (arrived 11:30am vs 9am)
+
+Help me create a contingency plan for late deliveries and adjust prep timing.`);
+                                  setShowChat(true);
+                               }}
+                               className="w-full text-left flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-red-100 hover:bg-white hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group"
+                            >
+                               <div className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-100">
+                                  <Calendar className="h-3.5 w-3.5 text-amber-600 group-hover:text-blue-600" />
+                               </div>
+                               <div className="flex-1">
+                                  <div className="text-sm font-medium text-gray-900 group-hover:text-blue-700 flex items-center gap-2">
+                                     Prep completed late before dinner
+                                     <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </div>
+                                  <div className="text-xs text-gray-600 mt-0.5">
+                                     45 min behind schedule due to late produce delivery — impacted early dinner tickets.
+                                  </div>
+                                  <div className="flex items-center gap-2 mt-2">
+                                     <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">Prep: 4:45pm</span>
+                                     <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs rounded">45 min late</span>
+                                  </div>
+                               </div>
+                            </button>
                          </div>
                       </div>
                    </section>
