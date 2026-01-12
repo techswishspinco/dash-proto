@@ -1,0 +1,149 @@
+Accounting / P&L – Prime Cost Target Linked to NY Benchmark & Prime Cost Bridge
+
+Area: Accounting / P&L
+View: Detailed View → Prime Cost Analysis
+Type: Feature / Benchmarking & Analysis
+
+Problem
+
+Prime Cost targets are most useful when they:
+
+Reflect real-world regional benchmarks (e.g., New York)
+
+Stay customizable for individual restaurants
+
+Flow consistently into deeper analysis tools like the Prime Cost Bridge
+
+Without this linkage:
+
+Targets feel arbitrary
+
+Bridge analysis lacks context
+
+Users can’t trust variance explanations
+
+Goal
+
+Connect the Prime Cost Target to:
+
+New York industry benchmark defaults
+
+Customizable Prime Cost budgets
+
+Prime Cost Bridge analysis
+
+So that all Prime Cost numbers reflect the same benchmark source and update together.
+
+Core Concepts
+Prime Cost Definition
+Prime Cost = (COGS + Labor) / Revenue
+
+Benchmark Source Logic (Required)
+Default Benchmark
+
+Industry Default: 55%–60%
+
+New York Benchmark
+
+58%–65% (Full-Service Restaurant default)
+
+Selection Rules
+
+If restaurant location = New York:
+
+Default Prime Cost target = NY Benchmark
+
+Otherwise:
+
+Default to Industry Benchmark
+
+Customizable Budget Override
+Behavior
+
+Users can edit:
+
+Lower bound (%)
+
+Upper bound (%)
+
+Rules
+
+Editing creates a Custom Prime Cost Target
+
+Custom target overrides benchmark everywhere:
+
+Prime Cost Analysis
+
+Prime Cost Bridge
+
+Status indicators
+
+Labeling
+
+“Prime Cost Target: 58%–65% (NY Benchmark)”
+
+“Prime Cost Target: 60%–63% (Custom)”
+
+Prime Cost Bridge Integration (Required)
+Bridge Inputs
+
+Prime Cost Bridge must reference:
+
+Actual Prime Cost %
+
+Target Prime Cost % (midpoint or range)
+
+Revenue
+
+COGS
+
+Labor
+
+Bridge Calculations
+
+Variances shown in the bridge must reconcile to:
+
+Actual Prime Cost – Target Prime Cost
+
+
+Target value source:
+
+Custom target (if exists)
+
+NY Benchmark (if NY location)
+
+Industry default (fallback)
+
+Prime Cost Bridge Display
+
+Bridge should explain:
+
+How much of the variance vs target is driven by:
+
+Labor
+
+COGS
+
+Example:
+
+Prime Cost: 62.4%
+Target (NY): 60.0%
+Variance: +2.4 pts
+
+Drivers:
+• Labor: +1.6 pts
+• COGS: +0.8 pts
+
+Data Consistency Requirement (Critical)
+
+All Prime Cost–related components must use the same target source:
+
+Prime Cost KPI
+
+Status indicators
+
+Bridge analysis
+
+Action Labels
+
+No component may define its own benchmark.

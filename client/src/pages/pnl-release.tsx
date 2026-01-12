@@ -3476,13 +3476,28 @@ export default function PnlRelease() {
   // Editable Labor Deep Dive Budgets - Default 30% of Revenue per spec
   const DEFAULT_LABOR_TARGET_PCT = 30;
 
-  // Prime Cost Target Range - Default 55-60% per spec
-  const DEFAULT_PRIME_COST_LOWER = 55;
-  const DEFAULT_PRIME_COST_UPPER = 60;
+  // Prime Cost Target Range - Linked to location benchmark
+  const INDUSTRY_PRIME_COST_LOWER = 55;
+  const INDUSTRY_PRIME_COST_UPPER = 60;
+  const NY_PRIME_COST_LOWER = 58;
+  const NY_PRIME_COST_UPPER = 65;
   
-  const [primeCostTargetLower, setPrimeCostTargetLower] = useState(DEFAULT_PRIME_COST_LOWER);
-  const [primeCostTargetUpper, setPrimeCostTargetUpper] = useState(DEFAULT_PRIME_COST_UPPER);
+  // Determine default based on selected state
+  const isNYLocation = selectedState?.code === 'NY';
+  const defaultPrimeCostLower = isNYLocation ? NY_PRIME_COST_LOWER : INDUSTRY_PRIME_COST_LOWER;
+  const defaultPrimeCostUpper = isNYLocation ? NY_PRIME_COST_UPPER : INDUSTRY_PRIME_COST_UPPER;
+  
+  const [primeCostTargetLower, setPrimeCostTargetLower] = useState(defaultPrimeCostLower);
+  const [primeCostTargetUpper, setPrimeCostTargetUpper] = useState(defaultPrimeCostUpper);
   const [isCustomPrimeCostTarget, setIsCustomPrimeCostTarget] = useState(false);
+  
+  // Update targets when state changes (unless custom)
+  useEffect(() => {
+    if (!isCustomPrimeCostTarget) {
+      setPrimeCostTargetLower(isNYLocation ? NY_PRIME_COST_LOWER : INDUSTRY_PRIME_COST_LOWER);
+      setPrimeCostTargetUpper(isNYLocation ? NY_PRIME_COST_UPPER : INDUSTRY_PRIME_COST_UPPER);
+    }
+  }, [selectedState, isCustomPrimeCostTarget, isNYLocation]);
   
   const handlePrimeCostTargetChange = (type: 'lower' | 'upper', value: number) => {
     if (type === 'lower') {
@@ -3499,9 +3514,16 @@ export default function PnlRelease() {
   };
   
   const resetPrimeCostTarget = () => {
-    setPrimeCostTargetLower(DEFAULT_PRIME_COST_LOWER);
-    setPrimeCostTargetUpper(DEFAULT_PRIME_COST_UPPER);
+    setPrimeCostTargetLower(defaultPrimeCostLower);
+    setPrimeCostTargetUpper(defaultPrimeCostUpper);
     setIsCustomPrimeCostTarget(false);
+  };
+  
+  // Get target label for display consistency
+  const getPrimeCostTargetLabel = () => {
+    if (isCustomPrimeCostTarget) return "Custom";
+    if (isNYLocation) return "NY Benchmark";
+    return "Industry Default";
   };
   
   const [laborBudgetPct, setLaborBudgetPct] = useState(DEFAULT_LABOR_TARGET_PCT);
@@ -3747,6 +3769,16 @@ export default function PnlRelease() {
 
   // Calculate actual prime cost from COGS + Labor
   const actualPrimeCostPct = ((cogsActuals['total-cogs'] + laborActuals['total-labor']) / PERIOD_REVENUE) * 100;
+  
+  // Prime Cost Bridge calculations using consistent target
+  const primeCostTargetMidpoint = (primeCostTargetLower + primeCostTargetUpper) / 2;
+  const primeCostVarianceTotal = actualPrimeCostPct - primeCostTargetMidpoint;
+  
+  // Calculate driver breakdown for Prime Cost Bridge
+  const actualCogsPct = (cogsActuals['total-cogs'] / PERIOD_REVENUE) * 100;
+  const actualLaborPct = (laborActuals['total-labor'] / PERIOD_REVENUE) * 100;
+  const cogsVariancePts = actualCogsPct - cogsBudgetPct;
+  const laborVariancePts = actualLaborPct - laborBudgetPct;
   
   const getPrimeCostStatus = () => {
     if (actualPrimeCostPct <= primeCostTargetLower) {
@@ -8290,9 +8322,9 @@ export default function PnlRelease() {
                             <div className="flex items-center gap-2">
                                <span className={cn(
                                   "px-2.5 py-1 rounded-full text-xs font-medium",
-                                  isCustomPrimeCostTarget ? "bg-blue-50 text-blue-700" : "bg-gray-100 text-gray-600"
+                                  isCustomPrimeCostTarget ? "bg-blue-50 text-blue-700" : isNYLocation ? "bg-indigo-50 text-indigo-700" : "bg-gray-100 text-gray-600"
                                )}>
-                                  {isCustomPrimeCostTarget ? "Custom" : "Industry Default"}
+                                  {getPrimeCostTargetLabel()}
                                </span>
                                {isCustomPrimeCostTarget && (
                                   <button
@@ -8511,81 +8543,70 @@ export default function PnlRelease() {
                          <div className="bg-white rounded-xl border border-gray-200 p-6">
                             <div className="flex items-center justify-between mb-1">
                                <h3 className="font-semibold text-gray-900">Prime Cost Bridge</h3>
-                               {selectedState && (
-                                  <span className="text-xs px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full">
-                                     vs {selectedState.code}
-                                  </span>
-                               )}
+                               <span className={cn(
+                                  "text-xs px-2 py-0.5 rounded-full",
+                                  isCustomPrimeCostTarget ? "bg-blue-50 text-blue-700" : isNYLocation ? "bg-indigo-50 text-indigo-700" : "bg-gray-100 text-gray-600"
+                               )}>
+                                  {getPrimeCostTargetLabel()}
+                               </span>
                             </div>
-                            <p className="text-xs text-gray-500 mb-4">Budget (61.5%) to Actual (62.1%)</p>
+                            <p className="text-xs text-gray-500 mb-4">Target ({primeCostTargetMidpoint.toFixed(1)}%) to Actual ({actualPrimeCostPct.toFixed(1)}%)</p>
                             <div className="space-y-3">
                                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                  <span className="text-gray-600">Budget Prime Cost:</span>
+                                  <span className="text-gray-600">Target Prime Cost:</span>
                                   <div className="text-right">
-                                     <span className="font-medium text-gray-900">61.5%</span>
-                                     <span className="text-gray-500 text-sm ml-2">($161,130)</span>
+                                     <span className="font-medium text-gray-900">{primeCostTargetMidpoint.toFixed(1)}%</span>
+                                     <span className="text-gray-500 text-sm ml-2">(${Math.round(PERIOD_REVENUE * primeCostTargetMidpoint / 100).toLocaleString()})</span>
                                   </div>
                                </div>
                                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                  <span className="text-gray-600">+ Labor Variance:</span>
+                                  <span className="text-gray-600">{laborVariancePts >= 0 ? '+' : '-'} Labor Variance:</span>
                                   <div className="text-right">
-                                     <span className="font-medium text-red-600">+1.5pts</span>
-                                     <span className="text-red-600 text-sm ml-2">(+$4,400)</span>
+                                     <span className={cn("font-medium", laborVariancePts > 0 ? "text-red-600" : "text-emerald-600")}>
+                                        {laborVariancePts > 0 ? '+' : ''}{laborVariancePts.toFixed(1)}pts
+                                     </span>
+                                     <span className={cn("text-sm ml-2", laborVariancePts > 0 ? "text-red-600" : "text-emerald-600")}>
+                                        ({laborVariancePts > 0 ? '+' : ''}${Math.round((laborVariancePts / 100) * PERIOD_REVENUE).toLocaleString()})
+                                     </span>
                                   </div>
                                </div>
                                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                  <span className="text-gray-600">- COGS Variance:</span>
+                                  <span className="text-gray-600">{cogsVariancePts >= 0 ? '+' : '-'} COGS Variance:</span>
                                   <div className="text-right">
-                                     <span className="font-medium text-emerald-600">-0.9pts</span>
-                                     <span className="text-emerald-600 text-sm ml-2">(-$2,600)</span>
+                                     <span className={cn("font-medium", cogsVariancePts > 0 ? "text-red-600" : "text-emerald-600")}>
+                                        {cogsVariancePts > 0 ? '+' : ''}{cogsVariancePts.toFixed(1)}pts
+                                     </span>
+                                     <span className={cn("text-sm ml-2", cogsVariancePts > 0 ? "text-red-600" : "text-emerald-600")}>
+                                        ({cogsVariancePts > 0 ? '+' : ''}${Math.round((cogsVariancePts / 100) * PERIOD_REVENUE).toLocaleString()})
+                                     </span>
                                   </div>
                                </div>
                                <div className="flex justify-between items-center py-3 bg-gray-50 rounded-lg px-3 mt-2">
                                   <span className="font-semibold text-gray-900">= Actual Prime Cost:</span>
                                   <div className="text-right">
-                                     <span className="font-bold text-gray-900">62.1%</span>
-                                     <span className="text-gray-600 text-sm ml-2">($182,200)</span>
+                                     <span className="font-bold text-gray-900">{actualPrimeCostPct.toFixed(1)}%</span>
+                                     <span className="text-gray-600 text-sm ml-2">(${(cogsActuals['total-cogs'] + laborActuals['total-labor']).toLocaleString()})</span>
                                   </div>
                                </div>
-                               {/* State Benchmark Comparison Row */}
-                               {selectedState && (
-                                  <div className={cn(
-                                     "flex justify-between items-center py-3 rounded-lg px-3 mt-2 border",
-                                     62.1 <= selectedState.primeCost 
-                                        ? "bg-emerald-50 border-emerald-200" 
-                                        : 62.1 - selectedState.primeCost <= 2 
-                                           ? "bg-amber-50 border-amber-200"
-                                           : "bg-red-50 border-red-200"
+                               {/* Variance Summary */}
+                               <div className={cn(
+                                  "flex justify-between items-center py-3 rounded-lg px-3 mt-2 border",
+                                  primeCostVarianceTotal <= 0 ? "bg-emerald-50 border-emerald-200" : primeCostVarianceTotal <= 2 ? "bg-amber-50 border-amber-200" : "bg-red-50 border-red-200"
+                               )}>
+                                  <span className={cn(
+                                     "font-medium",
+                                     primeCostVarianceTotal <= 0 ? "text-emerald-700" : primeCostVarianceTotal <= 2 ? "text-amber-700" : "text-red-700"
                                   )}>
-                                     <div className="flex items-center gap-2">
-                                        <Target className={cn(
-                                           "h-4 w-4",
-                                           62.1 <= selectedState.primeCost 
-                                              ? "text-emerald-600" 
-                                              : 62.1 - selectedState.primeCost <= 2 
-                                                 ? "text-amber-600"
-                                                 : "text-red-600"
-                                        )} />
-                                        <span className="text-gray-700">{selectedState.code} State Benchmark:</span>
-                                     </div>
-                                     <div className="text-right flex items-center gap-3">
-                                        <span className="font-bold text-gray-900">{selectedState.primeCost}%</span>
-                                        <span className={cn(
-                                           "text-sm font-medium px-2 py-0.5 rounded",
-                                           62.1 <= selectedState.primeCost 
-                                              ? "bg-emerald-100 text-emerald-700" 
-                                              : 62.1 - selectedState.primeCost <= 2 
-                                                 ? "bg-amber-100 text-amber-700"
-                                                 : "bg-red-100 text-red-700"
-                                        )}>
-                                           {62.1 <= selectedState.primeCost 
-                                              ? `${(selectedState.primeCost - 62.1).toFixed(1)}% below` 
-                                              : `${(62.1 - selectedState.primeCost).toFixed(1)}% above`}
-                                        </span>
-                                     </div>
-                                  </div>
-                               )}
-                            </div>
+                                     Variance vs Target:
+                                  </span>
+                                  <span className={cn(
+                                     "font-bold",
+                                     primeCostVarianceTotal <= 0 ? "text-emerald-700" : primeCostVarianceTotal <= 2 ? "text-amber-700" : "text-red-700"
+                                  )}>
+                                     {primeCostVarianceTotal > 0 ? '+' : ''}{primeCostVarianceTotal.toFixed(1)}pts
+                                  </span>
+                               </div>
+                                                           </div>
                          </div>
                          <div className="bg-white rounded-xl border border-gray-200 p-6">
                             <h3 className="font-semibold text-gray-900 mb-4">Labor Variance Drivers</h3>
