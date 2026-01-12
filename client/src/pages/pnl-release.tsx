@@ -9685,6 +9685,121 @@ export default function PnlRelease() {
                       </div>
                    </section>
 
+                   {/* Ticket Time Zone Bar Graph - Chef Only */}
+                   {selectedRole === "chef" && (
+                   <section data-testid="ticket-time-zone-section">
+                      <h2 className="text-lg font-serif font-bold text-gray-900 mb-4 flex items-center gap-2">
+                         <Clock className="h-5 w-5 text-gray-600" />
+                         Ticket Time Performance
+                      </h2>
+                      <div className="bg-white border border-gray-200 rounded-xl p-6">
+                         <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-4">
+                               <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 rounded-sm bg-emerald-500" />
+                                  <span className="text-xs text-gray-600">On-time (0-7 min)</span>
+                               </div>
+                               <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 rounded-sm bg-amber-400" />
+                                  <span className="text-xs text-gray-600">At risk (7-10 min)</span>
+                               </div>
+                               <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 rounded-sm bg-red-500" />
+                                  <span className="text-xs text-gray-600">Problematic (&gt;10 min)</span>
+                               </div>
+                            </div>
+                            <span className="text-xs text-gray-500">Tickets by hour</span>
+                         </div>
+                         <div className="h-64">
+                            <ResponsiveContainer width="100%" height="100%">
+                               <BarChart data={[
+                                  { hour: '10am', green: 12, yellow: 2, red: 0, total: 14 },
+                                  { hour: '11am', green: 28, yellow: 5, red: 1, total: 34 },
+                                  { hour: '12pm', green: 45, yellow: 12, red: 3, total: 60 },
+                                  { hour: '1pm', green: 52, yellow: 15, red: 5, total: 72 },
+                                  { hour: '2pm', green: 38, yellow: 8, red: 2, total: 48 },
+                                  { hour: '3pm', green: 18, yellow: 4, red: 1, total: 23 },
+                                  { hour: '4pm', green: 15, yellow: 3, red: 0, total: 18 },
+                                  { hour: '5pm', green: 32, yellow: 6, red: 2, total: 40 },
+                                  { hour: '6pm', green: 48, yellow: 14, red: 6, total: 68 },
+                                  { hour: '7pm', green: 55, yellow: 18, red: 9, total: 82 },
+                                  { hour: '8pm', green: 42, yellow: 12, red: 4, total: 58 },
+                                  { hour: '9pm', green: 25, yellow: 6, red: 2, total: 33 },
+                               ]}>
+                                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                                  <XAxis dataKey="hour" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#6b7280' }} />
+                                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#6b7280' }} />
+                                  <Tooltip 
+                                     content={({ active, payload, label }) => {
+                                        if (active && payload && payload.length) {
+                                           const green = payload.find(p => p.dataKey === 'green')?.value as number || 0;
+                                           const yellow = payload.find(p => p.dataKey === 'yellow')?.value as number || 0;
+                                           const red = payload.find(p => p.dataKey === 'red')?.value as number || 0;
+                                           const total = green + yellow + red;
+                                           const greenPct = total > 0 ? Math.round((green / total) * 100) : 0;
+                                           const yellowPct = total > 0 ? Math.round((yellow / total) * 100) : 0;
+                                           const redPct = total > 0 ? Math.round((red / total) * 100) : 0;
+                                           return (
+                                              <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-sm">
+                                                 <div className="font-semibold text-gray-900 mb-2">{label}:00 – {label}:59</div>
+                                                 <div className="space-y-1.5">
+                                                    <div className="flex items-center justify-between gap-4">
+                                                       <div className="flex items-center gap-2">
+                                                          <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500" />
+                                                          <span className="text-gray-700">Green</span>
+                                                       </div>
+                                                       <span className="font-medium text-gray-900">{green} tickets ({greenPct}%)</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between gap-4">
+                                                       <div className="flex items-center gap-2">
+                                                          <div className="w-2.5 h-2.5 rounded-sm bg-amber-400" />
+                                                          <span className="text-gray-700">Yellow</span>
+                                                       </div>
+                                                       <span className="font-medium text-gray-900">{yellow} tickets ({yellowPct}%)</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between gap-4">
+                                                       <div className="flex items-center gap-2">
+                                                          <div className="w-2.5 h-2.5 rounded-sm bg-red-500" />
+                                                          <span className="text-gray-700">Red</span>
+                                                       </div>
+                                                       <span className="font-medium text-gray-900">{red} tickets ({redPct}%)</span>
+                                                    </div>
+                                                 </div>
+                                                 <div className="mt-2 pt-2 border-t border-gray-100 text-gray-600">
+                                                    Total: {total} tickets
+                                                 </div>
+                                              </div>
+                                           );
+                                        }
+                                        return null;
+                                     }}
+                                  />
+                                  <Bar dataKey="green" stackId="tickets" fill="#10b981" name="On-time" radius={[0, 0, 0, 0]} />
+                                  <Bar dataKey="yellow" stackId="tickets" fill="#fbbf24" name="At risk" radius={[0, 0, 0, 0]} />
+                                  <Bar dataKey="red" stackId="tickets" fill="#ef4444" name="Problematic" radius={[4, 4, 0, 0]} />
+                               </BarChart>
+                            </ResponsiveContainer>
+                         </div>
+                         <div className="mt-4 pt-4 border-t border-gray-100">
+                            <div className="grid grid-cols-3 gap-4 text-center">
+                               <div>
+                                  <div className="text-2xl font-bold text-emerald-600">78%</div>
+                                  <div className="text-xs text-gray-500">On-time tickets</div>
+                               </div>
+                               <div>
+                                  <div className="text-2xl font-bold text-amber-500">16%</div>
+                                  <div className="text-xs text-gray-500">At risk tickets</div>
+                               </div>
+                               <div>
+                                  <div className="text-2xl font-bold text-red-500">6%</div>
+                                  <div className="text-xs text-gray-500">Problematic tickets</div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </section>
+                   )}
+
                    {/* Highlights Section */}
                    <section>
                       <h3 className="font-serif text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
