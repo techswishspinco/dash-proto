@@ -2233,9 +2233,19 @@ function InsightCard({ insight, onDelete, onUpdate }: { insight: any, onDelete: 
   );
 }
 
-function GoalProgress({ label, current, target, unit = "%", inverted = false, onTrendClick }: { label: string, current: number, target: number, unit?: string, inverted?: boolean, onTrendClick?: () => void }) {
+function GoalProgress({ label, current, target, unit = "%", inverted = false, onTrendClick, onTargetChange }: { label: string, current: number, target: number, unit?: string, inverted?: boolean, onTrendClick?: () => void, onTargetChange?: (newTarget: number) => void }) {
+  const [isEditingTarget, setIsEditingTarget] = useState(false);
+  const [editValue, setEditValue] = useState(target.toString());
   const progress = Math.min((current / target) * 100, 100);
   const isGood = inverted ? current <= target : current >= target;
+
+  const handleTargetSave = () => {
+    const newValue = parseFloat(editValue);
+    if (!isNaN(newValue) && newValue > 0) {
+      onTargetChange?.(newValue);
+    }
+    setIsEditingTarget(false);
+  };
 
   return (
     <div className="bg-white rounded-lg p-4 border border-gray-100 shadow-sm relative overflow-hidden group hover:border-gray-300 transition-all">
@@ -2245,7 +2255,29 @@ function GoalProgress({ label, current, target, unit = "%", inverted = false, on
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold font-serif">{current}{unit}</span>
             <span className="text-xs text-muted-foreground mb-1 flex items-center gap-1">
-              / {target}{unit} Goal
+              /{' '}
+              {isEditingTarget ? (
+                <input
+                  type="text"
+                  value={editValue}
+                  onChange={(e) => setEditValue(e.target.value)}
+                  onBlur={handleTargetSave}
+                  onKeyDown={(e) => e.key === 'Enter' && handleTargetSave()}
+                  className="w-12 px-1 py-0.5 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
+                  autoFocus
+                  data-testid={`edit-target-${label.toLowerCase().replace(/\s+/g, '-')}`}
+                />
+              ) : (
+                <button
+                  onClick={() => { setEditValue(target.toString()); setIsEditingTarget(true); }}
+                  className="hover:bg-gray-100 px-1 py-0.5 rounded cursor-pointer transition-colors border border-transparent hover:border-gray-300"
+                  title="Click to edit target"
+                  data-testid={`target-${label.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  {target}
+                </button>
+              )}
+              {unit} Goal
               {onTrendClick && (
                 <button
                   onClick={onTrendClick}
@@ -3723,6 +3755,24 @@ export default function PnlRelease() {
   const [showEmailReportModal, setShowEmailReportModal] = useState(false);
   const [showImpactAnalysis, setShowImpactAnalysis] = useState(false);
   const [expandedMissedTarget, setExpandedMissedTarget] = useState<string | null>(null);
+
+  // Editable targets state
+  const [targets, setTargets] = useState({
+    totalSales: 120,
+    netProfit: 15,
+    cogs: 30,
+    labor: 35,
+    fohLabor: 14,
+    bohLabor: 12.5,
+    foodCost: 24,
+    beverageCost: 5,
+    tableTurns: 2.2,
+    guestCount: 7800,
+  });
+
+  const updateTarget = (key: keyof typeof targets, value: number) => {
+    setTargets(prev => ({ ...prev, [key]: value }));
+  };
   const [emailRecipients, setEmailRecipients] = useState<string[]>([
     "owner@restaurant.com",
     "gm@restaurant.com"
@@ -4324,10 +4374,10 @@ export default function PnlRelease() {
                        <section>
                           <h2 className="text-lg font-serif font-bold text-gray-900 mb-6">Financial Overview</h2>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                             <GoalProgress label="Total Sales" current={124.5} target={120} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
-                             <GoalProgress label="Net Profit %" current={18} target={15} unit="%" onTrendClick={() => openTrendModal('net-income')} />
-                             <GoalProgress label="COGS %" current={31} target={30} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                             <GoalProgress label="Labor %" current={33} target={35} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
+                             <GoalProgress label="Total Sales" current={124.5} target={targets.totalSales} unit="k" onTrendClick={() => openTrendModal('net-sales')} onTargetChange={(v) => updateTarget('totalSales', v)} />
+                             <GoalProgress label="Net Profit %" current={18} target={targets.netProfit} unit="%" onTrendClick={() => openTrendModal('net-income')} onTargetChange={(v) => updateTarget('netProfit', v)} />
+                             <GoalProgress label="COGS %" current={31} target={targets.cogs} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} onTargetChange={(v) => updateTarget('cogs', v)} />
+                             <GoalProgress label="Labor %" current={33} target={targets.labor} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} onTargetChange={(v) => updateTarget('labor', v)} />
                           </div>
                        </section>
 
@@ -9091,28 +9141,28 @@ export default function PnlRelease() {
                          {/* Owner sees everything */}
                          {selectedRole === "owner" && (
                             <>
-                               <GoalProgress label="Total Sales" current={124.5} target={120} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
-                               <GoalProgress label="Net Profit %" current={18} target={15} unit="%" onTrendClick={() => openTrendModal('net-income')} />
-                               <GoalProgress label="COGS %" current={31} target={30} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                               <GoalProgress label="Labor %" current={33} target={35} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
+                               <GoalProgress label="Total Sales" current={124.5} target={targets.totalSales} unit="k" onTrendClick={() => openTrendModal('net-sales')} onTargetChange={(v) => updateTarget('totalSales', v)} />
+                               <GoalProgress label="Net Profit %" current={18} target={targets.netProfit} unit="%" onTrendClick={() => openTrendModal('net-income')} onTargetChange={(v) => updateTarget('netProfit', v)} />
+                               <GoalProgress label="COGS %" current={31} target={targets.cogs} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} onTargetChange={(v) => updateTarget('cogs', v)} />
+                               <GoalProgress label="Labor %" current={33} target={targets.labor} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} onTargetChange={(v) => updateTarget('labor', v)} />
                             </>
                          )}
                          {/* GM sees sales, labor (FOH focus), and operations */}
                          {selectedRole === "gm" && (
                             <>
-                               <GoalProgress label="Total Sales" current={124.5} target={120} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
-                               <GoalProgress label="FOH Labor %" current={14.3} target={14} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
-                               <GoalProgress label="Table Turns" current={2.4} target={2.2} unit="" />
-                               <GoalProgress label="Guest Count" current={8580} target={7800} unit="" />
+                               <GoalProgress label="Total Sales" current={124.5} target={targets.totalSales} unit="k" onTrendClick={() => openTrendModal('net-sales')} onTargetChange={(v) => updateTarget('totalSales', v)} />
+                               <GoalProgress label="FOH Labor %" current={14.3} target={targets.fohLabor} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} onTargetChange={(v) => updateTarget('fohLabor', v)} />
+                               <GoalProgress label="Table Turns" current={2.4} target={targets.tableTurns} unit="" onTargetChange={(v) => updateTarget('tableTurns', v)} />
+                               <GoalProgress label="Guest Count" current={8580} target={targets.guestCount} unit="" onTargetChange={(v) => updateTarget('guestCount', v)} />
                             </>
                          )}
                          {/* Executive Chef sees COGS, BOH labor */}
                          {selectedRole === "chef" && (
                             <>
-                               <GoalProgress label="COGS %" current={31} target={30} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                               <GoalProgress label="Food Cost %" current={23.3} target={24} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                               <GoalProgress label="BOH Labor %" current={13} target={12.5} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
-                               <GoalProgress label="Beverage Cost %" current={4.8} target={5} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
+                               <GoalProgress label="COGS %" current={31} target={targets.cogs} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} onTargetChange={(v) => updateTarget('cogs', v)} />
+                               <GoalProgress label="Food Cost %" current={23.3} target={targets.foodCost} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} onTargetChange={(v) => updateTarget('foodCost', v)} />
+                               <GoalProgress label="BOH Labor %" current={13} target={targets.bohLabor} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} onTargetChange={(v) => updateTarget('bohLabor', v)} />
+                               <GoalProgress label="Beverage Cost %" current={4.8} target={targets.beverageCost} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} onTargetChange={(v) => updateTarget('beverageCost', v)} />
                             </>
                          )}
                       </div>
