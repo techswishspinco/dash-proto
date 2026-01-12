@@ -4283,31 +4283,16 @@ export default function PnlRelease() {
     return Math.max(0, totalPoints - windowSize);
   };
   
-  // Handle zoom from drag selection OR pan when zoomed
+  // Handle zoom from drag selection (for hourly view)
   const handleShiftChartMouseDown = (e: any) => {
-    if (shiftZoomLevel !== '60min') {
-      // Pan mode when zoomed
-      setIsPanning(true);
-      setPanStartX(e?.chartX || 0);
-    } else if (e && e.activeLabel) {
-      // Zoom mode at hourly level
+    if (shiftZoomLevel === '60min' && e && e.activeLabel) {
       setIsDragging(true);
       setDragStart(e.activeTooltipIndex);
     }
   };
   
   const handleShiftChartMouseMove = (e: any) => {
-    if (isPanning && panStartX !== null && e?.chartX !== undefined) {
-      const delta = panStartX - e.chartX;
-      const sensitivity = shiftZoomLevel === '1min' ? 0.3 : shiftZoomLevel === '5min' ? 0.2 : 0.15;
-      const offsetChange = Math.round(delta * sensitivity);
-      
-      if (Math.abs(offsetChange) >= 1) {
-        const newOffset = Math.min(Math.max(0, dataOffset + offsetChange), getMaxOffset());
-        setDataOffset(newOffset);
-        setPanStartX(e.chartX);
-      }
-    } else if (isDragging && e && e.activeTooltipIndex !== undefined) {
+    if (isDragging && e && e.activeTooltipIndex !== undefined) {
       setDragEnd(e.activeTooltipIndex);
     }
   };
@@ -4320,19 +4305,39 @@ export default function PnlRelease() {
       // Zoom in based on selection
       if (shiftZoomLevel === '60min') {
         setShiftZoomLevel('15min');
-        setDataOffset(start * 4); // Each hour = 4 x 15min
+        setDataOffset(start * 4);
         setShiftZoomWindow({ start: start + 9, end: end + 10 });
-      } else if (shiftZoomLevel === '15min') {
-        setShiftZoomLevel('5min');
-        setDataOffset(Math.floor(dataOffset * 3));
-      } else if (shiftZoomLevel === '5min') {
-        setShiftZoomLevel('1min');
-        setDataOffset(Math.floor(dataOffset * 5));
       }
     }
     setIsDragging(false);
     setDragStart(null);
     setDragEnd(null);
+  };
+  
+  // Native DOM event handlers for panning (when zoomed)
+  const handlePanMouseDown = (e: React.MouseEvent) => {
+    if (shiftZoomLevel !== '60min') {
+      e.preventDefault();
+      setIsPanning(true);
+      setPanStartX(e.clientX);
+    }
+  };
+  
+  const handlePanMouseMove = (e: React.MouseEvent) => {
+    if (isPanning && panStartX !== null && shiftZoomLevel !== '60min') {
+      const delta = panStartX - e.clientX;
+      const sensitivity = shiftZoomLevel === '1min' ? 0.15 : shiftZoomLevel === '5min' ? 0.12 : 0.08;
+      const offsetChange = delta * sensitivity;
+      
+      if (Math.abs(offsetChange) >= 1) {
+        const newOffset = Math.min(Math.max(0, dataOffset + offsetChange), getMaxOffset());
+        setDataOffset(Math.round(newOffset));
+        setPanStartX(e.clientX);
+      }
+    }
+  };
+  
+  const handlePanMouseUp = () => {
     setIsPanning(false);
     setPanStartX(null);
   };
@@ -11295,6 +11300,10 @@ export default function PnlRelease() {
                                shiftZoomLevel === '60min' ? "cursor-crosshair" : isPanning ? "cursor-grabbing" : "cursor-grab"
                             )}
                             onDoubleClick={handleShiftChartDoubleClick}
+                            onMouseDown={handlePanMouseDown}
+                            onMouseMove={handlePanMouseMove}
+                            onMouseUp={handlePanMouseUp}
+                            onMouseLeave={handlePanMouseUp}
                          >
                             <ResponsiveContainer width="100%" height="100%">
                                <ComposedChart 
