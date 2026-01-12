@@ -1,0 +1,242 @@
+Curated View – Action Items → Chatbot-Guided Execution
+
+Area: Curated Views (Owner / GM / Executive Chef)
+Type: Feature / Interaction
+Component: Chatbot Assistant Integration
+
+Problem
+
+Curated Views surface insights and action items, but today they stop short of execution.
+
+GMs and Owners often ask:
+
+“Okay, what do I actually do now?”
+
+“Where do I even start?”
+
+Static dashboards create awareness, but do not close the loop between insight → action → outcome.
+
+Goal
+
+Make every action item in Curated Views actionable by launching a context-aware chatbot assistant that guides the user step-by-step to resolve the issue.
+
+This turns Curated Views into decision + execution surfaces, not just reporting.
+
+Core Concept
+
+Every action item is a doorway into the assistant.
+
+Clicking an action item:
+
+Opens the chatbot assistant
+
+Preloads full context
+
+Guides the user through the recommended action
+
+Action Item Behavior (Required)
+Interaction
+
+Each action item is clickable
+
+On click:
+
+Chatbot assistant opens (side panel or modal)
+
+Assistant is pre-seeded with:
+
+The detected issue
+
+Relevant metrics
+
+Timeframe
+
+Role context (Owner / GM / Exec Chef)
+
+Example Action Items → Assistant Flows
+Example 1: GM – Overstaffed Lunch Shift
+
+Action Item (UI)
+
+“Lunch was overstaffed vs a typical Monday”
+
+On Click → Assistant Opens With
+
+Context:
+• Role: GM
+• Day: Monday
+• Shift: Lunch
+• Labor %: +6 pts vs avg
+• Sales: -11% vs avg
+
+
+Assistant Flow
+
+Confirms understanding:
+
+“Lunch labor ran higher than demand today.”
+
+Asks guided questions:
+
+“Was staffing adjusted after 1pm?”
+
+“Any call-outs or training shifts?”
+
+Suggests actions:
+
+Adjust future Monday lunch schedules
+
+Reduce overlap
+
+Optional next step:
+
+“Want me to flag next Monday’s lunch schedule?”
+
+Example 2: Owner – Prime Cost Risk
+
+Action Item
+
+“Prime cost trending above target”
+
+Assistant Context
+
+• Prime Cost ↑ driven by labor
+• Revenue flat
+• Period: Last 7 days
+
+
+Assistant Flow
+
+Explains why in CFO terms
+
+Asks owner-level decision questions
+
+Routes to:
+
+GM follow-up
+
+Labor policy review
+
+Weekly focus item
+
+Example 3: Exec Chef – Ticket Time Delays
+
+Action Item
+
+“Red tickets spiked during dinner rush”
+
+Assistant Flow
+
+Walks through:
+
+Hour-by-hour breakdown
+
+Possible bottlenecks
+
+Suggests:
+
+Station adjustments
+
+Prep changes
+
+Menu simplification (future)
+
+Assistant Requirements
+Context Injection (Mandatory)
+
+Each assistant session must receive:
+
+Role
+
+View (Owner / GM / Exec Chef)
+
+Metric(s) triggering the action
+
+Time range
+
+Shift (if applicable)
+
+Guidance Style
+
+Step-by-step
+
+Question-driven
+
+Non-judgmental
+
+Operational (not accounting-heavy)
+
+Completion Tracking (v1 Lightweight)
+
+At the end of a flow, assistant asks:
+
+“Did you take action on this?”
+
+Options:
+
+✅ Done
+
+⏳ Will do later
+
+❌ Not applicable
+
+Status feeds back to:
+
+Action item state
+
+(Future) learning loop
+
+Permissions & Scope
+Role	Can Trigger Assistant
+Owner	✅
+GM	✅
+Executive Chef	✅
+Staff	❌
+
+Assistant responses must:
+
+Respect role visibility
+
+Avoid sensitive data leakage (pay, cash, etc.)
+
+Non-Goals (v1)
+
+Auto-executing changes
+
+Writing schedules
+
+Editing payroll
+
+Sending messages automatically
+
+Assistant guides, not acts.
+
+Acceptance Criteria
+
+ Every action item is clickable
+
+ Clicking opens chatbot assistant
+
+ Assistant is preloaded with correct context
+
+ Flow is tailored to user role
+
+ User can mark action as done / later
+
+ No sensitive data exposed incorrectly
+
+Notes
+
+This feature is critical to making Munch feel like:
+
+“A manager that helps me fix problems — not a dashboard that tells me I failed.”
+
+Future Extensions (Not Required)
+
+Auto-scheduling follow-ups
+
+Linking actions to outcomes
+
+Learning which recommendations work
+
+Escalation to owner if unresolved

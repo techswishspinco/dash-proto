@@ -10577,14 +10577,35 @@ export default function PnlRelease() {
                          <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
                             <Lightbulb className="h-4 w-4 text-amber-600" />
                             What happened today?
+                            <span className="text-xs font-normal text-gray-500 ml-auto">Click an issue to get guided help</span>
                          </h3>
                          <div className="space-y-3">
-                            <div className="flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-amber-100">
-                               <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                  <Users className="h-3.5 w-3.5 text-red-600" />
+                            {/* Issue 1: Overstaffed Lunch */}
+                            <button 
+                               onClick={() => {
+                                  setFloatingChatTrigger(`[CONTEXT]
+Role: General Manager
+Day: Monday, Jan 12
+Shift: Lunch (${lunchStart}–${lunchEnd})
+Issue: Lunch was overstaffed vs typical Monday
+Metrics:
+• Labor %: ${lunchData.laborPct}% (${parseFloat(lunchData.laborVariance) >= 0 ? '+' : ''}${lunchData.laborVariance} pts vs avg)
+• Sales: $${lunchData.sales.toLocaleString()} (${lunchData.salesVariance}% vs avg)
+• Prime Cost: ${lunchData.primePct}%
+
+Help me understand why lunch was overstaffed today and what I should do about tomorrow's schedule.`);
+                                  setShowChat(true);
+                               }}
+                               className="w-full text-left flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-amber-100 hover:bg-white hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group"
+                            >
+                               <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-100">
+                                  <Users className="h-3.5 w-3.5 text-red-600 group-hover:text-blue-600" />
                                </div>
-                               <div>
-                                  <div className="text-sm font-medium text-gray-900">Lunch overstaffed vs normal Monday</div>
+                               <div className="flex-1">
+                                  <div className="text-sm font-medium text-gray-900 group-hover:text-blue-700 flex items-center gap-2">
+                                     Lunch overstaffed vs normal Monday
+                                     <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </div>
                                   <div className="text-xs text-gray-600 mt-0.5">
                                      Labor was +7.2 pts higher than normal for demand — likely overstaffed during Lunch shift.
                                   </div>
@@ -10593,14 +10614,35 @@ export default function PnlRelease() {
                                      <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded">Labor % +7.2 pts</span>
                                   </div>
                                </div>
-                            </div>
+                            </button>
                             
-                            <div className="flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-amber-100">
-                               <div className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                  <TrendingDown className="h-3.5 w-3.5 text-amber-600" />
+                            {/* Issue 2: Sales Below Average */}
+                            <button 
+                               onClick={() => {
+                                  setFloatingChatTrigger(`[CONTEXT]
+Role: General Manager
+Day: Monday, Jan 12
+Issue: Sales below weekday average
+Metrics:
+• Today's Sales: $4,820
+• Avg Monday Sales: $5,180
+• Variance: -6.9% ($360 below average)
+• Weather: Clear, 45°F
+• No major events in area
+
+Help me understand why sales were down today and what I can do to improve afternoon traffic tomorrow.`);
+                                  setShowChat(true);
+                               }}
+                               className="w-full text-left flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-amber-100 hover:bg-white hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group"
+                            >
+                               <div className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-100">
+                                  <TrendingDown className="h-3.5 w-3.5 text-amber-600 group-hover:text-blue-600" />
                                </div>
-                               <div>
-                                  <div className="text-sm font-medium text-gray-900">Sales below weekday average</div>
+                               <div className="flex-1">
+                                  <div className="text-sm font-medium text-gray-900 group-hover:text-blue-700 flex items-center gap-2">
+                                     Sales below weekday average
+                                     <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </div>
                                   <div className="text-xs text-gray-600 mt-0.5">
                                      Sales dropped -6.9% versus a typical Monday. Demand issue, not staffing.
                                   </div>
@@ -10609,14 +10651,34 @@ export default function PnlRelease() {
                                      <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs rounded">Sales -$360</span>
                                   </div>
                                </div>
-                            </div>
+                            </button>
 
-                            <div className="flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-amber-100">
-                               <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                  <Package className="h-3.5 w-3.5 text-orange-600" />
+                            {/* Issue 3: High COGS */}
+                            <button 
+                               onClick={() => {
+                                  setFloatingChatTrigger(`[CONTEXT]
+Role: General Manager
+Day: Monday, Jan 12
+Issue: Food cost ran higher than normal
+Metrics:
+• Today's COGS %: 32.4%
+• Avg Monday COGS %: 30.8%
+• Variance: +1.6 pts above normal
+• Possible causes: waste, comps, portioning, theft
+
+Help me investigate why food cost was high today and what specific actions I should take.`);
+                                  setShowChat(true);
+                               }}
+                               className="w-full text-left flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-amber-100 hover:bg-white hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group"
+                            >
+                               <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-100">
+                                  <Package className="h-3.5 w-3.5 text-orange-600 group-hover:text-blue-600" />
                                </div>
-                               <div>
-                                  <div className="text-sm font-medium text-gray-900">Food cost ran slightly high</div>
+                               <div className="flex-1">
+                                  <div className="text-sm font-medium text-gray-900 group-hover:text-blue-700 flex items-center gap-2">
+                                     Food cost ran slightly high
+                                     <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </div>
                                   <div className="text-xs text-gray-600 mt-0.5">
                                      COGS % was +1.6 pts above normal — check waste, comps, or portioning.
                                   </div>
@@ -10625,7 +10687,7 @@ export default function PnlRelease() {
                                      <span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded">COGS % +1.6 pts</span>
                                   </div>
                                </div>
-                            </div>
+                            </button>
                          </div>
                          
                          {/* Action Summary */}
