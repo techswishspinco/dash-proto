@@ -59,8 +59,7 @@ import {
   Sun,
   Moon,
   Package,
-  TrendingDown,
-  ZoomIn
+  TrendingDown
 } from "lucide-react";
 import {
   Popover,
@@ -4202,65 +4201,6 @@ export default function PnlRelease() {
   const currentShiftData = shiftBreakdownData[gmTimeRange];
   const shiftTotalSales = currentShiftData.reduce((sum, s) => sum + s.sales, 0);
   const shiftTotalLabor = currentShiftData.reduce((sum, s) => sum + s.labor, 0);
-  
-  // Time Resolution Control state
-  const [timeZoomLevel, setTimeZoomLevel] = useState(0); // 0=60min, 1=15min, 2=5min, 3=1min
-  const [zoomCenterHour, setZoomCenterHour] = useState(12); // Center hour for zoomed view
-  
-  const zoomLevels = [
-    { label: '60 min', minutes: 60, buckets: 14 },
-    { label: '15 min', minutes: 15, buckets: 24 },
-    { label: '5 min', minutes: 5, buckets: 36 },
-    { label: '1 min', minutes: 1, buckets: 60 },
-  ];
-  
-  const currentZoom = zoomLevels[timeZoomLevel];
-  
-  // Generate data based on zoom level
-  const getZoomedData = () => {
-    if (timeZoomLevel === 0) {
-      return currentShiftData;
-    }
-    
-    // For zoomed views, generate minute-level mock data around the center hour
-    const minuteInterval = currentZoom.minutes;
-    const windowMinutes = Math.min(120, currentZoom.buckets * minuteInterval);
-    const startMinute = Math.max(0, (zoomCenterHour - 9) * 60 - windowMinutes / 2);
-    
-    const data = [];
-    for (let m = 0; m < windowMinutes; m += minuteInterval) {
-      const totalMinute = startMinute + m;
-      const hour = Math.floor(totalMinute / 60) + 9;
-      const minute = totalMinute % 60;
-      
-      if (hour > 22) break;
-      
-      // Find base hourly data
-      const hourStr = hour <= 11 ? `${hour}am` : hour === 12 ? '12pm' : `${hour - 12}pm`;
-      const baseData = currentShiftData.find(d => d.hour === hourStr) || { sales: 100, labor: 40, laborPct: 40 };
-      
-      // Generate minute-level variation
-      const variance = 0.7 + Math.random() * 0.6;
-      const minuteFraction = minuteInterval / 60;
-      const sales = Math.round(baseData.sales * minuteFraction * variance);
-      const labor = Math.round(baseData.labor * minuteFraction * variance);
-      const laborPct = labor > 0 && sales > 0 ? Math.round((labor / sales) * 100 * 10) / 10 : 0;
-      
-      const timeLabel = minuteInterval >= 15 
-        ? `${hour > 12 ? hour - 12 : hour}:${minute.toString().padStart(2, '0')}${hour >= 12 ? 'pm' : 'am'}`
-        : `${hour > 12 ? hour - 12 : hour}:${minute.toString().padStart(2, '0')}`;
-      
-      data.push({ hour: timeLabel, sales, labor, laborPct });
-    }
-    return data;
-  };
-  
-  const zoomedChartData = getZoomedData();
-  
-  // Reset zoom when time range changes
-  useEffect(() => {
-    setTimeZoomLevel(0);
-  }, [gmTimeRange]);
   
   // Shift time customization state
   const [lunchStart, setLunchStart] = useState("11:00");
@@ -11173,12 +11113,6 @@ export default function PnlRelease() {
                                <span className="text-xs font-normal text-gray-500">
                                   {gmTimeRange === 'today' ? 'Today' : gmTimeRange === 'week' ? 'This Week (Avg/Day)' : gmTimeRange === 'month' ? 'This Month (Avg/Day)' : 'YTD (Avg/Day)'}
                                </span>
-                               {timeZoomLevel > 0 && (
-                                  <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full flex items-center gap-1">
-                                     <ZoomIn className="h-3 w-3" />
-                                     {currentZoom.label} resolution
-                                  </span>
-                               )}
                             </h3>
                             <div className="flex items-center gap-4 text-xs">
                                <div className="flex items-center gap-1.5">
@@ -11196,77 +11130,10 @@ export default function PnlRelease() {
                             </div>
                          </div>
                          
-                         {/* Time Resolution Control */}
-                         <div className="flex items-center gap-4 mb-4 p-3 bg-gray-50 rounded-lg">
-                            <div className="flex items-center gap-2 text-xs text-gray-600">
-                               <ZoomIn className="h-4 w-4" />
-                               <span className="font-medium">Time Resolution:</span>
-                            </div>
-                            <div className="flex-1 flex items-center gap-3">
-                               <input
-                                  type="range"
-                                  min="0"
-                                  max="3"
-                                  value={timeZoomLevel}
-                                  onChange={(e) => setTimeZoomLevel(parseInt(e.target.value))}
-                                  className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                                  data-testid="time-resolution-slider"
-                               />
-                               <div className="flex items-center gap-2 min-w-[100px]">
-                                  {zoomLevels.map((level, idx) => (
-                                     <button
-                                        key={level.label}
-                                        onClick={() => setTimeZoomLevel(idx)}
-                                        className={cn(
-                                           "px-2 py-1 text-xs rounded transition-colors",
-                                           timeZoomLevel === idx 
-                                              ? "bg-blue-500 text-white" 
-                                              : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-100"
-                                        )}
-                                     >
-                                        {level.label}
-                                     </button>
-                                  ))}
-                               </div>
-                            </div>
-                            {timeZoomLevel > 0 && (
-                               <button
-                                  onClick={() => setTimeZoomLevel(0)}
-                                  className="flex items-center gap-1 px-2 py-1 text-xs text-gray-600 hover:text-gray-900 bg-white border border-gray-200 rounded hover:bg-gray-50 transition-colors"
-                               >
-                                  <RotateCcw className="h-3 w-3" />
-                                  Reset
-                               </button>
-                            )}
-                         </div>
-                         
-                         {/* Center Hour Selector (when zoomed) */}
-                         {timeZoomLevel > 0 && (
-                            <div className="flex items-center gap-3 mb-4 text-xs">
-                               <span className="text-gray-600">Focus on:</span>
-                               <div className="flex items-center gap-1">
-                                  {[9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21].map((h) => (
-                                     <button
-                                        key={h}
-                                        onClick={() => setZoomCenterHour(h)}
-                                        className={cn(
-                                           "px-2 py-1 rounded transition-colors",
-                                           zoomCenterHour === h 
-                                              ? "bg-blue-500 text-white" 
-                                              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                                        )}
-                                     >
-                                        {h > 12 ? `${h-12}pm` : h === 12 ? '12pm' : `${h}am`}
-                                     </button>
-                                  ))}
-                               </div>
-                            </div>
-                         )}
-                         
                          {/* Combined Bar + Line Chart */}
                          <div className="h-64">
                             <ResponsiveContainer width="100%" height="100%">
-                               <ComposedChart data={zoomedChartData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
+                               <ComposedChart data={currentShiftData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
                                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                                   <XAxis 
                                      dataKey="hour" 
