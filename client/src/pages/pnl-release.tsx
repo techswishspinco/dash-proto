@@ -127,7 +127,7 @@ import { ReportContent } from "@/components/reports/report-content";
 import { Wand } from "@/components/ui/wand";
 
 // --- Action Cart Types & Data ---
-interface ActionItem {
+export interface ActionItem {
   id: string;
   title: string;
   source: 'pnl_insight' | 'ai_suggestion' | 'user_click';
@@ -3207,12 +3207,18 @@ function SidePanelAssistant({
   onClose, 
   triggerQuery,
   onOpenReport,
-  onReportGenerated
+  onReportGenerated,
+  actionItems,
+  onAddActionItem,
+  onRemoveActionItem
 }: { 
   onClose: () => void; 
   triggerQuery?: string | null;
   onOpenReport?: (report: Report) => void;
   onReportGenerated?: (report: {id: string, type: string, data: ReportData, createdAt: number}) => void;
+  actionItems: ActionItem[];
+  onAddActionItem: (item: Omit<ActionItem, 'id' | 'createdAt' | 'status'>) => void;
+  onRemoveActionItem: (id: string) => void;
 }) {
   const [messages, setMessages] = useState<FloatingMessage[]>([]);
   const [input, setInput] = useState("");
@@ -5319,63 +5325,6 @@ export default function PnlRelease() {
   const [goalsMet, setGoalsMet] = useState(true); // Mock state for confetti
   const [highlightedPnlNodeId, setHighlightedPnlNodeId] = useState<string | null>(null);
   const [trendModalMetric, setTrendModalMetric] = useState<MetricTrendData | null>(null);
-
-  // New Reports Tab State
-  const [reportsList, setReportsList] = useState<Array<{id: string, type: string, data: ReportData, createdAt: number}>>([]);
-  const [activeReportId, setActiveReportId] = useState<string | null>(null);
-  
-  // Action Cart State
-  const [actionItems, setActionItems] = useState<ActionItem[]>([]);
-
-  const handleAddActionItem = (item: Omit<ActionItem, 'id' | 'createdAt' | 'status'>) => {
-      const newItem: ActionItem = {
-          ...item,
-          id: `action-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          status: 'new',
-          createdAt: Date.now()
-      };
-      setActionItems(prev => [newItem, ...prev]);
-      toast({
-          title: "Added to Actions",
-          description: "Item added to your Action Cart.",
-      });
-  };
-
-  const handleRemoveActionItem = (id: string) => {
-      setActionItems(prev => prev.filter(item => item.id !== id));
-      toast({
-          title: "Removed",
-          description: "Action item removed.",
-      });
-  };
-
-  const handleReportGenerated = (report: {id: string, type: string, data: ReportData, createdAt: number}) => {
-      setReportsList(prev => [report, ...prev]);
-      setActiveReportId(report.id);
-      setActiveTab("reports");
-      toast({
-          title: "Report Generated",
-          description: "New report added to your Reports tab.",
-      });
-  };
-
-  const handleGenerateReportFromTab = (type: ReportType) => {
-      toast({
-          title: "Generating Report",
-          description: `Analyzing ${type} data...`,
-      });
-
-      setTimeout(() => {
-          const reportData = MOCK_REPORTS[type];
-          const newReport = {
-              id: `report-${Date.now()}`,
-              type,
-              data: reportData,
-              createdAt: Date.now()
-          };
-          handleReportGenerated(newReport);
-      }, 1500);
-  };
 
   // Edit Mode State
   const [isEditMode, setIsEditMode] = useState(false);
