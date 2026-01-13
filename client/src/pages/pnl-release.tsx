@@ -13815,27 +13815,6 @@ export default function PnlRelease() {
                                </div>
                             )}
 
-                            {/* Strategic Recommendations - Based on January P&L Context */}
-                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 pb-2">
-                              <div className="bg-blue-50 border border-blue-100 rounded-xl p-5">
-                                 <h4 className="font-serif font-semibold text-blue-900 mb-2">January Labor Planning</h4>
-                                 <p className="text-sm text-blue-800 leading-relaxed">
-                                    Holiday volume won't repeat. Target returning to <span className="font-semibold">31% labor</span> by end of Jan via schedule adjustments.
-                                 </p>
-                              </div>
-                              <div className="bg-purple-50 border border-purple-100 rounded-xl p-5">
-                                 <h4 className="font-serif font-semibold text-purple-900 mb-2">Delivery Channel</h4>
-                                 <p className="text-sm text-purple-800 leading-relaxed">
-                                    Delivery now <span className="font-semibold">20% of revenue</span>. Model in-house delivery for orders within 2-mile radius to save margin.
-                                 </p>
-                              </div>
-                              <div className="bg-orange-50 border border-orange-100 rounded-xl p-5">
-                                 <h4 className="font-serif font-semibold text-orange-900 mb-2">Marketing Reactivation</h4>
-                                 <p className="text-sm text-orange-800 leading-relaxed">
-                                    Reinstate marketing spend (<span className="font-semibold">$5k budget</span>) focused on weekday traffic for the soft January period.
-                                 </p>
-                              </div>
-                           </div>
 
                            {/* Completed Actions for Role */}
                             {completedActions.filter(item => item.owner === (selectedRole === "owner" ? "Owner" : selectedRole === "gm" ? "GM" : "Executive Chef")).length > 0 && (
