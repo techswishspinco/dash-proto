@@ -1,0 +1,238 @@
+On-Demand AI Reports (Prompted, Exportable)
+Title
+
+Add Optional AI-Generated Reports from Chatbot (Prompt → Generate → Export)
+
+Goal
+
+Enable the chatbot to optionally generate structured, exportable reports based on a user’s question or statement.
+
+The report should not generate immediately.
+Instead, after a qualifying response, the chatbot should prompt:
+
+“Would you like a report?”
+
+If the user confirms, the system generates a side-panel / modal report using underlying platform data (e.g. P&L, labor, sales, inventory), with supporting tables, metrics, and commentary, and allow export.
+
+This should feel similar to ChatGPT’s “Create a report?” UX.
+
+Why This Matters
+
+Prevents overwhelming users with long outputs
+
+Keeps chat conversational while enabling deep, formal analysis on demand
+
+Creates a reusable reporting engine across:
+
+Profitability
+
+Labor efficiency
+
+Cost control
+
+Trends & comparisons
+
+Bonus eligibility (future)
+
+User Flow (UX)
+1. User asks a question or makes a statement
+
+Examples:
+
+“How profitable was October?”
+
+“Why did margins drop last month?”
+
+“Compare September vs October performance”
+
+“Are we overspending on labor?”
+
+2. Chatbot responds normally (concise)
+
+High-level answer
+
+Key takeaway(s)
+
+No long tables or exports yet
+
+3. Chatbot prompts for report (conditional)
+
+If intent qualifies:
+
+“Would you like a detailed report with supporting data?”
+Buttons:
+
+✅ Generate report
+
+❌ No thanks
+
+4. If user confirms → Generate Report
+
+Report:
+
+Opens in side panel / modal
+
+Scrollable
+
+Structured
+
+Exportable
+
+Report Structure (Standardized)
+
+Each report should follow this schema (vary content by topic):
+
+A. Report Header
+
+Title (auto-generated)
+
+Date range
+
+Entity / Location(s)
+
+Data sources used (e.g. P&L, payroll, POS)
+
+B. Executive Summary
+
+3–5 bullet insights
+
+Plain-English, owner-friendly
+
+Example:
+
+“Net margin declined 2.3% MoM primarily due to labor inefficiency”
+
+“Food cost remained stable at 28.4%”
+
+C. Supporting Metrics & Tables
+
+Driven by the question type.
+
+Example: Profitability Report
+
+Revenue
+
+Gross profit
+
+Net profit
+
+Margin %
+
+MoM / YoY deltas
+
+Table sourced from P&L data
+
+Example: Labor Report
+
+Labor $
+
+Labor %
+
+Sales per labor hour
+
+Overtime impact
+
+D. Analysis & Commentary (AI)
+
+Explain why changes occurred
+
+Reference specific accounts or categories
+
+Avoid speculation — cite data points used
+
+E. Recommendations (Optional, Flagged)
+
+Operational suggestions
+
+Cost control ideas
+
+Clearly labeled as recommendations (not facts)
+
+Export Options
+
+Report must be exportable as:
+
+PDF
+
+CSV (tables only)
+
+Copy to clipboard (formatted Markdown)
+
+Exports should reflect exactly what’s shown in the report.
+
+AI / Data Behavior
+Intent Detection
+
+Report prompt should trigger when:
+
+User asks about performance, trends, comparisons, causes, or summaries
+
+Keywords include:
+
+profitability
+
+margin
+
+P&L
+
+labor
+
+costs
+
+trends
+
+compare
+
+why / explain
+
+Data Rules
+
+Use existing normalized data
+
+P&L (accrual where available)
+
+Payroll summaries
+
+POS sales
+
+No assumptions without data
+
+If data is missing:
+
+Call it out explicitly in report
+
+Non-Goals (Out of Scope)
+
+No automatic report generation without confirmation
+
+No scheduling (future enhancement)
+
+No cross-entity consolidation (v1 = single entity)
+
+Acceptance Criteria
+
+ Chatbot conditionally asks “Would you like a report?”
+
+ Report does NOT generate unless user confirms
+
+ Report opens in a dedicated UI (modal or side panel)
+
+ Report includes structured sections (Summary, Data, Analysis)
+
+ Report pulls real P&L / operational data
+
+ Report is exportable (PDF + CSV)
+
+ Report content varies correctly by user question
+
+Future Extensions (Not Required)
+
+Saved reports
+
+Scheduled monthly reports
+
+Shareable links
+
+Bonus / KPI-based reports
+
+Multi-location rollups
