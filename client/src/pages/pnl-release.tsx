@@ -7232,7 +7232,7 @@ export default function PnlRelease() {
                           {/* Revenue Drivers */}
                           <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
                              <h3 className="font-semibold text-gray-900 mb-4">Revenue Drivers</h3>
-                             <div className="grid grid-cols-4 gap-4">
+                             <div className="grid grid-cols-4 gap-4 mb-4">
                                 <div className="border border-gray-200 rounded-lg p-4">
                                    <p className="text-xs text-gray-500 mb-1">Guest Count</p>
                                    <p className="text-2xl font-bold text-gray-900">8,580</p>
@@ -7254,33 +7254,30 @@ export default function PnlRelease() {
                                    <p className="text-xs text-emerald-600 font-medium">+5.7% vs prior</p>
                                 </div>
                              </div>
-                          </div>
-
-                          {/* Key Insights */}
-                          <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5 shadow-sm">
-                             <div className="flex items-center gap-2 mb-4">
-                                <Sparkles className="h-4 w-4 text-indigo-600" />
-                                <h4 className="font-semibold text-indigo-900">Key Insights</h4>
-                             </div>
-                             <div className="space-y-3">
-                                <div className="flex items-start gap-3">
-                                   <div className="h-1.5 w-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
-                                   <p className="text-sm text-indigo-900 leading-relaxed">
-                                      Delivery mix increased <span className="font-medium">2pts vs prior year</span> — consider margin implications.
-                                   </p>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                   <div className="h-1.5 w-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
-                                   <p className="text-sm text-indigo-900 leading-relaxed">
-                                      Week 4 dine-in revenue was <span className="font-medium">28% above average</span> (holiday effect).
-                                   </p>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                   <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 shrink-0" />
-                                   <p className="text-sm text-indigo-900 leading-relaxed">
-                                      No significant discounting or promo activity observed this period.
-                                   </p>
-                                </div>
+                             
+                             {/* Insight Buttons */}
+                             <div className="flex flex-wrap gap-2">
+                                <button
+                                  onClick={() => handleInsightClick("Analyze the 2pt increase in delivery mix vs prior year. What are the margin implications given the high commission fees?")}
+                                  className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-full text-xs font-medium transition-colors border border-indigo-100"
+                                >
+                                  <Sparkles className="h-3 w-3" />
+                                  Delivery mix +2pts vs prior
+                                </button>
+                                <button
+                                  onClick={() => handleInsightClick("Explain why Week 4 dine-in revenue was 28% above average. Is this purely holiday effect or something else?")}
+                                  className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-full text-xs font-medium transition-colors border border-indigo-100"
+                                >
+                                  <Sparkles className="h-3 w-3" />
+                                  Week 4 dine-in +28%
+                                </button>
+                                <button
+                                  onClick={() => handleInsightClick("Confirm that there was no significant discounting or promo activity this period. How does this compare to last year?")}
+                                  className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-full text-xs font-medium transition-colors border border-emerald-100"
+                                >
+                                  <CheckCircle2 className="h-3 w-3" />
+                                  No promo activity
+                                </button>
                              </div>
                           </div>
                        </section>
@@ -9630,33 +9627,30 @@ export default function PnlRelease() {
                                </ResponsiveContainer>
                             </div>
                          )}
-                      </div>
-
-                      {/* Key Insights */}
-                      <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5 shadow-sm">
-                         <div className="flex items-center gap-2 mb-4">
-                            <Sparkles className="h-4 w-4 text-indigo-600" />
-                            <h4 className="font-semibold text-indigo-900">Key Insights</h4>
-                         </div>
-                         <div className="space-y-3">
-                            <div className="flex items-start gap-3">
-                               <div className="h-1.5 w-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
-                               <p className="text-sm text-indigo-900 leading-relaxed">
-                                  Delivery mix increased <span className="font-medium">2pts vs prior year</span> — consider margin implications.
-                               </p>
-                            </div>
-                            <div className="flex items-start gap-3">
-                               <div className="h-1.5 w-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
-                               <p className="text-sm text-indigo-900 leading-relaxed">
-                                  Week 4 dine-in revenue was <span className="font-medium">28% above average</span> (holiday effect).
-                               </p>
-                            </div>
-                            <div className="flex items-start gap-3">
-                               <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 shrink-0" />
-                               <p className="text-sm text-indigo-900 leading-relaxed">
-                                  No significant discounting or promo activity observed this period.
-                               </p>
-                            </div>
+                         
+                         {/* Insight Buttons */}
+                         <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-100">
+                            <button
+                              onClick={() => handleInsightClick("Analyze the 2pt increase in delivery mix vs prior year. What are the margin implications given the high commission fees?")}
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-full text-xs font-medium transition-colors border border-indigo-100"
+                            >
+                              <Sparkles className="h-3 w-3" />
+                              Delivery mix +2pts vs prior
+                            </button>
+                            <button
+                              onClick={() => handleInsightClick("Explain why Week 4 dine-in revenue was 28% above average. Is this purely holiday effect or something else?")}
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-full text-xs font-medium transition-colors border border-indigo-100"
+                            >
+                              <Sparkles className="h-3 w-3" />
+                              Week 4 dine-in +28%
+                            </button>
+                            <button
+                              onClick={() => handleInsightClick("Confirm that there was no significant discounting or promo activity this period. How does this compare to last year?")}
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-full text-xs font-medium transition-colors border border-emerald-100"
+                            >
+                              <CheckCircle2 className="h-3 w-3" />
+                              No promo activity
+                            </button>
                          </div>
                       </div>
                    </section>
