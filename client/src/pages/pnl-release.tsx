@@ -3404,7 +3404,7 @@ function OwnerChat({ isOpen, onClose, triggerQuery }: { isOpen: boolean; onClose
         responseText = "**Overtime Breakdown:**\n\n• Kitchen Prep: 12 hours ($350 impact)\n• Cause: Late Sysco delivery on 10/14\n\nHere's how to prevent this next month:";
         suggestedActions = ["adjust-delivery"];
     } else if (lowerText.includes("sales") || lowerText.includes("brunch")) {
-       responseText = "**Sales Insight:**\n\nWeekend Brunch is up 12% YoY!\n\n**Top Item**: Smoked Salmon Benedict (+40 units)\n**Upsells**: 18% Mimosa attach rate = $1,200 extra\n\nCapitalize on this momentum:";
+       responseText = "**Sales Insight:**\n\nWeekend Brunch is down 13.8%!\n\n**Top Item**: Smoked Salmon Benedict (+40 units)\n**Upsells**: 18% Mimosa attach rate = $1,200 extra\n\nCapitalize on this momentum:";
        suggestedActions = ["expand-brunch"];
     } else if (lowerText.includes("email")) {
        responseText = "I'll draft that email for you:\n\n---\n\n**Subject**: Great work on October!\n\nTeam,\n\nI'm thrilled to share that we beat our efficiency goals this month. Labor costs dropped 6% thanks to smart scheduling. Let's keep it up!\n\nBest,\nOwner\n\n---\n\n*Email ready to send via your preferred method.*";
@@ -6336,7 +6336,7 @@ export default function PnlRelease() {
                                          <p className="text-sm font-medium text-gray-900">
                                             Sales exceeded target: $124.5k vs $120k goal
                                          </p>
-                                         <p className="text-xs text-muted-foreground">Weekend brunch traffic was up 12% YoY</p>
+                                         <p className="text-xs text-muted-foreground">Weekend brunch traffic was down 13.8%</p>
                                       </div>
                                    </div>
                                    <div className="flex items-center gap-2">
@@ -6678,31 +6678,31 @@ export default function PnlRelease() {
                                 <div className="flex-1">
                                    <h3 className="font-semibold text-gray-900 mb-2">Performance Summary</h3>
                                    <p className="text-gray-700 leading-relaxed">
-                                      December{' '}
+                                      September{' '}
                                       <button 
-                                        onClick={() => navigateToPnlNode('net_income')}
+                                        onClick={() => navigateToPnlNode('net-income')}
                                         className="text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded px-0.5 -mx-0.5 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-400 focus:ring-offset-1"
                                         aria-label="View Net Income in P&L Dashboard"
                                       >net income</button>{' '}
-                                      came in at $18,200 (6.2% margin), beating budget by $2,400. Strong holiday traffic drove{' '}
+                                      came in at $17,722 (13.3% margin), falling short of budget. Seasonal trends drove{' '}
                                       <button 
-                                        onClick={() => navigateToPnlNode('revenue')}
+                                        onClick={() => navigateToPnlNode('income')}
                                         className="text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded px-0.5 -mx-0.5 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-400 focus:ring-offset-1"
                                         aria-label="View Revenue in P&L Dashboard"
                                       >revenue</button>{' '}
-                                      up 12% YoY, while{' '}
+                                      down 13.8%, while{' '}
                                       <button 
-                                        onClick={() => navigateToPnlNode('labor')}
+                                        onClick={() => navigateToPnlNode('direct-labor-cost')}
                                         className="text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded px-0.5 -mx-0.5 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-400 focus:ring-offset-1"
                                         aria-label="View Labor Costs in P&L Dashboard"
                                       >labor costs</button>{' '}
-                                      ran slightly over target due to overtime during peak weeks. Food cost held steady at 29.2%. The{' '}
+                                      remained well-controlled. Food cost rose to 41.8%. The{' '}
                                       <button 
-                                        onClick={() => navigateToPnlNode('prime_cost')}
+                                        onClick={() => navigateToPnlNode('cogs')}
                                         className="text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded px-0.5 -mx-0.5 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-400 focus:ring-offset-1"
                                         aria-label="View Prime Cost in P&L Dashboard"
                                       >prime cost</button>{' '}
-                                      remained within the target range of 60-62%.
+                                      exceeded the 50% target.
                                    </p>
                                 </div>
                              </div>
@@ -8914,35 +8914,35 @@ export default function PnlRelease() {
                                   />
                                ) : (
                                <p className="text-gray-700 leading-relaxed">
-                                  December{' '}
+                                  September{' '}
                                   <button 
-                                    onClick={() => navigateToPnlNode('net_income')}
+                                    onClick={() => navigateToPnlNode('net-income')}
                                     className="text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded px-0.5 -mx-0.5 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-400 focus:ring-offset-1"
                                     aria-label="View Net Income in P&L Dashboard"
                                     data-testid="link-net-income"
                                   >net income</button>{' '}
-                                  came in at $18,200 (6.2% margin), beating budget by $2,400. Strong holiday traffic drove{' '}
+                                  came in at $17,722 (13.3% margin), falling short of budget. Seasonal trends drove{' '}
                                   <button 
-                                    onClick={() => navigateToPnlNode('revenue')}
+                                    onClick={() => navigateToPnlNode('income')}
                                     className="text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded px-0.5 -mx-0.5 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-400 focus:ring-offset-1"
                                     aria-label="View Revenue in P&L Dashboard"
                                     data-testid="link-revenue"
                                   >revenue</button>{' '}
-                                  12% above forecast, though{' '}
+                                  down 13.8%, though{' '}
                                   <button 
-                                    onClick={() => navigateToPnlNode('labor')}
+                                    onClick={() => navigateToPnlNode('direct-labor-cost')}
                                     className="text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded px-0.5 -mx-0.5 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-400 focus:ring-offset-1"
                                     aria-label="View Labor Costs in P&L Dashboard"
                                     data-testid="link-labor"
                                   >labor costs</button>{' '}
-                                  ran hot during the final two weeks.{' '}
+                                  remained well-controlled.{' '}
                                   <button 
-                                    onClick={() => navigateToPnlNode('prime_cost')}
+                                    onClick={() => navigateToPnlNode('cogs')}
                                     className="text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded px-0.5 -mx-0.5 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-400 focus:ring-offset-1"
                                     aria-label="View Prime Cost in P&L Dashboard"
                                     data-testid="link-prime-cost"
                                   >Prime cost</button>{' '}
-                                  landed at 62.1%—within target but worth watching as January staffing decisions are made.
+                                  landed at 62.1%—exceeding target driven by higher COGS .
                                </p>
                                )}
                             </div>
@@ -12666,7 +12666,7 @@ export default function PnlRelease() {
                                                  className="text-emerald-700 hover:text-emerald-900 underline decoration-dotted underline-offset-2"
                                               >$124.5k vs $120k</button> goal
                                            </p>
-                                           <p className="text-xs text-muted-foreground">Weekend brunch traffic was up 12% YoY</p>
+                                           <p className="text-xs text-muted-foreground">Weekend brunch traffic was down 13.8%</p>
                                         </div>
                                      </div>
                                      <button 
