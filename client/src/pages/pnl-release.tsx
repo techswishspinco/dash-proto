@@ -14620,7 +14620,7 @@ export default function PnlRelease() {
                             )}
                             {selectedRole === "chef" && (
                                <>
-                                  {/* Produce Cost Missed Target with Dropdown */}
+                                  {/* Commissary Food Missed Target with Dropdown */}
                                   <div>
                                      <button
                                         data-testid="toggle-produce-opportunity"
@@ -14633,14 +14633,17 @@ export default function PnlRelease() {
                                            </div>
                                            <div className="text-left">
                                               <p className="text-sm font-medium text-gray-900">
-                                                 Produce costs spiked:{' '}
-                                                 <span className="text-amber-700">Avocados +37%, Limes +28%</span>
+                                                 Commissary Food Spiked:{' '}
+                                                 <button 
+                                                    onClick={(e) => { e.stopPropagation(); setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('commissary-food'), 100); }}
+                                                    className="text-amber-700 hover:text-amber-900 underline decoration-dotted underline-offset-2"
+                                                 >$28k vs $19k</button>
                                               </p>
-                                              <p className="text-xs text-muted-foreground">Evaluate alternative suppliers or menu adjustments</p>
+                                              <p className="text-xs text-muted-foreground">Major variance in prepared food costs</p>
                                            </div>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                           <span className="text-sm font-medium text-amber-600">-$800</span>
+                                           <span className="text-sm font-medium text-amber-600">-$8,257</span>
                                            <ChevronDown className={cn(
                                               "h-4 w-4 text-gray-400 transition-transform duration-200",
                                               expandedMissedTarget === "produce" && "rotate-180"
@@ -14664,17 +14667,10 @@ export default function PnlRelease() {
                                                     </div>
                                                     <div className="flex justify-between items-center">
                                                        <div>
-                                                          <p className="text-sm font-medium text-gray-900">Switch to Restaurant Depot for avocados</p>
-                                                          <p className="text-xs text-gray-500">Produce • Avocados</p>
+                                                          <p className="text-sm font-medium text-gray-900">Audit Commissary Orders</p>
+                                                          <p className="text-xs text-gray-500">COGS • Commissary</p>
                                                        </div>
-                                                       <span className="text-sm font-semibold text-emerald-600">+$400/mo</span>
-                                                    </div>
-                                                    <div className="flex justify-between items-center pt-2 border-t border-indigo-100">
-                                                       <div>
-                                                          <p className="text-sm font-medium text-gray-900">Feature lime-free specials through Q1</p>
-                                                          <p className="text-xs text-gray-500">Menu Engineering • Seasonal</p>
-                                                       </div>
-                                                       <span className="text-sm font-semibold text-emerald-600">+$200/mo</span>
+                                                       <span className="text-sm font-semibold text-emerald-600">Critical</span>
                                                     </div>
                                                  </div>
                                               </div>
