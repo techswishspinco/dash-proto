@@ -4313,7 +4313,7 @@ const PrimaryInsightCard = ({
             className="px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 flex items-center gap-2 shadow-sm"
           >
             <Sparkles className="h-4 w-4 text-purple-600" />
-            Ask AI
+            Ask Assistant
           </button>
         </div>
       </div>
@@ -12786,7 +12786,10 @@ export default function PnlRelease() {
                        role={selectedRole}
                        trends={healthSnapshotTrendData}
                        onAddAction={handleAddActionItem}
-                       onAskAI={setFloatingChatTrigger}
+                       onAskAI={(query) => {
+                         setFloatingChatTrigger(query);
+                         setShowChat(true);
+                       }}
                      />
                    )}
 
@@ -12917,7 +12920,10 @@ export default function PnlRelease() {
                               role={selectedRole}
                               trends={aggregatedTrends}
                               onAddAction={handleAddActionItem}
-                              onAskAI={setFloatingChatTrigger}
+                              onAskAI={(query) => {
+                                setFloatingChatTrigger(query);
+                                setShowChat(true);
+                              }}
                            />
                         </div>
 
