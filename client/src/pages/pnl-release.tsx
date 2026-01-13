@@ -2578,7 +2578,7 @@ function renderMarkdown(text: string) {
 }
 
 // Action card type for shopping cart
-type ActionItem = {
+type LegacyActionItem = {
   id: string;
   title: string;
   description: string;
@@ -2588,7 +2588,7 @@ type ActionItem = {
 };
 
 // Available actions that can be added to cart
-const availableActions: ActionItem[] = [
+const availableActions: LegacyActionItem[] = [
   { id: "switch-avocado", title: "Switch Avocado Supplier", description: "GreenLeaf offers $48/case vs current $62", impact: 600, category: "cogs", icon: "truck" },
   { id: "adjust-delivery", title: "Adjust Delivery Window", description: "Move Sysco to 8-10AM to avoid overtime", impact: 350, category: "ops", icon: "clock" },
   { id: "lock-scheduling", title: "Lock Mid-Shift Cuts", description: "Make Tue/Wed staffing changes permanent", impact: 480, category: "labor", icon: "users" },
@@ -2598,7 +2598,7 @@ const availableActions: ActionItem[] = [
 ];
 
 // Action Card Component
-function ActionCard({ action, isInCart, onToggle }: { action: ActionItem; isInCart: boolean; onToggle: () => void }) {
+function ActionCard({ action, isInCart, onToggle }: { action: LegacyActionItem; isInCart: boolean; onToggle: () => void }) {
   const iconMap = {
     truck: <ArrowRight className="h-4 w-4" />,
     clock: <Clock className="h-4 w-4" />,
