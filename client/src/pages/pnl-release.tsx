@@ -219,7 +219,7 @@ const OWNER_FILTER_OPTIONS: CuratedFilterOption[] = [
   { id: "opportunities", label: "Opportunities", group: "Insights" },
   { id: "impact-analysis", label: "Impact Analysis", group: "Insights" },
   { id: "team-performance", label: "Team Performance", group: "Insights" },
-  { id: "action-items", label: "Action Items", group: "Insights" },
+
 ];
 
 const GM_FILTER_OPTIONS: CuratedFilterOption[] = [
@@ -232,7 +232,7 @@ const GM_FILTER_OPTIONS: CuratedFilterOption[] = [
   { id: "operational-alerts", label: "Operational Alerts", group: "Analysis" },
   { id: "wins", label: "Operations Wins", group: "Insights" },
   { id: "opportunities", label: "Opportunities", group: "Insights" },
-  { id: "action-items", label: "Action Items", group: "Insights" },
+
 ];
 
 const CHEF_FILTER_OPTIONS: CuratedFilterOption[] = [
@@ -244,7 +244,7 @@ const CHEF_FILTER_OPTIONS: CuratedFilterOption[] = [
   { id: "menu-cost-drivers", label: "Menu-Driven Cost Drivers", group: "Analysis" },
   { id: "wins", label: "Kitchen Wins", group: "Insights" },
   { id: "opportunities", label: "Opportunities", group: "Insights" },
-  { id: "action-items", label: "Action Items", group: "Insights" },
+
 ];
 
 const getFilterOptionsForRole = (role: RoleType): CuratedFilterOption[] => {
@@ -621,7 +621,6 @@ const tocSections = [
   { id: "revenue-analysis", label: "Revenue Analysis" },
   { id: "prime-cost-analysis", label: "Prime Cost Analysis" },
   { id: "operating-expenses", label: "Operating Expenses" },
-  { id: "action-items", label: "Action Items" },
   { id: "accountant-note", label: "Accountant Note" },
 ];
 
@@ -638,7 +637,6 @@ const defaultSections: EditableSection[] = [
   { id: "revenue-analysis", label: "Revenue Analysis", visible: true },
   { id: "prime-cost-analysis", label: "Prime Cost Analysis", visible: true },
   { id: "operating-expenses", label: "Operating Expenses", visible: true },
-  { id: "action-items", label: "Action Items", visible: true },
   { id: "accountant-note", label: "Accountant Note", visible: true },
 ];
 
