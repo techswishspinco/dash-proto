@@ -11880,9 +11880,9 @@ export default function PnlRelease() {
                                  <div className="mt-3 pt-3 border-t border-gray-100">
                                     <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
                                     <div className="flex flex-wrap gap-1.5">
-                                       <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Menu pricing impact</button>
-                                       <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">COGS trend vs Revenue</button>
-                                       <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Waste reduction details</button>
+                                       <button onClick={() => handleInsightClick("Menu pricing impact")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Menu pricing impact</button>
+                                       <button onClick={() => handleInsightClick("COGS trend vs Revenue")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">COGS trend vs Revenue</button>
+                                       <button onClick={() => handleInsightClick("Waste reduction details")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Waste reduction details</button>
                                     </div>
                                  </div>
                               </div>
@@ -11933,9 +11933,9 @@ export default function PnlRelease() {
                                          <div className="mt-3 pt-3 border-t border-gray-100">
                                             <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
                                             <div className="flex flex-wrap gap-1.5">
-                                               <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Analyze margin growth</button>
-                                               <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Compare to industry avg</button>
-                                               <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Menu engineering results</button>
+                                               <button onClick={() => handleInsightClick("Analyze margin growth")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Analyze margin growth</button>
+                                               <button onClick={() => handleInsightClick("Compare to industry avg")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Compare to industry avg</button>
+                                               <button onClick={() => handleInsightClick("Menu engineering results")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Menu engineering results</button>
                                             </div>
                                          </div>
                                       </div>
@@ -11994,9 +11994,9 @@ export default function PnlRelease() {
                                  <div className="mt-3 pt-3 border-t border-gray-100">
                                     <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
                                     <div className="flex flex-wrap gap-1.5">
-                                       <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Profitability drivers</button>
-                                       <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Cash flow impact</button>
-                                       <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Owner distribution potential</button>
+                                       <button onClick={() => handleInsightClick("Profitability drivers")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Profitability drivers</button>
+                                       <button onClick={() => handleInsightClick("Cash flow impact")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Cash flow impact</button>
+                                       <button onClick={() => handleInsightClick("Owner distribution potential")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Owner distribution potential</button>
                                     </div>
                                  </div>
                               </div>
@@ -12048,9 +12048,9 @@ export default function PnlRelease() {
                                             <div className="mt-3 pt-3 border-t border-gray-100">
                                                <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
                                                <div className="flex flex-wrap gap-1.5">
-                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Utility usage breakdown</button>
-                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Labor vs OpEx</button>
-                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Vendor spend details</button>
+                                                  <button onClick={() => handleInsightClick("Utility usage breakdown")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Utility usage breakdown</button>
+                                                  <button onClick={() => handleInsightClick("Labor vs OpEx")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Labor vs OpEx</button>
+                                                  <button onClick={() => handleInsightClick("Vendor spend details")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Vendor spend details</button>
                                                </div>
                                             </div>
                                          </div>
@@ -12099,9 +12099,9 @@ export default function PnlRelease() {
                                             <div className="mt-3 pt-3 border-t border-gray-100">
                                                <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
                                                <div className="flex flex-wrap gap-1.5">
-                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Efficiency trends</button>
-                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Fixed vs Variable costs</button>
-                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Break-even analysis</button>
+                                                  <button onClick={() => handleInsightClick("Efficiency trends")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Efficiency trends</button>
+                                                  <button onClick={() => handleInsightClick("Fixed vs Variable costs")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Fixed vs Variable costs</button>
+                                                  <button onClick={() => handleInsightClick("Break-even analysis")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Break-even analysis</button>
                                                </div>
                                             </div>
                                          </div>
@@ -12150,9 +12150,9 @@ export default function PnlRelease() {
                                             <div className="mt-3 pt-3 border-t border-gray-100">
                                                <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
                                                <div className="flex flex-wrap gap-1.5">
-                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Cost reduction drivers</button>
-                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Forecast next month</button>
-                                                  <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Compare to budget</button>
+                                                  <button onClick={() => handleInsightClick("Cost reduction drivers")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Cost reduction drivers</button>
+                                                  <button onClick={() => handleInsightClick("Forecast next month")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Forecast next month</button>
+                                                  <button onClick={() => handleInsightClick("Compare to budget")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Compare to budget</button>
                                                </div>
                                             </div>
                                          </div>
@@ -12204,9 +12204,9 @@ export default function PnlRelease() {
                                  <div className="mt-3 pt-3 border-t border-gray-100">
                                     <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
                                     <div className="flex flex-wrap gap-1.5">
-                                       <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Sustainability check</button>
-                                       <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">YoY comparison</button>
-                                       <button className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Regional benchmark</button>
+                                       <button onClick={() => handleInsightClick("Sustainability check")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Sustainability check</button>
+                                       <button onClick={() => handleInsightClick("YoY comparison")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">YoY comparison</button>
+                                       <button onClick={() => handleInsightClick("Regional benchmark")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Regional benchmark</button>
                                     </div>
                                  </div>
                               </div>
