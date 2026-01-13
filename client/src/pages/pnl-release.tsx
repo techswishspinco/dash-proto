@@ -4289,6 +4289,118 @@ const getPrimaryInsightForRole = (role: RoleType, trends: MetricTrendData[]): Pr
   };
 };
 
+const PrimaryInsightCard = ({ 
+  role, 
+  trends, 
+  onAddAction, 
+  onAskAI 
+}: { 
+  role: RoleType; 
+  trends: MetricTrendData[]; 
+  onAddAction: (item: any) => void; 
+  onAskAI: (query: string) => void; 
+}) => {
+  const primaryInsight = getPrimaryInsightForRole(role, trends);
+  if (!primaryInsight) return null;
+
+  return (
+    <div className={cn(
+      "rounded-xl p-6 mb-8 border-l-4 shadow-sm",
+      primaryInsight.type === "critical" ? "bg-red-50 border-red-500" :
+      primaryInsight.type === "warning" ? "bg-amber-50 border-amber-500" :
+      "bg-emerald-50 border-emerald-500"
+    )}>
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <div className="flex items-center gap-2 mb-2">
+            {primaryInsight.type === "critical" ? (
+              <AlertTriangle className="h-5 w-5 text-red-600" />
+            ) : primaryInsight.type === "warning" ? (
+              <AlertTriangle className="h-5 w-5 text-amber-600" />
+            ) : (
+              <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+            )}
+            <span className={cn(
+              "text-xs font-bold uppercase tracking-wider",
+              primaryInsight.type === "critical" ? "text-red-700" :
+              primaryInsight.type === "warning" ? "text-amber-700" :
+              "text-emerald-700"
+            )}>
+              Primary Insight
+            </span>
+          </div>
+          
+          <h3 className="text-xl font-bold text-gray-900 mb-2">
+            {primaryInsight.message}
+          </h3>
+          
+          <p className="text-gray-700 mb-4 text-base leading-relaxed max-w-3xl">
+            {primaryInsight.detail}
+          </p>
+
+          <div className="flex items-center gap-8">
+            <div>
+              <span className="text-xs text-gray-500 uppercase tracking-wide block mb-0.5">Actual</span>
+              <span className={cn(
+                "text-lg font-bold",
+                primaryInsight.type === "critical" ? "text-red-700" :
+                primaryInsight.type === "warning" ? "text-amber-700" :
+                "text-emerald-700"
+              )}>{primaryInsight.value}</span>
+            </div>
+            <div>
+              <span className="text-xs text-gray-500 uppercase tracking-wide block mb-0.5">Target</span>
+              <span className="text-lg font-medium text-gray-700">{primaryInsight.target}</span>
+            </div>
+            <div>
+              <span className="text-xs text-gray-500 uppercase tracking-wide block mb-0.5">Variance</span>
+              <span className={cn(
+                "text-lg font-bold flex items-center gap-1",
+                primaryInsight.type === "critical" ? "text-red-600" :
+                primaryInsight.type === "warning" ? "text-amber-600" :
+                "text-emerald-600"
+              )}>
+                {primaryInsight.direction === "up" ? <ArrowUp className="h-4 w-4" /> : 
+                  primaryInsight.direction === "down" ? <ArrowDown className="h-4 w-4" /> : null}
+                {primaryInsight.variance}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex flex-col gap-2">
+          <button 
+            onClick={() => {
+              onAddAction({
+                title: `Investigate ${primaryInsight.metric} Variance`,
+                source: 'pnl_insight',
+                metric: primaryInsight.metric,
+                context: primaryInsight.message
+              });
+            }}
+            className={cn(
+              "px-4 py-2 rounded-lg text-sm font-medium transition-colors border shadow-sm flex items-center gap-2",
+              primaryInsight.type === "critical" ? "bg-white text-red-700 border-red-200 hover:bg-red-50" :
+              primaryInsight.type === "warning" ? "bg-white text-amber-700 border-amber-200 hover:bg-amber-50" :
+              "bg-white text-emerald-700 border-emerald-200 hover:bg-emerald-50"
+            )}
+          >
+            <List className="h-4 w-4" />
+            Add to Actions
+          </button>
+          <button
+            onClick={() => onAskAI(`Analyze ${primaryInsight.metric} variance for me`)} 
+            className="px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 flex items-center gap-2 shadow-sm"
+          >
+            <Sparkles className="h-4 w-4 text-purple-600" />
+            Ask AI
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function PnlRelease() {
   const [location, setLocation] = useLocation();
   const { toast } = useToast();
@@ -12241,109 +12353,15 @@ export default function PnlRelease() {
                       </div>
                    </div>
 
-                   {/* Primary Insight Card (Role-Based) */}
-                   {(() => {
-                      const primaryInsight = getPrimaryInsightForRole(selectedRole, healthSnapshotTrendData);
-                      if (!primaryInsight) return null;
-
-                      return (
-                         <div className={cn(
-                            "rounded-xl p-6 mb-8 border-l-4 shadow-sm",
-                            primaryInsight.type === "critical" ? "bg-red-50 border-red-500" :
-                            primaryInsight.type === "warning" ? "bg-amber-50 border-amber-500" :
-                            "bg-emerald-50 border-emerald-500"
-                         )}>
-                            <div className="flex items-start justify-between">
-                               <div className="flex-1">
-                                  <div className="flex items-center gap-2 mb-2">
-                                     {primaryInsight.type === "critical" ? (
-                                        <AlertTriangle className="h-5 w-5 text-red-600" />
-                                     ) : primaryInsight.type === "warning" ? (
-                                        <AlertTriangle className="h-5 w-5 text-amber-600" />
-                                     ) : (
-                                        <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                                     )}
-                                     <span className={cn(
-                                        "text-xs font-bold uppercase tracking-wider",
-                                        primaryInsight.type === "critical" ? "text-red-700" :
-                                        primaryInsight.type === "warning" ? "text-amber-700" :
-                                        "text-emerald-700"
-                                     )}>
-                                        Primary Insight
-                                     </span>
-                                  </div>
-                                  
-                                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                     {primaryInsight.message}
-                                  </h3>
-                                  
-                                  <p className="text-gray-700 mb-4 text-base leading-relaxed max-w-3xl">
-                                     {primaryInsight.detail}
-                                  </p>
-
-                                  <div className="flex items-center gap-8">
-                                     <div>
-                                        <span className="text-xs text-gray-500 uppercase tracking-wide block mb-0.5">Actual</span>
-                                        <span className={cn(
-                                           "text-lg font-bold",
-                                           primaryInsight.type === "critical" ? "text-red-700" :
-                                           primaryInsight.type === "warning" ? "text-amber-700" :
-                                           "text-emerald-700"
-                                        )}>{primaryInsight.value}</span>
-                                     </div>
-                                     <div>
-                                        <span className="text-xs text-gray-500 uppercase tracking-wide block mb-0.5">Target</span>
-                                        <span className="text-lg font-medium text-gray-700">{primaryInsight.target}</span>
-                                     </div>
-                                     <div>
-                                        <span className="text-xs text-gray-500 uppercase tracking-wide block mb-0.5">Variance</span>
-                                        <span className={cn(
-                                           "text-lg font-bold flex items-center gap-1",
-                                           primaryInsight.type === "critical" ? "text-red-600" :
-                                           primaryInsight.type === "warning" ? "text-amber-600" :
-                                           "text-emerald-600"
-                                        )}>
-                                           {primaryInsight.direction === "up" ? <ArrowUp className="h-4 w-4" /> : 
-                                            primaryInsight.direction === "down" ? <ArrowDown className="h-4 w-4" /> : null}
-                                           {primaryInsight.variance}
-                                        </span>
-                                     </div>
-                                  </div>
-                               </div>
-                               
-                               <div className="flex flex-col gap-2">
-                                  <button 
-                                     onClick={() => {
-                                        // Add to action cart
-                                        handleAddActionItem({
-                                           title: `Investigate ${primaryInsight.metric} Variance`,
-                                           source: 'pnl_insight',
-                                           metric: primaryInsight.metric,
-                                           context: primaryInsight.message
-                                        });
-                                     }}
-                                     className={cn(
-                                        "px-4 py-2 rounded-lg text-sm font-medium transition-colors border shadow-sm flex items-center gap-2",
-                                        primaryInsight.type === "critical" ? "bg-white text-red-700 border-red-200 hover:bg-red-50" :
-                                        primaryInsight.type === "warning" ? "bg-white text-amber-700 border-amber-200 hover:bg-amber-50" :
-                                        "bg-white text-emerald-700 border-emerald-200 hover:bg-emerald-50"
-                                     )}
-                                  >
-                                     <List className="h-4 w-4" />
-                                     Add to Actions
-                                  </button>
-                                  <button
-                                     onClick={() => setFloatingChatTrigger(`Analyze ${primaryInsight.metric} variance for me`)} 
-                                     className="px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 flex items-center gap-2 shadow-sm"
-                                  >
-                                     <Sparkles className="h-4 w-4 text-purple-600" />
-                                     Ask AI
-                                  </button>
-                               </div>
-                            </div>
-                         </div>
-                      );
-                   })()}
+                   {/* Primary Insight Card (Role-Based) - Top for Non-Owners */}
+                   {selectedRole !== "owner" && (
+                     <PrimaryInsightCard 
+                       role={selectedRole}
+                       trends={healthSnapshotTrendData}
+                       onAddAction={handleAddActionItem}
+                       onAskAI={setFloatingChatTrigger}
+                     />
+                   )}
 
                    {/* Executive Summary Cards - Owner Only */}
                    {selectedRole === "owner" && (
@@ -12466,6 +12484,14 @@ export default function PnlRelease() {
                             </div>
                          </div>
                       </div>
+
+                      {/* Primary Insight Card (Role-Based) - Below Health Card for Owner */}
+                      <PrimaryInsightCard 
+                        role={selectedRole}
+                        trends={healthSnapshotTrendData}
+                        onAddAction={handleAddActionItem}
+                        onAskAI={setFloatingChatTrigger}
+                      />
 
                       {/* Summary Cards Grid */}
                       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
