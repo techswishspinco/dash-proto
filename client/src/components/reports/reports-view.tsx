@@ -1,9 +1,9 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { ReportData, MOCK_REPORTS, ReportType } from "./mock-data";
 import { ReportContent } from "./report-content";
 import { Button } from "@/components/ui/button";
-import { Sparkles, FileText, ArrowRight, Clock, ChevronRight, TrendingUp } from "lucide-react";
+import { Sparkles, FileText, ArrowRight, Clock, ChevronRight, TrendingUp, ChevronLeft, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ReportsViewProps {
@@ -14,43 +14,97 @@ interface ReportsViewProps {
 }
 
 export function ReportsView({ reports, activeReportId, onSelectReport, onGenerateReport }: ReportsViewProps) {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const activeReport = reports.find(r => r.id === activeReportId);
 
   // If a report is active, show it
   if (activeReport) {
     return (
         <div className="flex h-full bg-gray-50/50">
-            {/* Sidebar List (Collapsible on mobile maybe, but fine for desktop) */}
-            <div className="w-80 border-r border-gray-200 bg-white h-full overflow-y-auto hidden md:block">
-                <div className="p-4 border-b border-gray-100">
-                    <h2 className="text-lg font-serif font-bold text-gray-900">Reports</h2>
-                </div>
-                <div className="p-2 space-y-1">
-                     <button
-                        onClick={() => onSelectReport(null)}
-                        className="w-full text-left px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-md transition-colors flex items-center gap-2"
-                     >
-                        <ChevronRight className="h-4 w-4 rotate-180" /> Back to Overview
-                     </button>
-                    {reports.map(report => (
+            {/* Sidebar List */}
+            <div 
+                className={cn(
+                    "border-r border-gray-200 bg-white h-full overflow-y-auto hidden md:block transition-all duration-300 ease-in-out relative",
+                    isSidebarCollapsed ? "w-12" : "w-80"
+                )}
+            >
+                {/* Collapse Toggle */}
+                <button
+                    onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+                    className="absolute top-3 right-3 p-1.5 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors z-10"
+                    title={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                >
+                    {isSidebarCollapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+                </button>
+
+                {isSidebarCollapsed ? (
+                    // Collapsed View
+                    <div className="flex flex-col items-center py-4 space-y-4 pt-14">
                         <button
-                            key={report.id}
-                            onClick={() => onSelectReport(report.id)}
-                            className={cn(
-                                "w-full text-left px-3 py-3 rounded-lg text-sm transition-colors border",
-                                activeReportId === report.id
-                                    ? "bg-indigo-50 border-indigo-100 text-indigo-900 shadow-sm"
-                                    : "bg-white border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-200"
-                            )}
+                            onClick={() => onSelectReport(null)}
+                            className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
+                            title="Back to Overview"
                         >
-                            <div className="font-medium truncate">{report.data.title}</div>
-                            <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                                <Clock className="h-3 w-3" />
-                                {new Date(report.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                            </div>
+                            <ChevronLeft className="h-5 w-5" />
                         </button>
-                    ))}
-                </div>
+                        
+                        <div className="w-8 h-px bg-gray-200" />
+                        
+                        {reports.map(report => (
+                            <button
+                                key={report.id}
+                                onClick={() => onSelectReport(report.id)}
+                                className={cn(
+                                    "p-2 rounded-lg transition-colors relative group",
+                                    activeReportId === report.id
+                                        ? "bg-indigo-50 text-indigo-600"
+                                        : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                                )}
+                                title={report.data.title}
+                            >
+                                <FileText className="h-5 w-5" />
+                                {/* Tooltip for collapsed item */}
+                                <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none z-50">
+                                    {report.data.title}
+                                </div>
+                            </button>
+                        ))}
+                    </div>
+                ) : (
+                    // Expanded View
+                    <>
+                        <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+                            <h2 className="text-lg font-serif font-bold text-gray-900">Reports</h2>
+                            <div className="w-6" /> {/* Spacer for toggle button */}
+                        </div>
+                        <div className="p-2 space-y-1">
+                             <button
+                                onClick={() => onSelectReport(null)}
+                                className="w-full text-left px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-md transition-colors flex items-center gap-2"
+                             >
+                                <ChevronRight className="h-4 w-4 rotate-180" /> Back to Overview
+                             </button>
+                            {reports.map(report => (
+                                <button
+                                    key={report.id}
+                                    onClick={() => onSelectReport(report.id)}
+                                    className={cn(
+                                        "w-full text-left px-3 py-3 rounded-lg text-sm transition-colors border relative group",
+                                        activeReportId === report.id
+                                            ? "bg-indigo-50 border-indigo-100 text-indigo-900 shadow-sm"
+                                            : "bg-white border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-200"
+                                    )}
+                                >
+                                    <div className="font-medium truncate pr-6">{report.data.title}</div>
+                                    <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                                        <Clock className="h-3 w-3" />
+                                        {new Date(report.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    </>
+                )}
             </div>
 
             {/* Main Content Area */}
