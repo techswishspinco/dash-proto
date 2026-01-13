@@ -12459,9 +12459,7 @@ export default function PnlRelease() {
                             <span className="text-gray-400">Synced with Performance Summary</span>
                          </div>
                       </div>
-                   </section>
-                   )}
-
+                   
                    {/* Ticket Time Performance (Moved from Curated) */}
                    <section data-testid="ticket-time-zone-section" className="mb-6">
                       <div className="flex items-center justify-between mb-4">
@@ -12592,6 +12590,8 @@ export default function PnlRelease() {
                          </div>
                       </div>
                    </section>
+                   </section>
+                   )}
 
                    {/* Accountant Note */}
                    {isSectionVisible("accountant-note") && (
