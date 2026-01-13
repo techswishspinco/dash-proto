@@ -129,22 +129,22 @@ import { Wand } from "@/components/ui/wand";
 // Mock Data for Chef Curated View
 const chefPrimaryInsight = {
    status: 'red',
-   headline: "Protein waste driving food cost variance",
-   context: "High waste in prep for beef and salmon is impacting overall Food Cost per Plate.",
+   headline: "Milky Puff per-plate cost exceeded acceptable range",
+   context: "Food cost is $4.53 (31%), driven by high White Choc. Honeycomb & Condensed Milk costs.",
    metrics: [
-      { label: "Avg FC / Plate", value: "$4.85", target: "$4.50" },
-      { label: "Food Cost %", value: "32.4%", target: "30.0%" },
+      { label: "Avg FC / Plate", value: "$4.53", target: "$3.50" },
+      { label: "Food Cost %", value: "31.0%", target: "28.0%" },
    ]
 };
 
 const chefPlateMetrics = {
-   avgCost: 4.85,
-   range: { low: 3.50, high: 6.25 },
+   avgCost: 3.45,
+   range: { low: 1.65, high: 4.53 },
    aboveRangeCount: 3,
    topItems: [
-      { name: "Ribeye Steak", cost: 14.50, pct: 38 },
-      { name: "Pan Seared Salmon", cost: 9.20, pct: 34 },
-      { name: "Braised Short Rib", cost: 8.75, pct: 33 }
+      { name: "Milky Puff", cost: 4.53, pct: 31 },
+      { name: "Matcha Lava", cost: 4.19, pct: 29 },
+      { name: "Cookie Camp", cost: 4.01, pct: 28 }
    ]
 };
 
