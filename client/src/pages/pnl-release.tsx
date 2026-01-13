@@ -117,6 +117,7 @@ import {
 } from "@/data/pl-parser";
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
+import { format, addMonths, subMonths, addWeeks, subWeeks, addDays, subDays, startOfWeek, endOfWeek, isSameMonth, isSameWeek, isSameDay } from "date-fns";
 
 // --- Mock Data ---
 
@@ -3166,12 +3167,17 @@ function SidePanelAssistant({
 
   useEffect(() => {
     if (triggerQuery && triggerQuery !== processedTrigger) {
-      handleSend(triggerQuery.split(" ").slice(0, -1).join(" "));
+      // Remove the timestamp suffix if present (it's separated by space)
+      const queryParts = triggerQuery.split(" ");
+      const hasTimestamp = !isNaN(Number(queryParts[queryParts.length - 1]));
+      const cleanQuery = hasTimestamp ? queryParts.slice(0, -1).join(" ") : triggerQuery;
+      
+      handleSend(cleanQuery, true);
       setProcessedTrigger(triggerQuery);
     }
   }, [triggerQuery]);
 
-  const handleSend = async (text: string) => {
+  const handleSend = async (text: string, isInstant: boolean = false) => {
     if (!text.trim()) return;
 
     const userMsg: FloatingMessage = {
@@ -3689,6 +3695,37 @@ function OwnerChat({ isOpen, onClose, triggerQuery }: { isOpen: boolean; onClose
     </div>
   );
 }
+
+// --- Period Navigator Component ---
+const PeriodNavigator = ({ 
+  cadence, 
+  date, 
+  onPrev, 
+  onNext 
+}: { 
+  cadence: "week" | "month", 
+  date: Date, 
+  onPrev: () => void, 
+  onNext: () => void 
+}) => {
+  const display = cadence === "month" 
+    ? format(date, 'MMMM yyyy')
+    : `${format(startOfWeek(date), 'MMM d')} - ${format(endOfWeek(date), 'MMM d')}`;
+
+  return (
+    <div className="flex items-center bg-white border border-gray-200 rounded-md shadow-sm ml-2">
+      <button onClick={onPrev} className="p-1.5 hover:bg-gray-50 text-gray-500 rounded-l-md border-r border-gray-100 transition-colors">
+        <ChevronLeft className="h-3.5 w-3.5" />
+      </button>
+      <div className="px-3 text-xs font-medium text-gray-700 min-w-[120px] text-center select-none">
+        {display}
+      </div>
+      <button onClick={onNext} className="p-1.5 hover:bg-gray-50 text-gray-500 rounded-r-md border-l border-gray-100 transition-colors">
+        <ChevronRight className="h-3.5 w-3.5" />
+      </button>
+    </div>
+  );
+};
 
 // --- Main Page Component ---
 
@@ -4341,10 +4378,12 @@ export default function PnlRelease() {
   const [netIncomeExpanded, setNetIncomeExpanded] = useState(false);
   
   // GM Time Range state (persists when switching locations)
-  const [gmTimeRange, setGmTimeRange] = useState<"today" | "week" | "month" | "year">("today");
+  const [gmTimeRange, setGmTimeRange] = useState<"today" | "week" | "month" | "year">("month");
+  const [selectedGMDate, setSelectedGMDate] = useState(new Date(2025, 8, 15)); // Sep 15, 2025
   
   // Chef Time Range state for Ticket Time Performance
-  const [chefTimeRange, setChefTimeRange] = useState<"today" | "week" | "month" | "year">("today");
+  const [chefTimeRange, setChefTimeRange] = useState<"today" | "week" | "month" | "year">("month");
+  const [selectedChefDate, setSelectedChefDate] = useState(new Date(2025, 8, 15)); // Sep 15, 2025
   
   // Ticket Time Performance data by time range
   const ticketTimeData = {
@@ -12229,22 +12268,34 @@ export default function PnlRelease() {
                             <span className="text-sm font-normal text-gray-500 ml-2">{currentGMData.dateLabel}</span>
                          </h2>
                          {/* Time Range Selector */}
-                         <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1" data-testid="gm-time-range-selector">
-                            {(['today', 'week', 'month', 'year'] as const).map((range) => (
-                               <button
-                                  key={range}
-                                  onClick={() => setGmTimeRange(range)}
-                                  className={cn(
-                                     "px-3 py-1.5 text-xs font-medium rounded-md transition-all",
-                                     gmTimeRange === range
-                                        ? "bg-white text-gray-900 shadow-sm"
-                                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                                  )}
-                                  data-testid={`btn-time-range-${range}`}
-                               >
-                                  {range === 'today' ? 'Today' : range === 'week' ? 'Week' : range === 'month' ? 'Month' : 'Year'}
-                               </button>
-                            ))}
+                         <div className="flex items-center gap-2">
+                           <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1" data-testid="gm-time-range-selector">
+                              {(['today', 'week', 'month', 'year'] as const).map((range) => (
+                                 <button
+                                    key={range}
+                                    onClick={() => setGmTimeRange(range)}
+                                    className={cn(
+                                       "px-3 py-1.5 text-xs font-medium rounded-md transition-all",
+                                       gmTimeRange === range
+                                          ? "bg-white text-gray-900 shadow-sm"
+                                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                                    )}
+                                    data-testid={`btn-time-range-${range}`}
+                                 >
+                                    {range === 'today' ? 'Today' : range === 'week' ? 'Week' : range === 'month' ? 'Month' : 'Year'}
+                                 </button>
+                              ))}
+                           </div>
+
+                           {/* Period Navigator */}
+                           {(gmTimeRange === 'week' || gmTimeRange === 'month') && (
+                             <PeriodNavigator 
+                               cadence={gmTimeRange}
+                               date={selectedGMDate}
+                               onPrev={() => setSelectedGMDate(d => gmTimeRange === 'month' ? subMonths(d, 1) : subWeeks(d, 1))}
+                               onNext={() => setSelectedGMDate(d => gmTimeRange === 'month' ? addMonths(d, 1) : addWeeks(d, 1))}
+                             />
+                           )}
                          </div>
                       </div>
                       
@@ -12626,21 +12677,33 @@ export default function PnlRelease() {
                             <Clock className="h-5 w-5 text-gray-600" />
                             Ticket Time Performance
                          </h2>
-                         <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-0.5">
-                            {(["today", "week", "month", "year"] as const).map((range) => (
-                               <button
-                                  key={range}
-                                  onClick={() => setChefTimeRange(range)}
-                                  className={cn(
-                                     "px-3 py-1 text-xs font-medium rounded-md transition-all",
-                                     chefTimeRange === range
-                                        ? "bg-white text-gray-900 shadow-sm"
-                                        : "text-gray-600 hover:text-gray-900"
-                                  )}
-                               >
-                                  {range === "today" ? "Day" : range.charAt(0).toUpperCase() + range.slice(1)}
-                               </button>
-                            ))}
+                         <div className="flex items-center gap-2">
+                           <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-0.5">
+                              {(["today", "week", "month", "year"] as const).map((range) => (
+                                 <button
+                                    key={range}
+                                    onClick={() => setChefTimeRange(range)}
+                                    className={cn(
+                                       "px-3 py-1 text-xs font-medium rounded-md transition-all",
+                                       chefTimeRange === range
+                                          ? "bg-white text-gray-900 shadow-sm"
+                                          : "text-gray-600 hover:text-gray-900"
+                                    )}
+                                 >
+                                    {range === "today" ? "Day" : range.charAt(0).toUpperCase() + range.slice(1)}
+                                 </button>
+                              ))}
+                           </div>
+
+                           {/* Period Navigator */}
+                           {(chefTimeRange === 'week' || chefTimeRange === 'month') && (
+                             <PeriodNavigator 
+                               cadence={chefTimeRange}
+                               date={selectedChefDate}
+                               onPrev={() => setSelectedChefDate(d => chefTimeRange === 'month' ? subMonths(d, 1) : subWeeks(d, 1))}
+                               onNext={() => setSelectedChefDate(d => chefTimeRange === 'month' ? addMonths(d, 1) : addWeeks(d, 1))}
+                             />
+                           )}
                          </div>
                       </div>
                       <div className="bg-white border border-gray-200 rounded-xl p-6">
