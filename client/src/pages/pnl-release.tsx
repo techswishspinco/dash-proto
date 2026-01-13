@@ -5600,8 +5600,12 @@ export default function PnlRelease() {
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                              {/* Income Card */}
                              <button 
-                                onClick={() => openTrendModal('net-sales')}
+                                onClick={() => {
+                                   console.log('Income Card clicked');
+                                   openTrendModal('net-sales');
+                                }}
                                 className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
+                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
                              >
                                 <div className="flex items-center justify-between mb-4">
                                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">INCOME</span>
@@ -5617,8 +5621,12 @@ export default function PnlRelease() {
 
                              {/* Marketing Spend Card */}
                              <button 
-                                onClick={() => openTrendModal('marketing')}
+                                onClick={() => {
+                                   console.log('Marketing Card clicked');
+                                   openTrendModal('marketing');
+                                }}
                                 className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
+                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
                              >
                                 <div className="flex items-center justify-between mb-4">
                                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">MARKETING</span>
@@ -5633,8 +5641,12 @@ export default function PnlRelease() {
 
                              {/* Operating Expenses Card */}
                              <button 
-                                onClick={() => openTrendModal('net-income')}
+                                onClick={() => {
+                                   console.log('Op Expenses Card clicked');
+                                   openTrendModal('net-income');
+                                }}
                                 className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
+                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
                              >
                                 <div className="flex items-center justify-between mb-4">
                                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">OP. EXPENSES</span>
@@ -5649,8 +5661,12 @@ export default function PnlRelease() {
 
                              {/* Growth Card */}
                              <button 
-                                onClick={() => openTrendModal('net-sales')}
+                                onClick={() => {
+                                   console.log('Growth Card clicked');
+                                   openTrendModal('net-sales');
+                                }}
                                 className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
+                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
                              >
                                 <div className="flex items-center justify-between mb-4">
                                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">GROWTH</span>
@@ -5670,8 +5686,12 @@ export default function PnlRelease() {
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                              {/* Cash Flow Card */}
                              <button 
-                                onClick={() => openTrendModal('cash-flow')}
+                                onClick={() => {
+                                   console.log('Cash Flow Card clicked');
+                                   openTrendModal('cash-flow');
+                                }}
                                 className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
+                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
                              >
                                 <div className="flex items-center justify-between mb-6">
                                    <div className="flex items-center gap-2">
@@ -5705,8 +5725,12 @@ export default function PnlRelease() {
 
                              {/* Spend Visibility Card */}
                              <button 
-                                onClick={() => openTrendModal('labor')}
+                                onClick={() => {
+                                   console.log('Compensation Card clicked');
+                                   openTrendModal('labor');
+                                }}
                                 className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
+                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
                              >
                                 <div className="flex items-center justify-between mb-6">
                                    <div className="flex items-center gap-2">
