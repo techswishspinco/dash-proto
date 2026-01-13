@@ -3217,37 +3217,12 @@ function SidePanelAssistant({
   const [isReportPanelOpen, setIsReportPanelOpen] = useState(false);
   const [currentReport, setCurrentReport] = useState<ReportData | null>(null);
 
-  // Load Mock Files (Simulated)
+  // Comparison Data Loading
   const loadMockComparison = async () => {
     try {
-        const file1Response = await fetch('/attached_assets/2025_09_SPOT_SM_PL_1768325871185.json');
-        const file2Response = await fetch('/attached_assets/2025_10_SPOT_SM_PL_(1)_1768325550699.json');
-        
-        // In a real app, these would be real fetches. 
-        // For this mockup, we'll assume the files are available via import or we construct a dummy fetch if they aren't served statically.
-        // However, since we can't easily fetch from attached_assets in the browser without a server route, 
-        // we might need to inline a small subset or rely on the "generateComparisonReport" logic to handle dummy data if fetch fails.
-        // Let's try to simulate the data structure directly if fetch fails, or rely on the generator to be robust.
-
-        // Fallback Mock Data if fetch fails (likely in this environment)
-        const mockFile1 = {
-             accounts: [
-                 { account: "400-000 Food Sales", monthly_data: { "September 2025": { current: 103461.46 } } },
-                 { account: "400-200 Beverage Sales", monthly_data: { "September 2025": { current: 17698.00 } } },
-                 { account: "Total Income", monthly_data: { "September 2025": { current: 133042.50 } } }
-             ]
-        };
-        const mockFile2 = {
-            sections: {
-                "Income": {
-                    "400-000 Food Sales": { "Oct 2025": { current: 113360.78 } },
-                    "400-200 Beverage Sales": { "Oct 2025": { current: 19998.35 } },
-                    "Total Income": { "Oct 2025": { current: 142500.00 } }
-                }
-            }
-        };
-
-        const report = await generateComparisonReport(mockFile1, mockFile2);
+        // We now rely on canonical-pl.ts which has the files imported directly.
+        // We pass empty objects as the new signature of generateComparisonReport handles data sourcing internally.
+        const report = await generateComparisonReport({}, {});
         
         // Add to Reports Tab
         const newReport: GeneratedReport = {
