@@ -124,6 +124,7 @@ import { MOCK_REPORTS, ReportData, ReportType } from "@/components/reports/mock-
 import { generateComparisonReport } from "@/components/reports/comparison-generator";
 import { ReportsView } from "@/components/reports/reports-view";
 import { ReportContent } from "@/components/reports/report-content";
+import { Wand } from "@/components/ui/wand";
 
 // --- Mock Data ---
 
