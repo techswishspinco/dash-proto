@@ -12,11 +12,14 @@ import {
   TrendingUp,
   DollarSign,
   Award,
-  ChevronRight
+  ChevronRight,
+  FileText
 } from "lucide-react";
 import { Wand } from "@/components/ui/wand";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { ReportPanel } from "@/components/reports/report-panel";
+import { MOCK_REPORTS, ReportData, ReportType } from "@/components/reports/mock-data";
 
 // Types for our mock chat
 type Message = {
@@ -85,6 +88,10 @@ export default function Assistant() {
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Report State
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [currentReport, setCurrentReport] = useState<ReportData | null>(null);
+
   // Initialize from query param
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -120,6 +127,46 @@ export default function Assistant() {
     // 1. Initial "Thinking" pause
     await new Promise(r => setTimeout(r, 1200));
 
+    // Check for Report Intent
+    const lowerText = text.toLowerCase();
+    let reportType: ReportType | null = null;
+    
+    if (lowerText.includes("profit") || lowerText.includes("margin") || lowerText.includes("p&l")) reportType = "profitability";
+    else if (lowerText.includes("labor") || lowerText.includes("staff") || lowerText.includes("overtime")) reportType = "labor";
+    else if (lowerText.includes("sales") || lowerText.includes("revenue") || lowerText.includes("perform")) reportType = "sales";
+    else if (lowerText.includes("inventory") || lowerText.includes("stock")) reportType = "inventory";
+
+    if (reportType) {
+        // Initial brief answer
+        const initialResponse: Message = {
+            id: (Date.now() + 1).toString(),
+            role: "assistant",
+            content: reportType === 'profitability' ? "Net margin declined 2.3% MoM, primarily due to higher labor costs in the kitchen." :
+                     reportType === 'labor' ? "Labor costs are running 14% over budget this month, largely driven by overtime." :
+                     reportType === 'sales' ? "Sales are up 4.2% overall, with strong performance in the dinner shift." :
+                     "Inventory levels are healthy, though there is some variance in liquor stocks."
+        };
+        setMessages(prev => [...prev, initialResponse]);
+        
+        await new Promise(r => setTimeout(r, 600));
+
+        // Offer Report
+        const offerMsg: Message = {
+            id: (Date.now() + 2).toString(),
+            role: "assistant",
+            content: "Would you like a detailed report with supporting data?",
+            toolCall: {
+                state: "pending_confirmation",
+                toolName: "generate_report",
+                args: { type: reportType }
+            }
+        };
+        setMessages(prev => [...prev, offerMsg]);
+        setIsTyping(false);
+        return;
+    }
+
+    // Default existing flow
     // 2. Assistant acknowledges and starts tool
     const toolMsgId = (Date.now() + 1).toString();
     const toolMsg: Message = {
@@ -136,7 +183,7 @@ export default function Assistant() {
     setIsTyping(false);
   };
 
-  const handleConfirmTool = async (msgId: string) => {
+  const handleConfirmTool = async (msgId: string, toolName: string, args: any) => {
     // Update to running
     setMessages(prev => prev.map(m => 
       m.id === msgId 
@@ -146,7 +193,23 @@ export default function Assistant() {
     setIsTyping(true);
 
     // 3. Tool "running" pause
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 1500));
+
+    // Handle Report Generation
+    if (toolName === "generate_report") {
+         setMessages(prev => prev.map(m => 
+          m.id === msgId 
+            ? { ...m, toolCall: { ...m.toolCall!, state: "completed", result: "Report generated successfully." } }
+            : m
+        ));
+        
+        const type = args.type as ReportType;
+        const reportData = MOCK_REPORTS[type];
+        setCurrentReport(reportData);
+        setIsReportOpen(true);
+        setIsTyping(false);
+        return;
+    }
 
     // 4. Update tool to completed
     setMessages(prev => prev.map(m => 
@@ -335,34 +398,44 @@ export default function Assistant() {
                                             onClick={() => handleDenyTool(msg.id)}
                                             className="flex-1 py-2 text-xs font-medium border border-border rounded hover:bg-gray-50 transition-colors"
                                           >
-                                            Deny
+                                            {msg.toolCall.toolName === 'generate_report' ? "No thanks" : "Deny"}
                                           </button>
                                           <button 
-                                            onClick={() => handleConfirmTool(msg.id)}
+                                            onClick={() => handleConfirmTool(msg.id, msg.toolCall!.toolName, msg.toolCall!.args)}
                                             className="flex-1 py-2 text-xs font-medium bg-black text-white rounded hover:bg-gray-800 transition-colors shadow-sm"
                                           >
-                                            Allow
+                                            {msg.toolCall.toolName === 'generate_report' ? "Generate Report" : "Allow"}
                                           </button>
                                       </div>
                                     </div>
                                 ) : msg.toolCall.state === "denied" ? (
                                     <div className="inline-flex items-center gap-2 text-xs font-mono bg-gray-50 border border-border px-3 py-2 rounded-md opacity-70">
                                        <div className="h-2 w-2 rounded-full bg-red-400" />
-                                       <span className="text-muted-foreground decoration-line-through">Action cancelled</span>
+                                       <span className="text-muted-foreground decoration-line-through">
+                                            {msg.toolCall.toolName === 'generate_report' ? "Report generation cancelled" : "Action cancelled"}
+                                       </span>
                                     </div>
                                 ) : (
                                    <div className="inline-flex items-center gap-2 text-xs font-mono bg-white border border-border px-3 py-2 rounded-md shadow-sm">
                                       {msg.toolCall.state === "running" ? (
                                          <>
                                             <Wand /> 
-                                            <span className="text-muted-foreground">Running tool:</span> 
-                                            <span className="font-medium text-black">{msg.toolCall.toolName}</span>
+                                            <span className="text-muted-foreground">
+                                                {msg.toolCall.toolName === 'generate_report' ? "Generating report..." : "Running tool:"}
+                                            </span> 
+                                            {msg.toolCall.toolName !== 'generate_report' && <span className="font-medium text-black">{msg.toolCall.toolName}</span>}
                                          </>
                                       ) : (
                                          <>
                                             <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                                            <span className="text-muted-foreground">Completed:</span>
-                                            <span className="font-medium text-black">{msg.toolCall.toolName}</span>
+                                            <span className="text-muted-foreground">
+                                                {msg.toolCall.toolName === 'generate_report' ? "Report Generated" : "Completed:"}
+                                            </span>
+                                            {msg.toolCall.toolName === 'generate_report' ? (
+                                                <button onClick={() => setIsReportOpen(true)} className="ml-1 underline text-emerald-600 hover:text-emerald-700">View</button>
+                                            ) : (
+                                                <span className="font-medium text-black">{msg.toolCall.toolName}</span>
+                                            )}
                                          </>
                                       )}
                                    </div>
@@ -428,6 +501,11 @@ export default function Assistant() {
 
         </div>
       </div>
+      <ReportPanel 
+        isOpen={isReportOpen} 
+        onClose={() => setIsReportOpen(false)} 
+        data={currentReport} 
+      />
     </Layout>
   );
 }
