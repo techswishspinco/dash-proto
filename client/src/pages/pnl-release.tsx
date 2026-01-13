@@ -4204,6 +4204,24 @@ export default function PnlRelease() {
       });
   };
 
+  const handleGenerateReportFromTab = (type: ReportType) => {
+      toast({
+          title: "Generating Report",
+          description: `Analyzing ${type} data...`,
+      });
+
+      setTimeout(() => {
+          const reportData = MOCK_REPORTS[type];
+          const newReport = {
+              id: `report-${Date.now()}`,
+              type,
+              data: reportData,
+              createdAt: Date.now()
+          };
+          handleReportGenerated(newReport);
+      }, 1500);
+  };
+
 
   // Close TOC dropdown on outside click
   useEffect(() => {
@@ -4707,6 +4725,34 @@ export default function PnlRelease() {
     { id: "hvac-repair", title: "Investigate HVAC repair — one-time or recurring?", owner: "GM", impact: "Budgeting clarity", priority: "low", completed: false, completedAt: null as Date | null },
     { id: "produce-pricing", title: "Review produce supplier pricing — avocado costs up 37%", owner: "Executive Chef", impact: "$800/mo potential", priority: "medium", completed: false, completedAt: null as Date | null },
   ]);
+
+  // Action Cart State (New)
+  // const [actionItems, setActionItems] = useState<ActionItem[]>([]);
+  // Removed duplicate state declaration
+
+  /*
+  const handleAddActionItem = (item: Omit<ActionItem, 'id' | 'createdAt' | 'status'>) => {
+      const newItem: ActionItem = {
+          ...item,
+          id: `action-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          status: 'new',
+          createdAt: Date.now()
+      };
+      setActionItems(prev => [newItem, ...prev]);
+      toast({
+          title: "Added to Actions",
+          description: "Item added to your Action Cart.",
+      });
+  };
+
+  const handleRemoveActionItem = (id: string) => {
+      setActionItems(prev => prev.filter(item => item.id !== id));
+      toast({
+          title: "Removed",
+          description: "Action item removed.",
+      });
+  };
+  */
   const [editingActionId, setEditingActionId] = useState<string | null>(null);
   const [editingActionTitle, setEditingActionTitle] = useState("");
   const [showCompletedActions, setShowCompletedActions] = useState(false);
@@ -4806,7 +4852,28 @@ export default function PnlRelease() {
   };
 
   const sendAssignment = () => {
+    // Add to Action Cart
+    const actionToAdd = {
+        title: assignModal.actionTitle,
+        source: 'user_click' as const,
+        context: `Assigned to ${assignModal.recipients.join(', ')}`,
+        metric: "Assignment",
+    };
+    
+    // Add to cart if not exists
+    const exists = actionItems.some(i => i.title === assignModal.actionTitle);
+    if (!exists) {
+        handleAddActionItem(actionToAdd);
+    } else {
+         // Update existing item status
+         setActionItems(prev => prev.map(i => i.title === assignModal.actionTitle ? {...i, status: 'assigned', context: `Assigned to ${assignModal.recipients.join(', ')}`} : i));
+    }
+
     closeAssignModal();
+    toast({
+        title: "Action Assigned",
+        description: `Assigned to ${assignModal.recipients.length} recipients and added to chat.`,
+    });
   };
 
   // Initialize role from URL param if viewing as owner/gm/chef, otherwise default to owner
