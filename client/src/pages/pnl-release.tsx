@@ -119,7 +119,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 import { format, addMonths, subMonths, addWeeks, subWeeks, addDays, subDays, startOfWeek, endOfWeek, isSameMonth, isSameWeek, isSameDay } from "date-fns";
-import { ReportPanel } from "@/components/reports/report-panel";
+import { ReportPanel, ReportContent } from "@/components/reports/report-panel";
 import { MOCK_REPORTS, ReportData, ReportType } from "@/components/reports/mock-data";
 import { generateComparisonReport } from "@/components/reports/comparison-generator";
 import { Wand } from "@/components/ui/wand";
@@ -129,6 +129,12 @@ import { Wand } from "@/components/ui/wand";
 type PnLStatus = "Draft" | "In Review" | "Finalized" | "Published";
 type OwnerStatus = "Not Sent" | "Sent" | "Viewed" | "Approved" | "Changes Requested";
 type TimeframeType = "Daily" | "Weekly" | "Monthly" | "Yearly";
+
+
+export interface GeneratedReport extends ReportData {
+  id: string;
+  createdAt: Date;
+}
 
 interface PnLPeriod {
   id: string;
@@ -3197,7 +3203,7 @@ function SidePanelAssistant({
 }: { 
   onClose: () => void; 
   triggerQuery?: string | null;
-  onOpenReport?: (report: Report) => void;
+  onOpenReport?: (report: GeneratedReport) => void;
 }) {
   const [messages, setMessages] = useState<FloatingMessage[]>([]);
   const [input, setInput] = useState("");
@@ -3242,8 +3248,15 @@ function SidePanelAssistant({
         };
 
         const report = await generateComparisonReport(mockFile1, mockFile2);
-        setCurrentReport(report);
-        setIsReportPanelOpen(true);
+        
+        // Add to Reports Tab
+        const newReport: GeneratedReport = {
+            ...report,
+            id: `comparison-${Date.now()}`,
+            createdAt: new Date()
+        };
+        onOpenReport?.(newReport);
+        
         return true;
     } catch (e) {
         console.error("Failed to generate comparison", e);
@@ -3405,8 +3418,14 @@ function SidePanelAssistant({
         
         const type = args.type as ReportType;
         const reportData = MOCK_REPORTS[type];
-        setCurrentReport(reportData);
-        setIsReportPanelOpen(true);
+        
+        // Add to Reports Tab
+        const newReport: GeneratedReport = {
+            ...reportData,
+            id: `report-${Date.now()}`,
+            createdAt: new Date()
+        };
+        onOpenReport?.(newReport);
         setIsTyping(false);
         return;
     }
@@ -4052,7 +4071,10 @@ export default function PnlRelease() {
   const [chatTrigger, setChatTrigger] = useState<string | null>(null);
   const [floatingChatTrigger, setFloatingChatTrigger] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>("curated");
-  const [reportTabs, setReportTabs] = useState<Report[]>([]);
+  
+  const [generatedReports, setGeneratedReports] = useState<GeneratedReport[]>([]);
+  const [activeReportId, setActiveReportId] = useState<string | null>(null);
+  
   const [activeSection, setActiveSection] = useState<string>("executive-narrative");
   const [tocDropdownOpen, setTocDropdownOpen] = useState(false);
   const [selectedState, setSelectedState] = useState<StateBenchmark | null>(
@@ -4064,18 +4086,24 @@ export default function PnlRelease() {
   const tocDropdownRef = useRef<HTMLDivElement>(null);
   const stateDropdownRef = useRef<HTMLDivElement>(null);
 
+  const [reportsDropdownOpen, setReportsDropdownOpen] = useState(false);
+  const reportsDropdownRef = useRef<HTMLDivElement>(null);
+
   // Close TOC dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (tocDropdownRef.current && !tocDropdownRef.current.contains(event.target as Node)) {
         setTocDropdownOpen(false);
       }
+      if (reportsDropdownRef.current && !reportsDropdownRef.current.contains(event.target as Node)) {
+        setReportsDropdownOpen(false);
+      }
     };
-    if (tocDropdownOpen) {
+    if (tocDropdownOpen || reportsDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       return () => document.removeEventListener('mousedown', handleClickOutside);
     }
-  }, [tocDropdownOpen]);
+  }, [tocDropdownOpen, reportsDropdownOpen]);
 
   // Close state dropdown on outside click
   useEffect(() => {
@@ -5688,20 +5716,16 @@ export default function PnlRelease() {
      setStep(2);
   };
 
-  const handleOpenReport = (report: Report) => {
-    if (!reportTabs.find(r => r.id === report.id)) {
-      setReportTabs(prev => [...prev, report]);
+  const handleOpenReport = (report: GeneratedReport) => {
+    if (!generatedReports.find(r => r.id === report.id)) {
+      setGeneratedReports(prev => [report, ...prev]);
     }
-    setActiveTab(report.id);
+    setActiveReportId(report.id);
+    setActiveTab("reports");
   };
 
-  const handleCloseReport = (reportId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setReportTabs(prev => prev.filter(r => r.id !== reportId));
-    if (activeTab === reportId) {
-      setActiveTab("curated");
-    }
-  };
+  // Deprecated: Reports are now persistent in the Reports tab
+  // const handleCloseReport = ...
 
   const handleSync = () => {
     setIsSyncing(true);
@@ -9414,29 +9438,75 @@ export default function PnlRelease() {
                       </div>
                    </button>
 
-                   {/* Report Tabs */}
-                   {reportTabs.map(report => (
-                       <div key={report.id} className="flex items-center border-l border-gray-200 pl-1 ml-1 h-full py-2">
+                   {/* Reports Tab */}
+                   {generatedReports.length > 0 && (
+                       <div 
+                         className="relative group h-full flex items-center border-l border-gray-200 pl-1 ml-1"
+                         onMouseEnter={() => generatedReports.length > 1 && setReportsDropdownOpen(true)}
+                         onMouseLeave={() => generatedReports.length > 1 && setReportsDropdownOpen(false)}
+                         ref={reportsDropdownRef}
+                       >
                            <button
-                              onClick={() => setActiveTab(report.id)}
+                              data-testid="tab-reports"
+                              onClick={() => setActiveTab("reports")}
                               className={cn(
-                                 "px-3 py-1.5 text-xs font-medium border rounded-md transition-colors group flex items-center gap-2 h-full",
-                                 activeTab === report.id
-                                    ? "border-indigo-200 text-indigo-700 bg-indigo-50 shadow-sm"
-                                    : "border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                                 "px-4 py-3 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 group",
+                                 activeTab === "reports"
+                                    ? "border-black text-gray-900"
+                                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                               )}
                            >
-                              <FileText className="h-3.5 w-3.5" />
-                              <span className="max-w-[120px] truncate">{report.title}</span>
-                              <div 
-                                onClick={(e) => handleCloseReport(report.id, e)}
-                                className="ml-1 p-0.5 rounded-full hover:bg-indigo-200/50 text-gray-400 hover:text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity"
-                              >
-                                <X className="h-3 w-3" />
-                              </div>
+                              <FileText className="h-4 w-4" />
+                              Reports
+                              {generatedReports.length > 1 && (
+                                <ChevronDown className={cn(
+                                   "h-3.5 w-3.5 transition-transform duration-150 text-gray-400 group-hover:text-gray-600",
+                                   reportsDropdownOpen && "rotate-180"
+                                )} />
+                              )}
                            </button>
+
+                           {/* Reports Dropdown */}
+                           {generatedReports.length > 1 && (
+                             <div 
+                                 className={cn(
+                                    "absolute left-0 top-full mt-1 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 transition-all duration-150 ease-out",
+                                    reportsDropdownOpen 
+                                       ? "opacity-100 translate-y-0 visible" 
+                                       : "opacity-0 -translate-y-1 invisible"
+                                 )}
+                              >
+                                 <div className="px-3 py-2 border-b border-gray-100 mb-1">
+                                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                        Generated Reports
+                                    </span>
+                                 </div>
+                                 {generatedReports.map((report) => (
+                                    <button
+                                       key={report.id}
+                                       onClick={(e) => {
+                                          e.stopPropagation();
+                                          setActiveTab("reports");
+                                          setActiveReportId(report.id);
+                                          setReportsDropdownOpen(false);
+                                       }}
+                                       className={cn(
+                                          "w-full text-left px-3 py-2 text-sm transition-colors duration-100 flex items-center gap-3",
+                                          activeReportId === report.id && activeTab === "reports"
+                                             ? "bg-gray-100 text-gray-900 font-medium"
+                                             : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                                       )}
+                                    >
+                                       <div className={cn("w-1.5 h-1.5 rounded-full shrink-0", 
+                                          activeReportId === report.id && activeTab === "reports" ? "bg-indigo-600" : "bg-gray-300"
+                                       )} />
+                                       <span className="truncate">{report.title}</span>
+                                    </button>
+                                 ))}
+                              </div>
+                           )}
                        </div>
-                   ))}
+                   )}
                 </div>
              </div>
 
@@ -9445,7 +9515,10 @@ export default function PnlRelease() {
 
 
                 {/* Main Scrollable Content */}
-                <div ref={scrollContainerRef} className="flex-1 overflow-y-auto h-full">
+                <div ref={scrollContainerRef} className={cn(
+                    "flex-1 h-full",
+                    activeTab === "reports" ? "overflow-hidden" : "overflow-y-auto"
+                )}>
                 
                 {/* P&L Dashboard Tab */}
                 {activeTab === "pnl" && (
@@ -9461,33 +9534,21 @@ export default function PnlRelease() {
                 </div>
                 )}
 
-                {/* Report Views */}
-                {reportTabs.map(report => (
-                    activeTab === report.id && (
-                        <div key={report.id} className="p-8 h-full overflow-y-auto bg-gray-50/50">
-                            <div className="max-w-4xl mx-auto bg-white rounded-xl border border-gray-200 shadow-sm p-8 min-h-[80vh]">
-                                <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-                                    <div>
-                                        <h1 className="text-2xl font-serif font-bold text-gray-900 mb-1">{report.title}</h1>
-                                        <div className="flex items-center gap-2 text-xs text-gray-500">
-                                            <Sparkles className="h-3 w-3 text-indigo-500" />
-                                            Generated by Munch AI • {new Date().toLocaleDateString()}
-                                        </div>
-                                    </div>
-                                    <button 
-                                        onClick={(e) => handleCloseReport(report.id, e)}
-                                        className="p-2 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600 transition-colors"
-                                    >
-                                        <X className="h-5 w-5" />
-                                    </button>
-                                </div>
-                                <div className="prose prose-sm max-w-none prose-headings:font-serif prose-headings:text-gray-900 prose-p:text-gray-600 prose-table:border-collapse prose-th:bg-gray-50 prose-th:p-3 prose-td:p-3 prose-td:border-t prose-td:border-gray-100 prose-li:text-gray-600">
-                                    {renderMarkdown(report.content)}
+                {/* Reports Tab Content */}
+                {activeTab === "reports" && (
+                    <div className="h-full bg-gray-50/50">
+                        {generatedReports.find(r => r.id === activeReportId) ? (
+                            <ReportContent data={generatedReports.find(r => r.id === activeReportId)!} />
+                        ) : (
+                            <div className="h-full flex items-center justify-center text-gray-400">
+                                <div className="text-center">
+                                    <FileText className="h-10 w-10 mx-auto mb-3 opacity-20" />
+                                    <p>Select a report to view</p>
                                 </div>
                             </div>
-                        </div>
-                    )
-                ))}
+                        )}
+                    </div>
+                )}
 
                 {/* Detailed View Tab */}
                 {activeTab === "detailed" && (

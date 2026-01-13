@@ -1,0 +1,186 @@
+Route Chatbot Reports into New “Reports” Tab in /accounting/pnl
+Title
+
+Replace Existing Report Render with “Reports” Tab in /accounting/pnl (No Report Content Changes)
+
+Goal
+
+When the chatbot is used on /accounting/pnl and the user opts to generate a report, the existing report output should open inside a new top-level tab called “Reports”, instead of the current report container.
+
+❗ This is a render target change only
+❗ The report itself must remain unchanged
+
+Explicit Non-Goals (Very Important)
+
+❌ No changes to report layout
+
+❌ No changes to report text, structure, or data
+
+❌ No changes to chatbot prompt or copy
+
+❌ No new report logic
+
+❌ No redesign of report UI
+
+This ticket only changes where the report appears.
+
+Current Behavior (Before)
+
+User asks a question in /accounting/pnl
+
+Chatbot offers: “Would you like a report?”
+
+User confirms
+
+Report opens in the existing report container
+
+Desired Behavior (After)
+Step-by-Step Flow
+
+User is on:
+
+/accounting/pnl
+
+
+User asks a question via chatbot
+
+Chatbot responds normally and asks:
+
+“Would you like a report?”
+
+User selects Yes
+
+Existing report output is generated (unchanged)
+
+Report opens in a new tab in the P&L header navigation
+
+Header Navigation Change
+Add New Tab
+
+Add a new top-level tab in the P&L header:
+
+Curated | Detailed View | P&L Dashboard | Reports
+
+Reports Tab Behavior
+Single Report
+
+Clicking Reports opens the most recently generated report
+
+The report content is rendered exactly as it exists today
+
+Multiple Reports (Dropdown)
+
+If more than one report has been generated:
+
+Reports becomes a dropdown
+
+Each entry represents a generated report
+
+Example:
+
+Reports ▾
+- Profitability – Sep vs Oct
+- Cost Analysis – October
+- Margin Drivers – Q3
+
+Selection Behavior
+
+Selecting a report:
+
+Switches the active report in the Reports tab
+
+Does NOT regenerate the report
+
+Does NOT modify chat state
+
+Report Lifecycle Rules
+
+Reports persist for the current session
+
+Reports are additive (no overwriting)
+
+No auto-deletion in v1
+
+Report state is independent of chatbot state
+
+Technical Notes (Implementation Guidance)
+
+Reuse the existing report component
+
+Replace the render mount:
+
+❌ Old report container
+
+✅ /accounting/pnl → Reports tab content area
+
+Reports should have:
+
+id
+
+title
+
+created_at
+
+component_payload
+
+No data transformation.
+
+Routing & State
+
+Active tab state should include:
+
+curated
+
+detailed
+
+dashboard
+
+reports
+
+Active report ID determines rendered content when reports is selected
+
+Acceptance Criteria
+
+ Chatbot behavior unchanged
+
+ Report content unchanged
+
+ Report opens in new Reports tab
+
+ Reports tab appears only after first report is generated
+
+ Multiple reports appear in dropdown
+
+ Switching reports does not regenerate data
+
+ Existing P&L tabs remain unaffected
+
+QA Checklist
+
+Generate report → appears in Reports tab
+
+Generate second report → dropdown appears
+
+Switch between reports → content swaps correctly
+
+Navigate away and back → report state persists (session scope)
+
+No visual or content diff between old report and new render
+
+Why This Matters
+
+Keeps chat clean
+
+Makes reports first-class artifacts
+
+Enables future features (saved reports, sharing) without refactor
+
+Follow-Ups (Not Included)
+
+Report persistence across sessions
+
+Renaming reports
+
+Deleting reports
+
+Sharing / exporting directly from tab

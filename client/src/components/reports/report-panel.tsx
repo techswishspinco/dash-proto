@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Sheet,
@@ -39,9 +38,7 @@ interface ReportPanelProps {
   data: ReportData | null;
 }
 
-export function ReportPanel({ isOpen, onClose, data }: ReportPanelProps) {
-  if (!data) return null;
-
+export function ReportContent({ data }: { data: ReportData }) {
   const handleCopy = () => {
     // Generate a simple markdown representation
     const text = `
@@ -94,9 +91,7 @@ ${data.analysis}
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent className="w-full sm:max-w-2xl sm:w-[800px] overflow-hidden flex flex-col p-0 gap-0 border-l border-border shadow-2xl">
-        
+    <div className="flex flex-col h-full bg-white">
         {/* Header */}
         <div className="p-6 border-b border-border bg-gray-50/50">
             <div className="flex items-start justify-between mb-4">
@@ -104,10 +99,10 @@ ${data.analysis}
                     <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
                         AI Generated Report
                     </div>
-                    <SheetTitle className="text-2xl font-serif font-medium">{data.title}</SheetTitle>
-                    <SheetDescription className="mt-1">
+                    <div className="text-2xl font-serif font-medium">{data.title}</div>
+                    <div className="mt-1 text-sm text-muted-foreground">
                         {data.dateRange} • {data.entity}
-                    </SheetDescription>
+                    </div>
                 </div>
                 <div className="flex gap-2">
                     <Button variant="outline" size="icon" onClick={handleCopy} title="Copy to Clipboard">
@@ -129,7 +124,7 @@ ${data.analysis}
         </div>
 
         <ScrollArea className="flex-1">
-            <div className="p-6 space-y-8 pb-20">
+            <div className="p-6 space-y-8 pb-20 max-w-5xl mx-auto">
                 
                 {/* Executive Summary */}
                 <section className="space-y-3">
@@ -228,6 +223,17 @@ ${data.analysis}
                 )}
             </div>
         </ScrollArea>
+    </div>
+  );
+}
+
+export function ReportPanel({ isOpen, onClose, data }: ReportPanelProps) {
+  if (!data) return null;
+
+  return (
+    <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <SheetContent className="w-full sm:max-w-2xl sm:w-[800px] overflow-hidden flex flex-col p-0 gap-0 border-l border-border shadow-2xl">
+        <ReportContent data={data} />
       </SheetContent>
     </Sheet>
   );
