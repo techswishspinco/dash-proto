@@ -3253,39 +3253,22 @@ function SidePanelAssistant({
                     <div className={cn("absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white transition-transform shadow-sm", isReportMode ? "translate-x-4" : "translate-x-0")} />
                 </button>
              </div>
+
+             {messages.length > 0 && (
+               <button 
+                 onClick={handleNewChat}
+                 className="p-1.5 hover:bg-gray-100 rounded-full transition-colors text-gray-400"
+                 title="Clear chat"
+               >
+                 <RotateCcw className="h-4 w-4" />
+               </button>
+             )}
              
              <div className="h-4 w-px bg-gray-200" />
              
              <button onClick={onClose} className="p-1.5 hover:bg-gray-100 rounded-full transition-colors text-gray-400">
               <X className="h-4 w-4" />
              </button>
-        </div>
-      </div>
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 bg-gray-50 rounded-xl flex items-center justify-center border border-gray-100">
-            <Sparkles className="h-5 w-5 text-gray-600" />
-          </div>
-          <div>
-            <h3 className="font-semibold text-sm text-gray-900">Munch Assistant</h3>
-            <p className="text-xs text-gray-500">Build your action plan</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-1">
-          {messages.length > 0 && (
-            <button 
-              onClick={handleNewChat}
-              className="p-1.5 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-600"
-              title="Clear chat"
-            >
-              <RotateCcw className="h-4 w-4" />
-            </button>
-          )}
-          <button 
-            onClick={onClose}
-            className="p-1.5 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-600"
-          >
-            <X className="h-4 w-4" />
-          </button>
         </div>
       </div>
 
