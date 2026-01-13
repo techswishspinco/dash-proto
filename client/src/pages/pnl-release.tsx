@@ -5599,13 +5599,19 @@ export default function PnlRelease() {
                           {/* Summary Cards Grid */}
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                              {/* Income Card */}
-                             <button 
+                             <div 
                                 onClick={() => {
                                    console.log('Income Card clicked');
                                    openTrendModal('net-sales');
                                 }}
-                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
-                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
+                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer relative z-10"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      openTrendModal('net-sales');
+                                   }
+                                }}
                              >
                                 <div className="flex items-center justify-between mb-4">
                                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">INCOME</span>
@@ -5617,16 +5623,22 @@ export default function PnlRelease() {
                                    <span className="text-xs font-semibold text-emerald-600">+3.7%</span>
                                    <span className="text-xs text-gray-400 font-medium">vs prior</span>
                                 </div>
-                             </button>
+                             </div>
 
                              {/* Marketing Spend Card */}
-                             <button 
+                             <div 
                                 onClick={() => {
                                    console.log('Marketing Card clicked');
                                    openTrendModal('marketing');
                                 }}
-                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
-                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
+                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer relative z-10"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      openTrendModal('marketing');
+                                   }
+                                }}
                              >
                                 <div className="flex items-center justify-between mb-4">
                                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">MARKETING</span>
@@ -5637,16 +5649,22 @@ export default function PnlRelease() {
                                    <span className="text-xs font-semibold text-gray-600">2.6%</span>
                                    <span className="text-xs text-gray-400 font-medium">of revenue</span>
                                 </div>
-                             </button>
+                             </div>
 
                              {/* Operating Expenses Card */}
-                             <button 
+                             <div 
                                 onClick={() => {
                                    console.log('Op Expenses Card clicked');
                                    openTrendModal('net-income');
                                 }}
-                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
-                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
+                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer relative z-10"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      openTrendModal('net-income');
+                                   }
+                                }}
                              >
                                 <div className="flex items-center justify-between mb-4">
                                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">OP. EXPENSES</span>
@@ -5657,16 +5675,22 @@ export default function PnlRelease() {
                                    <span className="text-xs font-semibold text-amber-500">35.7%</span>
                                    <span className="text-xs text-gray-400 font-medium">of revenue</span>
                                 </div>
-                             </button>
+                             </div>
 
                              {/* Growth Card */}
-                             <button 
+                             <div 
                                 onClick={() => {
                                    console.log('Growth Card clicked');
                                    openTrendModal('net-sales');
                                 }}
-                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
-                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
+                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer relative z-10"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      openTrendModal('net-sales');
+                                   }
+                                }}
                              >
                                 <div className="flex items-center justify-between mb-4">
                                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">GROWTH</span>
@@ -5679,19 +5703,25 @@ export default function PnlRelease() {
                                    <span className="text-xs font-semibold text-emerald-600">+3.7%</span>
                                    <span className="text-xs text-gray-400 font-medium">revenue YoY</span>
                                 </div>
-                             </button>
+                             </div>
                           </div>
 
                           {/* Second Row - Owner Only Cards */}
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                              {/* Cash Flow Card */}
-                             <button 
+                             <div 
                                 onClick={() => {
                                    console.log('Cash Flow Card clicked');
                                    openTrendModal('cash-flow');
                                 }}
-                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
-                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
+                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer relative z-10"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      openTrendModal('cash-flow');
+                                   }
+                                }}
                              >
                                 <div className="flex items-center justify-between mb-6">
                                    <div className="flex items-center gap-2">
@@ -5721,16 +5751,22 @@ export default function PnlRelease() {
                                       <span className="text-xs font-medium text-gray-500 whitespace-nowrap">2.4 mo coverage</span>
                                    </div>
                                 </div>
-                             </button>
+                             </div>
 
                              {/* Spend Visibility Card */}
-                             <button 
+                             <div 
                                 onClick={() => {
                                    console.log('Compensation Card clicked');
                                    openTrendModal('labor');
                                 }}
-                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer"
-                                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
+                                className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow w-full text-left group overflow-hidden cursor-pointer relative z-10"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      openTrendModal('labor');
+                                   }
+                                }}
                              >
                                 <div className="flex items-center justify-between mb-6">
                                    <div className="flex items-center gap-2">
@@ -5759,7 +5795,7 @@ export default function PnlRelease() {
                                       <span className="text-lg font-bold text-gray-900">$31,000</span>
                                    </div>
                                 </div>
-                             </button>
+                             </div>
                           </div>
                        </section>
                        )}
@@ -5814,10 +5850,17 @@ export default function PnlRelease() {
                              </div>
 
                              {/* Gross Profit Row */}
-                             <button 
+                             <div 
                                 onClick={() => handleInsightClick("Analyze my Gross Profit change from September to October 2025. October: $81,247.54, September: $77,371.95, Change: +$3,875.59 (+5.0%). What drove this improvement?")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group"
+                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
                                 data-testid="row-profitability-gross-profit"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      handleInsightClick("Analyze my Gross Profit change from September to October 2025. October: $81,247.54, September: $77,371.95, Change: +$3,875.59 (+5.0%). What drove this improvement?");
+                                   }
+                                }}
                              >
                                 <div className="col-span-2 flex items-center gap-2">
                                    <span className="font-medium text-gray-900">Gross Profit</span>
@@ -5840,13 +5883,20 @@ export default function PnlRelease() {
                                       <span className="text-sm font-medium">+5.0%</span>
                                    </span>
                                 </div>
-                             </button>
+                             </div>
 
                              {/* Gross Profit Margin Row */}
-                             <button 
+                             <div 
                                 onClick={() => handleInsightClick("Analyze my Gross Profit Margin change from September to October 2025. October: 58.4%, September: 58.2%, Change: +0.2 pts. Is this a healthy margin for a restaurant?")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group"
+                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
                                 data-testid="row-profitability-gross-margin"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      handleInsightClick("Analyze my Gross Profit Margin change from September to October 2025. October: 58.4%, September: 58.2%, Change: +0.2 pts. Is this a healthy margin for a restaurant?");
+                                   }
+                                }}
                              >
                                 <div className="col-span-2 flex items-center gap-2">
                                    <span className="font-medium text-gray-900">Gross Profit Margin</span>
@@ -5869,13 +5919,20 @@ export default function PnlRelease() {
                                       <span className="text-sm font-medium">↑</span>
                                    </span>
                                 </div>
-                             </button>
+                             </div>
 
                              {/* Operating Expenses Row */}
-                             <button 
+                             <div 
                                 onClick={() => handleInsightClick("Analyze my Operating Expenses change from September to October 2025. October: $57,823.45, September: $59,649.58, Change: -$1,826.13 (-3.1%). What categories drove this decrease?")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group"
+                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
                                 data-testid="row-profitability-opex"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      handleInsightClick("Analyze my Operating Expenses change from September to October 2025. October: $57,823.45, September: $59,649.58, Change: -$1,826.13 (-3.1%). What categories drove this decrease?");
+                                   }
+                                }}
                              >
                                 <div className="col-span-2 flex items-center gap-2">
                                    <span className="font-medium text-gray-900">Operating Expenses</span>
@@ -5898,13 +5955,20 @@ export default function PnlRelease() {
                                       <span className="text-sm font-medium">🟢</span>
                                    </span>
                                 </div>
-                             </button>
+                             </div>
 
                              {/* Operating Expense Ratio Row */}
-                             <button 
+                             <div 
                                 onClick={() => handleInsightClick("Analyze my Operating Expense Ratio change from September to October 2025. October: 41.5%, September: 44.8%, Change: -3.3 pts. This seems like a significant improvement - what drove it?")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group"
+                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
                                 data-testid="row-profitability-opex-ratio"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      handleInsightClick("Analyze my Operating Expense Ratio change from September to October 2025. October: 41.5%, September: 44.8%, Change: -3.3 pts. This seems like a significant improvement - what drove it?");
+                                   }
+                                }}
                              >
                                 <div className="col-span-2 flex items-center gap-2">
                                    <span className="font-medium text-gray-900">Operating Expense Ratio</span>
@@ -5927,13 +5991,20 @@ export default function PnlRelease() {
                                       <span className="text-sm font-medium">🟢</span>
                                    </span>
                                 </div>
-                             </button>
+                             </div>
 
                              {/* Expense as % of Revenue Row */}
-                             <button 
+                             <div 
                                 onClick={() => handleInsightClick("Analyze my total Expense as % of Revenue from September to October 2025. October: 83.1%, September: 86.7%, Change: -3.6 pts. This is a big improvement - break down what contributed.")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group"
+                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
                                 data-testid="row-profitability-expense-pct"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      handleInsightClick("Analyze my total Expense as % of Revenue from September to October 2025. October: 83.1%, September: 86.7%, Change: -3.6 pts. This is a big improvement - break down what contributed.");
+                                   }
+                                }}
                              >
                                 <div className="col-span-2 flex items-center gap-2">
                                    <span className="font-medium text-gray-900">Expense as % of Revenue</span>
@@ -5956,13 +6027,20 @@ export default function PnlRelease() {
                                       <span className="text-sm font-medium">🟢</span>
                                    </span>
                                 </div>
-                             </button>
+                             </div>
 
                              {/* Net Operating Income Row - Highlighted */}
-                             <button 
+                             <div 
                                 onClick={() => handleInsightClick("Analyze my Net Operating Income change from September to October 2025. October: $23,424.09, September: $17,722.37, Change: +$5,701.72 (+32.2%). This is a significant jump - what are the key drivers?")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 bg-emerald-50/50 hover:bg-emerald-100/50 transition-colors w-full text-left group"
+                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 bg-emerald-50/50 hover:bg-emerald-100/50 transition-colors w-full text-left group cursor-pointer relative z-10"
                                 data-testid="row-profitability-noi"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      handleInsightClick("Analyze my Net Operating Income change from September to October 2025. October: $23,424.09, September: $17,722.37, Change: +$5,701.72 (+32.2%). This is a significant jump - what are the key drivers?");
+                                   }
+                                }}
                              >
                                 <div className="col-span-2 flex items-center gap-2">
                                    <span className="font-bold text-gray-900">Net Operating Income</span>
@@ -5985,13 +6063,20 @@ export default function PnlRelease() {
                                       <span className="text-sm font-bold">+32.2%</span>
                                    </span>
                                 </div>
-                             </button>
+                             </div>
 
                              {/* Operating Margin Row - Final */}
-                             <button 
+                             <div 
                                 onClick={() => handleInsightClick("Analyze my Operating Margin change from September to October 2025. October: 16.8%, September: 13.3%, Change: +3.5 pts. This is a strong improvement - is this sustainable?")}
-                                className="grid grid-cols-6 px-4 py-4 bg-gray-50/50 hover:bg-blue-50 transition-colors w-full text-left group"
+                                className="grid grid-cols-6 px-4 py-4 bg-gray-50/50 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
                                 data-testid="row-profitability-operating-margin"
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                   if (e.key === 'Enter' || e.key === ' ') {
+                                      handleInsightClick("Analyze my Operating Margin change from September to October 2025. October: 16.8%, September: 13.3%, Change: +3.5 pts. This is a strong improvement - is this sustainable?");
+                                   }
+                                }}
                              >
                                 <div className="col-span-2 flex items-center gap-2">
                                    <span className="font-bold text-gray-900">Operating Margin</span>
@@ -6014,7 +6099,7 @@ export default function PnlRelease() {
                                       <span className="text-sm font-bold">🟢</span>
                                    </span>
                                 </div>
-                             </button>
+                             </div>
                           </div>
 
                           {/* Source Attribution */}
