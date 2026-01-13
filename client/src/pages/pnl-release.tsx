@@ -4810,6 +4810,9 @@ export default function PnlRelease() {
   });
 
   const openAssignModal = (actionId: string, actionTitle: string, owner: string) => {
+    // Open chat when modal opens to provide context
+    setShowChat(true);
+
     const defaultRecipient = owner.toLowerCase().replace(/\s+/g, '') + "@restaurant.com";
     setAssignModal({
       isOpen: true,
