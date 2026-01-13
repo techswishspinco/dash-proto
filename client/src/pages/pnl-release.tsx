@@ -4643,8 +4643,8 @@ export default function PnlRelease() {
     }
   };
 
-  // Action Items State
-  const [actionItems, setActionItems] = useState([
+  // Action Items State (Renamed to avoid conflict)
+  const [legacyActionItems, setLegacyActionItems] = useState([
     { id: "ot-policy", title: "Review OT policy — 142 hours is unsustainable", owner: "GM", impact: "$1,500/mo potential", priority: "high", completed: false, completedAt: null as Date | null },
     { id: "delivery-commission", title: "Renegotiate delivery commission with DoorDash", owner: "Owner", impact: "$400/mo potential", priority: "medium", completed: false, completedAt: null as Date | null },
     { id: "hvac-repair", title: "Investigate HVAC repair — one-time or recurring?", owner: "GM", impact: "Budgeting clarity", priority: "low", completed: false, completedAt: null as Date | null },
@@ -4656,7 +4656,7 @@ export default function PnlRelease() {
   const [recentlyCompleted, setRecentlyCompleted] = useState<string | null>(null);
 
   const toggleActionComplete = (id: string) => {
-    setActionItems(prev => prev.map(item => {
+    setLegacyActionItems(prev => prev.map(item => {
       if (item.id === id) {
         const nowCompleted = !item.completed;
         if (nowCompleted) {
@@ -4676,7 +4676,7 @@ export default function PnlRelease() {
 
   const saveActionEdit = () => {
     if (editingActionId && editingActionTitle.trim()) {
-      setActionItems(prev => prev.map(item => 
+      setLegacyActionItems(prev => prev.map(item => 
         item.id === editingActionId ? { ...item, title: editingActionTitle.trim() } : item
       ));
     }
@@ -4684,8 +4684,8 @@ export default function PnlRelease() {
     setEditingActionTitle("");
   };
 
-  const activeActions = actionItems.filter(item => !item.completed);
-  const completedActions = actionItems.filter(item => item.completed);
+  const activeActions = legacyActionItems.filter(item => !item.completed);
+  const completedActions = legacyActionItems.filter(item => item.completed);
 
   // Assign Modal State
   const [assignModal, setAssignModal] = useState<{
