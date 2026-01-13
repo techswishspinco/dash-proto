@@ -3210,7 +3210,9 @@ function SidePanelAssistant({
   onReportGenerated,
   actionItems,
   onAddActionItem,
-  onRemoveActionItem
+  onRemoveActionItem,
+  showActionCart,
+  onToggleActionCart
 }: { 
   onClose: () => void; 
   triggerQuery?: string | null;
@@ -3219,12 +3221,14 @@ function SidePanelAssistant({
   actionItems: ActionItem[];
   onAddActionItem: (item: Omit<ActionItem, 'id' | 'createdAt' | 'status'>) => void;
   onRemoveActionItem: (id: string) => void;
+  showActionCart: boolean;
+  onToggleActionCart: (show: boolean) => void;
 }) {
   const [messages, setMessages] = useState<FloatingMessage[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isReportMode, setIsReportMode] = useState(false);
-  const [showActionCart, setShowActionCart] = useState(false); // Toggle for Action Cart Panel
+  // const [showActionCart, setShowActionCart] = useState(false); // Moved to parent
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [processedTrigger, setProcessedTrigger] = useState<string | null>(null);
@@ -3508,7 +3512,7 @@ function SidePanelAssistant({
         <div className="flex items-center gap-3">
              {/* Action Cart Toggle */}
              <button 
-                onClick={() => setShowActionCart(!showActionCart)}
+                onClick={() => onToggleActionCart(!showActionCart)}
                 className={cn(
                     "flex items-center gap-1.5 px-2 py-1 rounded-lg border text-xs font-medium transition-colors relative",
                     showActionCart ? "bg-black text-white border-black" : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
@@ -4188,6 +4192,7 @@ export default function PnlRelease() {
   
   // Action Cart State
   const [actionItems, setActionItems] = useState<ActionItem[]>([]);
+  const [showActionCart, setShowActionCart] = useState(false);
 
   const handleAddActionItem = (item: Omit<ActionItem, 'id' | 'createdAt' | 'status'>) => {
       const newItem: ActionItem = {
@@ -14869,6 +14874,8 @@ export default function PnlRelease() {
                   actionItems={actionItems}
                   onAddActionItem={handleAddActionItem}
                   onRemoveActionItem={handleRemoveActionItem}
+                  showActionCart={showActionCart}
+                  onToggleActionCart={setShowActionCart}
                 />
               </motion.div>
             )}
