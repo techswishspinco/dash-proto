@@ -1,0 +1,272 @@
+Refactor Curated View for GM Role: One Operational Issue, Clear Context, No Financial Health Card
+
+Problem (GM-Specific)
+
+General Managers do not think in terms of “Financial Health.”
+They operate on:
+
+Labor execution
+
+Throughput
+
+Staffing efficiency
+
+Service performance
+
+The current Curated view:
+
+Feels financial and abstract
+
+Lacks a clear operational focal point
+
+Shows too many metrics at once
+
+Does not clearly answer: “What do I need to fix today?”
+
+Goal
+
+Redesign Curated View for the GM role so it:
+
+Surfaces one urgent operational issue
+
+Uses red / exception signals
+
+Preserves all existing data
+
+Prioritizes execution over finance
+
+Clearly points to the next step (Detailed view)
+
+GM Curated View Definition (Locked)
+
+GM Curated View answers:
+“What operational issue needs my attention right now, and where do I go to understand it?”
+
+Layout & Hierarchy (GM Only)
+Default State (On Load)
+
+Visible:
+
+✅ Primary Operational Insight Card (single, dominant)
+
+Below (secondary, grouped):
+
+Labor
+
+Sales
+
+Ticket Time
+
+Throughput-related metrics
+
+Hidden by default:
+
+❌ Financial Health
+
+❌ Income / Marketing / Growth / Cash Flow groupings
+
+Financial categories may exist as secondary context only, never as the entry point.
+
+Primary Operational Insight (GM)
+Selection Rules
+
+Choose exactly one primary insight based on:
+
+Labor % over target
+
+Ticket time degradation
+
+Sales underperformance caused by execution
+
+Prime cost issues driven by labor
+
+Overtime / staffing mismatch
+
+Rank by:
+
+Severity (red / exception)
+
+Impact on service or sales
+
+Operational controllability
+
+GM Primary Insight Examples
+
+“Labor inefficiency during peak hours”
+
+“Ticket times increased 18% during dinner service”
+
+“Sales missed target due to throughput constraints”
+
+“Overtime driving labor cost variance”
+
+Primary Operational Insight Card (GM)
+Card Content
+
+1. Status Indicator
+
+Red = immediate attention
+
+Green = on track
+
+2. Headline (Large, Action-Oriented)
+
+Operational language only
+
+Examples:
+
+“Labor inefficiency during peak hours”
+
+“Service throughput slowed in weeks 1–2”
+
+3. Context Line
+
+Tie execution → outcome
+
+Examples:
+
+“Labor ran 4.2% over target, impacting margins”
+
+“Ticket times exceeded SLA during peak hours”
+
+4. Key Metrics (Max 3)
+
+Labor % vs target
+
+Ticket time delta
+
+Sales impact (if relevant)
+
+5. CTA
+
+“View breakdown”
+
+Entire card is clickable
+
+Secondary Metrics (GM)
+
+All existing Curated metrics must remain, but:
+
+Visually subordinate
+
+Grouped logically
+
+Never compete with the primary insight
+
+Examples:
+
+Labor summary card
+
+Sales vs target
+
+Peak vs off-peak indicators
+
+Enrichment Rules (GM)
+
+Allowed only when it explains urgency:
+
+Ticket time spikes
+
+Peak-hour staffing mismatches
+
+Week/day-level execution issues
+
+Example:
+
+“Ticket times were red during Week 1–2 dinner service”
+
+❌ No charts
+❌ No deep tables
+
+Auto-Link to Detailed View
+
+Clicking the Primary Insight Card:
+
+Switches to Detailed View
+
+Auto-scrolls to the relevant section:
+
+Labor efficiency
+
+Ticket time performance
+
+Labor ↔ sales correlation
+
+Example mapping:
+
+{
+  role: "GM",
+  insightType: "ticket_time",
+  targetSectionId: "ticket-time-performance"
+}
+
+Data Preservation Rule (Non-Negotiable)
+
+❗ No existing Curated data may be removed.
+
+Allowed:
+
+Reordering
+
+Grouping
+
+De-emphasis
+
+Not allowed:
+
+Deleting metrics
+
+Moving data exclusively to Detailed
+
+Explicit Non-Goals
+
+❌ No Financial Health card
+
+❌ No report generation
+
+❌ No chatbot UX changes
+
+❌ No Owner or Chef logic
+
+❌ No new calculations
+
+❌ No deep analysis in Curated
+
+Acceptance Criteria
+
+ GM sees one clear operational issue on load
+
+ No Financial Health card appears for GM
+
+ Primary insight is operational, not financial
+
+ Secondary metrics are present but subordinate
+
+ Clicking insight navigates to correct Detailed section
+
+ No data loss from Curated
+
+QA Checklist (GM)
+
+Switch role → GM
+
+Load Curated → single operational focus
+
+Red ticket-time issue → becomes primary insight
+
+Click insight → Detailed scrolls correctly
+
+All prior Curated metrics still visible
+
+Why This Is Correct for GMs
+
+Owners care about health
+GMs care about execution
+
+This design:
+
+Matches how GMs think
+
+Reduces cognitive load
+
+Makes Curated actually useful day-to-day

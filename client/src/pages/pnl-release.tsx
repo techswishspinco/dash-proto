@@ -635,6 +635,7 @@ const navigationYears = [
 
 const tocSections = [
   { id: "executive-narrative", label: "Executive Narrative" },
+  { id: "deep-performance", label: "Deep Performance Visuals" },
   { id: "bottom-line", label: "Bottom Line" },
   { id: "health-snapshot", label: "Health Snapshot" },
   { id: "revenue-analysis", label: "Revenue Analysis" },
@@ -651,6 +652,7 @@ interface EditableSection {
 
 const defaultSections: EditableSection[] = [
   { id: "executive-narrative", label: "Executive Narrative", visible: true },
+  { id: "deep-performance", label: "Deep Performance Visuals", visible: true },
   { id: "bottom-line", label: "Bottom Line", visible: true },
   { id: "health-snapshot", label: "Health Snapshot", visible: true },
   { id: "revenue-analysis", label: "Revenue Analysis", visible: true },
@@ -10256,6 +10258,212 @@ export default function PnlRelease() {
                    </section>
                    )}
 
+                   {/* 2. Deep Performance Visuals */}
+                   {isSectionVisible("deep-performance") && (
+                   <section id="deep-performance" className="scroll-mt-4" style={{ order: getSectionOrderIndex("deep-performance") }}>
+                      <div className="flex items-center justify-between mb-4">
+                         <div className="flex items-center gap-3">
+                            <h2 className="text-xl font-serif font-bold text-gray-900">Deep Performance Visuals</h2>
+                            {isEditMode && (
+                               <button
+                                  onClick={() => removeSection("deep-performance")}
+                                  className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors"
+                                  title="Remove section"
+                               >
+                                  <X className="h-4 w-4" />
+                               </button>
+                            )}
+                         </div>
+                         <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-0.5">
+                               {(["today", "week", "month", "year"] as const).map((range) => (
+                                  <button
+                                     key={range}
+                                     onClick={() => setGmTimeRange(range)}
+                                     className={cn(
+                                        "px-3 py-1.5 text-xs font-medium rounded-md transition-all",
+                                        gmTimeRange === range
+                                           ? "bg-white text-gray-900 shadow-sm"
+                                           : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                                     )}
+                                  >
+                                     {range === 'today' ? 'Today' : range === 'week' ? 'Week' : range === 'month' ? 'Month' : 'Year'}
+                                  </button>
+                               ))}
+                            </div>
+                         </div>
+                      </div>
+
+                      {/* Shift Breakdown Graph (Moved from Curated) */}
+                      <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6" data-testid="shift-breakdown-graph">
+                         <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                               <Clock className="h-4 w-4 text-gray-500" />
+                               Shift Breakdown
+                               <span className="text-xs font-normal text-gray-500">
+                                  {gmTimeRange === 'today' ? 'Today' : gmTimeRange === 'week' ? 'This Week (Avg/Day)' : gmTimeRange === 'month' ? 'This Month (Avg/Day)' : 'YTD (Avg/Day)'}
+                               </span>
+                               {shiftZoomLevel !== '60min' && (
+                                  <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-medium rounded-full flex items-center gap-1">
+                                     {shiftZoomLevel === '15min' ? '15-min' : shiftZoomLevel === '5min' ? '5-min' : '1-min'} resolution
+                                     <button 
+                                        onClick={handleShiftChartDoubleClick}
+                                        className="ml-1 hover:text-blue-900"
+                                        title="Reset to hourly view"
+                                     >
+                                        ×
+                                     </button>
+                                  </span>
+                               )}
+                            </h3>
+                            <div className="flex items-center gap-4 text-xs">
+                               <div className="flex items-center gap-1.5">
+                                  <div className="w-3 h-3 rounded-sm bg-blue-500" />
+                                  <span className="text-gray-600">Sales</span>
+                               </div>
+                               <div className="flex items-center gap-1.5">
+                                  <div className="w-3 h-3 rounded-sm bg-orange-400" />
+                                  <span className="text-gray-600">Labor Cost</span>
+                               </div>
+                               <div className="flex items-center gap-1.5">
+                                  <div className="w-2 h-2 rounded-full bg-red-500" />
+                                  <span className="text-gray-600">Labor %</span>
+                               </div>
+                               {shiftZoomLevel === '60min' ? (
+                                  <span className="text-[10px] text-gray-400 italic">Drag to zoom</span>
+                               ) : (
+                                  <div className="flex items-center gap-2">
+                                     {timeWindow && (
+                                        <span className="text-[10px] font-medium text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
+                                           {timeWindow.start} – {timeWindow.end}
+                                        </span>
+                                     )}
+                                     <span className="text-[10px] text-gray-400 italic">← Drag to pan →</span>
+                                  </div>
+                               )}
+                            </div>
+                         </div>
+                         
+                         {/* Combined Bar + Line Chart with Zoom */}
+                         <div 
+                            className={cn(
+                               "h-64 select-none",
+                               shiftZoomLevel === '60min' ? "cursor-crosshair" : isPanning ? "cursor-grabbing" : "cursor-grab"
+                            )}
+                            onDoubleClick={handleShiftChartDoubleClick}
+                            onMouseDown={handlePanMouseDown}
+                            onMouseMove={handlePanMouseMove}
+                            onMouseUp={handlePanMouseUp}
+                            onMouseLeave={handlePanMouseUp}
+                         >
+                            <ResponsiveContainer width="100%" height="100%">
+                               <ComposedChart 
+                                  data={currentShiftData} 
+                                  margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
+                                  onMouseDown={handleShiftChartMouseDown}
+                                  onMouseMove={handleShiftChartMouseMove}
+                                  onMouseUp={handleShiftChartMouseUp}
+                                  onMouseLeave={handleShiftChartMouseUp}
+                               >
+                                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                                  <XAxis 
+                                     dataKey={shiftZoomLevel === '60min' ? 'hour' : 'time'} 
+                                     tick={{ fontSize: shiftZoomLevel === '1min' ? 8 : 10, fill: '#6b7280' }}
+                                     axisLine={{ stroke: '#e5e7eb' }}
+                                     tickLine={false}
+                                     interval={shiftZoomLevel === '1min' ? 9 : shiftZoomLevel === '5min' ? 2 : 0}
+                                  />
+                                  <YAxis 
+                                     yAxisId="left"
+                                     tick={{ fontSize: 11, fill: '#6b7280' }}
+                                     axisLine={{ stroke: '#e5e7eb' }}
+                                     tickLine={false}
+                                     tickFormatter={(value) => `$${(value / 1000).toFixed(1)}k`}
+                                  />
+                                  <YAxis 
+                                     yAxisId="right"
+                                     orientation="right"
+                                     domain={[0, 50]}
+                                     tick={{ fontSize: 11, fill: '#6b7280' }}
+                                     axisLine={{ stroke: '#e5e7eb' }}
+                                     tickLine={false}
+                                     tickFormatter={(value) => `${value}%`}
+                                  />
+                                  <Tooltip 
+                                     content={({ active, payload, label }) => {
+                                        if (active && payload && payload.length) {
+                                           const data = payload[0].payload;
+                                           const timeLabel = data.time || data.hour;
+                                           return (
+                                              <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-sm">
+                                                 <div className="font-semibold text-gray-900 mb-2">{timeLabel}</div>
+                                                 <div className="space-y-1">
+                                                    <div className="flex justify-between gap-4">
+                                                       <span className="text-gray-600">Sales:</span>
+                                                       <span className="font-medium text-blue-600">${data.sales.toLocaleString()}</span>
+                                                    </div>
+                                                    <div className="flex justify-between gap-4">
+                                                       <span className="text-gray-600">Labor Cost:</span>
+                                                       <span className="font-medium text-orange-600">${data.labor.toLocaleString()}</span>
+                                                    </div>
+                                                    <div className="flex justify-between gap-4 pt-1 border-t border-gray-100">
+                                                       <span className="text-gray-600">Labor %:</span>
+                                                       <span className={cn(
+                                                          "font-medium",
+                                                          data.laborPct > 35 ? "text-red-600" : data.laborPct > 25 ? "text-amber-600" : "text-emerald-600"
+                                                       )}>{data.laborPct}%</span>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                           );
+                                        }
+                                        return null;
+                                     }}
+                                  />
+                                  <Bar yAxisId="left" dataKey="sales" fill="#3b82f6" radius={[4, 4, 0, 0]} name="Sales" />
+                                  <Bar yAxisId="left" dataKey="labor" fill="#fb923c" radius={[4, 4, 0, 0]} name="Labor" />
+                                  <Line 
+                                     yAxisId="right" 
+                                     type="monotone" 
+                                     dataKey="laborPct" 
+                                     stroke="#ef4444" 
+                                     strokeWidth={2}
+                                     dot={{ fill: '#ef4444', strokeWidth: 2, r: 4 }}
+                                     name="Labor %"
+                                  />
+                               </ComposedChart>
+                            </ResponsiveContainer>
+                         </div>
+                         
+                         {/* Summary Footer */}
+                         <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+                            <div className="flex items-center gap-6">
+                               <div className="flex items-center gap-2">
+                                  <span className="text-gray-500">Total Sales:</span>
+                                  <span className="font-semibold text-gray-900">${shiftTotalSales.toLocaleString()}</span>
+                               </div>
+                               <div className="flex items-center gap-2">
+                                  <span className="text-gray-500">Total Labor:</span>
+                                  <span className="font-semibold text-gray-900">${shiftTotalLabor.toLocaleString()}</span>
+                               </div>
+                               <div className="flex items-center gap-2">
+                                  <span className="text-gray-500">Overall Labor %:</span>
+                                  <span className={cn(
+                                     "font-semibold px-1.5 py-0.5 rounded",
+                                     (shiftTotalLabor / shiftTotalSales * 100) > 32 ? "bg-red-100 text-red-700" : 
+                                     (shiftTotalLabor / shiftTotalSales * 100) > 28 ? "bg-amber-100 text-amber-700" : 
+                                     "bg-emerald-100 text-emerald-700"
+                                  )}>
+                                     {((shiftTotalLabor / shiftTotalSales) * 100).toFixed(1)}%
+                                  </span>
+                               </div>
+                            </div>
+                            <span className="text-gray-400">Synced with Performance Summary</span>
+                         </div>
+                      </div>
+                   </section>
+                   )}
+
                    {/* 2. Bottom Line */}
                    {isSectionVisible("bottom-line") && (
                    <section id="bottom-line" className="scroll-mt-4" style={{ order: getSectionOrderIndex("bottom-line") }}>
@@ -13575,174 +13783,6 @@ export default function PnlRelease() {
                             </div>
                          </div>
                          )}
-                      </div>
-
-                      {/* Shift Breakdown Graph */}
-                      <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6" data-testid="shift-breakdown-graph">
-                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                               <Clock className="h-4 w-4 text-gray-500" />
-                               Shift Breakdown
-                               <span className="text-xs font-normal text-gray-500">
-                                  {gmTimeRange === 'today' ? 'Today' : gmTimeRange === 'week' ? 'This Week (Avg/Day)' : gmTimeRange === 'month' ? 'This Month (Avg/Day)' : 'YTD (Avg/Day)'}
-                               </span>
-                               {shiftZoomLevel !== '60min' && (
-                                  <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-medium rounded-full flex items-center gap-1">
-                                     {shiftZoomLevel === '15min' ? '15-min' : shiftZoomLevel === '5min' ? '5-min' : '1-min'} resolution
-                                     <button 
-                                        onClick={handleShiftChartDoubleClick}
-                                        className="ml-1 hover:text-blue-900"
-                                        title="Reset to hourly view"
-                                     >
-                                        ×
-                                     </button>
-                                  </span>
-                               )}
-                            </h3>
-                            <div className="flex items-center gap-4 text-xs">
-                               <div className="flex items-center gap-1.5">
-                                  <div className="w-3 h-3 rounded-sm bg-blue-500" />
-                                  <span className="text-gray-600">Sales</span>
-                               </div>
-                               <div className="flex items-center gap-1.5">
-                                  <div className="w-3 h-3 rounded-sm bg-orange-400" />
-                                  <span className="text-gray-600">Labor Cost</span>
-                               </div>
-                               <div className="flex items-center gap-1.5">
-                                  <div className="w-2 h-2 rounded-full bg-red-500" />
-                                  <span className="text-gray-600">Labor %</span>
-                               </div>
-                               {shiftZoomLevel === '60min' ? (
-                                  <span className="text-[10px] text-gray-400 italic">Drag to zoom</span>
-                               ) : (
-                                  <div className="flex items-center gap-2">
-                                     {timeWindow && (
-                                        <span className="text-[10px] font-medium text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
-                                           {timeWindow.start} – {timeWindow.end}
-                                        </span>
-                                     )}
-                                     <span className="text-[10px] text-gray-400 italic">← Drag to pan →</span>
-                                  </div>
-                               )}
-                            </div>
-                         </div>
-                         
-                         {/* Combined Bar + Line Chart with Zoom */}
-                         <div 
-                            className={cn(
-                               "h-64 select-none",
-                               shiftZoomLevel === '60min' ? "cursor-crosshair" : isPanning ? "cursor-grabbing" : "cursor-grab"
-                            )}
-                            onDoubleClick={handleShiftChartDoubleClick}
-                            onMouseDown={handlePanMouseDown}
-                            onMouseMove={handlePanMouseMove}
-                            onMouseUp={handlePanMouseUp}
-                            onMouseLeave={handlePanMouseUp}
-                         >
-                            <ResponsiveContainer width="100%" height="100%">
-                               <ComposedChart 
-                                  data={currentShiftData} 
-                                  margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
-                                  onMouseDown={handleShiftChartMouseDown}
-                                  onMouseMove={handleShiftChartMouseMove}
-                                  onMouseUp={handleShiftChartMouseUp}
-                                  onMouseLeave={handleShiftChartMouseUp}
-                               >
-                                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                                  <XAxis 
-                                     dataKey={shiftZoomLevel === '60min' ? 'hour' : 'time'} 
-                                     tick={{ fontSize: shiftZoomLevel === '1min' ? 8 : 10, fill: '#6b7280' }}
-                                     axisLine={{ stroke: '#e5e7eb' }}
-                                     tickLine={false}
-                                     interval={shiftZoomLevel === '1min' ? 9 : shiftZoomLevel === '5min' ? 2 : 0}
-                                  />
-                                  <YAxis 
-                                     yAxisId="left"
-                                     tick={{ fontSize: 11, fill: '#6b7280' }}
-                                     axisLine={{ stroke: '#e5e7eb' }}
-                                     tickLine={false}
-                                     tickFormatter={(value) => `$${(value / 1000).toFixed(1)}k`}
-                                  />
-                                  <YAxis 
-                                     yAxisId="right"
-                                     orientation="right"
-                                     domain={[0, 50]}
-                                     tick={{ fontSize: 11, fill: '#6b7280' }}
-                                     axisLine={{ stroke: '#e5e7eb' }}
-                                     tickLine={false}
-                                     tickFormatter={(value) => `${value}%`}
-                                  />
-                                  <Tooltip 
-                                     content={({ active, payload, label }) => {
-                                        if (active && payload && payload.length) {
-                                           const data = payload[0].payload;
-                                           const timeLabel = data.time || data.hour;
-                                           return (
-                                              <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-sm">
-                                                 <div className="font-semibold text-gray-900 mb-2">{timeLabel}</div>
-                                                 <div className="space-y-1">
-                                                    <div className="flex justify-between gap-4">
-                                                       <span className="text-gray-600">Sales:</span>
-                                                       <span className="font-medium text-blue-600">${data.sales.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className="flex justify-between gap-4">
-                                                       <span className="text-gray-600">Labor Cost:</span>
-                                                       <span className="font-medium text-orange-600">${data.labor.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className="flex justify-between gap-4 pt-1 border-t border-gray-100">
-                                                       <span className="text-gray-600">Labor %:</span>
-                                                       <span className={cn(
-                                                          "font-medium",
-                                                          data.laborPct > 35 ? "text-red-600" : data.laborPct > 25 ? "text-amber-600" : "text-emerald-600"
-                                                       )}>{data.laborPct}%</span>
-                                                    </div>
-                                                 </div>
-                                              </div>
-                                           );
-                                        }
-                                        return null;
-                                     }}
-                                  />
-                                  <Bar yAxisId="left" dataKey="sales" fill="#3b82f6" radius={[4, 4, 0, 0]} name="Sales" />
-                                  <Bar yAxisId="left" dataKey="labor" fill="#fb923c" radius={[4, 4, 0, 0]} name="Labor" />
-                                  <Line 
-                                     yAxisId="right" 
-                                     type="monotone" 
-                                     dataKey="laborPct" 
-                                     stroke="#ef4444" 
-                                     strokeWidth={2}
-                                     dot={{ fill: '#ef4444', strokeWidth: 2, r: 4 }}
-                                     name="Labor %"
-                                  />
-                               </ComposedChart>
-                            </ResponsiveContainer>
-                         </div>
-                         
-                         {/* Summary Footer */}
-                         <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
-                            <div className="flex items-center gap-6">
-                               <div className="flex items-center gap-2">
-                                  <span className="text-gray-500">Total Sales:</span>
-                                  <span className="font-semibold text-gray-900">${shiftTotalSales.toLocaleString()}</span>
-                               </div>
-                               <div className="flex items-center gap-2">
-                                  <span className="text-gray-500">Total Labor:</span>
-                                  <span className="font-semibold text-gray-900">${shiftTotalLabor.toLocaleString()}</span>
-                               </div>
-                               <div className="flex items-center gap-2">
-                                  <span className="text-gray-500">Overall Labor %:</span>
-                                  <span className={cn(
-                                     "font-semibold px-1.5 py-0.5 rounded",
-                                     (shiftTotalLabor / shiftTotalSales * 100) > 32 ? "bg-red-100 text-red-700" : 
-                                     (shiftTotalLabor / shiftTotalSales * 100) > 28 ? "bg-amber-100 text-amber-700" : 
-                                     "bg-emerald-100 text-emerald-700"
-                                  )}>
-                                     {((shiftTotalLabor / shiftTotalSales) * 100).toFixed(1)}%
-                                  </span>
-                               </div>
-                            </div>
-                            <span className="text-gray-400">Synced with Performance Summary</span>
-                         </div>
                       </div>
 
                       {/* What Happened - Dynamic based on time range */}
