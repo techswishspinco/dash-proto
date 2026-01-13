@@ -14269,11 +14269,11 @@ export default function PnlRelease() {
                                            <Check className="h-4 w-4" />
                                         </div>
                                         <div>
-                                           <p className="text-sm font-medium text-gray-900">Smoked Salmon Benedict sold 145 units</p>
-                                           <p className="text-xs text-muted-foreground">New special performed exceptionally well</p>
+                                           <p className="text-sm font-medium text-gray-900">Cookie Camp cost at 28%</p>
+                                           <p className="text-xs text-muted-foreground">Maintained target despite ingredient price flux</p>
                                         </div>
                                      </div>
-                                     <span className="text-sm font-medium text-emerald-600">+40 vs forecast</span>
+                                     <span className="text-sm font-medium text-emerald-600">On Target</span>
                                   </div>
                                   <div className="p-4 flex justify-between items-center">
                                      <div className="flex items-center gap-3">
