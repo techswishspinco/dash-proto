@@ -1,0 +1,224 @@
+Action Cart for P&L Insights (Chatbot-Driven)
+Title
+
+Add Action Cart to Chatbot for P&L Action Items (Click-to-Add + AI Suggestions)
+
+Goal
+
+Introduce an Action Cart that lets users:
+
+Click action items directly from /accounting/pnl
+
+Accumulate them in the chatbot (like a shopping cart)
+
+Review, assign, or act on them later
+
+Receive AI-suggested actions based on P&L data that may need attention or monitoring
+
+This creates a bridge between insight → intent → action.
+
+Core Concept
+
+The chatbot maintains a persistent action queue (session-scoped) that contains:
+
+User-selected action items
+
+AI-suggested action items
+
+Status metadata (new / assigned / dismissed)
+
+The cart is not execution — it is an intent staging area.
+
+User Flows
+1. Click-to-Add from /accounting/pnl
+
+On /accounting/pnl, actionable insights should expose an “Add to Actions” affordance.
+
+Examples:
+
+“Labor % increased 4.2% MoM”
+
+“Food cost exceeded target”
+
+“Delivery commissions trending up”
+
+When clicked:
+
+Item is added to the chatbot Action Cart
+
+User receives lightweight confirmation:
+
+“Added to Actions”
+
+2. Chatbot Action Cart UI
+
+The chatbot displays:
+
+An Action Cart icon / indicator with count
+
+A panel listing all current action items
+
+Each item shows:
+
+Title
+
+Source (P&L, AI suggestion)
+
+Reason / metric
+
+Timestamp
+
+3. AI-Suggested Action Items
+
+The chatbot should proactively suggest action items when:
+
+Metrics breach thresholds
+
+Trends deteriorate MoM
+
+Costs grow faster than revenue
+
+Variance exceeds materiality thresholds
+
+Examples:
+
+“Review labor scheduling for October”
+
+“Investigate rising DoorDash commissions”
+
+“Monitor beverage cost volatility”
+
+Suggested items must be:
+
+Clearly labeled as Suggested
+
+Optional to add
+
+Dismissible
+
+4. Review & Take Action
+
+Users can later say:
+
+“Show my action items”
+
+“Assign these to my GM”
+
+“Mark this as monitoring only”
+
+“Remove this item”
+
+(No execution logic in v1 — assignment is conceptual.)
+
+Action Item Data Model
+{
+  "id": "action_123",
+  "title": "Review labor cost increase",
+  "source": "pnl_insight | ai_suggestion | user_click",
+  "metric": "Labor % of Sales",
+  "context": "Labor increased 4.2% MoM in Oct 2025",
+  "status": "new | assigned | dismissed",
+  "created_at": "timestamp"
+}
+
+AI Suggestion Rules (v1)
+
+Suggestions should be generated when:
+
+% of income exceeds prior month by configurable threshold
+
+Absolute delta exceeds materiality threshold
+
+Negative margin movement is detected
+
+Suggestions must:
+
+Reference exact metrics
+
+Avoid prescriptive steps
+
+Be phrased as review / monitor / investigate
+
+Chatbot Integration Rules
+
+Action Cart lives inside chatbot state
+
+Adding items does NOT interrupt chat flow
+
+Suggested items appear inline or as a soft prompt:
+
+“I noticed a few areas worth reviewing — want to add them to Actions?”
+
+Non-Goals (Explicit)
+
+No task execution
+
+No calendar integration
+
+No notifications
+
+No multi-user workflow logic
+
+No persistence beyond session (v1)
+
+UX Principles
+
+Lightweight
+
+Non-blocking
+
+Dismissible
+
+Explicit user consent for adding suggested items
+
+Acceptance Criteria
+
+ Users can add action items from /accounting/pnl
+
+ Action Cart count updates in chatbot
+
+ AI suggests relevant action items
+
+ Suggested items are optional
+
+ Users can view, remove, or assign items
+
+ Action Cart is session-persistent
+
+ No impact on existing reports or P&L rendering
+
+Engineering Notes
+
+This should be implemented as:
+
+A shared Action Store
+
+Accessible by:
+
+/accounting/pnl
+
+Chatbot
+
+Decoupled from report generation
+
+This sets up future:
+
+Task assignment
+
+Bonus tracking
+
+SOP linking
+
+AI follow-ups
+
+Future Extensions (Not Included)
+
+Persist actions across sessions
+
+Link actions to SOPs
+
+Assign to roles (Owner / GM / Chef)
+
+Due dates and reminders
+
+Bonus eligibility tracking

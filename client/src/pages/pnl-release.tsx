@@ -126,6 +126,17 @@ import { ReportsView } from "@/components/reports/reports-view";
 import { ReportContent } from "@/components/reports/report-content";
 import { Wand } from "@/components/ui/wand";
 
+// --- Action Cart Types & Data ---
+interface ActionItem {
+  id: string;
+  title: string;
+  source: 'pnl_insight' | 'ai_suggestion' | 'user_click';
+  metric?: string;
+  context?: string;
+  status: 'new' | 'assigned' | 'dismissed';
+  createdAt: number;
+}
+
 // --- Mock Data ---
 
 type PnLStatus = "Draft" | "In Review" | "Finalized" | "Published";
@@ -4091,6 +4102,46 @@ export default function PnlRelease() {
   const tocDropdownRef = useRef<HTMLDivElement>(null);
   const stateDropdownRef = useRef<HTMLDivElement>(null);
 
+  // New Reports Tab State
+  const [reportsList, setReportsList] = useState<Array<{id: string, type: string, data: ReportData, createdAt: number}>>([]);
+  const [activeReportId, setActiveReportId] = useState<string | null>(null);
+  
+  // Action Cart State
+  const [actionItems, setActionItems] = useState<ActionItem[]>([]);
+
+  const handleAddActionItem = (item: Omit<ActionItem, 'id' | 'createdAt' | 'status'>) => {
+      const newItem: ActionItem = {
+          ...item,
+          id: `action-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          status: 'new',
+          createdAt: Date.now()
+      };
+      setActionItems(prev => [newItem, ...prev]);
+      toast({
+          title: "Added to Actions",
+          description: "Item added to your Action Cart.",
+      });
+  };
+
+  const handleRemoveActionItem = (id: string) => {
+      setActionItems(prev => prev.filter(item => item.id !== id));
+      toast({
+          title: "Removed",
+          description: "Action item removed.",
+      });
+  };
+
+  const handleReportGenerated = (report: {id: string, type: string, data: ReportData, createdAt: number}) => {
+      setReportsList(prev => [report, ...prev]);
+      setActiveReportId(report.id);
+      setActiveTab("reports");
+      toast({
+          title: "Report Generated",
+          description: "New report added to your Reports tab.",
+      });
+  };
+
+
   // Close TOC dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -5272,6 +5323,31 @@ export default function PnlRelease() {
   // New Reports Tab State
   const [reportsList, setReportsList] = useState<Array<{id: string, type: string, data: ReportData, createdAt: number}>>([]);
   const [activeReportId, setActiveReportId] = useState<string | null>(null);
+  
+  // Action Cart State
+  const [actionItems, setActionItems] = useState<ActionItem[]>([]);
+
+  const handleAddActionItem = (item: Omit<ActionItem, 'id' | 'createdAt' | 'status'>) => {
+      const newItem: ActionItem = {
+          ...item,
+          id: `action-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          status: 'new',
+          createdAt: Date.now()
+      };
+      setActionItems(prev => [newItem, ...prev]);
+      toast({
+          title: "Added to Actions",
+          description: "Item added to your Action Cart.",
+      });
+  };
+
+  const handleRemoveActionItem = (id: string) => {
+      setActionItems(prev => prev.filter(item => item.id !== id));
+      toast({
+          title: "Removed",
+          description: "Action item removed.",
+      });
+  };
 
   const handleReportGenerated = (report: {id: string, type: string, data: ReportData, createdAt: number}) => {
       setReportsList(prev => [report, ...prev]);
@@ -14695,6 +14771,9 @@ export default function PnlRelease() {
                   triggerQuery={floatingChatTrigger}
                   onOpenReport={handleOpenReport}
                   onReportGenerated={handleReportGenerated}
+                  actionItems={actionItems}
+                  onAddActionItem={handleAddActionItem}
+                  onRemoveActionItem={handleRemoveActionItem}
                 />
               </motion.div>
             )}
