@@ -3224,6 +3224,7 @@ function SidePanelAssistant({
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isReportMode, setIsReportMode] = useState(false);
+  const [showActionCart, setShowActionCart] = useState(false); // Toggle for Action Cart Panel
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [processedTrigger, setProcessedTrigger] = useState<string | null>(null);
@@ -3505,8 +3506,26 @@ function SidePanelAssistant({
              </div>
         </div>
         <div className="flex items-center gap-3">
+             {/* Action Cart Toggle */}
+             <button 
+                onClick={() => setShowActionCart(!showActionCart)}
+                className={cn(
+                    "flex items-center gap-1.5 px-2 py-1 rounded-lg border text-xs font-medium transition-colors relative",
+                    showActionCart ? "bg-black text-white border-black" : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
+                )}
+                title="Action Cart"
+             >
+                <div className="relative">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    {actionItems.length > 0 && (
+                        <div className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-red-500 border border-white" />
+                    )}
+                </div>
+                <span>Actions {actionItems.length > 0 && `(${actionItems.length})`}</span>
+             </button>
+
              {/* Report Mode Toggle */}
-             <div className="flex items-center gap-2 bg-gray-50 px-2 py-1 rounded-lg border border-gray-100">
+             <div className="flex items-center gap-2 bg-gray-50 px-2 py-1 rounded-lg border border-gray-100 hidden md:flex">
                 <span className={cn("text-xs font-medium transition-colors", isReportMode ? "text-indigo-600" : "text-gray-500")}>Report Mode</span>
                 <button 
                     onClick={() => setIsReportMode(!isReportMode)}
@@ -3533,6 +3552,44 @@ function SidePanelAssistant({
              </button>
         </div>
       </div>
+
+      {/* Action Cart Panel */}
+      {showActionCart && (
+          <div className="border-b border-gray-200 bg-gray-50 p-4 space-y-3 max-h-[40vh] overflow-y-auto shadow-inner">
+              <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Action Cart</h4>
+              {actionItems.length === 0 ? (
+                  <div className="text-center py-4 text-gray-400 text-sm">
+                      <p>No actions yet.</p>
+                      <p className="text-xs mt-1">Add items from the P&L or chat.</p>
+                  </div>
+              ) : (
+                  <div className="space-y-2">
+                      {actionItems.map(item => (
+                          <div key={item.id} className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm group">
+                              <div className="flex items-start justify-between gap-2">
+                                  <div>
+                                      <div className="font-medium text-sm text-gray-900">{item.title}</div>
+                                      <div className="text-xs text-gray-500 mt-0.5">{item.context}</div>
+                                      <div className="flex items-center gap-2 mt-2">
+                                          <span className="text-[10px] px-1.5 py-0.5 bg-gray-100 rounded text-gray-500 font-medium border border-gray-200 uppercase">
+                                              {item.source === 'ai_suggestion' ? 'AI Suggestion' : item.source === 'user_click' ? 'Manual' : 'Insight'}
+                                          </span>
+                                          {item.metric && <span className="text-[10px] text-gray-400">{item.metric}</span>}
+                                      </div>
+                                  </div>
+                                  <button 
+                                    onClick={() => onRemoveActionItem(item.id)}
+                                    className="text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                                  >
+                                      <X className="h-3.5 w-3.5" />
+                                  </button>
+                              </div>
+                          </div>
+                      ))}
+                  </div>
+              )}
+          </div>
+      )}
 
       {/* Chat Content */}
       <div 
