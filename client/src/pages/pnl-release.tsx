@@ -122,7 +122,8 @@ import { format, addMonths, subMonths, addWeeks, subWeeks, addDays, subDays, sta
 import { ReportPanel } from "@/components/reports/report-panel";
 import { MOCK_REPORTS, ReportData, ReportType } from "@/components/reports/mock-data";
 import { generateComparisonReport } from "@/components/reports/comparison-generator";
-import { Wand } from "@/components/ui/wand";
+import { ReportsView } from "@/components/reports/reports-view";
+import { ReportContent } from "@/components/reports/report-content";
 
 // --- Mock Data ---
 
@@ -3193,11 +3194,13 @@ function HoverAnalysisCard({
 function SidePanelAssistant({ 
   onClose, 
   triggerQuery,
-  onOpenReport 
+  onOpenReport,
+  onReportGenerated
 }: { 
   onClose: () => void; 
   triggerQuery?: string | null;
   onOpenReport?: (report: Report) => void;
+  onReportGenerated?: (report: {id: string, type: string, data: ReportData, createdAt: number}) => void;
 }) {
   const [messages, setMessages] = useState<FloatingMessage[]>([]);
   const [input, setInput] = useState("");
@@ -3217,12 +3220,6 @@ function SidePanelAssistant({
         const file1Response = await fetch('/attached_assets/2025_09_SPOT_SM_PL_1768325871185.json');
         const file2Response = await fetch('/attached_assets/2025_10_SPOT_SM_PL_(1)_1768325550699.json');
         
-        // In a real app, these would be real fetches. 
-        // For this mockup, we'll assume the files are available via import or we construct a dummy fetch if they aren't served statically.
-        // However, since we can't easily fetch from attached_assets in the browser without a server route, 
-        // we might need to inline a small subset or rely on the "generateComparisonReport" logic to handle dummy data if fetch fails.
-        // Let's try to simulate the data structure directly if fetch fails, or rely on the generator to be robust.
-
         // Fallback Mock Data if fetch fails (likely in this environment)
         const mockFile1 = {
              accounts: [
@@ -3244,6 +3241,17 @@ function SidePanelAssistant({
         const report = await generateComparisonReport(mockFile1, mockFile2);
         setCurrentReport(report);
         setIsReportPanelOpen(true);
+        
+        // Notify Parent
+        if (onReportGenerated) {
+            onReportGenerated({
+                id: `report-${Date.now()}`,
+                type: 'comparison',
+                data: report,
+                createdAt: Date.now()
+            });
+        }
+        
         return true;
     } catch (e) {
         console.error("Failed to generate comparison", e);
@@ -3405,6 +3413,17 @@ function SidePanelAssistant({
         
         const type = args.type as ReportType;
         const reportData = MOCK_REPORTS[type];
+        
+        // Notify Parent
+        if (onReportGenerated) {
+            onReportGenerated({
+                id: `report-${Date.now()}`,
+                type,
+                data: reportData,
+                createdAt: Date.now()
+            });
+        }
+
         setCurrentReport(reportData);
         setIsReportPanelOpen(true);
         setIsTyping(false);
@@ -3421,6 +3440,13 @@ function SidePanelAssistant({
                 ? { ...m, toolCall: { ...m.toolCall!, state: "completed", result: "Comparison report generated successfully." } }
                 : m
             ));
+            
+             // Notify Parent (need to get the report from somewhere, loadMockComparison sets it to state)
+             // We can pass the report data if we refactor loadMockComparison to return it
+             // For now, let's assume currentReport is set by loadMockComparison.
+             // Wait, setCurrentReport is async? No, it's React state.
+             // But we need the value. loadMockComparison calls setCurrentReport.
+             // We should modify loadMockComparison to return the report.
          } else {
              setMessages(prev => prev.map(m => 
               m.id === msgId 
@@ -5241,6 +5267,38 @@ export default function PnlRelease() {
   const [goalsMet, setGoalsMet] = useState(true); // Mock state for confetti
   const [highlightedPnlNodeId, setHighlightedPnlNodeId] = useState<string | null>(null);
   const [trendModalMetric, setTrendModalMetric] = useState<MetricTrendData | null>(null);
+
+  // New Reports Tab State
+  const [reportsList, setReportsList] = useState<Array<{id: string, type: string, data: ReportData, createdAt: number}>>([]);
+  const [activeReportId, setActiveReportId] = useState<string | null>(null);
+
+  const handleReportGenerated = (report: {id: string, type: string, data: ReportData, createdAt: number}) => {
+      setReportsList(prev => [report, ...prev]);
+      setActiveReportId(report.id);
+      setActiveTab("reports");
+      toast({
+          title: "Report Generated",
+          description: "New report added to your Reports tab.",
+      });
+  };
+
+  const handleGenerateReportFromTab = (type: ReportType) => {
+      toast({
+          title: "Generating Report",
+          description: `Analyzing ${type} data...`,
+      });
+
+      setTimeout(() => {
+          const reportData = MOCK_REPORTS[type];
+          const newReport = {
+              id: `report-${Date.now()}`,
+              type,
+              data: reportData,
+              createdAt: Date.now()
+          };
+          handleReportGenerated(newReport);
+      }, 1500);
+  };
 
   // Edit Mode State
   const [isEditMode, setIsEditMode] = useState(false);
@@ -9414,6 +9472,23 @@ export default function PnlRelease() {
                       </div>
                    </button>
 
+                   {/* Reports Tab - Fourth */}
+                   <button
+                      data-testid="tab-reports-view"
+                      onClick={() => setActiveTab("reports")}
+                      className={cn(
+                         "px-4 py-3 text-sm font-medium border-b-2 transition-colors",
+                         activeTab === "reports"
+                            ? "border-black text-gray-900"
+                            : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      )}
+                   >
+                      <div className="flex items-center gap-2">
+                         <FileText className="h-4 w-4" />
+                         Reports
+                      </div>
+                   </button>
+
                    {/* Report Tabs */}
                    {reportTabs.map(report => (
                        <div key={report.id} className="flex items-center border-l border-gray-200 pl-1 ml-1 h-full py-2">
@@ -9459,6 +9534,16 @@ export default function PnlRelease() {
                     />
                   </div>
                 </div>
+                )}
+
+                {/* Reports Tab */}
+                {activeTab === "reports" && (
+                    <ReportsView 
+                        reports={reportsList}
+                        activeReportId={activeReportId}
+                        onSelectReport={setActiveReportId}
+                        onGenerateReport={handleGenerateReportFromTab}
+                    />
                 )}
 
                 {/* Report Views */}
@@ -14608,6 +14693,7 @@ export default function PnlRelease() {
                   onClose={() => setShowChat(false)} 
                   triggerQuery={floatingChatTrigger}
                   onOpenReport={handleOpenReport}
+                  onReportGenerated={handleReportGenerated}
                 />
               </motion.div>
             )}

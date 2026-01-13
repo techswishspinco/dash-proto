@@ -1,0 +1,137 @@
+Add Dedicated “Reports” Tab to /accounting/pnl Header
+Title
+
+Create Dedicated “Reports” Tab in /accounting/pnl Header (Independent of Chatbot)
+
+Goal
+
+Introduce a persistent, first-class “Reports” tab in the /accounting/pnl header that serves as the single surface for viewing and generating reports, independent of chatbot state.
+
+This replaces reliance on chatbot gating or report-mode toggles.
+
+Header Navigation Change
+Add New Tab
+
+Update the /accounting/pnl header to include:
+
+Curated | Detailed View | P&L Dashboard | Reports
+
+
+The Reports tab should always be visible.
+
+Reports Tab Behavior (v1)
+Default State
+
+When a user clicks Reports:
+
+Show an empty state if no reports exist
+
+Copy example:
+
+“No reports yet. Generate a report to get started.”
+
+(No auto-generation.)
+
+Report List
+
+If reports exist:
+
+Display a list of previously generated reports
+
+Each item shows:
+
+Report title
+
+Created timestamp
+
+Report type (e.g. Profitability, Cost, Comparison)
+
+Selecting a report loads it in the main content area.
+
+Generate Report Action
+
+Inside the Reports tab:
+
+Provide a Generate Report CTA
+
+Clicking it:
+
+Opens existing report-generation flow (unchanged)
+
+Uses current P&L context (month, view)
+
+❗ Do not alter report logic — only entry point.
+
+Report Rendering Rules
+
+Reuse the existing report component
+
+Render report content exactly as it exists today
+
+No visual, textual, or structural changes
+
+State & Persistence (v1)
+
+Reports persist for the session
+
+No deletion or renaming
+
+No cross-session persistence
+
+Explicit Non-Goals
+
+❌ No chatbot changes
+
+❌ No gating via chat prompts
+
+❌ No report redesign
+
+❌ No action cart integration
+
+❌ No auto-generated reports
+
+Technical Notes
+
+Reports tab state should manage:
+
+reports[]
+
+activeReportId
+
+Chatbot may still reference reports but is not required for navigation
+
+Avoid coupling Reports tab lifecycle to chat state
+
+Acceptance Criteria
+
+ Reports tab appears in /accounting/pnl header
+
+ Tab is always visible
+
+ Empty state renders correctly
+
+ Existing reports render unchanged
+
+ Multiple reports can be selected
+
+ No regression to Curated / Detailed / Dashboard views
+
+QA Checklist
+
+Navigate between tabs → no state leakage
+
+Generate report → appears in Reports list
+
+Reload page → session-scoped behavior holds
+
+No chat interaction required to view reports
+
+Why This Works
+
+Removes brittle chat coupling
+
+Makes reports discoverable
+
+Matches mental model: P&L → Reports
+
+Future-proofs scheduled, saved, and shared reports
