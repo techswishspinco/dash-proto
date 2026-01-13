@@ -1,0 +1,239 @@
+Canonical P&L Data Source & Display Rules for All Report Generators
+Title
+
+Use Uploaded P&L JSON Files as Canonical Source for /accounting/pnl and All AI Reports (No Account Numbers)
+
+Source of Truth (Locked)
+
+All P&L-related views and all report generators must use the following two JSON files as the canonical source of financial truth:
+
+September 2025 P&L JSON (monthly snapshot)
+
+October 2025 P&L JSON (monthly + cumulative)
+
+These files are authoritative for:
+
+/accounting/pnl
+
+Any AI-generated report that references financials
+
+Any export derived from those reports
+
+❗ No database reads, recalculations, or inferred values outside these files.
+
+Applies To (Explicit Scope)
+
+This ticket applies to ALL report generators, including but not limited to:
+
+Profitability reports
+
+Cost reports
+
+Labor vs sales reports (when P&L-backed)
+
+Margin analysis
+
+Month-over-month comparisons
+
+Executive summaries
+
+Owner exports (PDF / CSV / Markdown)
+
+There must be one shared normalization + display layer.
+
+Critical Display Rule (Global)
+
+❗ Account numbers must never appear in:
+
+/accounting/pnl
+
+Any AI-generated report
+
+Any export (PDF / CSV / Markdown)
+
+Any comparison table
+
+Any summary text
+
+✅ Account numbers may be used internally only for:
+
+Matching
+
+Normalization
+
+Validation
+
+Sorting
+
+But must be stripped before rendering or export.
+
+Canonical Data Contract (Required)
+
+All report generators must consume a normalized P&L view model derived from the JSON files.
+
+Canonical Fields (Example)
+{
+  "section": "Income",
+  "account_name": "Food Sales",
+  "period": "Oct 2025",
+  "current": 113360.78,
+  "percent_of_income": 77.29
+}
+
+
+❌ No account_number
+❌ No internal IDs exposed
+
+Month Selection Rules (Global)
+
+September 2025
+
+Source: September JSON
+
+Path:
+
+accounts[].monthly_data["September 2025"]
+
+
+October 2025
+
+Source: October JSON
+
+Path:
+
+sections[section][account]["Oct 2025"]
+
+
+All reports referencing these months must pull from the same normalized output.
+
+Account Normalization Rules (Internal Only)
+
+Accounts must be matched using:
+
+Account number prefix (internal use only)
+
+Fallback: exact account name match
+
+Example:
+
+Internal key: 400-000 Food Sales
+
+Display label everywhere: Food Sales
+
+Hierarchy Rules (Shared)
+
+All consumers (UI + reports) must preserve hierarchy:
+
+Income
+
+Food Sales
+
+Beverage Sales
+
+Alcohol Beverages
+
+Non-Alcoholic Beverage
+
+Cost of Goods Sold
+
+Food Cost
+
+Beverage Cost
+
+Hierarchy is conveyed by indentation only, never numbering.
+
+Report Generator Rules (All Types)
+
+Any report generator that references P&L data must:
+
+Pull from the normalized P&L model
+
+Use display names only
+
+Reference exact numeric values
+
+Avoid speculative calculations
+
+Explicitly flag missing accounts instead of hiding them
+
+If an account exists in one month but not another:
+
+Treat missing value as 0
+
+Include it in reports
+
+Note it in commentary (if relevant)
+
+Comparison Logic (Shared)
+
+For any report performing comparisons:
+
+Use September from September JSON
+
+Use October from October JSON
+
+Compute:
+
+Absolute delta
+
+% change
+
+All deltas must reconcile exactly to source values.
+
+Export Rules (Global)
+
+Exports generated from any report must:
+
+Reflect exactly what is shown on screen
+
+Contain no account numbers
+
+Use clean account names
+
+Match source values with no rounding drift
+
+Validation & QA Requirements
+
+ No account numbers visible anywhere
+
+ /accounting/pnl matches JSON exactly
+
+ All reports reference the same normalized data
+
+ Comparisons reconcile mathematically
+
+ Exports mirror UI output
+
+ Missing accounts handled consistently
+
+Non-Goals
+
+No YTD synthesis
+
+No live QBO fallback
+
+No schema mutation
+
+No report-specific data hacks
+
+Engineering Notes
+
+This ticket intentionally creates a single P&L normalization layer that feeds:
+
+/accounting/pnl
+
+All AI report generators
+
+All exports
+
+There should be zero divergence between what the user sees in P&L and what the AI references in reports.
+
+Acceptance Criteria
+
+P&L page and all reports are in lockstep
+
+Account numbers never surface
+
+JSON remains the financial authority
+
+New reports automatically inherit these rules

@@ -1,0 +1,6491 @@
+{
+  "metadata": {
+    "report_title": "Profit and Loss by Month",
+    "company": "Aco Bakery Inc",
+    "location": "STMARKS",
+    "period": "January 1-September 30, 2025",
+    "generated": "Thursday, October 30, 2025 10:47 PM GMT"
+  },
+  "accounts": [
+    {
+      "account": "Income",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": null
+        }
+      }
+    },
+    {
+      "account": "400-000 Food Sales",
+      "monthly_data": {
+        "January 2025": {
+          "current": 124520.61,
+          "percent_of_income": 76.14562308211292
+        },
+        "February 2025": {
+          "current": 106470.43,
+          "percent_of_income": 76.14166081977068
+        },
+        "March 2025": {
+          "current": 129410.18,
+          "percent_of_income": 79.37215553093618
+        },
+        "April 2025": {
+          "current": 123856.58,
+          "percent_of_income": 76.06594914421602
+        },
+        "May 2025": {
+          "current": 126795.07,
+          "percent_of_income": 78.56883045872597
+        },
+        "June 2025": {
+          "current": 116285.43,
+          "percent_of_income": 77.52643162525361
+        },
+        "July 2025": {
+          "current": 112988.28,
+          "percent_of_income": 79.54576767340048
+        },
+        "August 2025": {
+          "current": 121928.52,
+          "percent_of_income": 78.99408272522982
+        },
+        "September 2025": {
+          "current": 103461.46,
+          "percent_of_income": 77.76612479941457
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 1065716.56,
+          "percent_of_income": 77.7871259073643
+        }
+      }
+    },
+    {
+      "account": "400-200 Beverage Sales",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "400-210 Alcohol Bevs",
+      "monthly_data": {
+        "January 2025": {
+          "current": 1638.0,
+          "percent_of_income": 1.001653707032924
+        },
+        "February 2025": {
+          "current": 1200.0,
+          "percent_of_income": 0.8581724802250242
+        },
+        "March 2025": {
+          "current": 1728.0,
+          "percent_of_income": 1.059847724170214
+        },
+        "April 2025": {
+          "current": 2080.0,
+          "percent_of_income": 1.2774224366599605
+        },
+        "May 2025": {
+          "current": 1982.0,
+          "percent_of_income": 1.2281504475623135
+        },
+        "June 2025": {
+          "current": 2052.0,
+          "percent_of_income": 1.3680496145993561
+        },
+        "July 2025": {
+          "current": 2240.0,
+          "percent_of_income": 1.5770000179524555
+        },
+        "August 2025": {
+          "current": 2598.0,
+          "percent_of_income": 1.683171639581511
+        },
+        "September 2025": {
+          "current": 2622.0,
+          "percent_of_income": 1.9708090261249454
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 18140.0,
+          "percent_of_income": 1.3240466714335266
+        }
+      }
+    },
+    {
+      "account": "400-240 N/A Beverage",
+      "monthly_data": {
+        "January 2025": {
+          "current": 22838.2,
+          "percent_of_income": 13.965792241733407
+        },
+        "February 2025": {
+          "current": 19219.05,
+          "percent_of_income": 13.744383171723959
+        },
+        "March 2025": {
+          "current": 21317.61,
+          "percent_of_income": 13.074896089842705
+        },
+        "April 2025": {
+          "current": 20940.8,
+          "percent_of_income": 12.860696039235044
+        },
+        "May 2025": {
+          "current": 20634.1,
+          "percent_of_income": 12.785963244220753
+        },
+        "June 2025": {
+          "current": 20063.5,
+          "percent_of_income": 13.376151775104377
+        },
+        "July 2025": {
+          "current": 18508.15,
+          "percent_of_income": 13.03006825101194
+        },
+        "August 2025": {
+          "current": 20078.45,
+          "percent_of_income": 13.00826697719607
+        },
+        "September 2025": {
+          "current": 15076.0,
+          "percent_of_income": 11.331776078512462
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 178675.86000000002,
+          "percent_of_income": 13.041630523623088
+        }
+      }
+    },
+    {
+      "account": "Total for 400-200 Beverage Sales",
+      "monthly_data": {
+        "January 2025": {
+          "current": 24476.2,
+          "percent_of_income": 14.967445948766333
+        },
+        "February 2025": {
+          "current": 20419.05,
+          "percent_of_income": 14.602555651948984
+        },
+        "March 2025": {
+          "current": 23045.61,
+          "percent_of_income": 14.134743814012918
+        },
+        "April 2025": {
+          "current": 23020.8,
+          "percent_of_income": 14.138118475895006
+        },
+        "May 2025": {
+          "current": 22616.1,
+          "percent_of_income": 14.014113691783065
+        },
+        "June 2025": {
+          "current": 22115.5,
+          "percent_of_income": 14.744201389703735
+        },
+        "July 2025": {
+          "current": 20748.15,
+          "percent_of_income": 14.607068268964394
+        },
+        "August 2025": {
+          "current": 22676.45,
+          "percent_of_income": 14.69143861677758
+        },
+        "September 2025": {
+          "current": 17698.0,
+          "percent_of_income": 13.302585104637407
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 196815.86000000002,
+          "percent_of_income": 14.365677195056614
+        }
+      }
+    },
+    {
+      "account": "400-400 Comps / Discount",
+      "monthly_data": {
+        "January 2025": {
+          "current": -6848.42,
+          "percent_of_income": -4.187878681513075
+        },
+        "February 2025": {
+          "current": -5640.48,
+          "percent_of_income": -4.0337539260497035
+        },
+        "March 2025": {
+          "current": -6682.07,
+          "percent_of_income": -4.098366135559063
+        },
+        "April 2025": {
+          "current": -7487.03,
+          "percent_of_income": -4.598125050935684
+        },
+        "May 2025": {
+          "current": -7829.15,
+          "percent_of_income": -4.8513491808942915
+        },
+        "June 2025": {
+          "current": -7214.82,
+          "percent_of_income": -4.810054444641192
+        },
+        "July 2025": {
+          "current": -7773.23,
+          "percent_of_income": -5.4724927899770375
+        },
+        "August 2025": {
+          "current": -9039.28,
+          "percent_of_income": -5.856297050899292
+        },
+        "September 2025": {
+          "current": -7845.23,
+          "percent_of_income": -5.896815444708697
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": -66359.70999999999,
+          "percent_of_income": -4.8436247598012185
+        }
+      }
+    },
+    {
+      "account": "400-500 Delivery Sales",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "400-510 ClassPass",
+      "monthly_data": {
+        "January 2025": {
+          "current": 36.0,
+          "percent_of_income": 0.022014367187536788
+        },
+        "February 2025": {
+          "current": 18.0,
+          "percent_of_income": 0.012872587203375363
+        },
+        "March 2025": {
+          "current": 71.24,
+          "percent_of_income": 0.04369418510988775
+        },
+        "April 2025": {
+          "current": 114.34,
+          "percent_of_income": 0.0702213852921634
+        },
+        "May 2025": {
+          "current": 66.5,
+          "percent_of_income": 0.04120686415887682
+        },
+        "June 2025": {
+          "current": 49.1,
+          "percent_of_income": 0.032734520505277
+        },
+        "July 2025": {
+          "current": 42.75,
+          "percent_of_income": 0.03009676373547655
+        },
+        "August 2025": {
+          "current": 160.12,
+          "percent_of_income": 0.10373727595450022
+        },
+        "September 2025": {
+          "current": 192.04,
+          "percent_of_income": 0.14434560083029538
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 750.0899999999999,
+          "percent_of_income": 0.054749402854221266
+        }
+      }
+    },
+    {
+      "account": "400-540 DoorDash",
+      "monthly_data": {
+        "January 2025": {
+          "current": 7771.35,
+          "percent_of_income": 4.752259790079556
+        },
+        "February 2025": {
+          "current": 6340.55,
+          "percent_of_income": 4.534404599575648
+        },
+        "March 2025": {
+          "current": 5977.85,
+          "percent_of_income": 3.6664413876915005
+        },
+        "April 2025": {
+          "current": 6005.85,
+          "percent_of_income": 3.6884651640452994
+        },
+        "May 2025": {
+          "current": 6067.45,
+          "percent_of_income": 3.759708089334994
+        },
+        "June 2025": {
+          "current": 9454.05,
+          "percent_of_income": 6.302928586210059
+        },
+        "July 2025": {
+          "current": 5791.2,
+          "percent_of_income": 4.077108260699223
+        },
+        "August 2025": {
+          "current": 5920.7,
+          "percent_of_income": 3.8358561687722297
+        },
+        "September 2025": {
+          "current": 5269.8,
+          "percent_of_income": 3.961010452278122
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 58598.799999999996,
+          "percent_of_income": 4.277152485666975
+        }
+      }
+    },
+    {
+      "account": "400-550 ezCater",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 405.0,
+          "percent_of_income": 0.24872888790734804
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 405.0,
+          "percent_of_income": 0.02956113020565481
+        }
+      }
+    },
+    {
+      "account": "400-560 Fantuan",
+      "monthly_data": {
+        "January 2025": {
+          "current": 185.8,
+          "percent_of_income": 0.113618595095676
+        },
+        "February 2025": {
+          "current": 519.55,
+          "percent_of_income": 0.3715529267507594
+        },
+        "March 2025": {
+          "current": 293.95,
+          "percent_of_income": 0.1802906472915708
+        },
+        "April 2025": {
+          "current": 550.65,
+          "percent_of_income": 0.33817916574365725
+        },
+        "May 2025": {
+          "current": 379.4,
+          "percent_of_income": 0.23509600393801294
+        },
+        "June 2025": {
+          "current": 155.0,
+          "percent_of_income": 0.10333708102480517
+        },
+        "July 2025": {
+          "current": 253.8,
+          "percent_of_income": 0.17867973417693447
+        },
+        "August 2025": {
+          "current": 132.95,
+          "percent_of_income": 0.08613459179459657
+        },
+        "September 2025": {
+          "current": 215.75,
+          "percent_of_income": 0.16216706612755794
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 2686.85,
+          "percent_of_income": 0.1961143770199102
+        }
+      }
+    },
+    {
+      "account": "400-580 GrubHub",
+      "monthly_data": {
+        "January 2025": {
+          "current": 2601.33,
+          "percent_of_income": 1.590739827665419
+        },
+        "February 2025": {
+          "current": 2469.43,
+          "percent_of_income": 1.7659973898684012
+        },
+        "March 2025": {
+          "current": 1755.48,
+          "percent_of_income": 1.0767022470059764
+        },
+        "April 2025": {
+          "current": 7067.95,
+          "percent_of_income": 4.340748995764791
+        },
+        "May 2025": {
+          "current": 2975.95,
+          "percent_of_income": 1.8440536450166836
+        },
+        "June 2025": {
+          "current": 2645.9,
+          "percent_of_income": 1.7639973076356903
+        },
+        "July 2025": {
+          "current": 2354.4,
+          "percent_of_income": 1.6575396617264557
+        },
+        "August 2025": {
+          "current": 2063.55,
+          "percent_of_income": 1.336916411415869
+        },
+        "September 2025": {
+          "current": 1784.0,
+          "percent_of_income": 1.3409318469133875
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 25717.99,
+          "percent_of_income": 1.8771675333771072
+        }
+      }
+    },
+    {
+      "account": "400-590 HungryPanda",
+      "monthly_data": {
+        "January 2025": {
+          "current": 395.65,
+          "percent_of_income": 0.24194401049302583
+        },
+        "February 2025": {
+          "current": 969.6,
+          "percent_of_income": 0.6934033640218196
+        },
+        "March 2025": {
+          "current": 1416.9,
+          "percent_of_income": 0.8690383335513752
+        },
+        "April 2025": {
+          "current": 884.85,
+          "percent_of_income": 0.5434265591723875
+        },
+        "May 2025": {
+          "current": 764.25,
+          "percent_of_income": 0.47356911178077604
+        },
+        "June 2025": {
+          "current": 297.25,
+          "percent_of_income": 0.19817385377176344
+        },
+        "July 2025": {
+          "current": 247.55,
+          "percent_of_income": 0.17427962251970106
+        },
+        "August 2025": {
+          "current": 393.5,
+          "percent_of_income": 0.2549376598057446
+        },
+        "September 2025": {
+          "current": 64.7,
+          "percent_of_income": 0.04863132875296871
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 5434.25,
+          "percent_of_income": 0.3966483254816781
+        }
+      }
+    },
+    {
+      "account": "400-600 UberEats",
+      "monthly_data": {
+        "January 2025": {
+          "current": 9541.05,
+          "percent_of_income": 5.834449390406885
+        },
+        "February 2025": {
+          "current": 8265.9,
+          "percent_of_income": 5.9113065869100225
+        },
+        "March 2025": {
+          "current": 7753.15,
+          "percent_of_income": 4.75529998995966
+        },
+        "April 2025": {
+          "current": 8408.9,
+          "percent_of_income": 5.16428727289901
+        },
+        "May 2025": {
+          "current": 9100.31,
+          "percent_of_income": 5.639026134942379
+        },
+        "June 2025": {
+          "current": 6207.15,
+          "percent_of_income": 4.138250080536253
+        },
+        "July 2025": {
+          "current": 5808.67,
+          "percent_of_income": 4.089407452803522
+        },
+        "August 2025": {
+          "current": 8337.66,
+          "percent_of_income": 5.401737048680978
+        },
+        "September 2025": {
+          "current": 10311.29,
+          "percent_of_income": 7.750413197174634
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 73734.07999999999,
+          "percent_of_income": 5.3818833073436245
+        }
+      }
+    },
+    {
+      "account": "GrubHub - Deli Promo (excl.tax)",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 199.0,
+          "percent_of_income": 0.14957703897744626
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 199.0,
+          "percent_of_income": 0.014525098545494587
+        }
+      }
+    },
+    {
+      "account": "UberEats -Deli Promo (excl.tax)",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": 1580.28,
+          "percent_of_income": 1.112545351950851
+        },
+        "August 2025": {
+          "current": 1777.29,
+          "percent_of_income": 1.1514565524679843
+        },
+        "September 2025": {
+          "current": 1691.0,
+          "percent_of_income": 1.2710290096023198
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 5048.57,
+          "percent_of_income": 0.3684973706725005
+        }
+      }
+    },
+    {
+      "account": "Total for 400-500 Delivery Sales",
+      "monthly_data": {
+        "January 2025": {
+          "current": 20531.18,
+          "percent_of_income": 12.5550259809281
+        },
+        "February 2025": {
+          "current": 18583.03,
+          "percent_of_income": 13.289537454330027
+        },
+        "March 2025": {
+          "current": 17268.57,
+          "percent_of_income": 10.59146679060997
+        },
+        "April 2025": {
+          "current": 23437.54,
+          "percent_of_income": 14.394057430824658
+        },
+        "May 2025": {
+          "current": 19353.86,
+          "percent_of_income": 11.992659849171723
+        },
+        "June 2025": {
+          "current": 18808.449999999997,
+          "percent_of_income": 12.539421429683847
+        },
+        "July 2025": {
+          "current": 16078.65,
+          "percent_of_income": 11.319656847612164
+        },
+        "August 2025": {
+          "current": 18785.77,
+          "percent_of_income": 12.170775708891902
+        },
+        "September 2025": {
+          "current": 19727.58,
+          "percent_of_income": 14.828105540656733
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 172574.63,
+          "percent_of_income": 12.596299031167169
+        }
+      }
+    },
+    {
+      "account": "400-800 Events\\\\ Off-Premise Sales",
+      "monthly_data": {
+        "January 2025": {
+          "current": 850.0,
+          "percent_of_income": 0.5197836697057298
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": 445.0,
+          "percent_of_income": 0.2757451812135366
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 1295.0,
+          "percent_of_income": 0.09452262621314315
+        }
+      }
+    },
+    {
+      "account": "Total for Income",
+      "monthly_data": {
+        "January 2025": {
+          "current": 163529.56999999998,
+          "percent_of_income": 100.0
+        },
+        "February 2025": {
+          "current": 139832.03,
+          "percent_of_income": 100.0
+        },
+        "March 2025": {
+          "current": 163042.28999999998,
+          "percent_of_income": 100.0
+        },
+        "April 2025": {
+          "current": 162827.89,
+          "percent_of_income": 100.0
+        },
+        "May 2025": {
+          "current": 161380.88,
+          "percent_of_income": 100.0
+        },
+        "June 2025": {
+          "current": 149994.56,
+          "percent_of_income": 100.0
+        },
+        "July 2025": {
+          "current": 142041.85,
+          "percent_of_income": 100.0
+        },
+        "August 2025": {
+          "current": 154351.46,
+          "percent_of_income": 100.0
+        },
+        "September 2025": {
+          "current": 133041.81,
+          "percent_of_income": 100.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 1370042.34,
+          "percent_of_income": 100.0
+        }
+      }
+    },
+    {
+      "account": "Cost of Goods Sold",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": null
+        }
+      }
+    },
+    {
+      "account": "500-000 Food Cost",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": null
+        }
+      }
+    },
+    {
+      "account": "500-003 Dairy",
+      "monthly_data": {
+        "January 2025": {
+          "current": 1220.38,
+          "percent_of_income": 0.7462748174535042
+        },
+        "February 2025": {
+          "current": 1646.21,
+          "percent_of_income": 1.1772767655593643
+        },
+        "March 2025": {
+          "current": 1038.28,
+          "percent_of_income": 0.6368163744510703
+        },
+        "April 2025": {
+          "current": 1944.04,
+          "percent_of_income": 1.19392322777136
+        },
+        "May 2025": {
+          "current": 2522.15,
+          "percent_of_income": 1.5628555253881378
+        },
+        "June 2025": {
+          "current": 2320.65,
+          "percent_of_income": 1.5471561101949298
+        },
+        "July 2025": {
+          "current": 2070.48,
+          "percent_of_income": 1.457654909450982
+        },
+        "August 2025": {
+          "current": 1521.68,
+          "percent_of_income": 0.9858539724859099
+        },
+        "September 2025": {
+          "current": 1858.85,
+          "percent_of_income": 1.397192356297618
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 16142.72,
+          "percent_of_income": 1.1782643155393284
+        }
+      }
+    },
+    {
+      "account": "500-004 Dry Goods",
+      "monthly_data": {
+        "January 2025": {
+          "current": 2492.42,
+          "percent_of_income": 1.5241402518211236
+        },
+        "February 2025": {
+          "current": 3573.7,
+          "percent_of_income": 2.5557091604834743
+        },
+        "March 2025": {
+          "current": 2597.28,
+          "percent_of_income": 1.5930100098569524
+        },
+        "April 2025": {
+          "current": 2912.24,
+          "percent_of_income": 1.788538806220482
+        },
+        "May 2025": {
+          "current": 1280.9,
+          "percent_of_income": 0.7937123654301551
+        },
+        "June 2025": {
+          "current": 2278.51,
+          "percent_of_income": 1.5190617579730894
+        },
+        "July 2025": {
+          "current": 1501.58,
+          "percent_of_income": 1.057139145962968
+        },
+        "August 2025": {
+          "current": 1940.61,
+          "percent_of_income": 1.257267019048605
+        },
+        "September 2025": {
+          "current": 1533.06,
+          "percent_of_income": 1.152314449119416
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 20110.3,
+          "percent_of_income": 1.4678597451229134
+        }
+      }
+    },
+    {
+      "account": "500-006 Produce",
+      "monthly_data": {
+        "January 2025": {
+          "current": 1157.35,
+          "percent_of_income": 0.707731329569325
+        },
+        "February 2025": {
+          "current": 1342.37,
+          "percent_of_income": 0.9599874935663881
+        },
+        "March 2025": {
+          "current": 1168.14,
+          "percent_of_income": 0.7164644215927047
+        },
+        "April 2025": {
+          "current": 1436.58,
+          "percent_of_income": 0.8822690019504642
+        },
+        "May 2025": {
+          "current": 2005.08,
+          "percent_of_income": 1.2424520178598604
+        },
+        "June 2025": {
+          "current": 1915.86,
+          "percent_of_income": 1.2772863229173113
+        },
+        "July 2025": {
+          "current": 1441.26,
+          "percent_of_income": 1.0146727883366768
+        },
+        "August 2025": {
+          "current": 1475.21,
+          "percent_of_income": 0.9557473573622175
+        },
+        "September 2025": {
+          "current": 1792.92,
+          "percent_of_income": 1.3476365061479545
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 13734.769999999999,
+          "percent_of_income": 1.0025069736165964
+        }
+      }
+    },
+    {
+      "account": "Total for 500-000 Food Cost",
+      "monthly_data": {
+        "January 2025": {
+          "current": 4870.15,
+          "percent_of_income": 2.9781463988439523
+        },
+        "February 2025": {
+          "current": 6562.28,
+          "percent_of_income": 4.692973419609227
+        },
+        "March 2025": {
+          "current": 4803.700000000001,
+          "percent_of_income": 2.9462908059007273
+        },
+        "April 2025": {
+          "current": 6292.86,
+          "percent_of_income": 3.8647310359423064
+        },
+        "May 2025": {
+          "current": 5808.13,
+          "percent_of_income": 3.5990199086781534
+        },
+        "June 2025": {
+          "current": 6515.0199999999995,
+          "percent_of_income": 4.34350419108533
+        },
+        "July 2025": {
+          "current": 5013.32,
+          "percent_of_income": 3.529466843750627
+        },
+        "August 2025": {
+          "current": 4937.5,
+          "percent_of_income": 3.198868348896732
+        },
+        "September 2025": {
+          "current": 5184.83,
+          "percent_of_income": 3.8971433115649887
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 49987.79,
+          "percent_of_income": 3.6486310342788384
+        }
+      }
+    },
+    {
+      "account": "500-200 Beverage Cost",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "500-201 Beer/Wine/Cider",
+      "monthly_data": {
+        "January 2025": {
+          "current": 339.5,
+          "percent_of_income": 0.207607712782465
+        },
+        "February 2025": {
+          "current": 287.5,
+          "percent_of_income": 0.2056038233872454
+        },
+        "March 2025": {
+          "current": 424.87,
+          "percent_of_income": 0.2605888325047447
+        },
+        "April 2025": {
+          "current": 941.42,
+          "percent_of_income": 0.5781687645771248
+        },
+        "May 2025": {
+          "current": 490.8,
+          "percent_of_income": 0.3041252470552893
+        },
+        "June 2025": {
+          "current": 465.8,
+          "percent_of_income": 0.3105445957506726
+        },
+        "July 2025": {
+          "current": 482.32,
+          "percent_of_income": 0.3395618967226912
+        },
+        "August 2025": {
+          "current": 300.4,
+          "percent_of_income": 0.19462077002705383
+        },
+        "September 2025": {
+          "current": 976.12,
+          "percent_of_income": 0.7336941672696726
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 4708.7300000000005,
+          "percent_of_income": 0.34369229785993327
+        }
+      }
+    },
+    {
+      "account": "500-202 Coffee/Tea",
+      "monthly_data": {
+        "January 2025": {
+          "current": 2172.21,
+          "percent_of_income": 1.3283285707899801
+        },
+        "February 2025": {
+          "current": 1702.07,
+          "percent_of_income": 1.2172246945138392
+        },
+        "March 2025": {
+          "current": 1671.02,
+          "percent_of_income": 1.0248997361359438
+        },
+        "April 2025": {
+          "current": 1628.17,
+          "percent_of_income": 0.999933119565696
+        },
+        "May 2025": {
+          "current": 1831.9,
+          "percent_of_income": 1.1351406684608485
+        },
+        "June 2025": {
+          "current": 1589.25,
+          "percent_of_income": 1.0595384259269136
+        },
+        "July 2025": {
+          "current": 1964.27,
+          "percent_of_income": 1.3828811719926204
+        },
+        "August 2025": {
+          "current": 454.7,
+          "percent_of_income": 0.29458743053029757
+        },
+        "September 2025": {
+          "current": 995.37,
+          "percent_of_income": 0.7481633029496517
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 14008.960000000001,
+          "percent_of_income": 1.0225202237180495
+        }
+      }
+    },
+    {
+      "account": "500-203 Juice/Soda/Water",
+      "monthly_data": {
+        "January 2025": {
+          "current": 161.13,
+          "percent_of_income": 0.09853263847021673
+        },
+        "February 2025": {
+          "current": 161.37,
+          "percent_of_income": 0.11540274427826014
+        },
+        "March 2025": {
+          "current": 114.35,
+          "percent_of_income": 0.07013517781184256
+        },
+        "April 2025": {
+          "current": 473.07,
+          "percent_of_income": 0.2905337654378497
+        },
+        "May 2025": {
+          "current": 590.53,
+          "percent_of_income": 0.3659231502517522
+        },
+        "June 2025": {
+          "current": 493.62,
+          "percent_of_income": 0.32909193506751183
+        },
+        "July 2025": {
+          "current": 311.31,
+          "percent_of_income": 0.21916780160213342
+        },
+        "August 2025": {
+          "current": 440.29,
+          "percent_of_income": 0.2852515939920491
+        },
+        "September 2025": {
+          "current": 421.96,
+          "percent_of_income": 0.3171634541051418
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 3167.63,
+          "percent_of_income": 0.23120672314404533
+        }
+      }
+    },
+    {
+      "account": "Total for 500-200 Beverage Cost",
+      "monthly_data": {
+        "January 2025": {
+          "current": 2672.84,
+          "percent_of_income": 1.634468922042662
+        },
+        "February 2025": {
+          "current": 2150.94,
+          "percent_of_income": 1.5382312621793448
+        },
+        "March 2025": {
+          "current": 2210.24,
+          "percent_of_income": 1.355623746452531
+        },
+        "April 2025": {
+          "current": 3042.6600000000003,
+          "percent_of_income": 1.8686356495806706
+        },
+        "May 2025": {
+          "current": 2913.2300000000005,
+          "percent_of_income": 1.8051890657678906
+        },
+        "June 2025": {
+          "current": 2548.67,
+          "percent_of_income": 1.699174956745098
+        },
+        "July 2025": {
+          "current": 2757.9,
+          "percent_of_income": 1.941610870317445
+        },
+        "August 2025": {
+          "current": 1195.3899999999999,
+          "percent_of_income": 0.7744597945494004
+        },
+        "September 2025": {
+          "current": 2393.45,
+          "percent_of_income": 1.7990209243244661
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 21885.32,
+          "percent_of_income": 1.597419244722028
+        }
+      }
+    },
+    {
+      "account": "500-300 Commissary Food",
+      "monthly_data": {
+        "January 2025": {
+          "current": 26496.52,
+          "percent_of_income": 16.202892235330896
+        },
+        "February 2025": {
+          "current": 22589.29,
+          "percent_of_income": 16.154589188185284
+        },
+        "March 2025": {
+          "current": 23198.47,
+          "percent_of_income": 14.228498630631355
+        },
+        "April 2025": {
+          "current": 24027.52,
+          "percent_of_income": 14.756390935238429
+        },
+        "May 2025": {
+          "current": 22607.0,
+          "percent_of_income": 14.008474857740271
+        },
+        "June 2025": {
+          "current": 22135.65,
+          "percent_of_income": 14.757635210236957
+        },
+        "July 2025": {
+          "current": 23368.25,
+          "percent_of_income": 16.451665477463155
+        },
+        "August 2025": {
+          "current": 23938.32,
+          "percent_of_income": 15.508968946584634
+        },
+        "September 2025": {
+          "current": 19847.4,
+          "percent_of_income": 14.918167454276219
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 208208.42,
+          "percent_of_income": 15.197225218601638
+        }
+      }
+    },
+    {
+      "account": "500-303 Ice Cream",
+      "monthly_data": {
+        "January 2025": {
+          "current": 12714.0,
+          "percent_of_income": 7.774740678398409
+        },
+        "February 2025": {
+          "current": 10482.4,
+          "percent_of_income": 7.496422672258996
+        },
+        "March 2025": {
+          "current": 10840.09,
+          "percent_of_income": 6.648636988599707
+        },
+        "April 2025": {
+          "current": 10744.06,
+          "percent_of_income": 6.598415050394621
+        },
+        "May 2025": {
+          "current": 9943.59,
+          "percent_of_income": 6.161566351602494
+        },
+        "June 2025": {
+          "current": 9737.1,
+          "percent_of_income": 6.4916354299782615
+        },
+        "July 2025": {
+          "current": 11511.59,
+          "percent_of_income": 8.104365016366655
+        },
+        "August 2025": {
+          "current": 9015.0,
+          "percent_of_income": 5.840566717023603
+        },
+        "September 2025": {
+          "current": 8954.41,
+          "percent_of_income": 6.730523284372033
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 93942.24,
+          "percent_of_income": 6.856885897409565
+        }
+      }
+    },
+    {
+      "account": "500-400 Direct Labor Cost",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "500-501 Dishwasher",
+      "monthly_data": {
+        "January 2025": {
+          "current": 3868.62,
+          "percent_of_income": 2.3657005885846827
+        },
+        "February 2025": {
+          "current": 3106.13,
+          "percent_of_income": 2.221329405001129
+        },
+        "March 2025": {
+          "current": 3906.39,
+          "percent_of_income": 2.39593666158639
+        },
+        "April 2025": {
+          "current": 3077.26,
+          "percent_of_income": 1.8898850804981875
+        },
+        "May 2025": {
+          "current": 3073.13,
+          "percent_of_income": 1.904271435376979
+        },
+        "June 2025": {
+          "current": 3852.76,
+          "percent_of_income": 2.5685998212201833
+        },
+        "July 2025": {
+          "current": 3089.64,
+          "percent_of_income": 2.175161756904743
+        },
+        "August 2025": {
+          "current": 3844.52,
+          "percent_of_income": 2.490757133103892
+        },
+        "September 2025": {
+          "current": 3087.86,
+          "percent_of_income": 2.320969626014559
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 30906.31,
+          "percent_of_income": 2.2558653187316824
+        }
+      }
+    },
+    {
+      "account": "500-502 Dishwasher OVERTIME",
+      "monthly_data": {
+        "January 2025": {
+          "current": 526.32,
+          "percent_of_income": 0.3218500482817879
+        },
+        "February 2025": {
+          "current": 631.12,
+          "percent_of_income": 0.4513415130996811
+        },
+        "March 2025": {
+          "current": 810.57,
+          "percent_of_income": 0.4971532232526912
+        },
+        "April 2025": {
+          "current": 600.19,
+          "percent_of_income": 0.36860392897064503
+        },
+        "May 2025": {
+          "current": 594.0,
+          "percent_of_income": 0.3680733430131252
+        },
+        "June 2025": {
+          "current": 693.01,
+          "percent_of_income": 0.46202342271613056
+        },
+        "July 2025": {
+          "current": 538.32,
+          "percent_of_income": 0.3789868971715027
+        },
+        "August 2025": {
+          "current": 383.62,
+          "percent_of_income": 0.24853668374759788
+        },
+        "September 2025": {
+          "current": 278.45,
+          "percent_of_income": 0.2092951080566327
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 5055.599999999999,
+          "percent_of_income": 0.3690104935005147
+        }
+      }
+    },
+    {
+      "account": "500-533 Server/ Plater",
+      "monthly_data": {
+        "January 2025": {
+          "current": 13294.72,
+          "percent_of_income": 8.129856881541365
+        },
+        "February 2025": {
+          "current": 11474.82,
+          "percent_of_income": 8.20614561627976
+        },
+        "March 2025": {
+          "current": 12480.78,
+          "percent_of_income": 7.654934189160372
+        },
+        "April 2025": {
+          "current": 14810.93,
+          "percent_of_income": 9.096064562403896
+        },
+        "May 2025": {
+          "current": 13932.15,
+          "percent_of_income": 8.633085902121739
+        },
+        "June 2025": {
+          "current": 13830.89,
+          "percent_of_income": 9.220927745646241
+        },
+        "July 2025": {
+          "current": 13814.46,
+          "percent_of_income": 9.725626637501552
+        },
+        "August 2025": {
+          "current": 13510.36,
+          "percent_of_income": 8.752984908597561
+        },
+        "September 2025": {
+          "current": 12731.99,
+          "percent_of_income": 9.569916404474652
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 119881.1,
+          "percent_of_income": 8.750174830363273
+        }
+      }
+    },
+    {
+      "account": "500-534 Server/ Plater OVERTIME",
+      "monthly_data": {
+        "January 2025": {
+          "current": 232.14,
+          "percent_of_income": 0.14195597774763308
+        },
+        "February 2025": {
+          "current": 146.44,
+          "percent_of_income": 0.1047256483367938
+        },
+        "March 2025": {
+          "current": 635.23,
+          "percent_of_income": 0.38961057281518807
+        },
+        "April 2025": {
+          "current": 156.75,
+          "percent_of_income": 0.0962672918011773
+        },
+        "May 2025": {
+          "current": 332.07,
+          "percent_of_income": 0.20576787039455974
+        },
+        "June 2025": {
+          "current": 152.62,
+          "percent_of_income": 0.10175035681294044
+        },
+        "July 2025": {
+          "current": 152.63,
+          "percent_of_income": 0.10745424675896575
+        },
+        "August 2025": {
+          "current": 669.63,
+          "percent_of_income": 0.4338345746778165
+        },
+        "September 2025": {
+          "current": 57.75,
+          "percent_of_income": 0.0434074070399373
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 2535.26,
+          "percent_of_income": 0.18504975546960103
+        }
+      }
+    },
+    {
+      "account": "Total for 500-400 Direct Labor Cost",
+      "monthly_data": {
+        "January 2025": {
+          "current": 17921.8,
+          "percent_of_income": 10.959363496155467
+        },
+        "February 2025": {
+          "current": 15358.51,
+          "percent_of_income": 10.983542182717365
+        },
+        "March 2025": {
+          "current": 17832.97,
+          "percent_of_income": 10.93763464681464
+        },
+        "April 2025": {
+          "current": 18645.13,
+          "percent_of_income": 11.450820863673906
+        },
+        "May 2025": {
+          "current": 17931.35,
+          "percent_of_income": 11.111198550906401
+        },
+        "June 2025": {
+          "current": 18529.28,
+          "percent_of_income": 12.353301346395495
+        },
+        "July 2025": {
+          "current": 17595.05,
+          "percent_of_income": 12.387229538336763
+        },
+        "August 2025": {
+          "current": 18408.13,
+          "percent_of_income": 11.926113300126866
+        },
+        "September 2025": {
+          "current": 16156.05,
+          "percent_of_income": 12.143588545585782
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 158378.27,
+          "percent_of_income": 11.560100398065067
+        }
+      }
+    },
+    {
+      "account": "Online Delivery Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "GrubHub Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 251.72,
+          "percent_of_income": 0.18920367965529034
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 251.72,
+          "percent_of_income": 0.018373154803376368
+        }
+      }
+    },
+    {
+      "account": "UberEats Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 2882.0,
+          "percent_of_income": 2.1662363132311566
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 2882.0,
+          "percent_of_income": 0.21035846235233868
+        }
+      }
+    },
+    {
+      "account": "Total for Online Delivery Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 3133.72,
+          "percent_of_income": 2.3554399928864465
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 3133.72,
+          "percent_of_income": 0.22873161715571502
+        }
+      }
+    },
+    {
+      "account": "Total for Cost of Goods Sold",
+      "monthly_data": {
+        "January 2025": {
+          "current": 64675.31,
+          "percent_of_income": 39.54961173077139
+        },
+        "February 2025": {
+          "current": 57143.420000000006,
+          "percent_of_income": 40.86575872495022
+        },
+        "March 2025": {
+          "current": 58885.47,
+          "percent_of_income": 36.116684818398966
+        },
+        "April 2025": {
+          "current": 62752.229999999996,
+          "percent_of_income": 38.53899353482993
+        },
+        "May 2025": {
+          "current": 59203.299999999996,
+          "percent_of_income": 36.68544873469521
+        },
+        "June 2025": {
+          "current": 59465.72,
+          "percent_of_income": 39.645251134441146
+        },
+        "July 2025": {
+          "current": 60246.11,
+          "percent_of_income": 42.41433774623465
+        },
+        "August 2025": {
+          "current": 57494.34,
+          "percent_of_income": 37.24897710718123
+        },
+        "September 2025": {
+          "current": 55669.86,
+          "percent_of_income": 41.843883513009935
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 535535.7599999999,
+          "percent_of_income": 39.088993410232845
+        }
+      }
+    },
+    {
+      "account": "Gross Profit",
+      "monthly_data": {
+        "January 2025": {
+          "current": 98854.25999999998,
+          "percent_of_income": 60.45038826922862
+        },
+        "February 2025": {
+          "current": 82688.60999999999,
+          "percent_of_income": 59.13424127504978
+        },
+        "March 2025": {
+          "current": 104156.81999999998,
+          "percent_of_income": 63.88331518160104
+        },
+        "April 2025": {
+          "current": 100075.66000000002,
+          "percent_of_income": 61.461006465170065
+        },
+        "May 2025": {
+          "current": 102177.58000000002,
+          "percent_of_income": 63.3145512653048
+        },
+        "June 2025": {
+          "current": 90528.84,
+          "percent_of_income": 60.35474886555886
+        },
+        "July 2025": {
+          "current": 81795.74,
+          "percent_of_income": 57.585662253765356
+        },
+        "August 2025": {
+          "current": 96857.12,
+          "percent_of_income": 62.75102289281877
+        },
+        "September 2025": {
+          "current": 77371.95,
+          "percent_of_income": 58.15611648699006
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 834506.58,
+          "percent_of_income": 60.91100658976713
+        }
+      }
+    },
+    {
+      "account": "Expenses",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": null
+        }
+      }
+    },
+    {
+      "account": "599-350 Payroll Expenses",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": null
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": null
+        }
+      }
+    },
+    {
+      "account": "599-440 Payroll Processing Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": 211.22,
+          "percent_of_income": 0.12916318437087557
+        },
+        "February 2025": {
+          "current": 1190.45,
+          "percent_of_income": 0.8513428575699002
+        },
+        "March 2025": {
+          "current": 304.84,
+          "percent_of_income": 0.18696989596993516
+        },
+        "April 2025": {
+          "current": 309.98,
+          "percent_of_income": 0.19037279178646851
+        },
+        "May 2025": {
+          "current": 570.64,
+          "percent_of_income": 0.35359827012964606
+        },
+        "June 2025": {
+          "current": 270.9,
+          "percent_of_income": 0.18060654999754658
+        },
+        "July 2025": {
+          "current": 306.08,
+          "percent_of_income": 0.21548578816736053
+        },
+        "August 2025": {
+          "current": 341.73,
+          "percent_of_income": 0.22139732270754034
+        },
+        "September 2025": {
+          "current": 286.52,
+          "percent_of_income": 0.21536087039104473
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 3792.36,
+          "percent_of_income": 0.2768060438190545
+        }
+      }
+    },
+    {
+      "account": "599-450 Payroll Taxes & Benefits",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "599-500 Federal Unemployment Ins",
+      "monthly_data": {
+        "January 2025": {
+          "current": 259.49,
+          "percent_of_income": 0.1586807817081645
+        },
+        "February 2025": {
+          "current": 112.31,
+          "percent_of_income": 0.08031779271172707
+        },
+        "March 2025": {
+          "current": 102.74,
+          "percent_of_income": 0.06301432591507394
+        },
+        "April 2025": {
+          "current": 105.36,
+          "percent_of_income": 0.06470635958004492
+        },
+        "May 2025": {
+          "current": 63.75,
+          "percent_of_income": 0.03950282090418642
+        },
+        "June 2025": {
+          "current": 34.61,
+          "percent_of_income": 0.02307417015657101
+        },
+        "July 2025": {
+          "current": 46.92,
+          "percent_of_income": 0.033032518233182685
+        },
+        "August 2025": {
+          "current": 38.14,
+          "percent_of_income": 0.024709840775072687
+        },
+        "September 2025": {
+          "current": 44.82,
+          "percent_of_income": 0.03368865772346302
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 808.14,
+          "percent_of_income": 0.05898649818369846
+        }
+      }
+    },
+    {
+      "account": "599-510 FICA Expense",
+      "monthly_data": {
+        "January 2025": {
+          "current": 3999.94,
+          "percent_of_income": 2.4460041080032195
+        },
+        "February 2025": {
+          "current": 3071.81,
+          "percent_of_income": 2.196785672066693
+        },
+        "March 2025": {
+          "current": 3753.47,
+          "percent_of_income": 2.3021450446997527
+        },
+        "April 2025": {
+          "current": 3727.23,
+          "percent_of_income": 2.2890611675923576
+        },
+        "May 2025": {
+          "current": 3502.1,
+          "percent_of_income": 2.170083593545902
+        },
+        "June 2025": {
+          "current": 3292.62,
+          "percent_of_income": 2.1951596111218965
+        },
+        "July 2025": {
+          "current": 3247.18,
+          "percent_of_income": 2.2860727313816316
+        },
+        "August 2025": {
+          "current": 3174.67,
+          "percent_of_income": 2.0567800265705296
+        },
+        "September 2025": {
+          "current": 3042.58,
+          "percent_of_income": 2.2869352123216
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 30811.6,
+          "percent_of_income": 2.248952393690256
+        }
+      }
+    },
+    {
+      "account": "599-650 State Unemployment Ins",
+      "monthly_data": {
+        "January 2025": {
+          "current": 1359.46,
+          "percent_of_income": 0.8313236560213546
+        },
+        "February 2025": {
+          "current": 981.25,
+          "percent_of_income": 0.7017347885173376
+        },
+        "March 2025": {
+          "current": 3148.87,
+          "percent_of_income": 1.9313210088008455
+        },
+        "April 2025": {
+          "current": 1032.78,
+          "percent_of_income": 0.6342770885258047
+        },
+        "May 2025": {
+          "current": 834.05,
+          "percent_of_income": 0.5168208278452813
+        },
+        "June 2025": {
+          "current": -845.49,
+          "percent_of_income": -0.5636804428107259
+        },
+        "July 2025": {
+          "current": 744.46,
+          "percent_of_income": 0.524113139895038
+        },
+        "August 2025": {
+          "current": 218.38,
+          "percent_of_income": 0.141482302791305
+        },
+        "September 2025": {
+          "current": 251.72,
+          "percent_of_income": 0.18920367965529034
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 7725.4800000000005,
+          "percent_of_income": 0.5638862226695855
+        }
+      }
+    },
+    {
+      "account": "Total for 599-450 Payroll Taxes & Benefits",
+      "monthly_data": {
+        "January 2025": {
+          "current": 5618.89,
+          "percent_of_income": 3.436008545732739
+        },
+        "February 2025": {
+          "current": 4165.37,
+          "percent_of_income": 2.978838253295758
+        },
+        "March 2025": {
+          "current": 7005.08,
+          "percent_of_income": 4.296480379415672
+        },
+        "April 2025": {
+          "current": 4865.37,
+          "percent_of_income": 2.988044615698207
+        },
+        "May 2025": {
+          "current": 4399.9,
+          "percent_of_income": 2.7264072422953696
+        },
+        "June 2025": {
+          "current": 2481.74,
+          "percent_of_income": 1.6545533384677416
+        },
+        "July 2025": {
+          "current": 4038.56,
+          "percent_of_income": 2.8432183895098517
+        },
+        "August 2025": {
+          "current": 3431.19,
+          "percent_of_income": 2.222972170136907
+        },
+        "September 2025": {
+          "current": 3339.12,
+          "percent_of_income": 2.5098275497003537
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 39345.22,
+          "percent_of_income": 2.8718251145435403
+        }
+      }
+    },
+    {
+      "account": "599-660 Salaries & Wages",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "599-670 Admin/ Marketing",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": 2868.14,
+          "percent_of_income": 1.7591386872694195
+        },
+        "April 2025": {
+          "current": 2967.04,
+          "percent_of_income": 1.8221939742632542
+        },
+        "May 2025": {
+          "current": 3065.95,
+          "percent_of_income": 1.8998223333520055
+        },
+        "June 2025": {
+          "current": 2967.04,
+          "percent_of_income": 1.9780984057021802
+        },
+        "July 2025": {
+          "current": 2274.74,
+          "percent_of_income": 1.6014575985880213
+        },
+        "August 2025": {
+          "current": 1703.32,
+          "percent_of_income": 1.1035334554010698
+        },
+        "September 2025": {
+          "current": 1648.37,
+          "percent_of_income": 1.2389864509510204
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 17494.600000000002,
+          "percent_of_income": 1.276938638261355
+        }
+      }
+    },
+    {
+      "account": "599-890 Management",
+      "monthly_data": {
+        "January 2025": {
+          "current": 7984.23,
+          "percent_of_income": 4.882438081381856
+        },
+        "February 2025": {
+          "current": 7211.56,
+          "percent_of_income": 5.157301942909647
+        },
+        "March 2025": {
+          "current": 7819.39,
+          "percent_of_income": 4.795927486052853
+        },
+        "April 2025": {
+          "current": 2781.6,
+          "percent_of_income": 1.708306850871801
+        },
+        "May 2025": {
+          "current": 2874.32,
+          "percent_of_income": 1.7810784028442526
+        },
+        "June 2025": {
+          "current": 2781.6,
+          "percent_of_income": 1.8544672553457937
+        },
+        "July 2025": {
+          "current": 2874.32,
+          "percent_of_income": 2.0235726301790633
+        },
+        "August 2025": {
+          "current": 2874.32,
+          "percent_of_income": 1.862191650147009
+        },
+        "September 2025": {
+          "current": 4883.25,
+          "percent_of_income": 3.6704626913900222
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 42084.59,
+          "percent_of_income": 3.0717729497323414
+        }
+      }
+    },
+    {
+      "account": "Total for 599-660 Salaries & Wages",
+      "monthly_data": {
+        "January 2025": {
+          "current": 7984.23,
+          "percent_of_income": 4.882438081381856
+        },
+        "February 2025": {
+          "current": 7211.56,
+          "percent_of_income": 5.157301942909647
+        },
+        "March 2025": {
+          "current": 10687.53,
+          "percent_of_income": 6.555066173322273
+        },
+        "April 2025": {
+          "current": 5748.639999999999,
+          "percent_of_income": 3.5305008251350545
+        },
+        "May 2025": {
+          "current": 5940.27,
+          "percent_of_income": 3.6809007361962585
+        },
+        "June 2025": {
+          "current": 5748.639999999999,
+          "percent_of_income": 3.8325656610479735
+        },
+        "July 2025": {
+          "current": 5149.0599999999995,
+          "percent_of_income": 3.625030228767084
+        },
+        "August 2025": {
+          "current": 4577.64,
+          "percent_of_income": 2.965725105548079
+        },
+        "September 2025": {
+          "current": 6531.62,
+          "percent_of_income": 4.9094491423410425
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 59579.189999999995,
+          "percent_of_income": 4.348711587993695
+        }
+      }
+    },
+    {
+      "account": "Total for 599-350 Payroll Expenses",
+      "monthly_data": {
+        "January 2025": {
+          "current": 13814.34,
+          "percent_of_income": 8.44760981148547
+        },
+        "February 2025": {
+          "current": 12567.380000000001,
+          "percent_of_income": 8.987483053775305
+        },
+        "March 2025": {
+          "current": 17997.45,
+          "percent_of_income": 11.038516448707881
+        },
+        "April 2025": {
+          "current": 10923.99,
+          "percent_of_income": 6.70891823261973
+        },
+        "May 2025": {
+          "current": 10910.810000000001,
+          "percent_of_income": 6.760906248621275
+        },
+        "June 2025": {
+          "current": 8501.279999999999,
+          "percent_of_income": 5.6677255495132615
+        },
+        "July 2025": {
+          "current": 9493.7,
+          "percent_of_income": 6.683734406444299
+        },
+        "August 2025": {
+          "current": 8350.560000000001,
+          "percent_of_income": 5.4100945983925275
+        },
+        "September 2025": {
+          "current": 10157.26,
+          "percent_of_income": 7.634637562432442
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 102716.76999999999,
+          "percent_of_income": 7.49734274635629
+        }
+      }
+    },
+    {
+      "account": "600-100 Direct Operating Costs",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "600-102 Chace Depot Delivery Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": 1072.5,
+          "percent_of_income": 0.6558446891287002
+        },
+        "February 2025": {
+          "current": 1430.0,
+          "percent_of_income": 1.0226555389348206
+        },
+        "March 2025": {
+          "current": 1852.5,
+          "percent_of_income": 1.13620828068595
+        },
+        "April 2025": {
+          "current": 1413.75,
+          "percent_of_income": 0.8682480624173168
+        },
+        "May 2025": {
+          "current": 1543.75,
+          "percent_of_income": 0.956587917973926
+        },
+        "June 2025": {
+          "current": 1413.75,
+          "percent_of_income": 0.9425341825730214
+        },
+        "July 2025": {
+          "current": 1270.1,
+          "percent_of_income": 0.8941730905363453
+        },
+        "August 2025": {
+          "current": 1495.0,
+          "percent_of_income": 0.9685687456406309
+        },
+        "September 2025": {
+          "current": 1072.5,
+          "percent_of_income": 0.8061375593131211
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 12563.85,
+          "percent_of_income": 0.9170410018131264
+        }
+      }
+    },
+    {
+      "account": "600-103 Chace Royalty Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": 8332.86,
+          "percent_of_income": 5.095628882287162
+        },
+        "February 2025": {
+          "current": 7323.55,
+          "percent_of_income": 5.2373908896266474
+        },
+        "March 2025": {
+          "current": 8324.24,
+          "percent_of_income": 5.10557107606867
+        },
+        "April 2025": {
+          "current": 8152.03,
+          "percent_of_income": 5.006531743425527
+        },
+        "May 2025": {
+          "current": 8059.08,
+          "percent_of_income": 4.993825786549187
+        },
+        "June 2025": {
+          "current": 7623.11,
+          "percent_of_income": 5.082257649877436
+        },
+        "July 2025": {
+          "current": 7121.55,
+          "percent_of_income": 5.013698427611299
+        },
+        "August 2025": {
+          "current": 7718.35,
+          "percent_of_income": 5.000503396598906
+        },
+        "September 2025": {
+          "current": 6652.09,
+          "percent_of_income": 4.999999624178294
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 69306.86,
+          "percent_of_income": 5.058738549642196
+        }
+      }
+    },
+    {
+      "account": "600-107 Contract Service Companies",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "600-111 Dishwashing Company",
+      "monthly_data": {
+        "January 2025": {
+          "current": 909.04,
+          "percent_of_income": 0.55588723189329
+        },
+        "February 2025": {
+          "current": 475.52,
+          "percent_of_income": 0.34006514816383626
+        },
+        "March 2025": {
+          "current": 432.09,
+          "percent_of_income": 0.265017131444854
+        },
+        "April 2025": {
+          "current": 862.08,
+          "percent_of_income": 0.5294424683633743
+        },
+        "May 2025": {
+          "current": 446.06,
+          "percent_of_income": 0.27640201243170814
+        },
+        "June 2025": {
+          "current": 423.44,
+          "percent_of_income": 0.2823035715428613
+        },
+        "July 2025": {
+          "current": 383.32,
+          "percent_of_income": 0.26986412807211396
+        },
+        "August 2025": {
+          "current": 461.31,
+          "percent_of_income": 0.29886986491737755
+        },
+        "September 2025": {
+          "current": 428.76,
+          "percent_of_income": 0.32227462930638123
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 4821.620000000001,
+          "percent_of_income": 0.35193218919059105
+        }
+      }
+    },
+    {
+      "account": "600-116 Garbage Removal",
+      "monthly_data": {
+        "January 2025": {
+          "current": 598.73,
+          "percent_of_income": 0.3661295018387195
+        },
+        "February 2025": {
+          "current": 598.73,
+          "percent_of_income": 0.42817800757094066
+        },
+        "March 2025": {
+          "current": 598.73,
+          "percent_of_income": 0.3672237429933057
+        },
+        "April 2025": {
+          "current": 598.73,
+          "percent_of_income": 0.36770727668337405
+        },
+        "May 2025": {
+          "current": 598.73,
+          "percent_of_income": 0.37100429741119273
+        },
+        "June 2025": {
+          "current": 598.73,
+          "percent_of_income": 0.39916780981923616
+        },
+        "July 2025": {
+          "current": 598.73,
+          "percent_of_income": 0.4215166164056579
+        },
+        "August 2025": {
+          "current": 718.47,
+          "percent_of_income": 0.4654766466089793
+        },
+        "September 2025": {
+          "current": 718.47,
+          "percent_of_income": 0.5400332421815368
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 5628.050000000001,
+          "percent_of_income": 0.41079387371342124
+        }
+      }
+    },
+    {
+      "account": "600-117 Grease Removal",
+      "monthly_data": {
+        "January 2025": {
+          "current": 60.0,
+          "percent_of_income": 0.03669061197922798
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": 120.0,
+          "percent_of_income": 0.0736005364007093
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": 239.53,
+          "percent_of_income": 0.15969245817981664
+        },
+        "July 2025": {
+          "current": 239.53,
+          "percent_of_income": 0.16863339924113913
+        },
+        "August 2025": {
+          "current": 100.0,
+          "percent_of_income": 0.06478720706626294
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 759.06,
+          "percent_of_income": 0.05540412714544281
+        }
+      }
+    },
+    {
+      "account": "600-118 Pest Control",
+      "monthly_data": {
+        "January 2025": {
+          "current": 181.66,
+          "percent_of_income": 0.11108694286910926
+        },
+        "February 2025": {
+          "current": 263.32,
+          "percent_of_income": 0.18831164791071117
+        },
+        "March 2025": {
+          "current": 263.32,
+          "percent_of_income": 0.16150411037528975
+        },
+        "April 2025": {
+          "current": 263.32,
+          "percent_of_income": 0.16171676731793305
+        },
+        "May 2025": {
+          "current": 263.32,
+          "percent_of_income": 0.1631667890272999
+        },
+        "June 2025": {
+          "current": 263.32,
+          "percent_of_income": 0.17555303339001094
+        },
+        "July 2025": {
+          "current": 715.16,
+          "percent_of_income": 0.5034854164459277
+        },
+        "August 2025": {
+          "current": 715.16,
+          "percent_of_income": 0.46333219005508597
+        },
+        "September 2025": {
+          "current": 715.16,
+          "percent_of_income": 0.5375453024879924
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 3643.7399999999993,
+          "percent_of_income": 0.26595820389025343
+        }
+      }
+    },
+    {
+      "account": "Total for 600-107 Contract Service Companies",
+      "monthly_data": {
+        "January 2025": {
+          "current": 1749.43,
+          "percent_of_income": 1.0697942885803469
+        },
+        "February 2025": {
+          "current": 1337.57,
+          "percent_of_income": 0.9565548036454881
+        },
+        "March 2025": {
+          "current": 1414.1399999999999,
+          "percent_of_income": 0.8673455212141585
+        },
+        "April 2025": {
+          "current": 1724.1299999999999,
+          "percent_of_income": 1.0588665123646814
+        },
+        "May 2025": {
+          "current": 1308.11,
+          "percent_of_income": 0.8105730988702006
+        },
+        "June 2025": {
+          "current": 1525.02,
+          "percent_of_income": 1.016716872931925
+        },
+        "July 2025": {
+          "current": 1936.7399999999998,
+          "percent_of_income": 1.3634995601648385
+        },
+        "August 2025": {
+          "current": 1994.94,
+          "percent_of_income": 1.2924659086477057
+        },
+        "September 2025": {
+          "current": 1862.3899999999999,
+          "percent_of_income": 1.3998531739759104
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 14852.47,
+          "percent_of_income": 1.0840883939397084
+        }
+      }
+    },
+    {
+      "account": "600-120 Credit Card Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": 4522.27,
+          "percent_of_income": 2.765414230588389
+        },
+        "February 2025": {
+          "current": 4184.69,
+          "percent_of_income": 2.9926548302273805
+        },
+        "March 2025": {
+          "current": 4855.91,
+          "percent_of_income": 2.978313172613069
+        },
+        "April 2025": {
+          "current": 4698.56,
+          "percent_of_income": 2.885599021150492
+        },
+        "May 2025": {
+          "current": 4515.59,
+          "percent_of_income": 2.7980947928899633
+        },
+        "June 2025": {
+          "current": 4448.25,
+          "percent_of_income": 2.965607552700578
+        },
+        "July 2025": {
+          "current": 4338.67,
+          "percent_of_income": 3.0545011910222235
+        },
+        "August 2025": {
+          "current": 4241.07,
+          "percent_of_income": 2.7476708027251573
+        },
+        "September 2025": {
+          "current": 3903.78,
+          "percent_of_income": 2.9342505186903276
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 39708.79,
+          "percent_of_income": 2.8983622506148237
+        }
+      }
+    },
+    {
+      "account": "600-121 Delivery Service Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "600-122 ClassPass Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "600-124 DoorDash Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": 1433.08,
+          "percent_of_income": 0.8763430369198673
+        },
+        "February 2025": {
+          "current": 1638.7,
+          "percent_of_income": 1.1719060361206228
+        },
+        "March 2025": {
+          "current": 1614.01,
+          "percent_of_income": 0.9899333479675735
+        },
+        "April 2025": {
+          "current": 1481.64,
+          "percent_of_income": 0.9099423937754153
+        },
+        "May 2025": {
+          "current": 1582.93,
+          "percent_of_income": 0.9808658869625696
+        },
+        "June 2025": {
+          "current": 2456.94,
+          "percent_of_income": 1.638019405503773
+        },
+        "July 2025": {
+          "current": 1585.62,
+          "percent_of_income": 1.116304807350791
+        },
+        "August 2025": {
+          "current": 1571.7,
+          "percent_of_income": 1.0182605334604546
+        },
+        "September 2025": {
+          "current": 1373.84,
+          "percent_of_income": 1.0326377850692199
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 14738.460000000003,
+          "percent_of_income": 1.0757667533107043
+        }
+      }
+    },
+    {
+      "account": "600-125 ezCater Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 67.46,
+          "percent_of_income": 0.041430248835135054
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 67.46,
+          "percent_of_income": 0.004923935416477712
+        }
+      }
+    },
+    {
+      "account": "600-126 Fantuan Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": 55.71,
+          "percent_of_income": 0.03406723322271318
+        },
+        "February 2025": {
+          "current": 187.35,
+          "percent_of_income": 0.1339821784751319
+        },
+        "March 2025": {
+          "current": 94.42,
+          "percent_of_income": 0.057911355391291434
+        },
+        "April 2025": {
+          "current": 208.37,
+          "percent_of_income": 0.12796947746482495
+        },
+        "May 2025": {
+          "current": 131.61,
+          "percent_of_income": 0.08155241190901921
+        },
+        "June 2025": {
+          "current": 52.65,
+          "percent_of_income": 0.035101273006167694
+        },
+        "July 2025": {
+          "current": 85.97,
+          "percent_of_income": 0.06052441586757706
+        },
+        "August 2025": {
+          "current": 46.09,
+          "percent_of_income": 0.029860423736840586
+        },
+        "September 2025": {
+          "current": 62.02,
+          "percent_of_income": 0.04661692440895084
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 924.19,
+          "percent_of_income": 0.06745703932040523
+        }
+      }
+    },
+    {
+      "account": "600-127 GrubHub Fees  (will be inactive)",
+      "monthly_data": {
+        "January 2025": {
+          "current": 786.55,
+          "percent_of_income": 0.4809833475376961
+        },
+        "February 2025": {
+          "current": 727.43,
+          "percent_of_income": 0.5202170060750745
+        },
+        "March 2025": {
+          "current": 600.78,
+          "percent_of_income": 0.3684810854901511
+        },
+        "April 2025": {
+          "current": 2137.94,
+          "percent_of_income": 1.3130060212657673
+        },
+        "May 2025": {
+          "current": 880.41,
+          "percent_of_income": 0.5455478988588982
+        },
+        "June 2025": {
+          "current": 786.8,
+          "percent_of_income": 0.5245523570988174
+        },
+        "July 2025": {
+          "current": 735.44,
+          "percent_of_income": 0.5177628987513188
+        },
+        "August 2025": {
+          "current": 863.61,
+          "percent_of_income": 0.5595087989449533
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 7518.96,
+          "percent_of_income": 0.5488122359780501
+        }
+      }
+    },
+    {
+      "account": "600-128 HungryPanda Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": 134.16,
+          "percent_of_income": 0.08204020838555377
+        },
+        "February 2025": {
+          "current": 392.55,
+          "percent_of_income": 0.28072967259361103
+        },
+        "March 2025": {
+          "current": 572.26,
+          "percent_of_income": 0.35098869133891586
+        },
+        "April 2025": {
+          "current": 338.5,
+          "percent_of_income": 0.2078882186583637
+        },
+        "May 2025": {
+          "current": 297.65,
+          "percent_of_income": 0.18443944536676213
+        },
+        "June 2025": {
+          "current": 121.6,
+          "percent_of_income": 0.08106960679107295
+        },
+        "July 2025": {
+          "current": 109.2,
+          "percent_of_income": 0.07687875087518221
+        },
+        "August 2025": {
+          "current": 149.13,
+          "percent_of_income": 0.0966171618979179
+        },
+        "September 2025": {
+          "current": 30.39,
+          "percent_of_income": 0.0228424432890683
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 2145.4399999999996,
+          "percent_of_income": 0.1565966202183211
+        }
+      }
+    },
+    {
+      "account": "GrubHub - BOGO Promo",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 199.0,
+          "percent_of_income": 0.14957703897744626
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 199.0,
+          "percent_of_income": 0.014525098545494587
+        }
+      }
+    },
+    {
+      "account": "UberEats Fees - BOGO Promo",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": 1580.28,
+          "percent_of_income": 1.112545351950851
+        },
+        "August 2025": {
+          "current": 1777.29,
+          "percent_of_income": 1.1514565524679843
+        },
+        "September 2025": {
+          "current": 1691.0,
+          "percent_of_income": 1.2710290096023198
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 5048.57,
+          "percent_of_income": 0.3684973706725005
+        }
+      }
+    },
+    {
+      "account": "UberEats Fees - Mkt/ Ads Promo",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 1050.88,
+          "percent_of_income": 0.7898870287468279
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 1050.88,
+          "percent_of_income": 0.07670419879140378
+        }
+      }
+    },
+    {
+      "account": "Total for 600-121 Delivery Service Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": 2409.5,
+          "percent_of_income": 1.4734338260658304
+        },
+        "February 2025": {
+          "current": 2946.03,
+          "percent_of_income": 2.1068348932644403
+        },
+        "March 2025": {
+          "current": 2881.4700000000003,
+          "percent_of_income": 1.7673144801879321
+        },
+        "April 2025": {
+          "current": 4233.91,
+          "percent_of_income": 2.600236359999506
+        },
+        "May 2025": {
+          "current": 2892.6,
+          "percent_of_income": 1.792405643097249
+        },
+        "June 2025": {
+          "current": 3417.9900000000002,
+          "percent_of_income": 2.2787426423998314
+        },
+        "July 2025": {
+          "current": 4096.509999999999,
+          "percent_of_income": 2.8840162247957197
+        },
+        "August 2025": {
+          "current": 4407.82,
+          "percent_of_income": 2.8557034705081508
+        },
+        "September 2025": {
+          "current": 4407.13,
+          "percent_of_income": 3.312590230093833
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 31692.96,
+          "percent_of_income": 2.313283252253357
+        }
+      }
+    },
+    {
+      "account": "600-300 Marketing & PR",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 107.95,
+          "percent_of_income": 0.081139906319675
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 107.95,
+          "percent_of_income": 0.007879318532593672
+        }
+      }
+    },
+    {
+      "account": "600-400 Advertising and Promotion",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": 1199.96,
+          "percent_of_income": 0.7435577250539221
+        },
+        "June 2025": {
+          "current": 599.98,
+          "percent_of_income": 0.4000011733758878
+        },
+        "July 2025": {
+          "current": 269.99,
+          "percent_of_income": 0.1900777834138319
+        },
+        "August 2025": {
+          "current": 554.46,
+          "percent_of_income": 0.3592191482996015
+        },
+        "September 2025": {
+          "current": 299.99,
+          "percent_of_income": 0.22548550714997037
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 2924.38,
+          "percent_of_income": 0.21345179740941436
+        }
+      }
+    },
+    {
+      "account": "600-401 Branding",
+      "monthly_data": {
+        "January 2025": {
+          "current": 2050.0,
+          "percent_of_income": 1.2535959092902893
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 3170.0,
+          "percent_of_income": 1.9468409251019585
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": 8100.0,
+          "percent_of_income": 5.247763772367298
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 13320.0,
+          "percent_of_income": 0.9722327267637582
+        }
+      }
+    },
+    {
+      "account": "600-402 Custom Packaging Design",
+      "monthly_data": {
+        "January 2025": {
+          "current": 324.25,
+          "percent_of_income": 0.19828218223774458
+        },
+        "February 2025": {
+          "current": 435.25,
+          "percent_of_income": 0.31126631001495153
+        },
+        "March 2025": {
+          "current": 191.25,
+          "percent_of_income": 0.11730085488863044
+        },
+        "April 2025": {
+          "current": 208.25,
+          "percent_of_income": 0.12789578001655613
+        },
+        "May 2025": {
+          "current": 316.25,
+          "percent_of_income": 0.19596497428939538
+        },
+        "June 2025": {
+          "current": 2475.25,
+          "percent_of_income": 1.6502265148816067
+        },
+        "July 2025": {
+          "current": 5648.25,
+          "percent_of_income": 3.976468906874981
+        },
+        "August 2025": {
+          "current": 351.25,
+          "percent_of_income": 0.22756506482024852
+        },
+        "September 2025": {
+          "current": 322.25,
+          "percent_of_income": 0.24221708949990983
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 10272.25,
+          "percent_of_income": 0.7497760981605867
+        }
+      }
+    },
+    {
+      "account": "600-405 Photography",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 700.0,
+          "percent_of_income": 0.42990178156825587
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 700.0,
+          "percent_of_income": 0.05109331146656387
+        }
+      }
+    },
+    {
+      "account": "600-406 Printing, Cutting, Laminating",
+      "monthly_data": {
+        "January 2025": {
+          "current": 21.71,
+          "percent_of_income": 0.013275886434483991
+        },
+        "February 2025": {
+          "current": 147.59,
+          "percent_of_income": 0.10554806363034279
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 702.24,
+          "percent_of_income": 0.4312774672692743
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": 148.07,
+          "percent_of_income": 0.09593041750301552
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 1019.6099999999999,
+          "percent_of_income": 0.0744217875777474
+        }
+      }
+    },
+    {
+      "account": "600-407 Social Media",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 200.0,
+          "percent_of_income": 0.12282908044807311
+        },
+        "May 2025": {
+          "current": 200.0,
+          "percent_of_income": 0.12393041852293778
+        },
+        "June 2025": {
+          "current": 250.0,
+          "percent_of_income": 0.16667271133033093
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 250.0,
+          "percent_of_income": 0.18791085298674154
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 900.0,
+          "percent_of_income": 0.06569140045701069
+        }
+      }
+    },
+    {
+      "account": "600-408 Website",
+      "monthly_data": {
+        "January 2025": {
+          "current": 377.8,
+          "percent_of_income": 0.23102855342920556
+        },
+        "February 2025": {
+          "current": 414.84,
+          "percent_of_income": 0.29667022641379087
+        },
+        "March 2025": {
+          "current": 491.92,
+          "percent_of_income": 0.301713132218641
+        },
+        "April 2025": {
+          "current": 422.31,
+          "percent_of_income": 0.25935974482012875
+        },
+        "May 2025": {
+          "current": 433.56,
+          "percent_of_income": 0.26865636127402454
+        },
+        "June 2025": {
+          "current": 432.47,
+          "percent_of_income": 0.2883237898761129
+        },
+        "July 2025": {
+          "current": 819.25,
+          "percent_of_income": 0.5767666360301559
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 3392.1499999999996,
+          "percent_of_income": 0.24759453784472088
+        }
+      }
+    },
+    {
+      "account": "Total for 600-300 Marketing & PR",
+      "monthly_data": {
+        "January 2025": {
+          "current": 2773.76,
+          "percent_of_income": 1.6961825313917236
+        },
+        "February 2025": {
+          "current": 997.6800000000001,
+          "percent_of_income": 0.7134846000590852
+        },
+        "March 2025": {
+          "current": 683.1700000000001,
+          "percent_of_income": 0.41901398710727145
+        },
+        "April 2025": {
+          "current": 5402.8,
+          "percent_of_income": 3.3181047792242473
+        },
+        "May 2025": {
+          "current": 2149.77,
+          "percent_of_income": 1.3321094791402799
+        },
+        "June 2025": {
+          "current": 3757.7,
+          "percent_of_income": 2.505224189463938
+        },
+        "July 2025": {
+          "current": 6737.49,
+          "percent_of_income": 4.743313326318968
+        },
+        "August 2025": {
+          "current": 9153.779999999999,
+          "percent_of_income": 5.930478402990162
+        },
+        "September 2025": {
+          "current": 980.19,
+          "percent_of_income": 0.7367533559562968
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 32636.34,
+          "percent_of_income": 2.3821409782123957
+        }
+      }
+    },
+    {
+      "account": "600-500 Repairs & Maintenance",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 21.05,
+          "percent_of_income": 0.015822093821483637
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 21.05,
+          "percent_of_income": 0.001536448866244528
+        }
+      }
+    },
+    {
+      "account": "600-504 Kitchen Repairs",
+      "monthly_data": {
+        "January 2025": {
+          "current": 9000.0,
+          "percent_of_income": 5.503591796884198
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 150.0,
+          "percent_of_income": 0.09212181033605484
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": 150.0,
+          "percent_of_income": 0.10000362679819855
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 9300.0,
+          "percent_of_income": 0.6788111380557771
+        }
+      }
+    },
+    {
+      "account": "600-505 Labor, Repair/Maint (internal)",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": 477.02,
+          "percent_of_income": 0.3411378637641176
+        },
+        "March 2025": {
+          "current": 237.98,
+          "percent_of_income": 0.14596213043867332
+        },
+        "April 2025": {
+          "current": 318.75,
+          "percent_of_income": 0.1957588469641165
+        },
+        "May 2025": {
+          "current": 87.5,
+          "percent_of_income": 0.05421955810378528
+        },
+        "June 2025": {
+          "current": 120.33,
+          "percent_of_income": 0.08022290941751488
+        },
+        "July 2025": {
+          "current": 400.0,
+          "percent_of_income": 0.28160714606293846
+        },
+        "August 2025": {
+          "current": 237.5,
+          "percent_of_income": 0.15386961678237446
+        },
+        "September 2025": {
+          "current": 162.5,
+          "percent_of_income": 0.122142054441382
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 2041.58,
+          "percent_of_income": 0.1490158326055821
+        }
+      }
+    },
+    {
+      "account": "600-506 Tools & Materials",
+      "monthly_data": {
+        "January 2025": {
+          "current": 19.79,
+          "percent_of_income": 0.012101786851148695
+        },
+        "February 2025": {
+          "current": 235.0,
+          "percent_of_income": 0.1680587773774006
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 309.74,
+          "percent_of_income": 0.19022539688993081
+        },
+        "May 2025": {
+          "current": 742.81,
+          "percent_of_income": 0.460283770915117
+        },
+        "June 2025": {
+          "current": 397.02,
+          "percent_of_income": 0.2646895994094719
+        },
+        "July 2025": {
+          "current": 105.98,
+          "percent_of_income": 0.07461181334937556
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 1810.34,
+          "percent_of_income": 0.13213752211482746
+        }
+      }
+    },
+    {
+      "account": "Total for 600-500 Repairs & Maintenance",
+      "monthly_data": {
+        "January 2025": {
+          "current": 9019.79,
+          "percent_of_income": 5.515693583735347
+        },
+        "February 2025": {
+          "current": 712.02,
+          "percent_of_income": 0.5091966411415181
+        },
+        "March 2025": {
+          "current": 237.98,
+          "percent_of_income": 0.14596213043867332
+        },
+        "April 2025": {
+          "current": 778.49,
+          "percent_of_income": 0.47810605419010216
+        },
+        "May 2025": {
+          "current": 830.31,
+          "percent_of_income": 0.5145033290189023
+        },
+        "June 2025": {
+          "current": 667.3499999999999,
+          "percent_of_income": 0.4449161356251853
+        },
+        "July 2025": {
+          "current": 505.98,
+          "percent_of_income": 0.356218959412314
+        },
+        "August 2025": {
+          "current": 237.5,
+          "percent_of_income": 0.15386961678237446
+        },
+        "September 2025": {
+          "current": 183.55,
+          "percent_of_income": 0.13796414826286565
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 13172.97,
+          "percent_of_income": 0.9615009416424313
+        }
+      }
+    },
+    {
+      "account": "600-600 Restaurant/Kitchen Supplies",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "600-601 Cleaning Supplies",
+      "monthly_data": {
+        "January 2025": {
+          "current": 325.0,
+          "percent_of_income": 0.1987408148874849
+        },
+        "February 2025": {
+          "current": 325.0,
+          "percent_of_income": 0.2324217133942774
+        },
+        "March 2025": {
+          "current": 394.64,
+          "percent_of_income": 0.2420476307097993
+        },
+        "April 2025": {
+          "current": 410.74,
+          "percent_of_income": 0.25225408251620773
+        },
+        "May 2025": {
+          "current": 283.44,
+          "percent_of_income": 0.1756341891307074
+        },
+        "June 2025": {
+          "current": 126.85,
+          "percent_of_income": 0.0845697337290099
+        },
+        "July 2025": {
+          "current": 60.19,
+          "percent_of_income": 0.04237483530382067
+        },
+        "August 2025": {
+          "current": 75.19,
+          "percent_of_income": 0.0487135009931231
+        },
+        "September 2025": {
+          "current": 101.15,
+          "percent_of_income": 0.07602873111843562
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 2102.2,
+          "percent_of_income": 0.15344051337858652
+        }
+      }
+    },
+    {
+      "account": "600-602 Disposables",
+      "monthly_data": {
+        "January 2025": {
+          "current": 2142.66,
+          "percent_of_income": 1.3102584443902103
+        },
+        "February 2025": {
+          "current": 2485.96,
+          "percent_of_income": 1.777818715783501
+        },
+        "March 2025": {
+          "current": 1686.75,
+          "percent_of_income": 1.03454753978247
+        },
+        "April 2025": {
+          "current": 1880.37,
+          "percent_of_income": 1.1548205900107162
+        },
+        "May 2025": {
+          "current": 1841.05,
+          "percent_of_income": 1.140810485108273
+        },
+        "June 2025": {
+          "current": 1427.76,
+          "percent_of_income": 0.9518745213159732
+        },
+        "July 2025": {
+          "current": 1899.13,
+          "percent_of_income": 1.337021448256271
+        },
+        "August 2025": {
+          "current": 1453.04,
+          "percent_of_income": 0.9413840335556268
+        },
+        "September 2025": {
+          "current": 2431.95,
+          "percent_of_income": 1.827959195684424
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 17248.670000000002,
+          "percent_of_income": 1.2589880981342518
+        }
+      }
+    },
+    {
+      "account": "600-603 Linen",
+      "monthly_data": {
+        "January 2025": {
+          "current": 199.52,
+          "percent_of_income": 0.12200851503492612
+        },
+        "February 2025": {
+          "current": 193.4,
+          "percent_of_income": 0.13830879806293309
+        },
+        "March 2025": {
+          "current": 199.52,
+          "percent_of_income": 0.12237315852224599
+        },
+        "April 2025": {
+          "current": 249.4,
+          "percent_of_income": 0.15316786331874718
+        },
+        "May 2025": {
+          "current": 199.52,
+          "percent_of_income": 0.12363298551848274
+        },
+        "June 2025": {
+          "current": 199.52,
+          "percent_of_income": 0.1330181574585105
+        },
+        "July 2025": {
+          "current": 249.4,
+          "percent_of_income": 0.17558205557024215
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 1490.2800000000002,
+          "percent_of_income": 0.10877620030341545
+        }
+      }
+    },
+    {
+      "account": "600-605 Office Supplies",
+      "monthly_data": {
+        "January 2025": {
+          "current": 60.94,
+          "percent_of_income": 0.037265431566902554
+        },
+        "February 2025": {
+          "current": 33.1,
+          "percent_of_income": 0.023671257579540254
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 362.98,
+          "percent_of_income": 0.22292249810520787
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": 871.76,
+          "percent_of_income": 0.5811944113173171
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 1328.78,
+          "percent_of_income": 0.09698824344362962
+        }
+      }
+    },
+    {
+      "account": "600-606 Smallware",
+      "monthly_data": {
+        "January 2025": {
+          "current": 275.64,
+          "percent_of_income": 0.16855667143257336
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": 112.0,
+          "percent_of_income": 0.06869383397399534
+        },
+        "April 2025": {
+          "current": 429.9,
+          "percent_of_income": 0.2640211084231331
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": 192.22,
+          "percent_of_income": 0.12815131428766485
+        },
+        "July 2025": {
+          "current": 192.01,
+          "percent_of_income": 0.13517847028886204
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 210.09,
+          "percent_of_income": 0.15791276441593813
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 1411.86,
+          "percent_of_income": 0.10305228961026124
+        }
+      }
+    },
+    {
+      "account": "600-607 Tools/Equipments/General",
+      "monthly_data": {
+        "January 2025": {
+          "current": 95.04,
+          "percent_of_income": 0.058117929375097126
+        },
+        "February 2025": {
+          "current": 57.88,
+          "percent_of_income": 0.04139251929618701
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 1359.85,
+          "percent_of_income": 0.835145625236561
+        },
+        "May 2025": {
+          "current": 1031.44,
+          "percent_of_income": 0.6391339544064948
+        },
+        "June 2025": {
+          "current": 146.41,
+          "percent_of_income": 0.09761020666349499
+        },
+        "July 2025": {
+          "current": 373.46,
+          "percent_of_income": 0.2629225119216625
+        },
+        "August 2025": {
+          "current": 328.93,
+          "percent_of_income": 0.21310456020305868
+        },
+        "September 2025": {
+          "current": 312.9,
+          "percent_of_income": 0.23518922359820568
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 3705.91,
+          "percent_of_income": 0.27049601985293387
+        }
+      }
+    },
+    {
+      "account": "600-608 Uniforms",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 574.63,
+          "percent_of_income": 0.3529063724893812
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": 179.28,
+          "percent_of_income": 0.11615050482839619
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 753.91,
+          "percent_of_income": 0.0550282263539388
+        }
+      }
+    },
+    {
+      "account": "Total for 600-600 Restaurant/Kitchen Supplies",
+      "monthly_data": {
+        "January 2025": {
+          "current": 3098.7999999999997,
+          "percent_of_income": 1.8949478066871945
+        },
+        "February 2025": {
+          "current": 3095.34,
+          "percent_of_income": 2.213613004116439
+        },
+        "March 2025": {
+          "current": 2392.91,
+          "percent_of_income": 1.4676621629885107
+        },
+        "April 2025": {
+          "current": 5267.87,
+          "percent_of_income": 3.2352381400999546
+        },
+        "May 2025": {
+          "current": 3355.45,
+          "percent_of_income": 2.079211614163958
+        },
+        "June 2025": {
+          "current": 2964.5199999999995,
+          "percent_of_income": 1.9764183447719703
+        },
+        "July 2025": {
+          "current": 2774.1900000000005,
+          "percent_of_income": 1.9530793213408586
+        },
+        "August 2025": {
+          "current": 2036.44,
+          "percent_of_income": 1.319352599580205
+        },
+        "September 2025": {
+          "current": 3056.09,
+          "percent_of_income": 2.2970899148170036
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 28041.61,
+          "percent_of_income": 2.0467695910770174
+        }
+      }
+    },
+    {
+      "account": "Total for 600-100 Direct Operating Costs",
+      "monthly_data": {
+        "January 2025": {
+          "current": 32978.91,
+          "percent_of_income": 20.166939838464693
+        },
+        "February 2025": {
+          "current": 22026.879999999997,
+          "percent_of_income": 15.752385201015818
+        },
+        "March 2025": {
+          "current": 22642.32,
+          "percent_of_income": 13.887390811304234
+        },
+        "April 2025": {
+          "current": 31671.539999999997,
+          "percent_of_income": 19.450930672871824
+        },
+        "May 2025": {
+          "current": 24654.660000000003,
+          "percent_of_income": 15.277311661703669
+        },
+        "June 2025": {
+          "current": 25817.690000000002,
+          "percent_of_income": 17.212417570343884
+        },
+        "July 2025": {
+          "current": 28781.229999999996,
+          "percent_of_income": 20.262500101202566
+        },
+        "August 2025": {
+          "current": 31284.899999999998,
+          "percent_of_income": 20.26861294347329
+        },
+        "September 2025": {
+          "current": 22117.719999999998,
+          "percent_of_income": 16.62463852528765
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 241975.84999999998,
+          "percent_of_income": 17.661924959195055
+        }
+      }
+    },
+    {
+      "account": "600-130 UberEats Fees (will be inactive)",
+      "monthly_data": {
+        "January 2025": {
+          "current": 3423.96,
+          "percent_of_income": 2.093786463206624
+        },
+        "February 2025": {
+          "current": 2497.98,
+          "percent_of_income": 1.7864147434604218
+        },
+        "March 2025": {
+          "current": 2796.69,
+          "percent_of_income": 1.7153157012208307
+        },
+        "April 2025": {
+          "current": 3406.56,
+          "percent_of_income": 2.0921231614559397
+        },
+        "May 2025": {
+          "current": 3544.86,
+          "percent_of_income": 2.1965799170261064
+        },
+        "June 2025": {
+          "current": 2149.62,
+          "percent_of_income": 1.4331319749196236
+        },
+        "July 2025": {
+          "current": 1938.5,
+          "percent_of_income": 1.3647386316075156
+        },
+        "August 2025": {
+          "current": 3566.74,
+          "percent_of_income": 2.3107912293152264
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 23324.910000000003,
+          "percent_of_income": 1.702495559370815
+        }
+      }
+    },
+    {
+      "account": "601-000 General & Administrative",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "601-100 Expenses - Misc.",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "601-200 Annual Year End Party",
+      "monthly_data": {
+        "January 2025": {
+          "current": 350.0,
+          "percent_of_income": 0.2140285698788299
+        },
+        "February 2025": {
+          "current": 350.0,
+          "percent_of_income": 0.25030030673229875
+        },
+        "March 2025": {
+          "current": 350.0,
+          "percent_of_income": 0.21466823116873543
+        },
+        "April 2025": {
+          "current": 350.0,
+          "percent_of_income": 0.21495089078412793
+        },
+        "May 2025": {
+          "current": 350.0,
+          "percent_of_income": 0.21687823241514112
+        },
+        "June 2025": {
+          "current": 350.0,
+          "percent_of_income": 0.23334179586246329
+        },
+        "July 2025": {
+          "current": 350.0,
+          "percent_of_income": 0.24640625280507117
+        },
+        "August 2025": {
+          "current": 350.0,
+          "percent_of_income": 0.22675522473192028
+        },
+        "September 2025": {
+          "current": 350.0,
+          "percent_of_income": 0.26307519418143815
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 3150.0,
+          "percent_of_income": 0.22991990159953743
+        }
+      }
+    },
+    {
+      "account": "601-210 Bank Service Charges",
+      "monthly_data": {
+        "January 2025": {
+          "current": 20.0,
+          "percent_of_income": 0.012230203993075995
+        },
+        "February 2025": {
+          "current": 25.0,
+          "percent_of_income": 0.01787859333802134
+        },
+        "March 2025": {
+          "current": 4.0,
+          "percent_of_income": 0.0024533512133569765
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": 25.0,
+          "percent_of_income": 0.015491302315367222
+        },
+        "June 2025": {
+          "current": 30.0,
+          "percent_of_income": 0.02000072535963971
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": 84.0,
+          "percent_of_income": 0.054421253935660864
+        },
+        "September 2025": {
+          "current": 61.2,
+          "percent_of_income": 0.04600057681115433
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 249.2,
+          "percent_of_income": 0.018189218882096736
+        }
+      }
+    },
+    {
+      "account": "601-240 Ground Transportation",
+      "monthly_data": {
+        "January 2025": {
+          "current": 125.0,
+          "percent_of_income": 0.07643877495672496
+        },
+        "February 2025": {
+          "current": 221.13,
+          "percent_of_income": 0.15813973379346635
+        },
+        "March 2025": {
+          "current": 284.8,
+          "percent_of_income": 0.17467860639101676
+        },
+        "April 2025": {
+          "current": 475.0,
+          "percent_of_income": 0.29171906606417364
+        },
+        "May 2025": {
+          "current": 1078.25,
+          "percent_of_income": 0.6681398688617883
+        },
+        "June 2025": {
+          "current": 231.43,
+          "percent_of_income": 0.15429226233271395
+        },
+        "July 2025": {
+          "current": 257.73,
+          "percent_of_income": 0.18144652438700284
+        },
+        "August 2025": {
+          "current": 211.32,
+          "percent_of_income": 0.13690832597242683
+        },
+        "September 2025": {
+          "current": 147.02,
+          "percent_of_income": 0.11050661442444298
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 3031.6800000000003,
+          "percent_of_income": 0.2212836721527891
+        }
+      }
+    },
+    {
+      "account": "601-250 Meals and Entertainment",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": 250.0,
+          "percent_of_income": 0.15491302315367222
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": 193.43,
+          "percent_of_income": 0.1361781756573855
+        },
+        "August 2025": {
+          "current": 67.72,
+          "percent_of_income": 0.04387389662527326
+        },
+        "September 2025": {
+          "current": 74.8,
+          "percent_of_income": 0.05622292721363306
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 585.9499999999999,
+          "percent_of_income": 0.042768751219761564
+        }
+      }
+    },
+    {
+      "account": "601-270 Over/Short",
+      "monthly_data": {
+        "January 2025": {
+          "current": 7.36,
+          "percent_of_income": 0.004500715069451966
+        },
+        "February 2025": {
+          "current": -2.05,
+          "percent_of_income": -0.0014660446537177498
+        },
+        "March 2025": {
+          "current": 0.92,
+          "percent_of_income": 0.0005642707790721046
+        },
+        "April 2025": {
+          "current": -4.74,
+          "percent_of_income": -0.002911049206619333
+        },
+        "May 2025": {
+          "current": 62.49,
+          "percent_of_income": 0.03872205926749191
+        },
+        "June 2025": {
+          "current": 7.56,
+          "percent_of_income": 0.005040182790629207
+        },
+        "July 2025": {
+          "current": -5.98,
+          "percent_of_income": -0.004210026833640931
+        },
+        "August 2025": {
+          "current": -6.56,
+          "percent_of_income": -0.004250040783546848
+        },
+        "September 2025": {
+          "current": -21.76,
+          "percent_of_income": -0.016355760643965985
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 37.239999999999995,
+          "percent_of_income": 0.0027181641700211976
+        }
+      }
+    },
+    {
+      "account": "Total for 601-100 Expenses - Misc.",
+      "monthly_data": {
+        "January 2025": {
+          "current": 502.36,
+          "percent_of_income": 0.30719826389808286
+        },
+        "February 2025": {
+          "current": 594.08,
+          "percent_of_income": 0.4248525892100687
+        },
+        "March 2025": {
+          "current": 639.7199999999999,
+          "percent_of_income": 0.3923644595521812
+        },
+        "April 2025": {
+          "current": 820.26,
+          "percent_of_income": 0.5037589076416822
+        },
+        "May 2025": {
+          "current": 1765.74,
+          "percent_of_income": 1.0941444860134608
+        },
+        "June 2025": {
+          "current": 618.99,
+          "percent_of_income": 0.41267496634544615
+        },
+        "July 2025": {
+          "current": 795.1800000000001,
+          "percent_of_income": 0.5598209260158186
+        },
+        "August 2025": {
+          "current": 706.48,
+          "percent_of_income": 0.4577086604817344
+        },
+        "September 2025": {
+          "current": 611.26,
+          "percent_of_income": 0.4594495519867025
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 7054.07,
+          "percent_of_income": 0.514879708024206
+        }
+      }
+    },
+    {
+      "account": "601-290 Informational Technology",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "601-300 Hardware",
+      "monthly_data": {
+        "January 2025": {
+          "current": 141.15,
+          "percent_of_income": 0.08631466468113383
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 2039.06,
+          "percent_of_income": 1.5326460155645807
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 2180.21,
+          "percent_of_income": 0.15913449798931031
+        }
+      }
+    },
+    {
+      "account": "601-310 POS System Repair / IT Support",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": 261.45,
+          "percent_of_income": 0.16056831541574357
+        },
+        "May 2025": {
+          "current": 1659.0,
+          "percent_of_income": 1.0280028216477688
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 225.0,
+          "percent_of_income": 0.16911976768806739
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 2145.45,
+          "percent_of_income": 0.15659735012277062
+        }
+      }
+    },
+    {
+      "account": "601-320 Software",
+      "monthly_data": {
+        "January 2025": {
+          "current": 1271.63,
+          "percent_of_income": 0.7776147151857614
+        },
+        "February 2025": {
+          "current": 1271.63,
+          "percent_of_income": 0.909398225857123
+        },
+        "March 2025": {
+          "current": 1271.63,
+          "percent_of_income": 0.7799387508602831
+        },
+        "April 2025": {
+          "current": 1304.29,
+          "percent_of_income": 0.8010237066880863
+        },
+        "May 2025": {
+          "current": 1461.85,
+          "percent_of_income": 0.905838411588783
+        },
+        "June 2025": {
+          "current": 1304.29,
+          "percent_of_income": 0.8695582026441492
+        },
+        "July 2025": {
+          "current": 1478.82,
+          "percent_of_income": 1.0411156993519866
+        },
+        "August 2025": {
+          "current": 555.23,
+          "percent_of_income": 0.3597180097940117
+        },
+        "September 2025": {
+          "current": 1034.97,
+          "percent_of_income": 0.7779283820627516
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 10954.34,
+          "percent_of_income": 0.799562150758056
+        }
+      }
+    },
+    {
+      "account": "Total for 601-290 Informational Technology",
+      "monthly_data": {
+        "January 2025": {
+          "current": 1412.7800000000002,
+          "percent_of_income": 0.8639293798668953
+        },
+        "February 2025": {
+          "current": 1271.63,
+          "percent_of_income": 0.909398225857123
+        },
+        "March 2025": {
+          "current": 1271.63,
+          "percent_of_income": 0.7799387508602831
+        },
+        "April 2025": {
+          "current": 1565.74,
+          "percent_of_income": 0.9615920221038299
+        },
+        "May 2025": {
+          "current": 3120.85,
+          "percent_of_income": 1.933841233236552
+        },
+        "June 2025": {
+          "current": 1304.29,
+          "percent_of_income": 0.8695582026441492
+        },
+        "July 2025": {
+          "current": 1478.82,
+          "percent_of_income": 1.0411156993519866
+        },
+        "August 2025": {
+          "current": 555.23,
+          "percent_of_income": 0.3597180097940117
+        },
+        "September 2025": {
+          "current": 3299.0299999999997,
+          "percent_of_income": 2.4796941653153994
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 15280.0,
+          "percent_of_income": 1.115293998870137
+        }
+      }
+    },
+    {
+      "account": "601-350 Insurance Expense",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "601-360 Disability / PFL",
+      "monthly_data": {
+        "January 2025": {
+          "current": -80.9,
+          "percent_of_income": -0.0494711751519924
+        },
+        "February 2025": {
+          "current": -35.39,
+          "percent_of_income": -0.02530893672930301
+        },
+        "March 2025": {
+          "current": -76.27,
+          "percent_of_income": -0.04677927426068415
+        },
+        "April 2025": {
+          "current": -74.04,
+          "percent_of_income": -0.045471325581876665
+        },
+        "May 2025": {
+          "current": -58.24,
+          "percent_of_income": -0.036088537873879487
+        },
+        "June 2025": {
+          "current": -46.54,
+          "percent_of_income": -0.0310277919412544
+        },
+        "July 2025": {
+          "current": -48.3,
+          "percent_of_income": -0.03400406288709982
+        },
+        "August 2025": {
+          "current": -42.32,
+          "percent_of_income": -0.027417946030442474
+        },
+        "September 2025": {
+          "current": -36.41,
+          "percent_of_income": -0.027367336628989034
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": -498.4100000000001,
+          "percent_of_income": -0.036379167668643
+        }
+      }
+    },
+    {
+      "account": "601-380 General Liability Insurance",
+      "monthly_data": {
+        "January 2025": {
+          "current": 1283.54,
+          "percent_of_income": 0.7848978016636381
+        },
+        "February 2025": {
+          "current": 1283.54,
+          "percent_of_income": 0.9179155877233564
+        },
+        "March 2025": {
+          "current": 1283.54,
+          "percent_of_income": 0.7872436040980535
+        },
+        "April 2025": {
+          "current": 1283.54,
+          "percent_of_income": 0.7882801895915987
+        },
+        "May 2025": {
+          "current": 1283.54,
+          "percent_of_income": 0.7953482469546578
+        },
+        "June 2025": {
+          "current": 1283.54,
+          "percent_of_income": 0.8557243676037317
+        },
+        "July 2025": {
+          "current": 1283.54,
+          "percent_of_income": 0.9036350906440602
+        },
+        "August 2025": {
+          "current": 1283.54,
+          "percent_of_income": 0.8315697175783112
+        },
+        "September 2025": {
+          "current": 1283.54,
+          "percent_of_income": 0.964764384970409
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 11551.86,
+          "percent_of_income": 0.8431754014259151
+        }
+      }
+    },
+    {
+      "account": "601-400 Workers Comp",
+      "monthly_data": {
+        "January 2025": {
+          "current": 807.87,
+          "percent_of_income": 0.49402074499431514
+        },
+        "February 2025": {
+          "current": 807.87,
+          "percent_of_income": 0.5777431679994919
+        },
+        "March 2025": {
+          "current": 807.87,
+          "percent_of_income": 0.4954972111836752
+        },
+        "April 2025": {
+          "current": 807.87,
+          "percent_of_income": 0.4961496461079241
+        },
+        "May 2025": {
+          "current": 807.87,
+          "percent_of_income": 0.5005983360606288
+        },
+        "June 2025": {
+          "current": 807.87,
+          "percent_of_income": 0.5385995332097377
+        },
+        "July 2025": {
+          "current": 807.87,
+          "percent_of_income": 0.5687549127246653
+        },
+        "August 2025": {
+          "current": 807.87,
+          "percent_of_income": 0.5233964097262184
+        },
+        "September 2025": {
+          "current": 807.87,
+          "percent_of_income": 0.6072301632095956
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 7270.83,
+          "percent_of_income": 0.5307011168720522
+        }
+      }
+    },
+    {
+      "account": "Total for 601-350 Insurance Expense",
+      "monthly_data": {
+        "January 2025": {
+          "current": 2010.5099999999998,
+          "percent_of_income": 1.2294473715059606
+        },
+        "February 2025": {
+          "current": 2056.02,
+          "percent_of_income": 1.4703498189935453
+        },
+        "March 2025": {
+          "current": 2015.1399999999999,
+          "percent_of_income": 1.2359615410210445
+        },
+        "April 2025": {
+          "current": 2017.37,
+          "percent_of_income": 1.2389585101176461
+        },
+        "May 2025": {
+          "current": 2033.17,
+          "percent_of_income": 1.259858045141407
+        },
+        "June 2025": {
+          "current": 2044.87,
+          "percent_of_income": 1.363296108872215
+        },
+        "July 2025": {
+          "current": 2043.1100000000001,
+          "percent_of_income": 1.4383859404816257
+        },
+        "August 2025": {
+          "current": 2049.09,
+          "percent_of_income": 1.3275481812740872
+        },
+        "September 2025": {
+          "current": 2055.0,
+          "percent_of_income": 1.5446272115510153
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 18324.28,
+          "percent_of_income": 1.3374973506293242
+        }
+      }
+    },
+    {
+      "account": "601-450 Licenses & Permits",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 361.1,
+          "percent_of_income": 0.27141843605404953
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 361.1,
+          "percent_of_income": 0.026356849672251735
+        }
+      }
+    },
+    {
+      "account": "601-530 Health Permit",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 96.57,
+          "percent_of_income": 0.07258620429171851
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 96.57,
+          "percent_of_income": 0.007048687269037247
+        }
+      }
+    },
+    {
+      "account": "601-550 Liquor License Tax",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": 144.0,
+          "percent_of_income": 0.0892299013365152
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 144.0,
+          "percent_of_income": 0.01051062407312171
+        }
+      }
+    },
+    {
+      "account": "Total for 601-450 Licenses & Permits",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": 144.0,
+          "percent_of_income": 0.0892299013365152
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 457.67,
+          "percent_of_income": 0.344004640345768
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 601.6700000000001,
+          "percent_of_income": 0.0439161610144107
+        }
+      }
+    },
+    {
+      "account": "601-570 Professional Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "601-580 Accounting",
+      "monthly_data": {
+        "January 2025": {
+          "current": 950.0,
+          "percent_of_income": 0.5809346896711097
+        },
+        "February 2025": {
+          "current": 950.0,
+          "percent_of_income": 0.6793865468448109
+        },
+        "March 2025": {
+          "current": 950.0,
+          "percent_of_income": 0.5826709131722819
+        },
+        "April 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.197583534368713
+        },
+        "May 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.2083215805986434
+        },
+        "June 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.3000471483765812
+        },
+        "July 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.372834837056825
+        },
+        "August 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.2633505377921272
+        },
+        "September 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.465704653296584
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 14550.0,
+          "percent_of_income": 1.062010974055006
+        }
+      }
+    },
+    {
+      "account": "Total for 601-570 Professional Fees",
+      "monthly_data": {
+        "January 2025": {
+          "current": 950.0,
+          "percent_of_income": 0.5809346896711097
+        },
+        "February 2025": {
+          "current": 950.0,
+          "percent_of_income": 0.6793865468448109
+        },
+        "March 2025": {
+          "current": 950.0,
+          "percent_of_income": 0.5826709131722819
+        },
+        "April 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.197583534368713
+        },
+        "May 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.2083215805986434
+        },
+        "June 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.3000471483765812
+        },
+        "July 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.372834837056825
+        },
+        "August 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.2633505377921272
+        },
+        "September 2025": {
+          "current": 1950.0,
+          "percent_of_income": 1.465704653296584
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 14550.0,
+          "percent_of_income": 1.062010974055006
+        }
+      }
+    },
+    {
+      "account": "601-710 Research & Development",
+      "monthly_data": {
+        "January 2025": {
+          "current": 710.0,
+          "percent_of_income": 0.4341722417541978
+        },
+        "February 2025": {
+          "current": 710.0,
+          "percent_of_income": 0.507752050799806
+        },
+        "March 2025": {
+          "current": 1660.0,
+          "percent_of_income": 1.0181407535431453
+        },
+        "April 2025": {
+          "current": 1660.0,
+          "percent_of_income": 1.0194813677190069
+        },
+        "May 2025": {
+          "current": 1660.0,
+          "percent_of_income": 1.0286224737403835
+        },
+        "June 2025": {
+          "current": 1660.0,
+          "percent_of_income": 1.1067068032333973
+        },
+        "July 2025": {
+          "current": 1660.0,
+          "percent_of_income": 1.1686696561611947
+        },
+        "August 2025": {
+          "current": 1660.0,
+          "percent_of_income": 1.0754676372999645
+        },
+        "September 2025": {
+          "current": 710.0,
+          "percent_of_income": 0.533666822482346
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 12090.0,
+          "percent_of_income": 0.8824544794725102
+        }
+      }
+    },
+    {
+      "account": "Total for 601-000 General & Administrative",
+      "monthly_data": {
+        "January 2025": {
+          "current": 5585.65,
+          "percent_of_income": 3.415681946696246
+        },
+        "February 2025": {
+          "current": 5581.73,
+          "percent_of_income": 3.991739231705354
+        },
+        "March 2025": {
+          "current": 6536.49,
+          "percent_of_income": 4.009076418148936
+        },
+        "April 2025": {
+          "current": 8013.37,
+          "percent_of_income": 4.9213743419508775
+        },
+        "May 2025": {
+          "current": 10673.76,
+          "percent_of_income": 6.614017720066961
+        },
+        "June 2025": {
+          "current": 7578.15,
+          "percent_of_income": 5.052283229471788
+        },
+        "July 2025": {
+          "current": 7927.110000000001,
+          "percent_of_income": 5.580827059067451
+        },
+        "August 2025": {
+          "current": 6920.8,
+          "percent_of_income": 4.4837930266419255
+        },
+        "September 2025": {
+          "current": 9082.96,
+          "percent_of_income": 6.827147044977814
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 67900.02,
+          "percent_of_income": 4.956052672065595
+        }
+      }
+    },
+    {
+      "account": "602-000 Occupancy",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "602-040 Real Estate Taxes",
+      "monthly_data": {
+        "January 2025": {
+          "current": 215.41,
+          "percent_of_income": 0.131725412107425
+        },
+        "February 2025": {
+          "current": 215.41,
+          "percent_of_income": 0.15404911163772705
+        },
+        "March 2025": {
+          "current": 215.41,
+          "percent_of_income": 0.13211909621730658
+        },
+        "April 2025": {
+          "current": 215.41,
+          "percent_of_income": 0.13229306109659714
+        },
+        "May 2025": {
+          "current": 215.41,
+          "percent_of_income": 0.13347925727013013
+        },
+        "June 2025": {
+          "current": 215.41,
+          "percent_of_income": 0.14361187499066633
+        },
+        "July 2025": {
+          "current": 370.57,
+          "percent_of_income": 0.2608879002913578
+        },
+        "August 2025": {
+          "current": 370.57,
+          "percent_of_income": 0.24008195322545053
+        },
+        "September 2025": {
+          "current": 370.57,
+          "percent_of_income": 0.27853649916518725
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 2404.17,
+          "percent_of_income": 0.17548143804081265
+        }
+      }
+    },
+    {
+      "account": "602-100 Rent",
+      "monthly_data": {
+        "January 2025": {
+          "current": 13911.28,
+          "percent_of_income": 8.506889610239911
+        },
+        "February 2025": {
+          "current": 13911.28,
+          "percent_of_income": 9.94856471725398
+        },
+        "March 2025": {
+          "current": 13911.28,
+          "percent_of_income": 8.53231391683716
+        },
+        "April 2025": {
+          "current": 13911.28,
+          "percent_of_income": 8.543548651278353
+        },
+        "May 2025": {
+          "current": 13911.28,
+          "percent_of_income": 8.62015376294887
+        },
+        "June 2025": {
+          "current": 13911.25,
+          "percent_of_income": 9.274503021976264
+        },
+        "July 2025": {
+          "current": 14328.62,
+          "percent_of_income": 10.087604463050855
+        },
+        "August 2025": {
+          "current": 14328.62,
+          "percent_of_income": 9.283112709137963
+        },
+        "September 2025": {
+          "current": 14328.62,
+          "percent_of_income": 10.77001282529154
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 126453.51,
+          "percent_of_income": 9.229897960671783
+        }
+      }
+    },
+    {
+      "account": "602-200 Utilities",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": null,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "602-210 Electricity",
+      "monthly_data": {
+        "January 2025": {
+          "current": 2219.95,
+          "percent_of_income": 1.3575220677214526
+        },
+        "February 2025": {
+          "current": 2215.35,
+          "percent_of_income": 1.5842936700554229
+        },
+        "March 2025": {
+          "current": 2143.17,
+          "percent_of_income": 1.314487179982568
+        },
+        "April 2025": {
+          "current": 2026.72,
+          "percent_of_income": 1.2447007696285937
+        },
+        "May 2025": {
+          "current": 2200.94,
+          "percent_of_income": 1.3638170767193734
+        },
+        "June 2025": {
+          "current": 2661.91,
+          "percent_of_income": 1.7746710280692846
+        },
+        "July 2025": {
+          "current": 2493.7,
+          "percent_of_income": 1.7556093503428742
+        },
+        "August 2025": {
+          "current": 2354.55,
+          "percent_of_income": 1.525447183978694
+        },
+        "September 2025": {
+          "current": 2500.0,
+          "percent_of_income": 1.8791085298674153
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 20816.289999999997,
+          "percent_of_income": 1.519390269354741
+        }
+      }
+    },
+    {
+      "account": "602-280 Telephone & Internet",
+      "monthly_data": {
+        "January 2025": {
+          "current": 250.57,
+          "percent_of_income": 0.15322611072725256
+        },
+        "February 2025": {
+          "current": 250.27,
+          "percent_of_income": 0.17897902218826403
+        },
+        "March 2025": {
+          "current": 260.27,
+          "percent_of_income": 0.15963343007510505
+        },
+        "April 2025": {
+          "current": 260.27,
+          "percent_of_income": 0.15984362384109993
+        },
+        "May 2025": {
+          "current": 320.34,
+          "percent_of_income": 0.1984993513481894
+        },
+        "June 2025": {
+          "current": 320.34,
+          "percent_of_income": 0.2135677453902328
+        },
+        "July 2025": {
+          "current": 320.34,
+          "percent_of_income": 0.22552508292450427
+        },
+        "August 2025": {
+          "current": 344.63,
+          "percent_of_income": 0.22327615171246193
+        },
+        "September 2025": {
+          "current": 326.45,
+          "percent_of_income": 0.2453739918300871
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 2653.4799999999996,
+          "percent_of_income": 0.1936786858718541
+        }
+      }
+    },
+    {
+      "account": "602-330 Water/Sewer",
+      "monthly_data": {
+        "January 2025": {
+          "current": 369.4,
+          "percent_of_income": 0.2258918677521136
+        },
+        "February 2025": {
+          "current": 369.4,
+          "percent_of_income": 0.26417409516260326
+        },
+        "March 2025": {
+          "current": 369.4,
+          "percent_of_income": 0.22656698455351676
+        },
+        "April 2025": {
+          "current": 369.4,
+          "percent_of_income": 0.22686531158759102
+        },
+        "May 2025": {
+          "current": 442.45,
+          "percent_of_income": 0.2741650683773691
+        },
+        "June 2025": {
+          "current": 369.4,
+          "percent_of_income": 0.24627559826169695
+        },
+        "July 2025": {
+          "current": 369.4,
+          "percent_of_income": 0.2600641993891237
+        },
+        "August 2025": {
+          "current": 369.4,
+          "percent_of_income": 0.23932394290277526
+        },
+        "September 2025": {
+          "current": 369.4,
+          "percent_of_income": 0.27765707637320924
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 3397.65,
+          "percent_of_income": 0.2479959852919582
+        }
+      }
+    },
+    {
+      "account": "Total for 602-200 Utilities",
+      "monthly_data": {
+        "January 2025": {
+          "current": 2839.92,
+          "percent_of_income": 1.736640046200819
+        },
+        "February 2025": {
+          "current": 2835.02,
+          "percent_of_income": 2.0274467874062903
+        },
+        "March 2025": {
+          "current": 2772.84,
+          "percent_of_income": 1.70068759461119
+        },
+        "April 2025": {
+          "current": 2656.39,
+          "percent_of_income": 1.6314097050572844
+        },
+        "May 2025": {
+          "current": 2963.73,
+          "percent_of_income": 1.8364814964449319
+        },
+        "June 2025": {
+          "current": 3351.65,
+          "percent_of_income": 2.2345143717212146
+        },
+        "July 2025": {
+          "current": 3183.44,
+          "percent_of_income": 2.2411986326565025
+        },
+        "August 2025": {
+          "current": 3068.5800000000004,
+          "percent_of_income": 1.9880472785939314
+        },
+        "September 2025": {
+          "current": 3195.85,
+          "percent_of_income": 2.4021395980707116
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 26867.42,
+          "percent_of_income": 1.9610649405185536
+        }
+      }
+    },
+    {
+      "account": "Total for 602-000 Occupancy",
+      "monthly_data": {
+        "January 2025": {
+          "current": 16966.61,
+          "percent_of_income": 10.375255068548155
+        },
+        "February 2025": {
+          "current": 16961.71,
+          "percent_of_income": 12.130060616297996
+        },
+        "March 2025": {
+          "current": 16899.53,
+          "percent_of_income": 10.365120607665656
+        },
+        "April 2025": {
+          "current": 16783.08,
+          "percent_of_income": 10.307251417432235
+        },
+        "May 2025": {
+          "current": 17090.420000000002,
+          "percent_of_income": 10.590114516663933
+        },
+        "June 2025": {
+          "current": 17478.31,
+          "percent_of_income": 11.652629268688147
+        },
+        "July 2025": {
+          "current": 17882.63,
+          "percent_of_income": 12.589690995998716
+        },
+        "August 2025": {
+          "current": 17767.77,
+          "percent_of_income": 11.511241940957346
+        },
+        "September 2025": {
+          "current": 17895.04,
+          "percent_of_income": 13.450688922527437
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 155725.1,
+          "percent_of_income": 11.366444339231151
+        }
+      }
+    },
+    {
+      "account": "66900 Reconciliation Discrepancies",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 0.0,
+          "percent_of_income": 0.0
+        }
+      }
+    },
+    {
+      "account": "GrubHub Fees - Mkt/ Ads Promo",
+      "monthly_data": {
+        "January 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "February 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "March 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "April 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "May 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "June 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "July 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "August 2025": {
+          "current": null,
+          "percent_of_income": 0.0
+        },
+        "September 2025": {
+          "current": 396.6,
+          "percent_of_income": 0.29810177717816677
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 396.6,
+          "percent_of_income": 0.028948010468056045
+        }
+      }
+    },
+    {
+      "account": "Total for Expenses",
+      "monthly_data": {
+        "January 2025": {
+          "current": 72769.47,
+          "percent_of_income": 44.49927312840119
+        },
+        "February 2025": {
+          "current": 59635.68,
+          "percent_of_income": 42.648082846254894
+        },
+        "March 2025": {
+          "current": 66872.48000000001,
+          "percent_of_income": 41.015419987047544
+        },
+        "April 2025": {
+          "current": 70798.54000000001,
+          "percent_of_income": 43.480597826330616
+        },
+        "May 2025": {
+          "current": 66874.51000000001,
+          "percent_of_income": 41.438930064081944
+        },
+        "June 2025": {
+          "current": 61525.05,
+          "percent_of_income": 41.018187592936705
+        },
+        "July 2025": {
+          "current": 66023.17,
+          "percent_of_income": 46.48149119432055
+        },
+        "August 2025": {
+          "current": 67890.77,
+          "percent_of_income": 43.98453373878032
+        },
+        "September 2025": {
+          "current": 59649.579999999994,
+          "percent_of_income": 44.83521383240351
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 592039.25,
+          "percent_of_income": 43.213208286686964
+        }
+      }
+    },
+    {
+      "account": "Net Operating Income",
+      "monthly_data": {
+        "January 2025": {
+          "current": 26084.78999999998,
+          "percent_of_income": 15.951115140827424
+        },
+        "February 2025": {
+          "current": 23052.929999999986,
+          "percent_of_income": 16.48615842879488
+        },
+        "March 2025": {
+          "current": 37284.33999999997,
+          "percent_of_income": 22.867895194553494
+        },
+        "April 2025": {
+          "current": 29277.12000000001,
+          "percent_of_income": 17.980408638839457
+        },
+        "May 2025": {
+          "current": 35303.07000000001,
+          "percent_of_income": 21.87562120122285
+        },
+        "June 2025": {
+          "current": 29003.789999999994,
+          "percent_of_income": 19.33656127262215
+        },
+        "July 2025": {
+          "current": 15772.570000000007,
+          "percent_of_income": 11.104171059444809
+        },
+        "August 2025": {
+          "current": 28966.34999999999,
+          "percent_of_income": 18.76648915403845
+        },
+        "September 2025": {
+          "current": 17722.370000000003,
+          "percent_of_income": 13.320902654586556
+        },
+        "Total (Jan 1 - Sep 30 2025)": {
+          "current": 242467.3299999999,
+          "percent_of_income": 17.697798303080173
+        }
+      }
+    }
+  ]
+}

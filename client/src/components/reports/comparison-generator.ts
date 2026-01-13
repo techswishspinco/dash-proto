@@ -1,40 +1,5 @@
-
-import { ReportData, ReportType, MOCK_REPORTS } from './mock-data';
-
-interface PLMonthlyData {
-  current: number | null;
-  percent_of_income?: number;
-  percent?: number;
-}
-
-interface PLJsonFile1 {
-  metadata: {
-    period: string;
-    generated: string;
-  };
-  accounts: Array<{
-    account: string;
-    monthly_data: Record<string, PLMonthlyData>;
-  }>;
-}
-
-interface PLJsonFile2 {
-  period: string;
-  generated: string;
-  months: string[];
-  sections: Record<string, Record<string, Record<string, PLMonthlyData>>>;
-}
-
-// Normalize account names for comparison
-function normalizeAccountName(name: string): string {
-  // Remove "400-" prefix variations if present, convert to lowercase, trim
-  return name.replace(/^(\d{3}-\d{3})\s+/, '').trim().toLowerCase();
-}
-
-function getAccountCode(name: string): string {
-  const match = name.match(/^(\d{3}-\d{3})/);
-  return match ? match[1] : '';
-}
+import { ReportData } from './mock-data';
+import { getCanonicalPL, flattenCanonicalHierarchy, CanonicalAccount, getAccountCode } from '../../data/canonical-pl';
 
 interface ComparisonRow {
   account: string;
@@ -46,73 +11,15 @@ interface ComparisonRow {
 }
 
 export async function generateComparisonReport(file1: any, file2: any): Promise<ReportData> {
-  // Parse file 1 (Sep 2025 structure)
-  const sepData: Record<string, number> = {};
+  // IGNORE file1/file2 arguments - Use Canonical Source of Truth
+  const plData = getCanonicalPL();
   
-  // Handle File 1 Structure (Array of accounts)
-  if (file1.accounts && Array.isArray(file1.accounts)) {
-    file1.accounts.forEach((acc: any) => {
-      const sepVal = acc.monthly_data["September 2025"]?.current || 0;
-      // Store by both full name and normalized name
-      sepData[acc.account] = sepVal;
-      sepData[normalizeAccountName(acc.account)] = sepVal;
-    });
-  }
-
-  // Parse file 2 (Oct 2025 structure)
-  const octData: Record<string, number> = {};
-  const allAccounts: Set<string> = new Set();
-  const accountMap: Map<string, string> = new Map(); // Maps normalized name to display name
-
-  // Handle File 2 Structure (Nested sections)
-  if (file2.sections) {
-    Object.values(file2.sections).forEach((section: any) => {
-      Object.entries(section).forEach(([accName, monthData]: [string, any]) => {
-        // Extract Oct data specifically
-        const octVal = monthData["Oct 2025"]?.current || 0;
-        octData[accName] = octVal;
-        
-        // Also add September data from File 2 if missing from File 1 (as a fallback or verification)
-        if (monthData["Sep 2025"]?.current && !sepData[accName]) {
-             sepData[accName] = monthData["Sep 2025"].current;
-        }
-
-        allAccounts.add(accName);
-        accountMap.set(normalizeAccountName(accName), accName);
-        
-        // Also process nested accounts if any (like in Beverage Sales)
-        Object.entries(monthData).forEach(([nestedKey, nestedVal]: [string, any]) => {
-           if (typeof nestedVal === 'object' && nestedVal !== null && !['current', 'percent'].includes(nestedKey) && !nestedKey.includes('2025')) {
-               // This is likely a sub-account
-               // Check if it has monthly data
-               const subOctVal = (nestedVal as any)["Oct 2025"]?.current;
-               if (subOctVal !== undefined) {
-                   octData[nestedKey] = subOctVal;
-                   allAccounts.add(nestedKey);
-                   accountMap.set(normalizeAccountName(nestedKey), nestedKey);
-                   
-                   // Check Sep data for sub-account
-                    const subSepVal = (nestedVal as any)["Sep 2025"]?.current;
-                    if (subSepVal !== undefined && !sepData[nestedKey]) {
-                        sepData[nestedKey] = subSepVal;
-                    }
-               }
-           }
-        });
-      });
-    });
-  }
+  // Flatten hierarchy to get all accounts
+  const sections = [plData.income, plData.cogs, plData.payroll, plData.operating, plData.general];
+  let allAccounts: CanonicalAccount[] = [];
   
-  // Merge keys from File 1 that might not be in File 2
-  Object.keys(sepData).forEach(key => {
-      if (!allAccounts.has(key)) {
-         // Try to find if it exists in a different format
-         const norm = normalizeAccountName(key);
-         if (!accountMap.has(norm)) {
-             allAccounts.add(key);
-             accountMap.set(norm, key);
-         }
-      }
+  sections.forEach(section => {
+      allAccounts = allAccounts.concat(flattenCanonicalHierarchy(section));
   });
 
   const comparisonRows: ComparisonRow[] = [];
@@ -124,30 +31,19 @@ export async function generateComparisonReport(file1: any, file2: any): Promise<
   let netIncomeOct = 0;
 
   // Build Comparison Rows
-  Array.from(allAccounts).forEach(accountName => {
-    // Try exact match first
-    let sepVal = sepData[accountName];
-    let octVal = octData[accountName];
-    
-    // Try normalized match if exact fails
-    if (sepVal === undefined) {
-        sepVal = sepData[normalizeAccountName(accountName)] || 0;
-    }
-    if (octVal === undefined) {
-         // Reverse check: maybe File 1 has it but File 2 key is different?
-         // We iterate File 2 keys primarily, but ensure we check File 1 keys against normalized File 2 keys
-         // For now assume octData is populated from File 2 iteration
-         octVal = 0;
-    }
+  allAccounts.forEach(acc => {
+    // Filter out if both zero
+    const sepVal = acc.months["Sep 2025"]?.value || 0;
+    const octVal = acc.months["Oct 2025"]?.value || 0;
 
     if (sepVal === 0 && octVal === 0) return;
 
     const delta = octVal - sepVal;
     const deltaPct = sepVal !== 0 ? (delta / sepVal) * 100 : (octVal !== 0 ? 100 : 0);
-    const code = getAccountCode(accountName);
+    const code = getAccountCode(acc.name) || acc.code || '';
 
     comparisonRows.push({
-      account: accountName,
+      account: acc.name,
       sep: sepVal,
       oct: octVal,
       delta,
@@ -155,17 +51,17 @@ export async function generateComparisonReport(file1: any, file2: any): Promise<
       code
     });
 
-    // Identify Key Totals (Simple heuristic based on names)
-    const lowerName = accountName.toLowerCase();
-    if (lowerName.includes("total income") || lowerName.includes("total revenue")) {
+    // Identify Key Totals
+    const lowerName = acc.name.toLowerCase();
+    if (lowerName === "income" || lowerName === "total income") {
         totalRevenueSep = sepVal;
         totalRevenueOct = octVal;
     }
-    if (lowerName.includes("gross profit")) {
+    if (lowerName === "gross profit") {
         grossProfitSep = sepVal;
         grossProfitOct = octVal;
     }
-    if (lowerName.includes("net income")) {
+    if (lowerName === "net income" || lowerName === "net operating income") {
         netIncomeSep = sepVal;
         netIncomeOct = octVal;
     }
@@ -177,11 +73,25 @@ export async function generateComparisonReport(file1: any, file2: any): Promise<
       return a.account.localeCompare(b.account);
   });
   
-  // Calculate Totals if not found explicitly
-  if (totalRevenueOct === 0) {
-      // Fallback: Sum 400- series
-      totalRevenueOct = comparisonRows.filter(r => r.code.startsWith('4')).reduce((sum, r) => sum + r.oct, 0);
-      totalRevenueSep = comparisonRows.filter(r => r.code.startsWith('4')).reduce((sum, r) => sum + r.sep, 0);
+  // Use Canonical Totals if explicitly found
+  if (plData.totals.totalIncome["Sep 2025"] !== 0 || plData.totals.totalIncome["Oct 2025"] !== 0) {
+      totalRevenueSep = plData.totals.totalIncome["Sep 2025"];
+      totalRevenueOct = plData.totals.totalIncome["Oct 2025"];
+  }
+  if (plData.totals.grossProfit["Sep 2025"] !== 0 || plData.totals.grossProfit["Oct 2025"] !== 0) {
+      grossProfitSep = plData.totals.grossProfit["Sep 2025"];
+      grossProfitOct = plData.totals.grossProfit["Oct 2025"];
+  }
+  if (plData.totals.netIncome["Sep 2025"] !== 0 || plData.totals.netIncome["Oct 2025"] !== 0) {
+      netIncomeSep = plData.totals.netIncome["Sep 2025"];
+      netIncomeOct = plData.totals.netIncome["Oct 2025"];
+  } else {
+      // Fallback
+      const netRow = comparisonRows.find(r => r.account.toLowerCase() === "net operating income");
+      if (netRow) {
+          netIncomeSep = netRow.sep;
+          netIncomeOct = netRow.oct;
+      }
   }
 
   // Generate Executive Summary
@@ -190,37 +100,41 @@ export async function generateComparisonReport(file1: any, file2: any): Promise<
   const revDelta = totalRevenueOct - totalRevenueSep;
   const revDeltaPct = totalRevenueSep ? (revDelta / totalRevenueSep) * 100 : 0;
   
-  summary.push(`Revenue ${revDelta >= 0 ? 'increased' : 'decreased'} ${Math.abs(revDeltaPct).toFixed(1)}% MoM ($${revDelta.toLocaleString()}).`);
+  summary.push(`Revenue ${revDelta >= 0 ? 'increased' : 'decreased'} ${Math.abs(revDeltaPct).toFixed(1)}% MoM ($${Math.abs(revDelta).toLocaleString(undefined, {maximumFractionDigits: 0})}).`);
   
   if (netIncomeOct !== 0 || netIncomeSep !== 0) {
       const netDelta = netIncomeOct - netIncomeSep;
-      summary.push(`Net Income moved ${netDelta >= 0 ? 'up' : 'down'} by $${Math.abs(netDelta).toLocaleString()}.`);
+      summary.push(`Net Income moved ${netDelta >= 0 ? 'up' : 'down'} by $${Math.abs(netDelta).toLocaleString(undefined, {maximumFractionDigits: 0})}.`);
   }
 
-  // Find biggest movers
-  const movers = [...comparisonRows].sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta)).slice(0, 3);
+  // Find biggest movers (exclude totals)
+  const movers = [...comparisonRows]
+    .filter(r => !r.account.toLowerCase().includes("total") && !r.account.toLowerCase().includes("profit") && !r.account.toLowerCase().includes("income"))
+    .sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta))
+    .slice(0, 3);
+    
   movers.forEach(m => {
-     summary.push(`${m.account} shifted by $${m.delta.toLocaleString()} (${m.deltaPct.toFixed(1)}%).`);
+     summary.push(`${m.account} shifted by $${m.delta.toLocaleString(undefined, {maximumFractionDigits: 0})} (${m.deltaPct.toFixed(1)}%).`);
   });
 
 
   const metrics = [
       { 
           label: "Total Revenue", 
-          value: `$${totalRevenueOct.toLocaleString()}`, 
+          value: `$${totalRevenueOct.toLocaleString(undefined, {maximumFractionDigits: 0})}`, 
           change: `${revDelta >= 0 ? '+' : ''}${revDeltaPct.toFixed(1)}%`, 
           trend: revDelta >= 0 ? 'up' as const : 'down' as const
       },
       { 
           label: "Gross Profit", 
-          value: `$${grossProfitOct.toLocaleString()}`, 
-          change: `${((grossProfitOct - grossProfitSep)/grossProfitSep * 100).toFixed(1)}%`, 
+          value: `$${grossProfitOct.toLocaleString(undefined, {maximumFractionDigits: 0})}`, 
+          change: `${grossProfitSep ? ((grossProfitOct - grossProfitSep)/grossProfitSep * 100).toFixed(1) : 0}%`, 
           trend: (grossProfitOct - grossProfitSep) >= 0 ? 'up' as const : 'down' as const
       },
       { 
           label: "Net Income", 
-          value: `$${netIncomeOct.toLocaleString()}`, 
-          change: `${((netIncomeOct - netIncomeSep)/Math.abs(netIncomeSep) * 100).toFixed(1)}%`, 
+          value: `$${netIncomeOct.toLocaleString(undefined, {maximumFractionDigits: 0})}`, 
+          change: `${netIncomeSep ? ((netIncomeOct - netIncomeSep)/Math.abs(netIncomeSep) * 100).toFixed(1) : 0}%`, 
           trend: (netIncomeOct - netIncomeSep) >= 0 ? 'up' as const : 'down' as const
       }
   ];
@@ -229,12 +143,12 @@ export async function generateComparisonReport(file1: any, file2: any): Promise<
     title: "September vs October 2025 Profitability Report",
     dateRange: "Sep 1, 2025 - Oct 31, 2025",
     entity: "Comparison Report",
-    dataSources: ["Uploaded P&L (Sep)", "Uploaded P&L (Oct)"],
+    dataSources: ["Uploaded P&L (Sep 2025)", "Uploaded P&L (Oct 2025)"],
     summary,
     metrics,
     tableData: {
       headers: ["Account", "Sep 2025", "Oct 2025", "Delta ($)", "Delta (%)"],
-      rows: comparisonRows.slice(0, 50).map(row => [ // Limit rows for mockup
+      rows: comparisonRows.map(row => [
         row.account,
         `$${row.sep.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}`,
         `$${row.oct.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}`,
@@ -246,8 +160,7 @@ export async function generateComparisonReport(file1: any, file2: any): Promise<
       Comparing September to October 2025 reveals a ${Math.abs(revDeltaPct).toFixed(1)}% ${revDelta >= 0 ? 'increase' : 'decrease'} in total revenue. 
       The largest variances were observed in ${movers.map(m => m.account).join(', ')}. 
       
-      Note: This comparison normalizes account names across the two different file formats provided. 
-      Some accounts may appear with slight naming variations if the source systems generated them differently.
+      This report uses the canonical normalized data from the uploaded P&L files.
     `.trim(),
     recommendations: [
       "Investigate the top 3 variance drivers listed above.",

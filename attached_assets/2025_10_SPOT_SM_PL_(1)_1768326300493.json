@@ -1,0 +1,1578 @@
+{
+  "company": "Aco Bakery Inc",
+  "report": "Profit and Loss % of Total Income",
+  "period": "January - October, 2025",
+  "generated": "Tuesday, Nov 18, 2025 03:45:15 AM GMT-8",
+  "basis": "Accrual Basis",
+  "months": [
+    "Jan 2025",
+    "Feb 2025",
+    "Mar 2025",
+    "Apr 2025",
+    "May 2025",
+    "Jun 2025",
+    "Jul 2025",
+    "Aug 2025",
+    "Sep 2025",
+    "Oct 2025",
+    "Total"
+  ],
+  "sections": {
+    "Income": {
+      "400-000 Food Sales": {
+        "Jan 2025": {
+          "current": 124520.61,
+          "percent": 76.15
+        },
+        "Feb 2025": {
+          "current": 106470.43,
+          "percent": 76.14
+        },
+        "Mar 2025": {
+          "current": 129410.18,
+          "percent": 79.37
+        },
+        "Apr 2025": {
+          "current": 123856.58,
+          "percent": 76.07
+        },
+        "May 2025": {
+          "current": 126795.07,
+          "percent": 78.57
+        },
+        "Jun 2025": {
+          "current": 116285.43,
+          "percent": 77.53
+        },
+        "Jul 2025": {
+          "current": 112988.28,
+          "percent": 79.55
+        },
+        "Aug 2025": {
+          "current": 121928.52,
+          "percent": 78.99
+        },
+        "Sep 2025": {
+          "current": 103461.46,
+          "percent": 77.77
+        },
+        "Oct 2025": {
+          "current": 113360.78,
+          "percent": 77.29
+        },
+        "Total": {
+          "current": 1179077.34,
+          "percent": 77.74
+        }
+      },
+      "400-200 Beverage Sales": {
+        "400-210 Alcohol Bevs": {
+          "Jan 2025": {
+            "current": 1638.0,
+            "percent": 1.0
+          },
+          "Feb 2025": {
+            "current": 1200.0,
+            "percent": 0.86
+          },
+          "Mar 2025": {
+            "current": 1728.0,
+            "percent": 1.06
+          },
+          "Apr 2025": {
+            "current": 2080.0,
+            "percent": 1.28
+          },
+          "May 2025": {
+            "current": 1982.0,
+            "percent": 1.23
+          },
+          "Jun 2025": {
+            "current": 2052.0,
+            "percent": 1.37
+          },
+          "Jul 2025": {
+            "current": 2240.0,
+            "percent": 1.58
+          },
+          "Aug 2025": {
+            "current": 2598.0,
+            "percent": 1.68
+          },
+          "Sep 2025": {
+            "current": 2622.0,
+            "percent": 1.97
+          },
+          "Oct 2025": {
+            "current": 2300.0,
+            "percent": 1.57
+          },
+          "Total": {
+            "current": 20440.0,
+            "percent": 1.35
+          }
+        },
+        "400-240 N/A Beverage": {
+          "Jan 2025": {
+            "current": 22838.2,
+            "percent": 13.97
+          },
+          "Feb 2025": {
+            "current": 19219.05,
+            "percent": 13.74
+          },
+          "Mar 2025": {
+            "current": 21317.61,
+            "percent": 13.07
+          },
+          "Apr 2025": {
+            "current": 20940.8,
+            "percent": 12.86
+          },
+          "May 2025": {
+            "current": 20634.1,
+            "percent": 12.79
+          },
+          "Jun 2025": {
+            "current": 20063.5,
+            "percent": 13.38
+          },
+          "Jul 2025": {
+            "current": 18508.15,
+            "percent": 13.03
+          },
+          "Aug 2025": {
+            "current": 20078.45,
+            "percent": 13.01
+          },
+          "Sep 2025": {
+            "current": 15076.0,
+            "percent": 11.33
+          },
+          "Oct 2025": {
+            "current": 17698.35,
+            "percent": 12.07
+          },
+          "Total": {
+            "current": 196374.21,
+            "percent": 12.95
+          }
+        },
+        "Total": {
+          "Jan 2025": {
+            "current": 24476.2,
+            "percent": 14.97
+          },
+          "Feb 2025": {
+            "current": 20419.05,
+            "percent": 14.6
+          },
+          "Mar 2025": {
+            "current": 23045.61,
+            "percent": 14.13
+          },
+          "Apr 2025": {
+            "current": 23020.8,
+            "percent": 14.14
+          },
+          "May 2025": {
+            "current": 22616.1,
+            "percent": 14.01
+          },
+          "Jun 2025": {
+            "current": 22115.5,
+            "percent": 14.74
+          },
+          "Jul 2025": {
+            "current": 20748.15,
+            "percent": 14.61
+          },
+          "Aug 2025": {
+            "current": 22676.45,
+            "percent": 14.69
+          },
+          "Sep 2025": {
+            "current": 17698.0,
+            "percent": 13.3
+          },
+          "Oct 2025": {
+            "current": 19998.35,
+            "percent": 13.64
+          },
+          "Total": {
+            "current": 216814.21,
+            "percent": 14.3
+          }
+        }
+      },
+      "400-400 Comps / Discount": {
+        "Jan 2025": {
+          "current": -6848.42,
+          "percent": -4.19
+        },
+        "Feb 2025": {
+          "current": -5640.48,
+          "percent": -4.03
+        },
+        "Mar 2025": {
+          "current": -6682.07,
+          "percent": -4.1
+        },
+        "Apr 2025": {
+          "current": -7487.03,
+          "percent": -4.6
+        },
+        "May 2025": {
+          "current": -7829.15,
+          "percent": -4.85
+        },
+        "Jun 2025": {
+          "current": -7214.82,
+          "percent": -4.81
+        },
+        "Jul 2025": {
+          "current": -7773.23,
+          "percent": -5.47
+        },
+        "Aug 2025": {
+          "current": -9039.28,
+          "percent": -5.86
+        },
+        "Sep 2025": {
+          "current": -7845.23,
+          "percent": -5.9
+        },
+        "Oct 2025": {
+          "current": -7038.07,
+          "percent": -4.8
+        },
+        "Total": {
+          "current": -73397.78,
+          "percent": -4.84
+        }
+      },
+      "400-500 Delivery Sales": {
+        "400-510 UberEats": {
+          "Jan 2025": {
+            "current": 9541.05,
+            "percent": 5.83
+          },
+          "Feb 2025": {
+            "current": 8265.9,
+            "percent": 5.91
+          },
+          "Mar 2025": {
+            "current": 7753.15,
+            "percent": 4.76
+          },
+          "Apr 2025": {
+            "current": 8408.9,
+            "percent": 5.16
+          },
+          "May 2025": {
+            "current": 9100.31,
+            "percent": 5.64
+          },
+          "Jun 2025": {
+            "current": 6207.15,
+            "percent": 4.14
+          },
+          "Jul 2025": {
+            "current": 5808.67,
+            "percent": 4.09
+          },
+          "Aug 2025": {
+            "current": 8337.66,
+            "percent": 5.4
+          },
+          "Sep 2025": {
+            "current": 10311.29,
+            "percent": 7.75
+          },
+          "Oct 2025": {
+            "current": 10553.88,
+            "percent": 7.2
+          },
+          "Total": {
+            "current": 84287.96,
+            "percent": 5.56
+          }
+        },
+        "400-520 GrubHub": {
+          "Jan 2025": {
+            "current": 2601.33,
+            "percent": 1.59
+          },
+          "Feb 2025": {
+            "current": 2469.43,
+            "percent": 1.77
+          },
+          "Mar 2025": {
+            "current": 1755.48,
+            "percent": 1.08
+          },
+          "Apr 2025": {
+            "current": 7067.95,
+            "percent": 4.34
+          },
+          "May 2025": {
+            "current": 2975.95,
+            "percent": 1.84
+          },
+          "Jun 2025": {
+            "current": 2645.9,
+            "percent": 1.76
+          },
+          "Jul 2025": {
+            "current": 2354.4,
+            "percent": 1.66
+          },
+          "Aug 2025": {
+            "current": 2063.55,
+            "percent": 1.34
+          },
+          "Sep 2025": {
+            "current": 1784.0,
+            "percent": 1.34
+          },
+          "Oct 2025": {
+            "current": 2212.0,
+            "percent": 1.51
+          },
+          "Total": {
+            "current": 27929.99,
+            "percent": 1.84
+          }
+        },
+        "400-530 DoorDash": {
+          "Jan 2025": {
+            "current": 7771.35,
+            "percent": 4.75
+          },
+          "Feb 2025": {
+            "current": 6340.55,
+            "percent": 4.53
+          },
+          "Mar 2025": {
+            "current": 5977.85,
+            "percent": 3.67
+          },
+          "Apr 2025": {
+            "current": 6005.85,
+            "percent": 3.69
+          },
+          "May 2025": {
+            "current": 6067.45,
+            "percent": 3.76
+          },
+          "Jun 2025": {
+            "current": 9454.05,
+            "percent": 6.3
+          },
+          "Jul 2025": {
+            "current": 5791.2,
+            "percent": 4.08
+          },
+          "Aug 2025": {
+            "current": 5920.7,
+            "percent": 3.84
+          },
+          "Sep 2025": {
+            "current": 5269.8,
+            "percent": 3.96
+          },
+          "Oct 2025": {
+            "current": 4458.87,
+            "percent": 3.04
+          },
+          "Total": {
+            "current": 63057.67,
+            "percent": 4.16
+          }
+        },
+        "400-540 ezCater": {
+          "Apr 2025": {
+            "current": 405.0,
+            "percent": 0.25
+          },
+          "Total": {
+            "current": 405.0,
+            "percent": 0.03
+          }
+        },
+        "400-560 Fantuan": {
+          "Jan 2025": {
+            "current": 185.8,
+            "percent": 0.11
+          },
+          "Feb 2025": {
+            "current": 519.55,
+            "percent": 0.37
+          },
+          "Mar 2025": {
+            "current": 293.95,
+            "percent": 0.18
+          },
+          "Apr 2025": {
+            "current": 550.65,
+            "percent": 0.34
+          },
+          "May 2025": {
+            "current": 379.4,
+            "percent": 0.24
+          },
+          "Jun 2025": {
+            "current": 155.0,
+            "percent": 0.1
+          },
+          "Jul 2025": {
+            "current": 253.8,
+            "percent": 0.18
+          },
+          "Aug 2025": {
+            "current": 132.95,
+            "percent": 0.09
+          },
+          "Sep 2025": {
+            "current": 215.75,
+            "percent": 0.16
+          },
+          "Oct 2025": {
+            "current": 484.9,
+            "percent": 0.33
+          },
+          "Total": {
+            "current": 3171.75,
+            "percent": 0.21
+          }
+        },
+        "400-570 HungryPanda": {
+          "Jan 2025": {
+            "current": 395.65,
+            "percent": 0.24
+          },
+          "Feb 2025": {
+            "current": 969.6,
+            "percent": 0.69
+          },
+          "Mar 2025": {
+            "current": 1416.9,
+            "percent": 0.87
+          },
+          "Apr 2025": {
+            "current": 884.85,
+            "percent": 0.54
+          },
+          "May 2025": {
+            "current": 764.25,
+            "percent": 0.47
+          },
+          "Jun 2025": {
+            "current": 297.25,
+            "percent": 0.2
+          },
+          "Jul 2025": {
+            "current": 247.55,
+            "percent": 0.17
+          },
+          "Aug 2025": {
+            "current": 393.5,
+            "percent": 0.25
+          },
+          "Sep 2025": {
+            "current": 64.7,
+            "percent": 0.05
+          },
+          "Oct 2025": {
+            "current": 528.03,
+            "percent": 0.36
+          },
+          "Total": {
+            "current": 5962.28,
+            "percent": 0.39
+          }
+        },
+        "400-580 ClassPass": {
+          "Jan 2025": {
+            "current": 36.0,
+            "percent": 0.02
+          },
+          "Feb 2025": {
+            "current": 18.0,
+            "percent": 0.01
+          },
+          "Mar 2025": {
+            "current": 71.24,
+            "percent": 0.04
+          },
+          "Apr 2025": {
+            "current": 114.34,
+            "percent": 0.07
+          },
+          "May 2025": {
+            "current": 66.5,
+            "percent": 0.04
+          },
+          "Jun 2025": {
+            "current": 49.1,
+            "percent": 0.03
+          },
+          "Jul 2025": {
+            "current": 42.75,
+            "percent": 0.03
+          },
+          "Aug 2025": {
+            "current": 160.12,
+            "percent": 0.1
+          },
+          "Sep 2025": {
+            "current": 192.04,
+            "percent": 0.14
+          },
+          "Oct 2025": {
+            "current": 61.66,
+            "percent": 0.04
+          },
+          "Total": {
+            "current": 811.75,
+            "percent": 0.05
+          }
+        },
+        "400-710 UberEats -Deli Promo (excl.tax)": {
+          "Jul 2025": {
+            "current": 1580.28,
+            "percent": 1.11
+          },
+          "Aug 2025": {
+            "current": 1777.29,
+            "percent": 1.15
+          },
+          "Sep 2025": {
+            "current": 1691.0,
+            "percent": 1.27
+          },
+          "Oct 2025": {
+            "current": 1685.0,
+            "percent": 1.15
+          },
+          "Total": {
+            "current": 6733.57,
+            "percent": 0.44
+          }
+        },
+        "400-720 GrubHub - Deli Promo (excl.tax)": {
+          "Sep 2025": {
+            "current": 199.0,
+            "percent": 0.15
+          },
+          "Oct 2025": {
+            "current": 200.0,
+            "percent": 0.14
+          },
+          "Total": {
+            "current": 399.0,
+            "percent": 0.03
+          }
+        },
+        "400-730 DoorDash -Deli Promo (excl.tax)": {
+          "Oct 2025": {
+            "current": 157.03,
+            "percent": 0.11
+          },
+          "Total": {
+            "current": 157.03,
+            "percent": 0.01
+          }
+        },
+        "Total": {
+          "Jan 2025": {
+            "current": 20531.18,
+            "percent": 12.56
+          },
+          "Feb 2025": {
+            "current": 18583.03,
+            "percent": 13.29
+          },
+          "Mar 2025": {
+            "current": 17268.57,
+            "percent": 10.59
+          },
+          "Apr 2025": {
+            "current": 23437.54,
+            "percent": 14.39
+          },
+          "May 2025": {
+            "current": 19353.86,
+            "percent": 11.99
+          },
+          "Jun 2025": {
+            "current": 18808.45,
+            "percent": 12.54
+          },
+          "Jul 2025": {
+            "current": 16078.65,
+            "percent": 11.32
+          },
+          "Aug 2025": {
+            "current": 18785.77,
+            "percent": 12.17
+          },
+          "Sep 2025": {
+            "current": 19727.58,
+            "percent": 14.83
+          },
+          "Oct 2025": {
+            "current": 20341.37,
+            "percent": 13.87
+          },
+          "Total": {
+            "current": 192916.0,
+            "percent": 12.72
+          }
+        }
+      },
+      "400-800 Events/Off-Premise Sales": {
+        "Jan 2025": {
+          "current": 850.0,
+          "percent": 0.52
+        },
+        "May 2025": {
+          "current": 445.0,
+          "percent": 0.28
+        },
+        "Total": {
+          "current": 1295.0,
+          "percent": 0.09
+        }
+      }
+    },
+    "Total Income": {
+      "Jan 2025": {
+        "current": 163529.57,
+        "percent": 100.0
+      },
+      "Feb 2025": {
+        "current": 139832.03,
+        "percent": 100.0
+      },
+      "Mar 2025": {
+        "current": 163042.29,
+        "percent": 100.0
+      },
+      "Apr 2025": {
+        "current": 162827.89,
+        "percent": 100.0
+      },
+      "May 2025": {
+        "current": 161380.88,
+        "percent": 100.0
+      },
+      "Jun 2025": {
+        "current": 149994.56,
+        "percent": 100.0
+      },
+      "Jul 2025": {
+        "current": 142041.85,
+        "percent": 100.0
+      },
+      "Aug 2025": {
+        "current": 154351.46,
+        "percent": 100.0
+      },
+      "Sep 2025": {
+        "current": 133041.81,
+        "percent": 100.0
+      },
+      "Oct 2025": {
+        "current": 146662.43,
+        "percent": 100.0
+      },
+      "Total": {
+        "current": 1516704.77,
+        "percent": 100.0
+      }
+    },
+    "Cost of Goods Sold": {
+      "500-000 Food Cost": {
+        "500-003 Dairy": {
+          "Jan 2025": {
+            "current": 1220.38,
+            "percent": 0.75
+          },
+          "Feb 2025": {
+            "current": 1646.21,
+            "percent": 1.18
+          },
+          "Mar 2025": {
+            "current": 1038.28,
+            "percent": 0.64
+          },
+          "Apr 2025": {
+            "current": 1944.04,
+            "percent": 1.19
+          },
+          "May 2025": {
+            "current": 2522.15,
+            "percent": 1.56
+          },
+          "Jun 2025": {
+            "current": 2320.65,
+            "percent": 1.55
+          },
+          "Jul 2025": {
+            "current": 2070.48,
+            "percent": 1.46
+          },
+          "Aug 2025": {
+            "current": 1521.68,
+            "percent": 0.99
+          },
+          "Sep 2025": {
+            "current": 1858.85,
+            "percent": 1.4
+          },
+          "Oct 2025": {
+            "current": 1958.16,
+            "percent": 1.34
+          },
+          "Total": {
+            "current": 18100.88,
+            "percent": 1.19
+          }
+        },
+        "500-004 Dry Goods": {
+          "Jan 2025": {
+            "current": 2492.42,
+            "percent": 1.52
+          },
+          "Feb 2025": {
+            "current": 3573.7,
+            "percent": 2.56
+          },
+          "Mar 2025": {
+            "current": 2597.28,
+            "percent": 1.59
+          },
+          "Apr 2025": {
+            "current": 2912.24,
+            "percent": 1.79
+          },
+          "May 2025": {
+            "current": 1280.9,
+            "percent": 0.79
+          },
+          "Jun 2025": {
+            "current": 2278.51,
+            "percent": 1.52
+          },
+          "Jul 2025": {
+            "current": 1501.58,
+            "percent": 1.06
+          },
+          "Aug 2025": {
+            "current": 1940.61,
+            "percent": 1.26
+          },
+          "Sep 2025": {
+            "current": 1533.06,
+            "percent": 1.15
+          },
+          "Oct 2025": {
+            "current": 3189.78,
+            "percent": 2.17
+          },
+          "Total": {
+            "current": 23300.08,
+            "percent": 1.54
+          }
+        },
+        "500-006 Produce": {
+          "Jan 2025": {
+            "current": 1157.35,
+            "percent": 0.71
+          },
+          "Feb 2025": {
+            "current": 1342.37,
+            "percent": 0.96
+          },
+          "Mar 2025": {
+            "current": 1168.14,
+            "percent": 0.72
+          },
+          "Apr 2025": {
+            "current": 1436.58,
+            "percent": 0.88
+          },
+          "May 2025": {
+            "current": 2005.08,
+            "percent": 1.24
+          },
+          "Jun 2025": {
+            "current": 1915.86,
+            "percent": 1.28
+          },
+          "Jul 2025": {
+            "current": 1441.26,
+            "percent": 1.01
+          },
+          "Aug 2025": {
+            "current": 1475.21,
+            "percent": 0.96
+          },
+          "Sep 2025": {
+            "current": 1792.92,
+            "percent": 1.35
+          },
+          "Oct 2025": {
+            "current": 2551.18,
+            "percent": 1.74
+          },
+          "Total": {
+            "current": 16285.95,
+            "percent": 1.07
+          }
+        },
+        "Total": {
+          "Jan 2025": {
+            "current": 4870.15,
+            "percent": 2.98
+          },
+          "Feb 2025": {
+            "current": 6562.28,
+            "percent": 4.69
+          },
+          "Mar 2025": {
+            "current": 4803.7,
+            "percent": 2.95
+          },
+          "Apr 2025": {
+            "current": 6292.86,
+            "percent": 3.86
+          },
+          "May 2025": {
+            "current": 5808.13,
+            "percent": 3.6
+          },
+          "Jun 2025": {
+            "current": 6515.02,
+            "percent": 4.34
+          },
+          "Jul 2025": {
+            "current": 5013.32,
+            "percent": 3.53
+          },
+          "Aug 2025": {
+            "current": 4937.5,
+            "percent": 3.2
+          },
+          "Sep 2025": {
+            "current": 5184.83,
+            "percent": 3.9
+          },
+          "Oct 2025": {
+            "current": 7699.12,
+            "percent": 5.25
+          },
+          "Total": {
+            "current": 57686.91,
+            "percent": 3.8
+          }
+        }
+      },
+      "500-200 Beverage Cost": {
+        "500-201 Beer/Wine/Cider": {
+          "Jan 2025": {
+            "current": 339.5,
+            "percent": 0.21
+          },
+          "Feb 2025": {
+            "current": 287.5,
+            "percent": 0.21
+          },
+          "Mar 2025": {
+            "current": 424.87,
+            "percent": 0.26
+          },
+          "Apr 2025": {
+            "current": 941.42,
+            "percent": 0.58
+          },
+          "May 2025": {
+            "current": 490.8,
+            "percent": 0.3
+          },
+          "Jun 2025": {
+            "current": 465.8,
+            "percent": 0.31
+          },
+          "Jul 2025": {
+            "current": 482.32,
+            "percent": 0.34
+          },
+          "Aug 2025": {
+            "current": 300.4,
+            "percent": 0.19
+          },
+          "Sep 2025": {
+            "current": 976.12,
+            "percent": 0.73
+          },
+          "Oct 2025": {
+            "current": 910.7,
+            "percent": 0.62
+          },
+          "Total": {
+            "current": 5619.43,
+            "percent": 0.37
+          }
+        },
+        "500-202 Coffee/Tea": {
+          "Jan 2025": {
+            "current": 2172.21,
+            "percent": 1.33
+          },
+          "Feb 2025": {
+            "current": 1702.07,
+            "percent": 1.22
+          },
+          "Mar 2025": {
+            "current": 1671.02,
+            "percent": 1.02
+          },
+          "Apr 2025": {
+            "current": 1628.17,
+            "percent": 1.0
+          },
+          "May 2025": {
+            "current": 1831.9,
+            "percent": 1.14
+          },
+          "Jun 2025": {
+            "current": 1589.25,
+            "percent": 1.06
+          },
+          "Jul 2025": {
+            "current": 1786.62,
+            "percent": 1.26
+          },
+          "Aug 2025": {
+            "current": 454.7,
+            "percent": 0.29
+          },
+          "Sep 2025": {
+            "current": 995.37,
+            "percent": 0.75
+          },
+          "Oct 2025": {
+            "current": 1341.49,
+            "percent": 0.91
+          },
+          "Total": {
+            "current": 15172.8,
+            "percent": 1.0
+          }
+        },
+        "500-203 Juice/Soda/Water": {
+          "Jan 2025": {
+            "current": 161.13,
+            "percent": 0.1
+          },
+          "Feb 2025": {
+            "current": 161.37,
+            "percent": 0.12
+          },
+          "Mar 2025": {
+            "current": 114.35,
+            "percent": 0.07
+          },
+          "Apr 2025": {
+            "current": 473.07,
+            "percent": 0.29
+          },
+          "May 2025": {
+            "current": 590.53,
+            "percent": 0.37
+          },
+          "Jun 2025": {
+            "current": 493.62,
+            "percent": 0.33
+          },
+          "Jul 2025": {
+            "current": 311.31,
+            "percent": 0.22
+          },
+          "Aug 2025": {
+            "current": 440.29,
+            "percent": 0.29
+          },
+          "Sep 2025": {
+            "current": 421.96,
+            "percent": 0.32
+          },
+          "Oct 2025": {
+            "current": 441.8,
+            "percent": 0.3
+          },
+          "Total": {
+            "current": 3609.43,
+            "percent": 0.24
+          }
+        },
+        "Total": {
+          "Jan 2025": {
+            "current": 2672.84,
+            "percent": 1.63
+          },
+          "Feb 2025": {
+            "current": 2150.94,
+            "percent": 1.54
+          },
+          "Mar 2025": {
+            "current": 2210.24,
+            "percent": 1.36
+          },
+          "Apr 2025": {
+            "current": 3042.66,
+            "percent": 1.87
+          },
+          "May 2025": {
+            "current": 2913.23,
+            "percent": 1.81
+          },
+          "Jun 2025": {
+            "current": 2548.67,
+            "percent": 1.7
+          },
+          "Jul 2025": {
+            "current": 2580.25,
+            "percent": 1.82
+          },
+          "Aug 2025": {
+            "current": 1195.39,
+            "percent": 0.77
+          },
+          "Sep 2025": {
+            "current": 2393.45,
+            "percent": 1.8
+          },
+          "Oct 2025": {
+            "current": 2693.99,
+            "percent": 1.84
+          },
+          "Total": {
+            "current": 24401.66,
+            "percent": 1.61
+          }
+        }
+      },
+      "500-300 Commissary Food": {
+        "Jan 2025": {
+          "current": 26496.52,
+          "percent": 16.2
+        },
+        "Feb 2025": {
+          "current": 22589.29,
+          "percent": 16.15
+        },
+        "Mar 2025": {
+          "current": 23198.47,
+          "percent": 14.23
+        },
+        "Apr 2025": {
+          "current": 24027.52,
+          "percent": 14.76
+        },
+        "May 2025": {
+          "current": 22607.0,
+          "percent": 14.01
+        },
+        "Jun 2025": {
+          "current": 22135.65,
+          "percent": 14.76
+        },
+        "Jul 2025": {
+          "current": 23368.25,
+          "percent": 16.45
+        },
+        "Aug 2025": {
+          "current": 23938.32,
+          "percent": 15.51
+        },
+        "Sep 2025": {
+          "current": 19847.4,
+          "percent": 14.92
+        },
+        "Oct 2025": {
+          "current": 28104.5,
+          "percent": 19.16
+        },
+        "Total": {
+          "current": 236312.92,
+          "percent": 15.58
+        }
+      },
+      "500-303 Ice Cream": {
+        "Jan 2025": {
+          "current": 12714.0,
+          "percent": 7.77
+        },
+        "Feb 2025": {
+          "current": 10482.4,
+          "percent": 7.5
+        },
+        "Mar 2025": {
+          "current": 10840.09,
+          "percent": 6.65
+        },
+        "Apr 2025": {
+          "current": 10744.06,
+          "percent": 6.6
+        },
+        "May 2025": {
+          "current": 9943.59,
+          "percent": 6.16
+        },
+        "Jun 2025": {
+          "current": 9737.1,
+          "percent": 6.49
+        },
+        "Jul 2025": {
+          "current": 11511.59,
+          "percent": 8.1
+        },
+        "Aug 2025": {
+          "current": 9015.0,
+          "percent": 5.84
+        },
+        "Sep 2025": {
+          "current": 8954.41,
+          "percent": 6.73
+        },
+        "Oct 2025": {
+          "current": 12117.0,
+          "percent": 8.26
+        },
+        "Total": {
+          "current": 106059.24,
+          "percent": 6.99
+        }
+      },
+      "500-400 Direct Labor Cost": {
+        "500-501 Dishwasher": {
+          "Jan 2025": {
+            "current": 3868.62,
+            "percent": 2.37
+          },
+          "Feb 2025": {
+            "current": 3106.13,
+            "percent": 2.22
+          },
+          "Mar 2025": {
+            "current": 3906.39,
+            "percent": 2.4
+          },
+          "Apr 2025": {
+            "current": 3077.26,
+            "percent": 1.89
+          },
+          "May 2025": {
+            "current": 3073.13,
+            "percent": 1.9
+          },
+          "Jun 2025": {
+            "current": 3852.76,
+            "percent": 2.57
+          },
+          "Jul 2025": {
+            "current": 3089.64,
+            "percent": 2.18
+          },
+          "Aug 2025": {
+            "current": 3844.52,
+            "percent": 2.49
+          },
+          "Sep 2025": {
+            "current": 3087.86,
+            "percent": 2.32
+          },
+          "Oct 2025": {
+            "current": 3115.56,
+            "percent": 2.12
+          },
+          "Total": {
+            "current": 34021.87,
+            "percent": 2.24
+          }
+        },
+        "500-502 Dishwasher OVERTIME": {
+          "Jan 2025": {
+            "current": 526.32,
+            "percent": 0.32
+          },
+          "Feb 2025": {
+            "current": 631.12,
+            "percent": 0.45
+          },
+          "Mar 2025": {
+            "current": 810.57,
+            "percent": 0.5
+          },
+          "Apr 2025": {
+            "current": 600.19,
+            "percent": 0.37
+          },
+          "May 2025": {
+            "current": 594.0,
+            "percent": 0.37
+          },
+          "Jun 2025": {
+            "current": 693.01,
+            "percent": 0.46
+          },
+          "Jul 2025": {
+            "current": 538.32,
+            "percent": 0.38
+          },
+          "Aug 2025": {
+            "current": 383.62,
+            "percent": 0.25
+          },
+          "Sep 2025": {
+            "current": 278.45,
+            "percent": 0.21
+          },
+          "Oct 2025": {
+            "current": 198.01,
+            "percent": 0.14
+          },
+          "Total": {
+            "current": 5253.61,
+            "percent": 0.35
+          }
+        },
+        "500-533 Server/Plater": {
+          "Jan 2025": {
+            "current": 13294.72,
+            "percent": 8.13
+          },
+          "Feb 2025": {
+            "current": 11474.82,
+            "percent": 8.21
+          },
+          "Mar 2025": {
+            "current": 12480.78,
+            "percent": 7.65
+          },
+          "Apr 2025": {
+            "current": 14810.93,
+            "percent": 9.1
+          },
+          "May 2025": {
+            "current": 13932.15,
+            "percent": 8.63
+          },
+          "Jun 2025": {
+            "current": 13830.89,
+            "percent": 9.22
+          },
+          "Jul 2025": {
+            "current": 13814.46,
+            "percent": 9.73
+          },
+          "Aug 2025": {
+            "current": 13510.36,
+            "percent": 8.75
+          },
+          "Sep 2025": {
+            "current": 12731.99,
+            "percent": 9.57
+          },
+          "Oct 2025": {
+            "current": 12029.43,
+            "percent": 8.2
+          },
+          "Total": {
+            "current": 131910.53,
+            "percent": 8.7
+          }
+        },
+        "500-534 Server/Plater OVERTIME": {
+          "Jan 2025": {
+            "current": 232.14,
+            "percent": 0.14
+          },
+          "Feb 2025": {
+            "current": 146.44,
+            "percent": 0.1
+          },
+          "Mar 2025": {
+            "current": 635.23,
+            "percent": 0.39
+          },
+          "Apr 2025": {
+            "current": 156.75,
+            "percent": 0.1
+          },
+          "May 2025": {
+            "current": 332.07,
+            "percent": 0.21
+          },
+          "Jun 2025": {
+            "current": 152.62,
+            "percent": 0.1
+          },
+          "Jul 2025": {
+            "current": 152.63,
+            "percent": 0.11
+          },
+          "Aug 2025": {
+            "current": 669.63,
+            "percent": 0.43
+          },
+          "Sep 2025": {
+            "current": 57.75,
+            "percent": 0.04
+          },
+          "Oct 2025": {
+            "current": 117.57,
+            "percent": 0.08
+          },
+          "Total": {
+            "current": 2652.83,
+            "percent": 0.17
+          }
+        },
+        "Total": {
+          "Jan 2025": {
+            "current": 17921.8,
+            "percent": 10.96
+          },
+          "Feb 2025": {
+            "current": 15358.51,
+            "percent": 10.98
+          },
+          "Mar 2025": {
+            "current": 17832.97,
+            "percent": 10.94
+          },
+          "Apr 2025": {
+            "current": 18645.13,
+            "percent": 11.45
+          },
+          "May 2025": {
+            "current": 17931.35,
+            "percent": 11.11
+          },
+          "Jun 2025": {
+            "current": 18529.28,
+            "percent": 12.35
+          },
+          "Jul 2025": {
+            "current": 17595.05,
+            "percent": 12.39
+          },
+          "Aug 2025": {
+            "current": 18408.13,
+            "percent": 11.93
+          },
+          "Sep 2025": {
+            "current": 16156.05,
+            "percent": 12.14
+          },
+          "Oct 2025": {
+            "current": 15460.57,
+            "percent": 10.54
+          },
+          "Total": {
+            "current": 173838.84,
+            "percent": 11.46
+          }
+        }
+      }
+    },
+    "Total Cost of Goods Sold": {
+      "Jan 2025": {
+        "current": 64675.31,
+        "percent": 39.55
+      },
+      "Feb 2025": {
+        "current": 57143.42,
+        "percent": 40.87
+      },
+      "Mar 2025": {
+        "current": 58885.47,
+        "percent": 36.12
+      },
+      "Apr 2025": {
+        "current": 62752.23,
+        "percent": 38.54
+      },
+      "May 2025": {
+        "current": 59203.3,
+        "percent": 36.69
+      },
+      "Jun 2025": {
+        "current": 59465.72,
+        "percent": 39.65
+      },
+      "Jul 2025": {
+        "current": 60068.46,
+        "percent": 42.29
+      },
+      "Aug 2025": {
+        "current": 57494.34,
+        "percent": 37.25
+      },
+      "Sep 2025": {
+        "current": 52536.14,
+        "percent": 39.49
+      },
+      "Oct 2025": {
+        "current": 66075.18,
+        "percent": 45.05
+      },
+      "Total": {
+        "current": 598299.57,
+        "percent": 39.45
+      }
+    },
+    "Gross Profit": {
+      "Jan 2025": {
+        "current": 98854.26,
+        "percent": 60.45
+      },
+      "Feb 2025": {
+        "current": 82688.61,
+        "percent": 59.13
+      },
+      "Mar 2025": {
+        "current": 104156.82,
+        "percent": 63.88
+      },
+      "Apr 2025": {
+        "current": 100075.66,
+        "percent": 61.46
+      },
+      "May 2025": {
+        "current": 102177.58,
+        "percent": 63.31
+      },
+      "Jun 2025": {
+        "current": 90528.84,
+        "percent": 60.35
+      },
+      "Jul 2025": {
+        "current": 81973.39,
+        "percent": 57.71
+      },
+      "Aug 2025": {
+        "current": 96857.12,
+        "percent": 62.75
+      },
+      "Sep 2025": {
+        "current": 80505.67,
+        "percent": 60.51
+      },
+      "Oct 2025": {
+        "current": 80587.25,
+        "percent": 54.95
+      },
+      "Total": {
+        "current": 918405.2,
+        "percent": 60.55
+      }
+    },
+    "Total Expenses": {
+      "Jan 2025": {
+        "current": 72769.47,
+        "percent": 44.5
+      },
+      "Feb 2025": {
+        "current": 59635.68,
+        "percent": 42.65
+      },
+      "Mar 2025": {
+        "current": 66872.48,
+        "percent": 41.02
+      },
+      "Apr 2025": {
+        "current": 70798.54,
+        "percent": 43.48
+      },
+      "May 2025": {
+        "current": 66874.51,
+        "percent": 41.44
+      },
+      "Jun 2025": {
+        "current": 61525.05,
+        "percent": 41.02
+      },
+      "Jul 2025": {
+        "current": 65571.33,
+        "percent": 46.16
+      },
+      "Aug 2025": {
+        "current": 68608.1,
+        "percent": 44.45
+      },
+      "Sep 2025": {
+        "current": 61429.5,
+        "percent": 46.17
+      },
+      "Oct 2025": {
+        "current": 75471.7,
+        "percent": 51.46
+      },
+      "Total": {
+        "current": 669556.36,
+        "percent": 44.15
+      }
+    },
+    "Net Operating Income": {
+      "Jan 2025": {
+        "current": 26084.79,
+        "percent": 15.95
+      },
+      "Feb 2025": {
+        "current": 23052.93,
+        "percent": 16.49
+      },
+      "Mar 2025": {
+        "current": 37284.34,
+        "percent": 22.87
+      },
+      "Apr 2025": {
+        "current": 29277.12,
+        "percent": 17.98
+      },
+      "May 2025": {
+        "current": 35303.07,
+        "percent": 21.88
+      },
+      "Jun 2025": {
+        "current": 29003.79,
+        "percent": 19.34
+      },
+      "Jul 2025": {
+        "current": 16402.06,
+        "percent": 11.55
+      },
+      "Aug 2025": {
+        "current": 28249.02,
+        "percent": 18.3
+      },
+      "Sep 2025": {
+        "current": 19076.17,
+        "percent": 14.34
+      },
+      "Oct 2025": {
+        "current": 5115.55,
+        "percent": 3.49
+      },
+      "Total": {
+        "current": 248848.84,
+        "percent": 16.41
+      }
+    }
+  }
+}
