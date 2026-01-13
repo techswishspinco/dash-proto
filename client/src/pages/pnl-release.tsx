@@ -11606,16 +11606,15 @@ export default function PnlRelease() {
                       {/* Summary Cards Grid */}
                       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                          {/* Income Card */}
-                         <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                         <div 
+                            onClick={() => openTrendModal('net-sales')}
+                            className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                         >
                             <div className="flex items-center justify-between mb-3">
                                <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Income</span>
-                               <button 
-                                  onClick={() => openTrendModal('net-sales')}
-                                  className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors group"
-                                  data-testid="button-income-trend"
-                               >
+                               <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                   <DollarSign className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                               </button>
+                               </div>
                             </div>
                             <div className="text-2xl font-bold text-gray-900">$124,500</div>
                             <div className="flex items-center gap-1 mt-1">
@@ -11626,16 +11625,15 @@ export default function PnlRelease() {
                          </div>
 
                          {/* Marketing Spend Card */}
-                         <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                         <div 
+                            onClick={() => openTrendModal('marketing')}
+                            className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                         >
                             <div className="flex items-center justify-between mb-3">
                                <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Marketing</span>
-                               <button 
-                                  onClick={() => openTrendModal('marketing')}
-                                  className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors group"
-                                  data-testid="button-marketing-trend"
-                               >
+                               <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                   <Target className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                               </button>
+                               </div>
                             </div>
                             <div className="text-2xl font-bold text-gray-900">$3,200</div>
                             <div className="flex items-center gap-1 mt-1">
@@ -11645,16 +11643,15 @@ export default function PnlRelease() {
                          </div>
 
                          {/* Operating Expenses Card */}
-                         <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                         <div 
+                            onClick={() => openTrendModal('controllable-expenses')}
+                            className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                         >
                             <div className="flex items-center justify-between mb-3">
                                <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Op. Expenses</span>
-                               <button 
-                                  onClick={() => openTrendModal('controllable-expenses')}
-                                  className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors group"
-                                  data-testid="button-opex-trend"
-                               >
+                               <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                   <CreditCard className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                               </button>
+                               </div>
                             </div>
                             <div className="text-2xl font-bold text-gray-900">$44,500</div>
                             <div className="flex items-center gap-1 mt-1">
@@ -11664,16 +11661,15 @@ export default function PnlRelease() {
                          </div>
 
                          {/* Growth Card */}
-                         <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                         <div 
+                            onClick={() => openTrendModal('net-sales')}
+                            className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                         >
                             <div className="flex items-center justify-between mb-3">
                                <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Growth</span>
-                               <button 
-                                  onClick={() => openTrendModal('net-sales')}
-                                  className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors group"
-                                  data-testid="button-growth-trend"
-                               >
+                               <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                   <TrendingUp className="h-4 w-4 text-emerald-500 group-hover:text-blue-600 transition-colors" />
-                               </button>
+                               </div>
                             </div>
                             <div className="flex items-center gap-2">
                                <div className="text-2xl font-bold text-emerald-600">↑ Growing</div>
@@ -11688,19 +11684,17 @@ export default function PnlRelease() {
                       {/* Second Row - Owner Only Cards */}
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                          {/* Cash Flow Card */}
-                         <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                         <div 
+                            onClick={() => openTrendModal('cash-flow')}
+                            className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                         >
                             <div className="flex items-center justify-between mb-3">
                                <div className="flex items-center gap-2">
                                   <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Cash Flow</span>
-                                  <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-medium rounded">OWNER ONLY</span>
                                </div>
-                               <button 
-                                  onClick={() => openTrendModal('cash-flow')}
-                                  className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors group"
-                                  data-testid="button-cashflow-trend"
-                               >
+                               <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                   <Wallet className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                               </button>
+                               </div>
                             </div>
                             <div className="flex items-center justify-between">
                                <div>
@@ -11726,19 +11720,17 @@ export default function PnlRelease() {
                          </div>
 
                          {/* Spend Visibility Card */}
-                         <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                         <div 
+                            onClick={() => openTrendModal('labor')}
+                            className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                         >
                             <div className="flex items-center justify-between mb-3">
                                <div className="flex items-center gap-2">
                                   <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Compensation Overview</span>
-                                  <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-medium rounded">OWNER ONLY</span>
                                </div>
-                               <button 
-                                  onClick={() => openTrendModal('labor')}
-                                  className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors group"
-                                  data-testid="button-compensation-trend"
-                               >
+                               <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                   <Users className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                               </button>
+                               </div>
                             </div>
                             <div className="space-y-3">
                                <div className="flex items-center justify-between">
