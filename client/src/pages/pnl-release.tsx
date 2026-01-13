@@ -289,7 +289,7 @@ const pnlData = [
   { category: "Revenue", current: 133042, prior: 154351, variance: -21309, pct: -13.8 },
   { category: "COGS", current: 55670, prior: 57494, variance: -1824, pct: -3.2 },
   { category: "Labor", current: 16156, prior: 18408, variance: -2252, pct: -12.2 },
-  { category: "Expenses", current: 59650, prior: 67891, variance: -8241, pct: -12.1 },
+  { category: "OpEx", current: 43494, prior: 49483, variance: -5989, pct: -12.1 },
   { category: "Gross Profit", current: 77372, prior: 96857, variance: -19485, pct: -20.1 },
   { category: "Net Income", current: 17722, prior: 28966, variance: -11244, pct: -38.8 },
 ];
