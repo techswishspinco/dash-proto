@@ -13127,6 +13127,163 @@ export default function PnlRelease() {
                    {/* Chef Curated View - Kitchen Execution */}
                    {selectedRole === "chef" && (
                       <div className="space-y-8">
+                         {/* Kitchen Issues (Restored) */}
+                         <div className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 rounded-xl p-5">
+                            <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                               <AlertTriangle className="h-4 w-4 text-red-600" />
+                               {chefTimeRange === 'today' ? 'Kitchen Issues Today' :
+                                chefTimeRange === 'week' ? 'Kitchen Issues This Week' :
+                                chefTimeRange === 'month' ? 'Kitchen Issues This Month' :
+                                'Kitchen Issues This Year'}
+                               <span className="text-xs font-normal text-gray-500 ml-auto">Click to get guided help</span>
+                            </h3>
+                            <div className="space-y-3">
+                               {/* Issue 1: Red Tickets */}
+                               <button 
+                                  onClick={() => {
+                                     const contextByRange = {
+                                        today: `[CONTEXT]\nRole: Executive Chef\nPeriod: Monday, Jan 12\nIssue: Red tickets spiked during dinner rush\nMetrics:\n• Peak hour: 7pm with 9 red tickets (11% of hour)\n• Total red tickets today: 35 (6% of all tickets)\n• Worst stations: Grill (12 red), Sauté (8 red)\n• Avg ticket time during rush: 9.2 min (target: 7 min)\n\nHelp me understand what caused the red ticket spike during dinner and how to prevent it tomorrow.`,
+                                        week: `[CONTEXT]\nRole: Executive Chef\nPeriod: Week of Jan 6-12 (WTD)\nIssue: Elevated red tickets on Fri/Sat dinner shifts\nMetrics:\n• Total red tickets this week: 298 (7% of all tickets)\n• Worst days: Friday (55 red), Saturday (68 red)\n• Worst stations: Grill (89 red), Sauté (72 red)\n• Avg ticket time on weekends: 8.8 min vs 7.2 min weekdays\n\nHelp me identify the pattern causing weekend ticket delays and how to address staffing or workflow.`,
+                                        month: `[CONTEXT]\nRole: Executive Chef\nPeriod: January 2026 (MTD)\nIssue: Red ticket percentage trending up vs last month\nMetrics:\n• MTD red tickets: 519 (7% of all tickets)\n• December average: 5.2% red tickets\n• Worst shifts: Friday/Saturday dinner (consistently 8-9%)\n• Pattern: Grill station bottleneck during peak hours\n\nHelp me create an action plan to reduce red tickets to under 5% for the remainder of the month.`,
+                                        year: `[CONTEXT]\nRole: Executive Chef\nPeriod: 2026 (YTD)\nIssue: Kitchen efficiency baseline for the year\nMetrics:\n• YTD red tickets: 519 (7% of all tickets)\n• YTD yellow tickets: 1,214 (17%)\n• YTD green tickets: 5,520 (76%)\n• Primary bottleneck: Grill station during Friday/Saturday rushes\n\nHelp me set improvement targets and identify the biggest opportunities for ticket time reduction this year.`
+                                     };
+                                     setFloatingChatTrigger(contextByRange[chefTimeRange]);
+                                     setShowChat(true);
+                                  }}
+                                  className="w-full text-left flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-red-100 hover:bg-white hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group"
+                               >
+                                  <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-100">
+                                     <Clock className="h-3.5 w-3.5 text-red-600 group-hover:text-blue-600" />
+                                  </div>
+                                  <div className="flex-1">
+                                     <div className="text-sm font-medium text-gray-900 group-hover:text-blue-700 flex items-center gap-2">
+                                        {chefTimeRange === 'today' ? 'Red tickets spiked during dinner rush' :
+                                         chefTimeRange === 'week' ? 'Elevated red tickets on weekend dinners' :
+                                         chefTimeRange === 'month' ? 'Red ticket % trending up vs last month' :
+                                         'Kitchen efficiency baseline for the year'}
+                                        <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                     </div>
+                                     <div className="text-xs text-gray-600 mt-0.5">
+                                        {chefTimeRange === 'today' ? '9 problematic tickets at 7pm — check grill and sauté stations for bottlenecks.' :
+                                         chefTimeRange === 'week' ? 'Friday & Saturday dinner shifts showing 8-9% red tickets vs 5% on weekdays.' :
+                                         chefTimeRange === 'month' ? 'MTD red tickets at 7% vs 5.2% last month — grill station is primary bottleneck.' :
+                                         '7% red tickets YTD — opportunity to improve weekend dinner service efficiency.'}
+                                     </div>
+                                     <div className="flex items-center gap-2 mt-2">
+                                        <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
+                                           {chefTimeRange === 'today' ? 'Hour: 7pm' :
+                                            chefTimeRange === 'week' ? 'Days: Fri/Sat' :
+                                            chefTimeRange === 'month' ? 'Trend: +1.8 pts' :
+                                            'Baseline: 7%'}
+                                        </span>
+                                        <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded">
+                                           {chefTimeRange === 'today' ? '9 red tickets' :
+                                            chefTimeRange === 'week' ? '298 red tickets' :
+                                            chefTimeRange === 'month' ? '519 red tickets' :
+                                            '519 red YTD'}
+                                        </span>
+                                     </div>
+                                  </div>
+                               </button>
+                               
+                               {/* Issue 2: Food Cost / Waste */}
+                               <button 
+                                  onClick={() => {
+                                     const contextByRange = {
+                                        today: `[CONTEXT]\nRole: Executive Chef\nPeriod: Monday, Jan 12\nIssue: Food cost running above target\nMetrics:\n• Today's Food Cost %: 23.3%\n• Target: 24% (within range but trending up)\n• Waste log: 2.1% of inventory\n• High-cost items: Ribeye (4 over-portions), Salmon (3 remakes)\n\nHelp me identify where we're losing margin on food cost and what kitchen adjustments to make.`,
+                                        week: `[CONTEXT]\nRole: Executive Chef\nPeriod: Week of Jan 6-12 (WTD)\nIssue: Protein waste elevated this week\nMetrics:\n• Weekly waste: 2.4% of inventory (target: 1.8%)\n• Ribeye: 18 over-portions logged\n• Salmon: 12 remakes\n• Chicken: 8 temperature rejects\n\nHelp me address the protein waste pattern and create accountability measures for the line.`,
+                                        month: `[CONTEXT]\nRole: Executive Chef\nPeriod: January 2026 (MTD)\nIssue: COGS trending above budget\nMetrics:\n• MTD COGS: 31.2% (budget: 30%)\n• Primary driver: Protein waste at 2.3% (target: 1.5%)\n• Secondary: Over-ordering on perishables\n• Potential savings: $1,840/month if waste hits target\n\nHelp me build a waste reduction plan to get COGS back on target.`,
+                                        year: `[CONTEXT]\nRole: Executive Chef\nPeriod: 2026 (YTD)\nIssue: COGS baseline and opportunities\nMetrics:\n• YTD COGS: 31.2%\n• Target: 30%\n• Main opportunity: Protein portioning consistency\n• Estimated annual savings at target: $22,000\n\nHelp me create annual food cost goals and identify the biggest cost reduction opportunities.`
+                                     };
+                                     setFloatingChatTrigger(contextByRange[chefTimeRange]);
+                                     setShowChat(true);
+                                  }}
+                                  className="w-full text-left flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-red-100 hover:bg-white hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group"
+                               >
+                                  <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-100">
+                                     <Package className="h-3.5 w-3.5 text-orange-600 group-hover:text-blue-600" />
+                                  </div>
+                                  <div className="flex-1">
+                                     <div className="text-sm font-medium text-gray-900 group-hover:text-blue-700 flex items-center gap-2">
+                                        {chefTimeRange === 'today' ? 'Protein waste above normal' :
+                                         chefTimeRange === 'week' ? 'Elevated protein waste this week' :
+                                         chefTimeRange === 'month' ? 'COGS trending above budget' :
+                                         'COGS baseline and annual targets'}
+                                        <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                     </div>
+                                     <div className="text-xs text-gray-600 mt-0.5">
+                                        {chefTimeRange === 'today' ? 'Ribeye over-portions and salmon remakes driving waste — review portioning with line.' :
+                                         chefTimeRange === 'week' ? '38 protein waste incidents logged — ribeye and salmon are top offenders.' :
+                                         chefTimeRange === 'month' ? 'COGS at 31.2% vs 30% budget — protein waste is primary driver.' :
+                                         'Opportunity to save $22K annually by hitting 30% COGS target.'}
+                                     </div>
+                                     <div className="flex items-center gap-2 mt-2">
+                                        <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
+                                           {chefTimeRange === 'today' ? 'Items: Ribeye, Salmon' :
+                                            chefTimeRange === 'week' ? 'Waste: 2.4%' :
+                                            chefTimeRange === 'month' ? 'COGS: 31.2%' :
+                                            'Target: 30%'}
+                                        </span>
+                                        <span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded">
+                                           {chefTimeRange === 'today' ? '7 issues flagged' :
+                                            chefTimeRange === 'week' ? '38 incidents' :
+                                            chefTimeRange === 'month' ? '+1.2 pts over' :
+                                            '$22K opportunity'}
+                                        </span>
+                                     </div>
+                                  </div>
+                               </button>
+
+                               {/* Issue 3: Prep / Operational */}
+                               <button 
+                                  onClick={() => {
+                                     const contextByRange = {
+                                        today: `[CONTEXT]\nRole: Executive Chef\nPeriod: Monday, Jan 12\nIssue: Prep completion delayed before dinner service\nMetrics:\n• Prep completed: 4:45pm (target: 4:00pm)\n• Delay: 45 minutes\n• Impact: Slow start to dinner, backed up tickets at 5:30pm\n• Cause: Late produce delivery (arrived 11:30am vs 9am)\n\nHelp me create a contingency plan for late deliveries and adjust prep timing.`,
+                                        week: `[CONTEXT]\nRole: Executive Chef\nPeriod: Week of Jan 6-12 (WTD)\nIssue: Prep delays on 3 of 7 days this week\nMetrics:\n• Late prep days: Monday, Thursday, Saturday\n• Average delay: 35 minutes\n• Common cause: Delivery timing (2 days), understaffing (1 day)\n• Impact: Elevated yellow/red tickets on late days\n\nHelp me identify the root cause of recurring prep delays and build a more resilient prep schedule.`,
+                                        month: `[CONTEXT]\nRole: Executive Chef\nPeriod: January 2026 (MTD)\nIssue: Prep efficiency below target MTD\nMetrics:\n• On-time prep days: 8 of 12 (67%)\n• Target: 90% on-time\n• Primary causes: Delivery delays (3), staffing gaps (1)\n• Correlation: Late prep days show 25% more red tickets\n\nHelp me implement process improvements to hit 90% on-time prep for the rest of the month.`,
+                                        year: `[CONTEXT]\nRole: Executive Chef\nPeriod: 2026 (YTD)\nIssue: Kitchen operations baseline and goals\nMetrics:\n• Prep on-time rate: 67%\n• Ticket efficiency: 76% green, 17% yellow, 7% red\n• Primary improvement areas: Prep timing, grill station workflow\n• Goal: 85% green tickets, <5% red by Q2\n\nHelp me set operational KPIs for the kitchen and create a quarterly improvement roadmap.`
+                                     };
+                                     setFloatingChatTrigger(contextByRange[chefTimeRange]);
+                                     setShowChat(true);
+                                  }}
+                                  className="w-full text-left flex items-start gap-3 bg-white/60 rounded-lg p-3 border border-red-100 hover:bg-white hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group"
+                               >
+                                  <div className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-100">
+                                     <Calendar className="h-3.5 w-3.5 text-amber-600 group-hover:text-blue-600" />
+                                  </div>
+                                  <div className="flex-1">
+                                     <div className="text-sm font-medium text-gray-900 group-hover:text-blue-700 flex items-center gap-2">
+                                        {chefTimeRange === 'today' ? 'Prep completed late before dinner' :
+                                         chefTimeRange === 'week' ? 'Prep delays on 3 of 7 days' :
+                                         chefTimeRange === 'month' ? 'Prep efficiency below target MTD' :
+                                         'Kitchen operations baseline and goals'}
+                                        <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                     </div>
+                                     <div className="text-xs text-gray-600 mt-0.5">
+                                        {chefTimeRange === 'today' ? '45 min behind schedule due to late produce delivery — impacted early dinner tickets.' :
+                                         chefTimeRange === 'week' ? 'Mon, Thu, Sat prep ran late — delivery timing and staffing gaps are root causes.' :
+                                         chefTimeRange === 'month' ? 'Only 67% on-time prep days — late days correlate with 25% more red tickets.' :
+                                         'Prep timing and grill workflow are the biggest opportunities for improvement.'}
+                                     </div>
+                                     <div className="flex items-center gap-2 mt-2">
+                                        <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
+                                           {chefTimeRange === 'today' ? 'Prep: 4:45pm' :
+                                            chefTimeRange === 'week' ? '3 late days' :
+                                            chefTimeRange === 'month' ? 'On-time: 67%' :
+                                            'Target: 90%'}
+                                        </span>
+                                        <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs rounded">
+                                           {chefTimeRange === 'today' ? '45 min late' :
+                                            chefTimeRange === 'week' ? 'Avg 35 min delay' :
+                                            chefTimeRange === 'month' ? '-23 pts vs target' :
+                                            'Q2 goal: 85% green'}
+                                        </span>
+                                     </div>
+                                  </div>
+                               </button>
+                            </div>
+                         </div>
+
                          {/* Primary Kitchen Insight Card */}
                          <section>
                             <h2 className="text-lg font-serif font-bold text-gray-900 mb-4 flex items-center gap-2">
