@@ -126,6 +126,28 @@ import { ReportsView } from "@/components/reports/reports-view";
 import { ReportContent } from "@/components/reports/report-content";
 import { Wand } from "@/components/ui/wand";
 
+// Mock Data for Chef Curated View
+const chefPrimaryInsight = {
+   status: 'red',
+   headline: "Protein waste driving food cost variance",
+   context: "High waste in prep for beef and salmon is impacting overall Food Cost per Plate.",
+   metrics: [
+      { label: "Avg FC / Plate", value: "$4.85", target: "$4.50" },
+      { label: "Food Cost %", value: "32.4%", target: "30.0%" },
+   ]
+};
+
+const chefPlateMetrics = {
+   avgCost: 4.85,
+   range: { low: 3.50, high: 6.25 },
+   aboveRangeCount: 3,
+   topItems: [
+      { name: "Ribeye Steak", cost: 14.50, pct: 38 },
+      { name: "Pan Seared Salmon", cost: 9.20, pct: 34 },
+      { name: "Braised Short Rib", cost: 8.75, pct: 33 }
+   ]
+};
+
 // --- Action Cart Types & Data ---
 export interface ActionItem {
   id: string;
@@ -12709,8 +12731,8 @@ export default function PnlRelease() {
                       </div>
                    </div>
 
-                   {/* Primary Insight Card (Role-Based) - Top for Non-Owners */}
-                   {selectedRole !== "owner" && (
+                   {/* Primary Insight Card (GM Only) */}
+                   {selectedRole === "gm" && (
                      <PrimaryInsightCard 
                        role={selectedRole}
                        trends={healthSnapshotTrendData}
@@ -13040,34 +13062,143 @@ export default function PnlRelease() {
                    </section>
                    )}
 
-                   {/* Financial Overview - Role-specific KPIs */}
-                   {selectedRole !== "gm" && (
+                   {/* Financial Overview - Owner Only */}
+                   {selectedRole === "owner" && (
                    <section>
-                      <h2 className="text-lg font-serif font-bold text-gray-900 mb-6">
-                         {selectedRole === "owner" ? "Financial Overview" : 
-                          "Kitchen Performance"}
-                      </h2>
+                      <h2 className="text-lg font-serif font-bold text-gray-900 mb-6">Financial Overview</h2>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                         {/* Owner sees everything */}
-                         {selectedRole === "owner" && (
-                            <>
-                               <GoalProgress label="Total Sales" current={dashboardMetrics.kpis.sales.current} target={dashboardMetrics.kpis.sales.target} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
-                               <GoalProgress label="Net Profit %" current={dashboardMetrics.kpis.netProfit.current} target={dashboardMetrics.kpis.netProfit.target} unit="%" onTrendClick={() => openTrendModal('net-income')} />
-                               <GoalProgress label="COGS %" current={dashboardMetrics.kpis.cogs.current} target={dashboardMetrics.kpis.cogs.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                               <GoalProgress label="Labor %" current={dashboardMetrics.kpis.labor.current} target={dashboardMetrics.kpis.labor.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
-                            </>
-                         )}
-                         {/* Executive Chef sees COGS, BOH labor */}
-                         {selectedRole === "chef" && (
-                            <>
+                         <GoalProgress label="Total Sales" current={dashboardMetrics.kpis.sales.current} target={dashboardMetrics.kpis.sales.target} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
+                         <GoalProgress label="Net Profit %" current={dashboardMetrics.kpis.netProfit.current} target={dashboardMetrics.kpis.netProfit.target} unit="%" onTrendClick={() => openTrendModal('net-income')} />
+                         <GoalProgress label="COGS %" current={dashboardMetrics.kpis.cogs.current} target={dashboardMetrics.kpis.cogs.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
+                         <GoalProgress label="Labor %" current={dashboardMetrics.kpis.labor.current} target={dashboardMetrics.kpis.labor.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
+                      </div>
+                   </section>
+                   )}
+
+                   {/* Chef Curated View - Kitchen Execution */}
+                   {selectedRole === "chef" && (
+                      <div className="space-y-8">
+                         {/* Primary Kitchen Insight Card */}
+                         <section>
+                            <h2 className="text-lg font-serif font-bold text-gray-900 mb-4 flex items-center gap-2">
+                               <Lightbulb className="h-5 w-5 text-amber-500" />
+                               Primary Kitchen Insight
+                            </h2>
+                            <div 
+                               className="bg-white rounded-xl border-l-4 border-l-red-500 shadow-sm border border-gray-200 overflow-hidden cursor-pointer hover:shadow-md transition-shadow group"
+                               onClick={() => setActiveTab("detailed")}
+                            >
+                               <div className="p-6">
+                                  <div className="flex items-start justify-between mb-4">
+                                     <div className="flex items-center gap-2">
+                                        <div className="px-2.5 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-bold uppercase tracking-wide">
+                                           Needs Attention
+                                        </div>
+                                        <span className="text-sm text-gray-500">Kitchen Operations • Food Cost</span>
+                                     </div>
+                                     <button className="text-gray-400 group-hover:text-blue-600 transition-colors">
+                                        <ChevronRight className="h-5 w-5" />
+                                     </button>
+                                  </div>
+                                  
+                                  <div className="mb-6">
+                                     <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
+                                        {chefPrimaryInsight.headline}
+                                     </h3>
+                                     <p className="text-gray-600 max-w-2xl">
+                                        {chefPrimaryInsight.context}
+                                     </p>
+                                  </div>
+
+                                  <div className="grid grid-cols-2 gap-8 pt-6 border-t border-gray-100">
+                                     {chefPrimaryInsight.metrics.map((metric, idx) => (
+                                        <div key={idx}>
+                                           <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">{metric.label}</p>
+                                           <div className="flex items-end gap-2">
+                                              <span className="text-2xl font-bold text-gray-900">{metric.value}</span>
+                                              <span className="text-sm text-gray-500 mb-1">vs {metric.target} target</span>
+                                           </div>
+                                        </div>
+                                     ))}
+                                  </div>
+                               </div>
+                               <div className="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-100 group-hover:bg-blue-50/50 transition-colors">
+                                  <span className="text-sm font-medium text-blue-600 flex items-center gap-1">
+                                     View kitchen breakdown <ArrowRight className="h-4 w-4" />
+                                  </span>
+                               </div>
+                            </div>
+                         </section>
+
+                         {/* Food Cost per Plate Analysis */}
+                         <section>
+                            <h2 className="text-lg font-serif font-bold text-gray-900 mb-4 flex items-center gap-2">
+                               <Target className="h-5 w-5 text-gray-700" />
+                               Food Cost per Plate
+                            </h2>
+                            <div className="bg-white rounded-xl border border-gray-200 p-6">
+                               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+                                  <div>
+                                     <p className="text-sm text-gray-500 mb-1">Average Cost / Plate</p>
+                                     <div className="text-3xl font-bold text-gray-900">${chefPlateMetrics.avgCost.toFixed(2)}</div>
+                                     <div className="text-xs text-gray-400 mt-1">Target: $4.50</div>
+                                  </div>
+                                  <div>
+                                     <p className="text-sm text-gray-500 mb-1">Cost Range</p>
+                                     <div className="text-3xl font-bold text-gray-900">
+                                        ${chefPlateMetrics.range.low.toFixed(2)} - ${chefPlateMetrics.range.high.toFixed(2)}
+                                     </div>
+                                     <div className="text-xs text-gray-400 mt-1">Min - Max across menu</div>
+                                  </div>
+                                  <div>
+                                     <p className="text-sm text-gray-500 mb-1">Items Above Range</p>
+                                     <div className="flex items-center gap-2">
+                                        <div className="text-3xl font-bold text-red-600">{chefPlateMetrics.aboveRangeCount}</div>
+                                        <span className="px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-medium">High Impact</span>
+                                     </div>
+                                  </div>
+                               </div>
+
+                               <div className="space-y-3">
+                                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Top Cost Drivers</p>
+                                  {chefPlateMetrics.topItems.map((item, idx) => (
+                                     <div 
+                                        key={idx}
+                                        onClick={() => setActiveTab("detailed")}
+                                        className="flex items-center justify-between p-3 rounded-lg bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors"
+                                     >
+                                        <div className="font-medium text-gray-900">{item.name}</div>
+                                        <div className="flex items-center gap-4">
+                                           <div className="text-right">
+                                              <div className="font-semibold text-gray-900">${item.cost.toFixed(2)}</div>
+                                              <div className="text-xs text-gray-500">Cost/Plate</div>
+                                           </div>
+                                           <div className="w-px h-8 bg-gray-200" />
+                                           <div className="text-right w-16">
+                                              <div className="font-semibold text-red-600">{item.pct}%</div>
+                                              <div className="text-xs text-gray-500">Food Cost</div>
+                                           </div>
+                                           <ChevronRight className="h-4 w-4 text-gray-400" />
+                                        </div>
+                                     </div>
+                                  ))}
+                               </div>
+                            </div>
+                         </section>
+
+                         {/* Secondary Kitchen Metrics */}
+                         <section>
+                            <h2 className="text-lg font-serif font-bold text-gray-900 mb-4 text-gray-500 text-base">
+                               Secondary Metrics
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 opacity-75 hover:opacity-100 transition-opacity">
                                <GoalProgress label="COGS %" current={dashboardMetrics.kpis.cogs.current} target={dashboardMetrics.kpis.cogs.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
                                <GoalProgress label="Food Cost %" current={dashboardMetrics.kpis.foodCost.current} target={dashboardMetrics.kpis.foodCost.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
                                <GoalProgress label="BOH Labor %" current={dashboardMetrics.kpis.bohLabor.current} target={dashboardMetrics.kpis.bohLabor.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
-                               <GoalProgress label="Beverage Cost %" current={dashboardMetrics.kpis.beverageCost.current} target={dashboardMetrics.kpis.beverageCost.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                            </>
-                         )}
+                               <GoalProgress label="Ticket Time" current={dashboardMetrics.kpis.ticketTime.current} target={dashboardMetrics.kpis.ticketTime.target} unit="m" inverted={true} />
+                            </div>
+                         </section>
                       </div>
-                   </section>
                    )}
 
                    {/* ===== PROFITABILITY SECTION - Owner Only ===== */}
@@ -13788,8 +13919,8 @@ export default function PnlRelease() {
                    </section>
                    )}
 
-                   {/* Ticket Time Zone Bar Graph - Chef Only */}
-                   {selectedRole === "chef" && (
+                   {/* Ticket Time Zone Bar Graph - Chef Only - Hidden for Simplified View */}
+                   {false && selectedRole === "chef" && (
                    <section data-testid="ticket-time-zone-section">
                       <div className="flex items-center justify-between mb-4">
                          <h2 className="text-lg font-serif font-bold text-gray-900 flex items-center gap-2">

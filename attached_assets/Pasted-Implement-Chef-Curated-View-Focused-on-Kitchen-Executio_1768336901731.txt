@@ -1,0 +1,290 @@
+Implement Chef Curated View Focused on Kitchen Execution, Food Cost per Plate, and Exception-Based Insights
+
+Background (User Feedback Incorporated)
+
+Feedback indicates:
+
+Curated and Detailed views feel too similar
+
+Users don’t know what to look at first
+
+Curated should point to a problem, not explain everything
+
+Different roles need different focal points
+
+Chefs think in food cost, waste, prep, and execution, not financial health
+
+Visual hierarchy is missing
+
+Stats need context
+
+We should not lose any existing data
+
+Data accountants don’t normally have (e.g., per-plate cost) is highly valuable
+
+Chef Curated View Purpose (Locked)
+
+Chef Curated View exists to answer:
+“What kitchen issue needs my attention right now, and what is driving food cost or execution problems?”
+
+This view is:
+
+Operational
+
+Exception-driven
+
+Focused on one primary kitchen issue
+
+A pointer into Detailed view for deeper analysis
+
+Explicit Constraints (Non-Negotiable)
+
+❌ No Financial Health card for Chef
+
+❌ No report generation
+
+❌ No chatbot UX changes
+
+❌ No data removal
+
+❌ No deep charts or long tables
+
+❌ No financial framing (revenue, margin, cash flow)
+
+Layout & Visual Hierarchy (Chef Only)
+Default State (On Load)
+
+Visible:
+
+✅ Primary Kitchen Insight Card (dominant, top)
+
+✅ Secondary Kitchen Metrics Group (supporting, below)
+
+Hidden:
+
+Income
+
+Marketing
+
+Growth
+
+Cash Flow
+
+Financial Health
+
+Primary Kitchen Insight (Chef)
+Definition
+
+Primary Kitchen Insight = the single most critical kitchen-related “red” or exception item requiring attention
+
+Eligible Signals (Ranked)
+
+Primary insight must be selected from:
+
+Food Cost per Plate above acceptable range
+
+Food COGS % over target
+
+High waste or ingredient variance
+
+Prep inefficiency impacting yield
+
+Menu item cost imbalance
+
+Rank by:
+
+Severity vs target
+
+Dollar impact
+
+Kitchen controllability
+
+Exactly one insight is selected.
+
+Example Primary Insights
+
+“Food cost per plate elevated in dairy-based items”
+
+“Milky Puff per-plate cost exceeded acceptable range”
+
+“Protein waste driving food cost variance”
+
+“Prep inefficiency increasing per-plate cost”
+
+Primary Kitchen Insight Card (UI)
+Card Content
+
+Status Indicator
+
+Red = needs attention
+
+Green = on track
+
+Headline (Large, Kitchen Language)
+
+Clear, actionable, non-financial wording
+
+Context Line
+
+Explains why the issue matters in kitchen terms
+
+Key Metrics (Max 3)
+
+Avg food cost per plate
+
+Target or acceptable range
+
+Cost % of selling price (if relevant)
+
+CTA
+
+“View kitchen breakdown”
+
+Entire card is clickable
+
+Food Cost per Plate (Core Chef Metric)
+Inclusion Rule
+
+Food Cost per Plate must be visible in Chef Curated View.
+
+It is a first-class kitchen metric, not secondary enrichment.
+
+Placement
+
+Appears directly below the Primary Insight Card
+
+Visually secondary
+
+Always visible (not hidden behind toggles)
+
+Summary Content
+
+Display:
+
+Average FC per plate
+
+Range (low → high)
+
+Count of items above acceptable range
+
+Optional compact highlights:
+
+Top 3 highest FC per plate items (name + $ + %)
+
+Secondary Kitchen Metrics (Preserved Data)
+
+All existing Curated metrics must remain, but:
+
+Grouped
+
+Visually de-emphasized
+
+Clearly subordinate to the Primary Insight
+
+Examples:
+
+Food COGS %
+
+Waste indicators
+
+Prep efficiency signals
+
+Inventory usage summaries
+
+Enrichment Rules (Chef)
+
+Allowed only if it explains urgency:
+
+Ingredient-level variance (e.g. dairy, protein)
+
+Waste spikes
+
+Prep yield issues
+
+❌ No charts
+❌ No long tables
+❌ No exploratory analysis
+
+Navigation: Auto-Link to Detailed View
+
+Clicking:
+
+Primary Insight Card
+
+OR highlighted per-plate items
+
+Will:
+
+Switch to Detailed View
+
+Auto-scroll to the relevant section:
+
+Food cost variance
+
+Menu item cost breakdown
+
+Waste & prep efficiency
+
+Data Preservation Rule
+
+❗ No existing Curated data may be removed.
+
+Allowed:
+
+Reordering
+
+Grouping
+
+Visual hierarchy changes
+
+Not allowed:
+
+Deleting metrics
+
+Moving data exclusively to Detailed
+
+Acceptance Criteria
+
+ Chef sees one clear kitchen issue on load
+
+ No Financial Health card appears
+
+ Food cost per plate is visible and contextualized
+
+ Per-plate variance can drive the primary insight
+
+ All existing Curated data remains accessible
+
+ Clicking insight navigates correctly to Detailed
+
+ Curated feels decisional, not exploratory
+
+QA Checklist
+
+Switch role → Chef
+
+Load Curated → one dominant kitchen issue
+
+High FC/plate item → becomes primary insight
+
+Verify per-plate numbers match source
+
+Click insight → Detailed scrolls correctly
+
+Confirm no data loss
+
+Why This Solves the Feedback
+
+This implementation:
+
+Creates strong visual hierarchy
+
+Makes Curated clearly different from Detailed
+
+Uses chef-native metrics (per plate, waste, prep)
+
+Preserves all data
+
+Guides action without overwhelming
+
+Curated becomes a daily kitchen management surface, not a dashboard.
