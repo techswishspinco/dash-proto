@@ -119,6 +119,9 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 import { format, addMonths, subMonths, addWeeks, subWeeks, addDays, subDays, startOfWeek, endOfWeek, isSameMonth, isSameWeek, isSameDay } from "date-fns";
+import { ReportPanel } from "@/components/reports/report-panel";
+import { MOCK_REPORTS, ReportData, ReportType } from "@/components/reports/mock-data";
+import { Wand } from "@/components/ui/wand";
 
 // --- Mock Data ---
 
@@ -2640,7 +2643,14 @@ type FloatingMessage = {
   role: "user" | "assistant";
   content: string;
   artifact?: boolean;
-  report?: Report;
+  report?: any;
+  toolCall?: {
+    state: "running" | "completed" | "pending_confirmation" | "denied";
+    toolName: string;
+    args?: any;
+    result?: any;
+    denialReason?: string;
+  };
 };
 
 const pnlQuickActions = [
@@ -3196,6 +3206,10 @@ function SidePanelAssistant({
   const inputRef = useRef<HTMLInputElement>(null);
   const [processedTrigger, setProcessedTrigger] = useState<string | null>(null);
 
+  // Report State
+  const [isReportPanelOpen, setIsReportPanelOpen] = useState(false);
+  const [currentReport, setCurrentReport] = useState<ReportData | null>(null);
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -3229,35 +3243,114 @@ function SidePanelAssistant({
 
     setTimeout(() => inputRef.current?.focus(), 50);
 
+    // Simulate thinking
     await new Promise(r => setTimeout(r, 1200 + Math.random() * 800));
 
-    let response;
+    // Check for Report Intent
+    const lowerText = text.toLowerCase();
+    let reportType: ReportType | null = null;
+    
+    if (lowerText.includes("profit") || lowerText.includes("margin") || lowerText.includes("p&l")) reportType = "profitability";
+    else if (lowerText.includes("labor") || lowerText.includes("staff") || lowerText.includes("overtime")) reportType = "labor";
+    else if (lowerText.includes("sales") || lowerText.includes("revenue") || lowerText.includes("perform")) reportType = "sales";
+    else if (lowerText.includes("inventory") || lowerText.includes("stock")) reportType = "inventory";
+
+    if (reportType) {
+        // Initial brief answer
+        const initialResponse: FloatingMessage = {
+            id: (Date.now() + 1).toString(),
+            role: "assistant",
+            content: reportType === 'profitability' ? "Net margin declined 2.3% MoM, primarily due to higher labor costs in the kitchen." :
+                     reportType === 'labor' ? "Labor costs are running 14% over budget this month, largely driven by overtime." :
+                     reportType === 'sales' ? "Sales are up 4.2% overall, with strong performance in the dinner shift." :
+                     "Inventory levels are healthy, though there is some variance in liquor stocks."
+        };
+        setMessages(prev => [...prev, initialResponse]);
+        
+        await new Promise(r => setTimeout(r, 600));
+
+        // Offer Report
+        const offerMsg: FloatingMessage = {
+            id: (Date.now() + 2).toString(),
+            role: "assistant",
+            content: "Would you like a detailed report with supporting data?",
+            toolCall: {
+                state: "pending_confirmation",
+                toolName: "generate_report",
+                args: { type: reportType }
+            }
+        };
+        setMessages(prev => [...prev, offerMsg]);
+        setIsTyping(false);
+        return;
+    }
+
+    let content = "";
+    let artifact = false;
+    let report = undefined;
+
     if (isReportMode) {
          const reportId = `report-${Date.now()}`;
-         response = {
-            content: "I've generated a detailed report analyzing your question. Click below to view the full analysis.",
-            showArtifact: false,
-            report: {
+         content = "I've generated a detailed report analyzing your question. Click below to view the full analysis.";
+         report = {
                 id: reportId,
                 title: text.length > 15 ? text.substring(0, 15) + "..." : text,
                 query: text,
                 content: generateReportContent(text)
-            }
-         };
+            };
     } else {
-        response = generateMockResponse(text);
+        const res = generateMockResponse(text);
+        content = res.content;
+        artifact = res.showArtifact || false;
     }
     
     const assistantMsg: FloatingMessage = {
       id: (Date.now() + 1).toString(),
       role: "assistant",
-      content: response.content,
-      artifact: response.showArtifact,
-      report: response.report
+      content: content,
+      artifact: artifact,
+      report: report
     };
 
     setMessages(prev => [...prev, assistantMsg]);
     setIsTyping(false);
+  };
+
+  const handleConfirmTool = async (msgId: string, toolName: string, args: any) => {
+    // Update to running
+    setMessages(prev => prev.map(m => 
+      m.id === msgId 
+        ? { ...m, toolCall: { ...m.toolCall!, state: "running" } }
+        : m
+    ));
+    setIsTyping(true);
+
+    // Tool "running" pause
+    await new Promise(r => setTimeout(r, 1500));
+
+    // Handle Report Generation
+    if (toolName === "generate_report") {
+         setMessages(prev => prev.map(m => 
+          m.id === msgId 
+            ? { ...m, toolCall: { ...m.toolCall!, state: "completed", result: "Report generated successfully." } }
+            : m
+        ));
+        
+        const type = args.type as ReportType;
+        const reportData = MOCK_REPORTS[type];
+        setCurrentReport(reportData);
+        setIsReportPanelOpen(true);
+        setIsTyping(false);
+        return;
+    }
+  };
+
+  const handleDenyTool = (msgId: string) => {
+    setMessages(prev => prev.map(m => 
+      m.id === msgId 
+        ? { ...m, toolCall: { ...m.toolCall!, state: "denied", denialReason: "User cancelled action" } }
+        : m
+    ));
   };
 
   const handleNewChat = () => {
@@ -3340,6 +3433,66 @@ function SidePanelAssistant({
                   </div>
                 </div>
                 
+                {/* Tool Call UI */}
+                {msg.toolCall && (
+                     <div className="mt-2 mb-2">
+                        {msg.toolCall.state === "pending_confirmation" ? (
+                            <div className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm max-w-sm">
+                              <div className="flex items-center justify-between mb-3">
+                                  <div className="flex items-center gap-2">
+                                    <Wand />
+                                    <span className="font-medium text-sm">Confirm Action</span>
+                                  </div>
+                                  <span className="bg-amber-100 text-amber-800 text-[10px] uppercase font-bold px-2 py-0.5 rounded-full">Pending</span>
+                              </div>
+                              
+                              <div className="space-y-3 mb-4">
+                                 <div className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Action</div>
+                                 <div className="text-sm font-medium">{msg.toolCall.toolName === "generate_report" ? "Generate Report" : msg.toolCall.toolName}</div>
+
+                                 <div className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Type</div>
+                                 <div className="text-sm font-medium capitalize">{msg.toolCall.args?.type || "Standard"}</div>
+                              </div>
+
+                              <div className="flex gap-2 pt-2 border-t border-gray-100">
+                                  <button 
+                                    onClick={() => handleDenyTool(msg.id)}
+                                    className="flex-1 py-2 text-xs font-medium border border-gray-200 rounded hover:bg-gray-50 transition-colors"
+                                  >
+                                    No thanks
+                                  </button>
+                                  <button 
+                                    onClick={() => handleConfirmTool(msg.id, msg.toolCall!.toolName, msg.toolCall!.args)}
+                                    className="flex-1 py-2 text-xs font-medium bg-black text-white rounded hover:bg-gray-800 transition-colors shadow-sm"
+                                  >
+                                    Generate Report
+                                  </button>
+                              </div>
+                            </div>
+                        ) : msg.toolCall.state === "denied" ? (
+                            <div className="inline-flex items-center gap-2 text-xs font-mono bg-gray-50 border border-gray-200 px-3 py-2 rounded-md opacity-70">
+                               <div className="h-2 w-2 rounded-full bg-red-400" />
+                               <span className="text-muted-foreground decoration-line-through">Action cancelled</span>
+                            </div>
+                        ) : (
+                           <div className="inline-flex items-center gap-2 text-xs font-mono bg-white border border-gray-200 px-3 py-2 rounded-md shadow-sm">
+                              {msg.toolCall.state === "running" ? (
+                                 <>
+                                    <Wand /> 
+                                    <span className="text-muted-foreground">Generating report...</span> 
+                                 </>
+                              ) : (
+                                 <>
+                                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                                    <span className="text-muted-foreground">Report Generated</span>
+                                    <button onClick={() => setIsReportPanelOpen(true)} className="ml-1 underline text-emerald-600 hover:text-emerald-700 font-medium">View</button>
+                                 </>
+                              )}
+                           </div>
+                        )}
+                     </div>
+                )}
+
                 {/* Action Cards */}
                 {msg.artifact && (
                   <div className="space-y-2 mt-3">
@@ -3477,13 +3630,19 @@ function SidePanelAssistant({
           </button>
         </form>
       </div>
+      
+      <ReportPanel 
+        isOpen={isReportPanelOpen} 
+        onClose={() => setIsReportPanelOpen(false)} 
+        data={currentReport} 
+      />
     </div>
   );
 }
 
 // --- Chat Component for Owner View ---
-function OwnerChat({ isOpen, onClose, triggerQuery }: { isOpen: boolean; onClose: () => void; triggerQuery?: string | null }) {
-  const [messages, setMessages] = useState<{ id: string; role: "user" | "assistant"; content: string; actions?: string[] }[]>([]);
+function OwnerChat({ isOpen, onClose, triggerQuery, onOpenReport }: { isOpen: boolean; onClose: () => void; triggerQuery?: string | null; onOpenReport?: (report: any) => void }) {
+  const [messages, setMessages] = useState<{ id: string; role: "user" | "assistant"; content: string; actions?: string[]; report?: any }[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = React.useRef<HTMLDivElement>(null);
