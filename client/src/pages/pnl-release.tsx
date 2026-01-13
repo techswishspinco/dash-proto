@@ -1995,7 +1995,7 @@ function TrendChartModal({ isOpen, onClose, metric }: TrendChartModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="bg-white rounded-xl shadow-xl max-w-3xl w-full max-h-[85vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 mx-4">
         {/* Header with Status */}
         <div className="flex items-start justify-between p-6 border-b border-gray-100">
@@ -5019,9 +5019,12 @@ export default function PnlRelease() {
 
   // Open trend chart modal for a Health Snapshot metric
   const openTrendModal = (metricId: string) => {
+    console.log("Opening trend modal for:", metricId);
     const metric = healthSnapshotTrendData.find(m => m.id === metricId);
     if (metric) {
       setTrendModalMetric(metric);
+    } else {
+      console.warn("Metric not found for trend modal:", metricId);
     }
   };
 
