@@ -67,6 +67,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
 import { 
   BarChart, 
@@ -3017,6 +3022,76 @@ function generateMockResponse(query: string): { content: string; showArtifact?: 
   };
 }
 
+function HoverAnalysisCard({ 
+  children, 
+  title, 
+  description, 
+  data, 
+  questions,
+  onQuestionClick
+}: { 
+  children: React.ReactNode;
+  title: string;
+  description: string;
+  data: { label: string; value: number; color?: string }[];
+  questions: string[];
+  onQuestionClick: (q: string) => void;
+}) {
+  return (
+    <HoverCard openDelay={200} closeDelay={100}>
+      <HoverCardTrigger asChild>
+        {children}
+      </HoverCardTrigger>
+      <HoverCardContent className="w-96 p-0 overflow-hidden" align="start" side="right" sideOffset={20}>
+        <div className="p-4 bg-white">
+          <div className="flex items-start gap-3 mb-3">
+            <div className="p-2 bg-amber-50 rounded-lg shrink-0">
+              <Sparkles className="h-4 w-4 text-amber-600" />
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 text-sm">{title}</h4>
+              <p className="text-xs text-gray-600 mt-1 leading-relaxed">{description}</p>
+            </div>
+          </div>
+          
+          <div className="h-32 mt-4 mb-4 flex items-end justify-between gap-2 px-2 border-b border-gray-100 pb-2">
+            {data.map((d, i) => (
+              <div key={i} className="flex flex-col items-center gap-1 flex-1 group/bar">
+                <div className="text-[10px] font-medium text-gray-500 opacity-0 group-hover/bar:opacity-100 transition-opacity">
+                  {d.value}%
+                </div>
+                <div 
+                  className={cn("w-full rounded-t-sm transition-all hover:opacity-80", d.color || "bg-gray-200")} 
+                  style={{ height: `${d.value}%` }} 
+                />
+                <div className="text-[10px] text-gray-400 font-medium">{d.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-1 pt-1">
+            <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Ask follow-up questions:</p>
+            <div className="flex flex-wrap gap-2">
+              {questions.map((q, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onQuestionClick(q);
+                  }}
+                  className="px-2 py-1.5 bg-gray-50 hover:bg-gray-100 text-xs text-gray-600 rounded-md transition-colors text-left border border-gray-100"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
+  );
+}
+
 // --- Side Panel Assistant Component ---
 function SidePanelAssistant({ onClose, triggerQuery }: { onClose: () => void; triggerQuery?: string | null }) {
   const [messages, setMessages] = useState<FloatingMessage[]>([]);
@@ -5851,26 +5926,7 @@ export default function PnlRelease() {
                              </div>
                              
                              <div className="flex items-center gap-3">
-                                {/* Financial Health Badge */}
-                                <button
-                                   onClick={() => handleInsightClick("Explain my financial health score. What factors determine if I'm Healthy, Watch, or At Risk?")}
-                                   className="flex items-center gap-2 px-3 py-1.5 bg-emerald-100 border border-emerald-200 rounded-full hover:bg-emerald-200 transition-colors"
-                                   data-testid="badge-financial-health"
-                                >
-                                   <span className="text-sm">🟢</span>
-                                   <span className="text-sm font-semibold text-emerald-800">Healthy</span>
-                                   <HelpCircle className="h-3.5 w-3.5 text-emerald-600" />
-                                </button>
-                                
                                 {/* Print/Export Button */}
-                                <button
-                                   onClick={() => window.print()}
-                                   className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
-                                   data-testid="button-export-profitability"
-                                >
-                                   <Download className="h-4 w-4" />
-                                   Export
-                                </button>
                              </div>
                           </div>
 
@@ -5886,263 +5942,342 @@ export default function PnlRelease() {
                              </div>
 
                              {/* Gross Profit Row */}
-                             <div 
-                                onClick={() => handleInsightClick("Analyze my Gross Profit change from September to October 2025. October: $81,247.54, September: $77,371.95, Change: +$3,875.59 (+5.0%). What drove this improvement?")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
-                                data-testid="row-profitability-gross-profit"
-                                role="button"
-                                tabIndex={0}
-                                onKeyDown={(e) => {
-                                   if (e.key === 'Enter' || e.key === ' ') {
-                                      handleInsightClick("Analyze my Gross Profit change from September to October 2025. October: $81,247.54, September: $77,371.95, Change: +$3,875.59 (+5.0%). What drove this improvement?");
-                                   }
-                                }}
+                             <HoverAnalysisCard
+                                title="Gross Profit Analysis"
+                                description="Higher revenue driven by increased patio seating capacity (+$3.2k) and improved waste reduction in kitchen (-$600 COGS)."
+                                data={[
+                                  { label: 'Jul', value: 48 },
+                                  { label: 'Aug', value: 52 },
+                                  { label: 'Sep', value: 58, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Menu pricing impact", "COGS trend vs Revenue", "Waste reduction details"]}
+                                onQuestionClick={handleInsightClick}
                              >
-                                <div className="col-span-2 flex items-center gap-2">
-                                   <span className="font-medium text-gray-900">Gross Profit</span>
-                                   <div className="relative group/tooltip">
-                                      <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
-                                      <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
-                                         <p className="font-medium mb-1">Revenue minus Cost of Goods Sold</p>
-                                         <p className="text-gray-300">Shows money remaining after direct costs. Higher is better.</p>
-                                         <p className="text-gray-400 mt-1">Typical range: $50k-$100k for restaurants this size</p>
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Gross Profit change from September to October 2025. October: $81,247.54, September: $77,371.95, Change: +$3,875.59 (+5.0%). What drove this improvement?")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-gross-profit"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Gross Profit change from September to October 2025. October: $81,247.54, September: $77,371.95, Change: +$3,875.59 (+5.0%). What drove this improvement?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-medium text-gray-900">Gross Profit</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Revenue minus Cost of Goods Sold</p>
+                                            <p className="text-gray-300">Shows money remaining after direct costs. Higher is better.</p>
+                                            <p className="text-gray-400 mt-1">Typical range: $50k-$100k for restaurants this size</p>
+                                         </div>
                                       </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                                    </div>
-                                   <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   <div className="text-right font-semibold text-gray-900">$81,247.54</div>
+                                   <div className="text-right text-gray-500">$77,371.95</div>
+                                   <div className="text-right font-medium text-emerald-600">+$3,875.59</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingUp className="h-4 w-4" />
+                                         <span className="text-sm font-medium">+5.0%</span>
+                                      </span>
+                                   </div>
                                 </div>
-                                <div className="text-right font-semibold text-gray-900">$81,247.54</div>
-                                <div className="text-right text-gray-500">$77,371.95</div>
-                                <div className="text-right font-medium text-emerald-600">+$3,875.59</div>
-                                <div className="text-right">
-                                   <span className="inline-flex items-center gap-1 text-emerald-600">
-                                      <TrendingUp className="h-4 w-4" />
-                                      <span className="text-sm font-medium">+5.0%</span>
-                                   </span>
-                                </div>
-                             </div>
+                             </HoverAnalysisCard>
 
                              {/* Gross Profit Margin Row */}
-                             <div 
-                                onClick={() => handleInsightClick("Analyze my Gross Profit Margin change from September to October 2025. October: 58.4%, September: 58.2%, Change: +0.2 pts. Is this a healthy margin for a restaurant?")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
-                                data-testid="row-profitability-gross-margin"
-                                role="button"
-                                tabIndex={0}
-                                onKeyDown={(e) => {
-                                   if (e.key === 'Enter' || e.key === ' ') {
-                                      handleInsightClick("Analyze my Gross Profit Margin change from September to October 2025. October: 58.4%, September: 58.2%, Change: +0.2 pts. Is this a healthy margin for a restaurant?");
-                                   }
-                                }}
+                             <HoverAnalysisCard
+                                title="Gross Margin Analysis"
+                                description="Margin expanded by 0.2 pts despite labor pressure, largely due to successful menu engineering and vendor consolidation."
+                                data={[
+                                  { label: 'Jul', value: 55 },
+                                  { label: 'Aug', value: 56 },
+                                  { label: 'Sep', value: 58, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Analyze margin growth", "Compare to industry avg", "Menu engineering results"]}
+                                onQuestionClick={handleInsightClick}
                              >
-                                <div className="col-span-2 flex items-center gap-2">
-                                   <span className="font-medium text-gray-900">Gross Profit Margin</span>
-                                   <div className="relative group/tooltip">
-                                      <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
-                                      <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
-                                         <p className="font-medium mb-1">Gross Profit ÷ Revenue</p>
-                                         <p className="text-gray-300">Percentage of revenue kept after direct costs. Key profitability indicator.</p>
-                                         <p className="text-gray-400 mt-1">Healthy range: 55-65% for full-service restaurants</p>
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Gross Profit Margin change from September to October 2025. October: 58.4%, September: 58.2%, Change: +0.2 pts. Is this a healthy margin for a restaurant?")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-gross-margin"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Gross Profit Margin change from September to October 2025. October: 58.4%, September: 58.2%, Change: +0.2 pts. Is this a healthy margin for a restaurant?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-medium text-gray-900">Gross Profit Margin</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Gross Profit ÷ Revenue</p>
+                                            <p className="text-gray-300">Percentage of revenue kept after direct costs. Key profitability indicator.</p>
+                                            <p className="text-gray-400 mt-1">Healthy range: 55-65% for full-service restaurants</p>
+                                         </div>
                                       </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                                    </div>
-                                   <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   <div className="text-right font-semibold text-gray-900">58.4%</div>
+                                   <div className="text-right text-gray-500">58.2%</div>
+                                   <div className="text-right font-medium text-emerald-600">+0.2 pts</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingUp className="h-4 w-4" />
+                                         <span className="text-sm font-medium">↑</span>
+                                      </span>
+                                   </div>
                                 </div>
-                                <div className="text-right font-semibold text-gray-900">58.4%</div>
-                                <div className="text-right text-gray-500">58.2%</div>
-                                <div className="text-right font-medium text-emerald-600">+0.2 pts</div>
-                                <div className="text-right">
-                                   <span className="inline-flex items-center gap-1 text-emerald-600">
-                                      <TrendingUp className="h-4 w-4" />
-                                      <span className="text-sm font-medium">↑</span>
-                                   </span>
-                                </div>
-                             </div>
+                             </HoverAnalysisCard>
 
                              {/* Operating Expenses Row */}
-                             <div 
-                                onClick={() => handleInsightClick("Analyze my Operating Expenses change from September to October 2025. October: $57,823.45, September: $59,649.58, Change: -$1,826.13 (-3.1%). What categories drove this decrease?")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
-                                data-testid="row-profitability-opex"
-                                role="button"
-                                tabIndex={0}
-                                onKeyDown={(e) => {
-                                   if (e.key === 'Enter' || e.key === ' ') {
-                                      handleInsightClick("Analyze my Operating Expenses change from September to October 2025. October: $57,823.45, September: $59,649.58, Change: -$1,826.13 (-3.1%). What categories drove this decrease?");
-                                   }
-                                }}
+                             <HoverAnalysisCard
+                                title="OpEx Analysis"
+                                description="Expenses decreased $1.8k primarily from renegotiated linen contracts (-$450/mo) and reduced utility usage."
+                                data={[
+                                  { label: 'Jul', value: 45 },
+                                  { label: 'Aug', value: 44 },
+                                  { label: 'Sep', value: 41, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Utility usage breakdown", "Labor vs OpEx", "Vendor spend details"]}
+                                onQuestionClick={handleInsightClick}
                              >
-                                <div className="col-span-2 flex items-center gap-2">
-                                   <span className="font-medium text-gray-900">Operating Expenses</span>
-                                   <div className="relative group/tooltip">
-                                      <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
-                                      <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
-                                         <p className="font-medium mb-1">Total non-COGS expenses</p>
-                                         <p className="text-gray-300">Includes payroll, rent, marketing, utilities, and admin costs.</p>
-                                         <p className="text-gray-400 mt-1">Lower is better (without sacrificing quality)</p>
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Operating Expenses change from September to October 2025. October: $57,823.45, September: $59,649.58, Change: -$1,826.13 (-3.1%). What categories drove this decrease?")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-opex"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Operating Expenses change from September to October 2025. October: $57,823.45, September: $59,649.58, Change: -$1,826.13 (-3.1%). What categories drove this decrease?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-medium text-gray-900">Operating Expenses</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Total non-COGS expenses</p>
+                                            <p className="text-gray-300">Includes payroll, rent, marketing, utilities, and admin costs.</p>
+                                            <p className="text-gray-400 mt-1">Lower is better (without sacrificing quality)</p>
+                                         </div>
                                       </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                                    </div>
-                                   <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   <div className="text-right font-semibold text-gray-900">$57,823.45</div>
+                                   <div className="text-right text-gray-500">$59,649.58</div>
+                                   <div className="text-right font-medium text-emerald-600">-$1,826.13</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingDown className="h-4 w-4" />
+                                         <span className="text-sm font-medium">🟢</span>
+                                      </span>
+                                   </div>
                                 </div>
-                                <div className="text-right font-semibold text-gray-900">$57,823.45</div>
-                                <div className="text-right text-gray-500">$59,649.58</div>
-                                <div className="text-right font-medium text-emerald-600">-$1,826.13</div>
-                                <div className="text-right">
-                                   <span className="inline-flex items-center gap-1 text-emerald-600">
-                                      <TrendingDown className="h-4 w-4" />
-                                      <span className="text-sm font-medium">🟢</span>
-                                   </span>
-                                </div>
-                             </div>
+                             </HoverAnalysisCard>
 
                              {/* Operating Expense Ratio Row */}
-                             <div 
-                                onClick={() => handleInsightClick("Analyze my Operating Expense Ratio change from September to October 2025. October: 41.5%, September: 44.8%, Change: -3.3 pts. This seems like a significant improvement - what drove it?")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
-                                data-testid="row-profitability-opex-ratio"
-                                role="button"
-                                tabIndex={0}
-                                onKeyDown={(e) => {
-                                   if (e.key === 'Enter' || e.key === ' ') {
-                                      handleInsightClick("Analyze my Operating Expense Ratio change from September to October 2025. October: 41.5%, September: 44.8%, Change: -3.3 pts. This seems like a significant improvement - what drove it?");
-                                   }
-                                }}
+                             <HoverAnalysisCard
+                                title="Efficiency Trends"
+                                description="OpEx Ratio improved by 3.3 pts, indicating better fixed cost leverage on higher sales volume."
+                                data={[
+                                  { label: 'Jul', value: 45 },
+                                  { label: 'Aug', value: 44 },
+                                  { label: 'Sep', value: 41, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Efficiency trends", "Fixed vs Variable costs", "Break-even analysis"]}
+                                onQuestionClick={handleInsightClick}
                              >
-                                <div className="col-span-2 flex items-center gap-2">
-                                   <span className="font-medium text-gray-900">Operating Expense Ratio</span>
-                                   <div className="relative group/tooltip">
-                                      <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
-                                      <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
-                                         <p className="font-medium mb-1">Operating Expenses ÷ Revenue</p>
-                                         <p className="text-gray-300">Shows what percentage of revenue goes to operations.</p>
-                                         <p className="text-gray-400 mt-1">Healthy range: 35-45% for restaurants</p>
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Operating Expense Ratio change from September to October 2025. October: 41.5%, September: 44.8%, Change: -3.3 pts. This seems like a significant improvement - what drove it?")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-opex-ratio"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Operating Expense Ratio change from September to October 2025. October: 41.5%, September: 44.8%, Change: -3.3 pts. This seems like a significant improvement - what drove it?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-medium text-gray-900">Operating Expense Ratio</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Operating Expenses ÷ Revenue</p>
+                                            <p className="text-gray-300">Shows what percentage of revenue goes to operations.</p>
+                                            <p className="text-gray-400 mt-1">Healthy range: 35-45% for restaurants</p>
+                                         </div>
                                       </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                                    </div>
-                                   <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   <div className="text-right font-semibold text-gray-900">41.5%</div>
+                                   <div className="text-right text-gray-500">44.8%</div>
+                                   <div className="text-right font-medium text-emerald-600">-3.3 pts</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingDown className="h-4 w-4" />
+                                         <span className="text-sm font-medium">🟢</span>
+                                      </span>
+                                   </div>
                                 </div>
-                                <div className="text-right font-semibold text-gray-900">41.5%</div>
-                                <div className="text-right text-gray-500">44.8%</div>
-                                <div className="text-right font-medium text-emerald-600">-3.3 pts</div>
-                                <div className="text-right">
-                                   <span className="inline-flex items-center gap-1 text-emerald-600">
-                                      <TrendingDown className="h-4 w-4" />
-                                      <span className="text-sm font-medium">🟢</span>
-                                   </span>
-                                </div>
-                             </div>
+                             </HoverAnalysisCard>
 
                              {/* Expense as % of Revenue Row */}
-                             <div 
-                                onClick={() => handleInsightClick("Analyze my total Expense as % of Revenue from September to October 2025. October: 83.1%, September: 86.7%, Change: -3.6 pts. This is a big improvement - break down what contributed.")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
-                                data-testid="row-profitability-expense-pct"
-                                role="button"
-                                tabIndex={0}
-                                onKeyDown={(e) => {
-                                   if (e.key === 'Enter' || e.key === ' ') {
-                                      handleInsightClick("Analyze my total Expense as % of Revenue from September to October 2025. October: 83.1%, September: 86.7%, Change: -3.6 pts. This is a big improvement - break down what contributed.");
-                                   }
-                                }}
+                             <HoverAnalysisCard
+                                title="Total Cost Burden"
+                                description="Total costs reduced to 83.1% of revenue, the lowest level this year, confirming effective cost control measures."
+                                data={[
+                                  { label: 'Jul', value: 88 },
+                                  { label: 'Aug', value: 86 },
+                                  { label: 'Sep', value: 83, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Cost reduction drivers", "Forecast next month", "Compare to budget"]}
+                                onQuestionClick={handleInsightClick}
                              >
-                                <div className="col-span-2 flex items-center gap-2">
-                                   <span className="font-medium text-gray-900">Expense as % of Revenue</span>
-                                   <div className="relative group/tooltip">
-                                      <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
-                                      <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
-                                         <p className="font-medium mb-1">(COGS + Operating Expenses) ÷ Revenue</p>
-                                         <p className="text-gray-300">Total cost burden relative to sales. Lower means more profit.</p>
-                                         <p className="text-gray-400 mt-1">Target: Below 90% for healthy restaurants</p>
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my total Expense as % of Revenue from September to October 2025. October: 83.1%, September: 86.7%, Change: -3.6 pts. This is a big improvement - break down what contributed.")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-expense-pct"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my total Expense as % of Revenue from September to October 2025. October: 83.1%, September: 86.7%, Change: -3.6 pts. This is a big improvement - break down what contributed.");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-medium text-gray-900">Expense as % of Revenue</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">(COGS + Operating Expenses) ÷ Revenue</p>
+                                            <p className="text-gray-300">Total cost burden relative to sales. Lower means more profit.</p>
+                                            <p className="text-gray-400 mt-1">Target: Below 90% for healthy restaurants</p>
+                                         </div>
                                       </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                                    </div>
-                                   <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   <div className="text-right font-semibold text-gray-900">83.1%</div>
+                                   <div className="text-right text-gray-500">86.7%</div>
+                                   <div className="text-right font-medium text-emerald-600">-3.6 pts</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingDown className="h-4 w-4" />
+                                         <span className="text-sm font-medium">🟢</span>
+                                      </span>
+                                   </div>
                                 </div>
-                                <div className="text-right font-semibold text-gray-900">83.1%</div>
-                                <div className="text-right text-gray-500">86.7%</div>
-                                <div className="text-right font-medium text-emerald-600">-3.6 pts</div>
-                                <div className="text-right">
-                                   <span className="inline-flex items-center gap-1 text-emerald-600">
-                                      <TrendingDown className="h-4 w-4" />
-                                      <span className="text-sm font-medium">🟢</span>
-                                   </span>
-                                </div>
-                             </div>
+                             </HoverAnalysisCard>
 
                              {/* Net Operating Income Row - Highlighted */}
-                             <div 
-                                onClick={() => handleInsightClick("Analyze my Net Operating Income change from September to October 2025. October: $23,424.09, September: $17,722.37, Change: +$5,701.72 (+32.2%). This is a significant jump - what are the key drivers?")}
-                                className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 bg-emerald-50/50 hover:bg-emerald-100/50 transition-colors w-full text-left group cursor-pointer relative z-10"
-                                data-testid="row-profitability-noi"
-                                role="button"
-                                tabIndex={0}
-                                onKeyDown={(e) => {
-                                   if (e.key === 'Enter' || e.key === ' ') {
-                                      handleInsightClick("Analyze my Net Operating Income change from September to October 2025. October: $23,424.09, September: $17,722.37, Change: +$5,701.72 (+32.2%). This is a significant jump - what are the key drivers?");
-                                   }
-                                }}
+                             <HoverAnalysisCard
+                                title="NOI Drivers"
+                                description="Net Operating Income surged 32.2% driven by combined effects of revenue growth and strict OpEx management."
+                                data={[
+                                  { label: 'Jul', value: 12 },
+                                  { label: 'Aug', value: 14 },
+                                  { label: 'Sep', value: 17, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Profitability drivers", "Cash flow impact", "Owner distribution potential"]}
+                                onQuestionClick={handleInsightClick}
                              >
-                                <div className="col-span-2 flex items-center gap-2">
-                                   <span className="font-bold text-gray-900">Net Operating Income</span>
-                                   <div className="relative group/tooltip">
-                                      <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
-                                      <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
-                                         <p className="font-medium mb-1">Gross Profit – Operating Expenses</p>
-                                         <p className="text-gray-300">The bottom line. Money left after all operating costs.</p>
-                                         <p className="text-gray-400 mt-1">This is what pays loans, dividends, and reinvestment</p>
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Net Operating Income change from September to October 2025. October: $23,424.09, September: $17,722.37, Change: +$5,701.72 (+32.2%). This is a significant jump - what are the key drivers?")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 bg-emerald-50/50 hover:bg-emerald-100/50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-noi"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Net Operating Income change from September to October 2025. October: $23,424.09, September: $17,722.37, Change: +$5,701.72 (+32.2%). This is a significant jump - what are the key drivers?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-bold text-gray-900">Net Operating Income</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Gross Profit – Operating Expenses</p>
+                                            <p className="text-gray-300">The bottom line. Money left after all operating costs.</p>
+                                            <p className="text-gray-400 mt-1">This is what pays loans, dividends, and reinvestment</p>
+                                         </div>
                                       </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                                    </div>
-                                   <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   <div className="text-right font-bold text-gray-900">$23,424.09</div>
+                                   <div className="text-right text-gray-500">$17,722.37</div>
+                                   <div className="text-right font-bold text-emerald-600">+$5,701.72</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingUp className="h-4 w-4" />
+                                         <span className="text-sm font-bold">+32.2%</span>
+                                      </span>
+                                   </div>
                                 </div>
-                                <div className="text-right font-bold text-gray-900">$23,424.09</div>
-                                <div className="text-right text-gray-500">$17,722.37</div>
-                                <div className="text-right font-bold text-emerald-600">+$5,701.72</div>
-                                <div className="text-right">
-                                   <span className="inline-flex items-center gap-1 text-emerald-600">
-                                      <TrendingUp className="h-4 w-4" />
-                                      <span className="text-sm font-bold">+32.2%</span>
-                                   </span>
-                                </div>
-                             </div>
+                             </HoverAnalysisCard>
 
                              {/* Operating Margin Row - Final */}
-                             <div 
-                                onClick={() => handleInsightClick("Analyze my Operating Margin change from September to October 2025. October: 16.8%, September: 13.3%, Change: +3.5 pts. This is a strong improvement - is this sustainable?")}
-                                className="grid grid-cols-6 px-4 py-4 bg-gray-50/50 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
-                                data-testid="row-profitability-operating-margin"
-                                role="button"
-                                tabIndex={0}
-                                onKeyDown={(e) => {
-                                   if (e.key === 'Enter' || e.key === ' ') {
-                                      handleInsightClick("Analyze my Operating Margin change from September to October 2025. October: 16.8%, September: 13.3%, Change: +3.5 pts. This is a strong improvement - is this sustainable?");
-                                   }
-                                }}
+                             <HoverAnalysisCard
+                                title="Sustainability Check"
+                                description="Operating Margin reached 16.8%, exceeding the 15% target for the first time this quarter."
+                                data={[
+                                  { label: 'Jul', value: 12 },
+                                  { label: 'Aug', value: 14 },
+                                  { label: 'Sep', value: 16, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Sustainability check", "YoY comparison", "Regional benchmark"]}
+                                onQuestionClick={handleInsightClick}
                              >
-                                <div className="col-span-2 flex items-center gap-2">
-                                   <span className="font-bold text-gray-900">Operating Margin</span>
-                                   <div className="relative group/tooltip">
-                                      <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
-                                      <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
-                                         <p className="font-medium mb-1">Net Operating Income ÷ Revenue</p>
-                                         <p className="text-gray-300">The ultimate profitability metric. What % of sales becomes profit.</p>
-                                         <p className="text-gray-400 mt-1">Industry benchmark: 10-15% is good, 15%+ is excellent</p>
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Operating Margin change from September to October 2025. October: 16.8%, September: 13.3%, Change: +3.5 pts. This is a strong improvement - is this sustainable?")}
+                                   className="grid grid-cols-6 px-4 py-4 bg-gray-50/50 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-operating-margin"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Operating Margin change from September to October 2025. October: 16.8%, September: 13.3%, Change: +3.5 pts. This is a strong improvement - is this sustainable?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-bold text-gray-900">Operating Margin</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Net Operating Income ÷ Revenue</p>
+                                            <p className="text-gray-300">The ultimate profitability metric. What % of sales becomes profit.</p>
+                                            <p className="text-gray-400 mt-1">Industry benchmark: 10-15% is good, 15%+ is excellent</p>
+                                         </div>
                                       </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                                    </div>
-                                   <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   <div className="text-right font-bold text-gray-900">16.8%</div>
+                                   <div className="text-right text-gray-500">13.3%</div>
+                                   <div className="text-right font-bold text-emerald-600">+3.5 pts</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingUp className="h-4 w-4" />
+                                         <span className="text-sm font-bold">🟢</span>
+                                      </span>
+                                   </div>
                                 </div>
-                                <div className="text-right font-bold text-gray-900">16.8%</div>
-                                <div className="text-right text-gray-500">13.3%</div>
-                                <div className="text-right font-bold text-emerald-600">+3.5 pts</div>
-                                <div className="text-right">
-                                   <span className="inline-flex items-center gap-1 text-emerald-600">
-                                      <TrendingUp className="h-4 w-4" />
-                                      <span className="text-sm font-bold">🟢</span>
-                                   </span>
-                                </div>
-                             </div>
+                             </HoverAnalysisCard>
                           </div>
 
-                          {/* Source Attribution */}
-                          <div className="mt-3 flex items-center justify-between text-xs text-gray-400">
-                             <span>Data source: 2025_10_SPOT_SM_PL.json vs 2025_09_SPOT_SM_PL.json</span>
-                             <span>Click any row to ask the assistant</span>
-                          </div>
                        </section>
 
                        {/* Financial Overview - New Section */}
