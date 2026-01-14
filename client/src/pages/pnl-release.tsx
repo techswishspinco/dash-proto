@@ -12707,38 +12707,84 @@ export default function PnlRelease() {
                                        </td>
                                     </tr>
                                  </PopoverTrigger>
-                                 <PopoverContent className="w-[380px] p-0" align="start">
-                                    <div className="p-4 border-b border-gray-100">
-                                       <div className="flex items-start gap-3">
-                                          <div className="p-2 bg-emerald-100 rounded-lg"><Sparkles className="h-4 w-4 text-emerald-600" /></div>
+                                 <PopoverContent className="w-[520px] p-0" align="start">
+                                    <div className="p-6">
+                                       {/* Top Metrics Row */}
+                                       <div className="grid grid-cols-3 gap-6 mb-8">
+                                          {/* Metric 1 */}
                                           <div>
-                                             <p className="font-medium text-gray-900 mb-1">Food Cost Analysis</p>
-                                             <p className="text-sm text-gray-600">Meat prices stabilized, contributing to better margins this month.</p>
+                                             <div className="text-xs text-gray-500 mb-1.5">Average Cost / Plate</div>
+                                             <div className="text-3xl font-bold text-gray-900 tracking-tight">$3.45</div>
+                                             <div className="text-xs text-gray-400 mt-1.5 font-medium">Target: $4.50</div>
+                                          </div>
+                                          {/* Metric 2 */}
+                                          <div>
+                                             <div className="text-xs text-gray-500 mb-1.5">Cost Range</div>
+                                             <div className="text-2xl font-bold text-gray-900 tracking-tight">$1.65 - $4.53</div>
+                                             <div className="text-xs text-gray-400 mt-1.5 font-medium">Min - Max across menu</div>
+                                          </div>
+                                          {/* Metric 3 */}
+                                          <div>
+                                             <div className="text-xs text-gray-500 mb-1.5">Items Above Range</div>
+                                             <div className="flex items-center gap-3">
+                                                <div className="text-2xl font-bold text-red-600 tracking-tight">3</div>
+                                                <span className="px-2 py-0.5 bg-red-100 text-red-700 text-[10px] font-bold uppercase tracking-wide rounded">High Impact</span>
+                                             </div>
                                           </div>
                                        </div>
-                                    </div>
-                                    <div className="p-4">
-                                       <div className="h-36">
-                                          <ResponsiveContainer width="100%" height="100%">
-                                             <BarChart data={[
-                                                { name: 'Jul', actual: 38000, budget: 40000 },
-                                                { name: 'Aug', actual: 39500, budget: 40000 },
-                                                { name: 'Sep', actual: 38235, budget: 40000 },
-                                             ]} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                                                <XAxis dataKey="name" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                                <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v/1000).toFixed(0)}k`} />
-                                                <Tooltip formatter={(v: number) => `$${v.toLocaleString()}`} contentStyle={{ fontSize: 12 }} />
-                                                <Bar dataKey="actual" fill="#10b981" name="Actual" radius={[4, 4, 0, 0]} />
-                                                <Bar dataKey="budget" fill="#d1d5db" name="Budget" radius={[4, 4, 0, 0]} />
-                                             </BarChart>
-                                          </ResponsiveContainer>
-                                       </div>
-                                       <div className="mt-3 pt-3 border-t border-gray-100">
-                                          <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
-                                          <div className="flex flex-wrap gap-1.5">
-                                             <button onClick={() => handleInsightClick("Beef price trend")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Beef price trend</button>
-                                             <button onClick={() => handleInsightClick("Waste percentage")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Waste percentage</button>
+
+                                       {/* Section Header */}
+                                       <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Top Cost Drivers</div>
+
+                                       {/* List */}
+                                       <div className="space-y-3">
+                                          {/* Item 1 */}
+                                          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl group hover:bg-gray-100 transition-all cursor-pointer border border-transparent hover:border-gray-200">
+                                             <span className="font-semibold text-gray-900 text-sm">Milky Puff</span>
+                                             <div className="flex items-center gap-6">
+                                                <div className="text-right">
+                                                   <div className="text-sm font-bold text-gray-900">$4.53</div>
+                                                   <div className="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Cost/Plate</div>
+                                                </div>
+                                                <div className="w-px h-8 bg-gray-200" />
+                                                <div className="text-right">
+                                                   <div className="text-sm font-bold text-red-600">31%</div>
+                                                   <div className="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Food Cost</div>
+                                                </div>
+                                                <ChevronRight className="h-4 w-4 text-gray-300 group-hover:text-gray-500 transition-colors" />
+                                             </div>
+                                          </div>
+                                          {/* Item 2 */}
+                                          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl group hover:bg-gray-100 transition-all cursor-pointer border border-transparent hover:border-gray-200">
+                                             <span className="font-semibold text-gray-900 text-sm">Matcha Lava</span>
+                                             <div className="flex items-center gap-6">
+                                                <div className="text-right">
+                                                   <div className="text-sm font-bold text-gray-900">$4.19</div>
+                                                   <div className="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Cost/Plate</div>
+                                                </div>
+                                                <div className="w-px h-8 bg-gray-200" />
+                                                <div className="text-right">
+                                                   <div className="text-sm font-bold text-red-600">29%</div>
+                                                   <div className="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Food Cost</div>
+                                                </div>
+                                                <ChevronRight className="h-4 w-4 text-gray-300 group-hover:text-gray-500 transition-colors" />
+                                             </div>
+                                          </div>
+                                          {/* Item 3 */}
+                                          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl group hover:bg-gray-100 transition-all cursor-pointer border border-transparent hover:border-gray-200">
+                                             <span className="font-semibold text-gray-900 text-sm">Cookie Camp</span>
+                                             <div className="flex items-center gap-6">
+                                                <div className="text-right">
+                                                   <div className="text-sm font-bold text-gray-900">$4.01</div>
+                                                   <div className="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Cost/Plate</div>
+                                                </div>
+                                                <div className="w-px h-8 bg-gray-200" />
+                                                <div className="text-right">
+                                                   <div className="text-sm font-bold text-red-600">28%</div>
+                                                   <div className="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Food Cost</div>
+                                                </div>
+                                                <ChevronRight className="h-4 w-4 text-gray-300 group-hover:text-gray-500 transition-colors" />
+                                             </div>
                                           </div>
                                        </div>
                                     </div>
