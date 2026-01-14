@@ -1,0 +1,240 @@
+Map Assistant Responses → Report Generation Triggers
+Title
+
+Munch Assistant: Response → Report Generation Trigger Mapping
+
+Context
+
+Munch Assistant already:
+
+Analyzes P&L data
+
+Explains insights in chat
+
+Asks follow-up questions
+
+We now want to turn certain assistant follow-ups into explicit report-generation triggers, so users can go from:
+
+“Tell me why” → “Show me the report”
+
+without manually rebuilding context.
+
+Goal
+
+Enable one-click report generation from assistant responses, using structured triggers instead of free-text guessing.
+
+Chat becomes the entry point, reports become the artifact.
+
+Core Concept
+
+Assistant responses will include explicit follow-up actions that map to predefined report templates.
+
+Each follow-up action can be:
+
+Informational (stays in chat)
+
+Or Report-generating (opens the Reports page)
+
+Assistant Follow-Up Types
+
+Each follow-up option returned by the assistant must be tagged as one of:
+
+type FollowUpAction =
+  | { type: "chat"; intent: string }
+  | { type: "report"; report_type: string; params: ReportParams }
+
+Report Trigger Rules
+A follow-up SHOULD generate a report when:
+
+It involves multi-dimensional analysis
+
+It references trends, comparisons, or drivers
+
+It would reasonably be used in a meeting or review
+
+A follow-up should stay in chat when:
+
+It’s a clarification
+
+It’s a single metric explanation
+
+It’s a yes/no validation
+
+Standard Report Trigger Mapping
+1. Sales Performance
+
+Assistant Follow-Up
+
+“Break down sales growth drivers”
+
+Trigger
+
+report_type: "sales_drivers"
+
+
+Report Includes
+
+Sales trend vs comparison
+
+Volume vs price
+
+Category / item contribution
+
+2. Labor Analysis
+
+Assistant Follow-Up
+
+“Analyze labor efficiency vs last year”
+
+Trigger
+
+report_type: "labor_efficiency"
+
+
+Report Includes
+
+Labor % vs sales
+
+Hours vs revenue
+
+Role / shift breakdown
+
+3. Food Cost / COGS
+
+Assistant Follow-Up
+
+“Review food cost per plate trends”
+
+Trigger
+
+report_type: "food_cost_per_plate"
+
+
+Report Includes
+
+Cost per plate over time
+
+Menu item variance
+
+Category drivers
+
+4. Margin / Profitability
+
+Assistant Follow-Up
+
+“How much of this improvement is margin vs volume?”
+
+Trigger
+
+report_type: "margin_decomposition"
+
+
+Report Includes
+
+Revenue vs COGS vs Labor contribution
+
+YoY / MoM delta bridge
+
+Net margin impact
+
+5. Forecast & Sustainability
+
+Assistant Follow-Up
+
+“Is this trend sustainable?”
+
+Trigger
+
+report_type: "forecast_validation"
+
+
+Report Includes
+
+Actual vs forecast
+
+Variance persistence
+
+Scenario outlook
+
+Role-Aware Report Routing
+
+When a report is triggered, the assistant must pass:
+
+{
+  role: "owner" | "gm" | "chef",
+  source: "assistant",
+  originating_insight?,
+  date_range,
+  comparison_range
+}
+
+Role Modifiers
+
+Chef → item / execution-level visuals
+
+GM → operational & staffing visuals
+
+Owner → financial & margin visuals
+
+Same report type, different framing.
+
+UX Behavior
+In Chat
+
+Assistant follow-ups render as:
+
+Clickable buttons
+
+Clearly labeled (e.g. “Generate report”)
+
+Example:
+
+Want me to:
+▸ Break down sales growth drivers
+▸ Analyze labor efficiency vs last year
+▸ Generate a margin impact report
+
+On Click (Report Trigger)
+
+Generate report payload
+
+Navigate to Reports page
+
+Open report in read-only mode
+
+Tag report as:
+
+source = "assistant"
+
+Data Model Additions
+
+Reports should track:
+
+generated_by: "assistant" | "curated_view" | "manual"
+originating_prompt?
+
+Non-Goals
+
+❌ No free-text report guessing
+
+❌ No silent report generation
+
+❌ No auto-generation without user action
+
+Acceptance Criteria
+
+ Assistant follow-ups are explicitly tagged
+
+ Clicking report follow-up generates correct report
+
+ Report opens in Reports page
+
+ Role context is preserved
+
+ Reports are archivable like all others
+
+Product Principle
+
+Chat explains.
+Reports formalize.
+Triggers connect the two.

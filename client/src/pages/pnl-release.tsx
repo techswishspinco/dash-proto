@@ -2594,13 +2594,18 @@ function ActionCard({ action, isInCart, onToggle }: { action: LegacyActionItem; 
 }
 
 // --- Floating Assistant Bar (Digits-inspired) ---
+
+type FollowUpAction = 
+  | { type: "chat"; label: string; intent: string }
+  | { type: "report"; label: string; report_type: string; params?: any };
+
 type FloatingMessage = {
   id: string;
   role: "user" | "assistant";
   content: string;
   artifact?: boolean;
   report?: any;
-  followUpQuestions?: string[];
+  followUpQuestions?: FollowUpAction[];
   toolCall?: {
     state: "running" | "completed" | "pending_confirmation" | "denied";
     toolName: string;
@@ -2666,6 +2671,14 @@ const generateReportContent = (query: string): string => {
 1. **Immediate**: Analyze delivery menu pricing to ensure margin protection.
 2. **Short-term**: Launch a server competition to boost appetizer and dessert sales (check average).
 3. **Strategic**: Evaluate loyalty program performance to drive repeat visits.
+`;
+  } else if (query.toLowerCase().includes('margin') || query.toLowerCase().includes('profit')) {
+     category = "Profitability Analysis";
+     executiveSummary = "Net margin improved 32.2% driven by operational leverage on higher sales. Flow-through rate is strong at 45%.";
+     recommendations = `
+1. **Immediate**: Protect recent gains by locking in labor schedules.
+2. **Short-term**: Reinvest a portion of excess profit into Q4 marketing.
+3. **Strategic**: Evaluate potential for debt paydown or capital improvements.
 `;
   }
 
@@ -2825,11 +2838,46 @@ function FloatingAssistantBar({
       id: (Date.now() + 1).toString(),
       role: "assistant",
       content: response.content,
-      artifact: response.showArtifact
+      artifact: response.showArtifact,
+      followUpQuestions: response.followUpQuestions
     };
 
     setMessages(prev => [...prev, assistantMsg]);
     setIsTyping(false);
+  };
+
+  const handleFollowUpAction = (action: FollowUpAction) => {
+    if (action.type === 'chat') {
+      handleSend(action.intent);
+    } else if (action.type === 'report') {
+      const reportId = `report-${Date.now()}`;
+      const content = generateReportContent(action.report_type);
+      const reportData = {
+          id: reportId,
+          title: action.label,
+          query: action.report_type,
+          content: content,
+          dateRange: "Oct 1 - Oct 31, 2025",
+          entity: "Downtown Location",
+          dataSources: ["POS", "Labor"],
+          summary: [content],
+          metrics: [],
+          status: "active" as const,
+          createdAt: Date.now(),
+          type: "analysis"
+      };
+      
+      setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          role: "assistant",
+          content: `I've generated the **${action.label}** for you.`,
+          report: reportData
+      }]);
+      
+      if (onOpenReport) {
+          onOpenReport(reportData);
+      }
+    }
   };
 
   const handleNewChat = () => {
@@ -2973,6 +3021,30 @@ function FloatingAssistantBar({
                           ))}
                         </div>
                       )}
+
+                      {/* Follow-up Questions */}
+                      {msg.followUpQuestions && msg.followUpQuestions.length > 0 && (
+                        <div className="mt-3 flex flex-col gap-2">
+                            <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Suggested Follow-ups</p>
+                            <div className="flex flex-wrap gap-2">
+                              {msg.followUpQuestions.map((action, idx) => (
+                                <button 
+                                  key={idx}
+                                  onClick={() => handleFollowUpAction(action)}
+                                  className={cn(
+                                    "text-left px-3 py-2 bg-white border rounded-lg text-xs transition-colors shadow-sm flex items-center gap-2",
+                                    action.type === 'report' 
+                                      ? "border-indigo-200 text-indigo-700 hover:bg-indigo-50" 
+                                      : "border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50"
+                                  )}
+                                >
+                                  {action.type === 'report' && <FileText className="h-3 w-3" />}
+                                  {action.label}
+                                </button>
+                              ))}
+                            </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -3038,7 +3110,7 @@ function FloatingAssistantBar({
 }
 
 // --- Mock Response Generator ---
-function generateMockResponse(query: string): { content: string; showArtifact?: boolean; followUpQuestions?: string[] } {
+function generateMockResponse(query: string): { content: string; showArtifact?: boolean; followUpQuestions?: FollowUpAction[] } {
   const q = query.toLowerCase();
   
   if (q.includes("health") || q.includes("score")) {
@@ -3059,9 +3131,9 @@ You have the financial buffer to invest in growth initiatives or deferred mainte
 • Evaluate bonus pool distribution for management team.`,
       showArtifact: false,
       followUpQuestions: [
-        "What dragged down the stability score?",
-        "Show me the labor efficiency trend",
-        "Compare health score to last year"
+        { type: "chat", label: "What dragged down stability?", intent: "What dragged down the stability score?" },
+        { type: "report", label: "Labor efficiency trend", report_type: "labor_efficiency", params: { metric: "splh" } },
+        { type: "chat", label: "Compare to last year", intent: "Compare health score to last year" }
       ]
     };
   }
@@ -3084,9 +3156,9 @@ Your operational leverage is working—incremental sales are flowing through to 
 • Reinvest a portion of profits into marketing to sustain top-line growth.`,
       showArtifact: false,
       followUpQuestions: [
-        "Break down the COGS savings",
-        "Is this margin sustainable next month?",
-        "Show net income trend vs budget"
+        { type: "report", label: "Break down COGS", report_type: "cogs_breakdown", params: { focus: "savings" } },
+        { type: "report", label: "Margin impact analysis", report_type: "margin_decomposition", params: { period: "current" } },
+        { type: "chat", label: "Sustainable?", intent: "Is this margin sustainable next month?" }
       ]
     };
   }
@@ -3109,9 +3181,9 @@ You are getting more productivity per dollar spent. However, watch for burnout i
 • Reward the team for the efficiency gains with a targeted incentive.`,
       showArtifact: true,
       followUpQuestions: [
-        "Show overtime usage by role",
-        "Compare FOH vs BOH labor cost",
-        "Analyze hourly rate changes"
+        { type: "report", label: "Overtime by role", report_type: "overtime_analysis", params: { role_breakdown: true } },
+        { type: "report", label: "Labor efficiency vs LY", report_type: "labor_efficiency", params: { compare: "last_year" } },
+        { type: "chat", label: "Hourly rate changes", intent: "Analyze hourly rate changes" }
       ]
     };
   }
@@ -3134,9 +3206,34 @@ Expense controls are effective. The focus should shift to sustaining these behav
 • Share the waste reduction success with the kitchen team.`,
       showArtifact: false,
       followUpQuestions: [
-        "What are the top 3 highest expenses?",
-        "Show food cost vs budget",
-        "Analyze controllable expenses trend"
+        { type: "report", label: "Top 3 expenses", report_type: "expense_ranking", params: { limit: 3 } },
+        { type: "report", label: "Food cost per plate", report_type: "food_cost_per_plate", params: { sort: "variance" } },
+        { type: "chat", label: "Controllable expenses trend", intent: "Analyze controllable expenses trend" }
+      ]
+    };
+  }
+
+  if (q.includes("sales") || q.includes("revenue")) {
+    return {
+      content: `**Summary Insight**
+Revenue is up **4.2%** vs prior period, driven by dinner shift performance.
+
+**Key Drivers**
+• **Guest Count**: Up 2.5% YoY.
+• **Check Average**: Up 1.7% due to price increase.
+• **Product Mix**: High-margin specials performed well this weekend.
+
+**Implications**
+Top-line health is good, but rely heavily on price increases. Volume growth is modest.
+
+**Recommended Next Steps**
+• Analyze customer feedback on new pricing.
+• Focus on driving traffic during lunch daypart.`,
+      showArtifact: false,
+      followUpQuestions: [
+        { type: "report", label: "Sales growth drivers", report_type: "sales_drivers", params: { decomposition: true } },
+        { type: "report", label: "Forecast validation", report_type: "forecast_validation", params: { horizon: "30d" } },
+        { type: "chat", label: "Lunch vs Dinner", intent: "Compare lunch and dinner performance" }
       ]
     };
   }
@@ -3157,9 +3254,9 @@ You are on track to exceed quarterly profit targets if this trend continues.
 • Check if any deferred maintenance needs attention.`,
     showArtifact: false,
     followUpQuestions: [
-      "Break down sales performance",
-      "Show labor vs sales trend",
-      "Analyze top variance items"
+      { type: "report", label: "Sales Breakdown", report_type: "sales_drivers", params: {} },
+      { type: "report", label: "Labor vs Sales", report_type: "labor_efficiency", params: {} },
+      { type: "chat", label: "Top variance items", intent: "Analyze top variance items" }
     ]
   };
 }
@@ -3421,17 +3518,26 @@ function SidePanelAssistant({
     let content = "";
     let artifact = false;
     let report = undefined;
-    let followUpQuestions: string[] | undefined;
+    let followUpQuestions: FollowUpAction[] | undefined;
 
     if (isReportMode) {
          const reportId = `report-${Date.now()}`;
          content = "I've generated a detailed report analyzing your question. Click below to view the full analysis.";
-         report = {
+         // Mock ReportData compliant object
+         const reportData = {
                 id: reportId,
                 title: text.length > 15 ? text.substring(0, 15) + "..." : text,
-                query: text,
-                content: generateReportContent(text)
+                dateRange: "Oct 1 - Oct 31, 2025",
+                entity: "Downtown Location",
+                dataSources: ["POS", "Labor"],
+                summary: [generateReportContent(text)],
+                metrics: [],
+                status: "active" as const,
+                createdAt: Date.now(),
+                type: "analysis",
+                content: generateReportContent(text) // Keep content for compatibility if needed, though interface might not have it
             };
+         report = reportData;
     } else {
         const res = generateMockResponse(text);
         content = res.content;
@@ -3450,6 +3556,39 @@ function SidePanelAssistant({
 
     setMessages(prev => [...prev, assistantMsg]);
     setIsTyping(false);
+  };
+
+  const handleFollowUpAction = (action: FollowUpAction) => {
+    if (action.type === 'chat') {
+      handleSend(action.intent);
+    } else if (action.type === 'report') {
+      const reportId = `report-${Date.now()}`;
+      const content = generateReportContent(action.report_type);
+      const reportData = {
+          id: reportId,
+          title: action.label,
+          query: action.report_type,
+          content: content,
+          dateRange: "Oct 1 - Oct 31, 2025",
+          entity: "Downtown Location",
+          dataSources: ["POS", "Labor"],
+          summary: [content],
+          metrics: [],
+          status: "active" as const,
+          createdAt: Date.now(),
+          type: "analysis"
+      };
+      
+      setCurrentReport(reportData);
+      setIsReportPanelOpen(true);
+      
+      setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          role: "assistant",
+          content: `I've generated the **${action.label}** for you.`,
+          report: reportData
+      }]);
+    }
   };
 
   const handleConfirmTool = async (msgId: string, toolName: string, args: any) => {
@@ -3742,13 +3881,19 @@ function SidePanelAssistant({
                    <div className="mt-3 flex flex-col gap-2">
                       <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Suggested Follow-ups</p>
                       <div className="flex flex-wrap gap-2">
-                        {msg.followUpQuestions.map((q, idx) => (
+                        {msg.followUpQuestions.map((action, idx) => (
                            <button 
                              key={idx}
-                             onClick={() => handleSend(q)}
-                             className="text-left px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-gray-600 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 transition-colors shadow-sm"
+                             onClick={() => handleFollowUpAction(action)}
+                             className={cn(
+                               "text-left px-3 py-2 bg-white border rounded-lg text-xs transition-colors shadow-sm flex items-center gap-2",
+                               action.type === 'report' 
+                                 ? "border-indigo-200 text-indigo-700 hover:bg-indigo-50" 
+                                 : "border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50"
+                             )}
                            >
-                             {q}
+                             {action.type === 'report' && <FileText className="h-3 w-3" />}
+                             {action.label}
                            </button>
                         ))}
                       </div>
