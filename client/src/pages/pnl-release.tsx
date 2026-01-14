@@ -10563,8 +10563,6 @@ export default function PnlRelease() {
                 <div className="p-8">
                       <div className="max-w-5xl mx-auto flex flex-col gap-8">
 
-{isSectionVisible("executive-narrative") && (
-<section id="executive-narrative" className="scroll-mt-4" style={{ order: getSectionOrderIndex("executive-narrative") }}>
                       <div className="flex items-center justify-between mb-4">
                          <div className="flex items-center gap-3">
                             <h2 className="text-xl font-serif font-bold text-gray-900">Executive Narrative</h2>
