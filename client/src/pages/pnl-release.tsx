@@ -10563,422 +10563,6 @@ export default function PnlRelease() {
                 <div className="p-8">
                       <div className="max-w-5xl mx-auto flex flex-col gap-8">
 
-                   {selectedRole === "owner" && (
-                   <section data-testid="profitability-section-main">
-                      <div className="flex items-center justify-between mb-6">
-                         <div>
-                            <h2 className="text-lg font-serif font-bold text-gray-900 flex items-center gap-2">
-                               <BarChart3 className="h-5 w-5 text-gray-600" />
-                               Profitability Analysis
-                            </h2>
-                            <p className="text-sm text-gray-500 mt-1">Month-over-month performance summary (Oct vs Sep 2025)</p>
-                         </div>
-                         
-                         <div className="flex items-center gap-3">
-                            {/* Header elements removed as requested */}
-                         </div>
-                      </div>
-
-                      <div className="border border-gray-200 rounded-lg overflow-hidden">
-                         <div className="grid grid-cols-6 bg-gray-50 border-b border-gray-200 px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                            <div className="col-span-2">Metric</div>
-                            <div className="text-right">Oct 2025</div>
-                            <div className="text-right">Sep 2025</div>
-                            <div className="text-right">Change</div>
-                            <div className="text-right">Trend</div>
-                         </div>
-
-                         {/* Gross Profit - Parent Row */}
-                         <Popover>
-                           <PopoverTrigger asChild>
-                              <div className="border-b border-gray-100 cursor-pointer">
-                                 <div className="grid grid-cols-6 px-4 py-4 bg-white hover:bg-blue-50 transition-colors w-full text-left">
-                                    <div className="col-span-2 flex items-center gap-2">
-                                       <button
-                                          onClick={(e) => { e.stopPropagation(); setGrossProfitExpanded(!grossProfitExpanded); }}
-                                          className="p-0.5 rounded hover:bg-gray-200 transition-colors"
-                                       >
-                                          <ChevronRight className={cn("h-4 w-4 text-gray-500 transition-transform", grossProfitExpanded && "rotate-90")} />
-                                       </button>
-                                       <span className="font-medium text-gray-900">Gross Profit</span>
-                                       <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded ml-2">Elaborated</span>
-                                    </div>
-                                    <div className="text-right font-semibold text-gray-900">$81,247</div>
-                                    <div className="text-right text-gray-500">$77,372</div>
-                                    <div className="text-right font-medium text-emerald-600">+$3,876</div>
-                                    <div className="text-right"><span className="text-emerald-600 font-medium">+5.0% ↑</span></div>
-                                 </div>
-                              </div>
-                           </PopoverTrigger>
-                           <PopoverContent className="w-[380px] p-0" align="start">
-                              <div className="p-4 border-b border-gray-100">
-                                 <div className="flex items-start gap-3">
-                                    <div className="p-2 bg-emerald-100 rounded-lg"><Sparkles className="h-4 w-4 text-emerald-600" /></div>
-                                    <div>
-                                       <p className="font-medium text-gray-900 mb-1">Gross Profit Analysis</p>
-                                       <p className="text-sm text-gray-600">Higher revenue driven by increased patio seating capacity (+$3.2k) and improved waste reduction in kitchen (-$600 COGS).</p>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div className="p-4">
-                                 <div className="h-36">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                       <BarChart data={[
-                                          { label: 'Jul', value: 48 },
-                                          { label: 'Aug', value: 52 },
-                                          { label: 'Sep', value: 58 }
-                                       ]} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                                          <XAxis dataKey="label" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                          <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                          <Tooltip formatter={(v: number) => `${v}`} contentStyle={{ fontSize: 12 }} />
-                                          <Bar dataKey="value" fill="#10b981" name="Value" radius={[4, 4, 0, 0]} />
-                                       </BarChart>
-                                    </ResponsiveContainer>
-                                 </div>
-                                 <div className="mt-3 pt-3 border-t border-gray-100">
-                                    <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
-                                    <div className="flex flex-wrap gap-1.5">
-                                       <button onClick={() => handleInsightClick("Menu pricing impact")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Menu pricing impact</button>
-                                       <button onClick={() => handleInsightClick("COGS trend vs Revenue")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">COGS trend vs Revenue</button>
-                                       <button onClick={() => handleInsightClick("Waste reduction details")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Waste reduction details</button>
-                                    </div>
-                                 </div>
-                              </div>
-                           </PopoverContent>
-                        </Popover>
-                             
-                             {/* Gross Profit Margin - Child Row */}
-                             {grossProfitExpanded && (
-                                <Popover>
-                                   <PopoverTrigger asChild>
-                                      <div className="grid grid-cols-6 px-4 py-3 pl-12 bg-gray-50 hover:bg-blue-50 transition-colors w-full text-left border-t border-gray-100 cursor-pointer">
-                                         <div className="col-span-2 flex items-center gap-2">
-                                            <span className="text-sm text-gray-700">Gross Profit Margin</span>
-                                            <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
-                                         </div>
-                                         <div className="text-right text-sm font-medium text-gray-900">58.4%</div>
-                                         <div className="text-right text-sm text-gray-500">58.2%</div>
-                                         <div className="text-right text-sm font-medium text-emerald-600">+0.2 pts</div>
-                                         <div className="text-right"><span className="text-emerald-600 text-sm">↑</span></div>
-                                      </div>
-                                   </PopoverTrigger>
-                                   <PopoverContent className="w-[380px] p-0" align="start">
-                                      <div className="p-4 border-b border-gray-100">
-                                         <div className="flex items-start gap-3">
-                                            <div className="p-2 bg-emerald-100 rounded-lg"><Sparkles className="h-4 w-4 text-emerald-600" /></div>
-                                            <div>
-                                               <p className="font-medium text-gray-900 mb-1">Gross Margin Analysis</p>
-                                               <p className="text-sm text-gray-600">Margin expanded by 0.2 pts despite labor pressure, largely due to successful menu engineering and vendor consolidation.</p>
-                                            </div>
-                                         </div>
-                                      </div>
-                                      <div className="p-4">
-                                         <div className="h-36">
-                                            <ResponsiveContainer width="100%" height="100%">
-                                               <BarChart data={[
-                                                  { label: 'Jul', value: 55 },
-                                                  { label: 'Aug', value: 56 },
-                                                  { label: 'Sep', value: 58 }
-                                               ]} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                                                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                                                  <XAxis dataKey="label" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                                  <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                                  <Tooltip formatter={(v: number) => `${v}%`} contentStyle={{ fontSize: 12 }} />
-                                                  <Bar dataKey="value" fill="#10b981" name="Value" radius={[4, 4, 0, 0]} />
-                                               </BarChart>
-                                            </ResponsiveContainer>
-                                         </div>
-                                         <div className="mt-3 pt-3 border-t border-gray-100">
-                                            <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
-                                            <div className="flex flex-wrap gap-1.5">
-                                               <button onClick={() => handleInsightClick("Analyze margin growth")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Analyze margin growth</button>
-                                               <button onClick={() => handleInsightClick("Compare to industry avg")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Compare to industry avg</button>
-                                               <button onClick={() => handleInsightClick("Menu engineering results")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Menu engineering results</button>
-                                            </div>
-                                         </div>
-                                      </div>
-                                   </PopoverContent>
-                                </Popover>
-                             )}
-
-                         {/* Net Operating Income - Parent Row */}
-                         <Popover>
-                           <PopoverTrigger asChild>
-                              <div className="border-b border-gray-100 cursor-pointer">
-                                 <div className="grid grid-cols-6 px-4 py-4 bg-white hover:bg-blue-50 transition-colors w-full text-left">
-                                    <div className="col-span-2 flex items-center gap-2">
-                                       <button
-                                          onClick={(e) => { e.stopPropagation(); setNetIncomeExpanded(!netIncomeExpanded); }}
-                                          className="p-0.5 rounded hover:bg-gray-200 transition-colors"
-                                       >
-                                          <ChevronRight className={cn("h-4 w-4 text-gray-500 transition-transform", netIncomeExpanded && "rotate-90")} />
-                                       </button>
-                                       <span className="font-bold text-gray-900">Net Operating Income</span>
-                                       <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded ml-2">Elaborated</span>
-                                    </div>
-                                    <div className="text-right font-bold text-gray-900">$23,424</div>
-                                    <div className="text-right text-gray-500">$17,722</div>
-                                    <div className="text-right font-bold text-emerald-600">+$5,702</div>
-                                    <div className="text-right"><span className="text-emerald-600 font-bold">+32.2% ↑</span></div>
-                                 </div>
-                              </div>
-                           </PopoverTrigger>
-                           <PopoverContent className="w-[380px] p-0" align="start">
-                              <div className="p-4 border-b border-gray-100">
-                                 <div className="flex items-start gap-3">
-                                    <div className="p-2 bg-emerald-100 rounded-lg"><Sparkles className="h-4 w-4 text-emerald-600" /></div>
-                                    <div>
-                                       <p className="font-medium text-gray-900 mb-1">NOI Drivers</p>
-                                       <p className="text-sm text-gray-600">Net Operating Income surged 32.2% driven by combined effects of revenue growth and strict OpEx management.</p>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div className="p-4">
-                                 <div className="h-36">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                       <BarChart data={[
-                                          { label: 'Jul', value: 12 },
-                                          { label: 'Aug', value: 14 },
-                                          { label: 'Sep', value: 17 }
-                                       ]} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                                          <XAxis dataKey="label" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                          <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${v}k`} />
-                                          <Tooltip formatter={(v: number) => `$${v}k`} contentStyle={{ fontSize: 12 }} />
-                                          <Bar dataKey="value" fill="#10b981" name="Value" radius={[4, 4, 0, 0]} />
-                                       </BarChart>
-                                    </ResponsiveContainer>
-                                 </div>
-                                 <div className="mt-3 pt-3 border-t border-gray-100">
-                                    <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
-                                    <div className="flex flex-wrap gap-1.5">
-                                       <button onClick={() => handleInsightClick("Profitability drivers")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Profitability drivers</button>
-                                       <button onClick={() => handleInsightClick("Cash flow impact")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Cash flow impact</button>
-                                       <button onClick={() => handleInsightClick("Owner distribution potential")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Owner distribution potential</button>
-                                    </div>
-                                 </div>
-                              </div>
-                           </PopoverContent>
-                        </Popover>
-                             
-                             {/* Net Operating Income Children */}
-                             {netIncomeExpanded && (
-                                <>
-                                   <Popover>
-                                      <PopoverTrigger asChild>
-                                         <div className="grid grid-cols-6 px-4 py-3 pl-12 bg-gray-50 hover:bg-blue-50 transition-colors w-full text-left border-t border-gray-100 cursor-pointer">
-                                            <div className="col-span-2 flex items-center gap-2">
-                                               <span className="text-sm text-gray-700">Operating Expenses</span>
-                                               <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
-                                            </div>
-                                            <div className="text-right text-sm font-medium text-gray-900">$57,823</div>
-                                            <div className="text-right text-sm text-gray-500">$59,650</div>
-                                            <div className="text-right text-sm font-medium text-emerald-600">-$1,826</div>
-                                            <div className="text-right"><span className="text-emerald-600 text-sm">🟢 ↓</span></div>
-                                         </div>
-                                      </PopoverTrigger>
-                                      <PopoverContent className="w-[380px] p-0" align="start">
-                                         <div className="p-4 border-b border-gray-100">
-                                            <div className="flex items-start gap-3">
-                                               <div className="p-2 bg-emerald-100 rounded-lg"><Sparkles className="h-4 w-4 text-emerald-600" /></div>
-                                               <div>
-                                                  <p className="font-medium text-gray-900 mb-1">OpEx Analysis</p>
-                                                  <p className="text-sm text-gray-600">Expenses decreased $1.8k primarily from renegotiated linen contracts (-$450/mo) and reduced utility usage.</p>
-                                               </div>
-                                            </div>
-                                         </div>
-                                         <div className="p-4">
-                                            <div className="h-36">
-                                               <ResponsiveContainer width="100%" height="100%">
-                                                  <BarChart data={[
-                                                     { label: 'Jul', value: 45 },
-                                                     { label: 'Aug', value: 44 },
-                                                     { label: 'Sep', value: 41 }
-                                                  ]} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                                                     <XAxis dataKey="label" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                                     <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${v}k`} />
-                                                     <Tooltip formatter={(v: number) => `$${v}k`} contentStyle={{ fontSize: 12 }} />
-                                                     <Bar dataKey="value" fill="#10b981" name="Value" radius={[4, 4, 0, 0]} />
-                                                  </BarChart>
-                                               </ResponsiveContainer>
-                                            </div>
-                                            <div className="mt-3 pt-3 border-t border-gray-100">
-                                               <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
-                                               <div className="flex flex-wrap gap-1.5">
-                                                  <button onClick={() => handleInsightClick("Utility usage breakdown")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Utility usage breakdown</button>
-                                                  <button onClick={() => handleInsightClick("Labor vs OpEx")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Labor vs OpEx</button>
-                                                  <button onClick={() => handleInsightClick("Vendor spend details")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Vendor spend details</button>
-                                               </div>
-                                            </div>
-                                         </div>
-                                      </PopoverContent>
-                                   </Popover>
-                                   
-                                   <Popover>
-                                      <PopoverTrigger asChild>
-                                         <div className="grid grid-cols-6 px-4 py-3 pl-12 bg-gray-50 hover:bg-blue-50 transition-colors w-full text-left border-t border-gray-100 cursor-pointer">
-                                            <div className="col-span-2 flex items-center gap-2">
-                                               <span className="text-sm text-gray-700">Operating Expense Ratio</span>
-                                               <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
-                                            </div>
-                                            <div className="text-right text-sm font-medium text-gray-900">41.5%</div>
-                                            <div className="text-right text-sm text-gray-500">44.8%</div>
-                                            <div className="text-right text-sm font-medium text-emerald-600">-3.3 pts</div>
-                                            <div className="text-right"><span className="text-emerald-600 text-sm">🟢 ↓</span></div>
-                                         </div>
-                                      </PopoverTrigger>
-                                      <PopoverContent className="w-[380px] p-0" align="start">
-                                         <div className="p-4 border-b border-gray-100">
-                                            <div className="flex items-start gap-3">
-                                               <div className="p-2 bg-emerald-100 rounded-lg"><Sparkles className="h-4 w-4 text-emerald-600" /></div>
-                                               <div>
-                                                  <p className="font-medium text-gray-900 mb-1">Efficiency Trends</p>
-                                                  <p className="text-sm text-gray-600">OpEx Ratio improved by 3.3 pts, indicating better fixed cost leverage on higher sales volume.</p>
-                                               </div>
-                                            </div>
-                                         </div>
-                                         <div className="p-4">
-                                            <div className="h-36">
-                                               <ResponsiveContainer width="100%" height="100%">
-                                                  <BarChart data={[
-                                                     { label: 'Jul', value: 45 },
-                                                     { label: 'Aug', value: 44 },
-                                                     { label: 'Sep', value: 41 }
-                                                  ]} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                                                     <XAxis dataKey="label" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                                     <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                                     <Tooltip formatter={(v: number) => `${v}%`} contentStyle={{ fontSize: 12 }} />
-                                                     <Bar dataKey="value" fill="#10b981" name="Value" radius={[4, 4, 0, 0]} />
-                                                  </BarChart>
-                                               </ResponsiveContainer>
-                                            </div>
-                                            <div className="mt-3 pt-3 border-t border-gray-100">
-                                               <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
-                                               <div className="flex flex-wrap gap-1.5">
-                                                  <button onClick={() => handleInsightClick("Efficiency trends")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Efficiency trends</button>
-                                                  <button onClick={() => handleInsightClick("Fixed vs Variable costs")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Fixed vs Variable costs</button>
-                                                  <button onClick={() => handleInsightClick("Break-even analysis")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Break-even analysis</button>
-                                               </div>
-                                            </div>
-                                         </div>
-                                      </PopoverContent>
-                                   </Popover>
-                                   
-                                   <Popover>
-                                      <PopoverTrigger asChild>
-                                         <div className="grid grid-cols-6 px-4 py-3 pl-12 bg-gray-50 hover:bg-blue-50 transition-colors w-full text-left border-t border-gray-100 cursor-pointer">
-                                            <div className="col-span-2 flex items-center gap-2">
-                                               <span className="text-sm text-gray-700">Expense as % of Revenue</span>
-                                               <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
-                                            </div>
-                                            <div className="text-right text-sm font-medium text-gray-900">83.1%</div>
-                                            <div className="text-right text-sm text-gray-500">86.7%</div>
-                                            <div className="text-right text-sm font-medium text-emerald-600">-3.6 pts</div>
-                                            <div className="text-right"><span className="text-emerald-600 text-sm">🟢 ↓</span></div>
-                                         </div>
-                                      </PopoverTrigger>
-                                      <PopoverContent className="w-[380px] p-0" align="start">
-                                         <div className="p-4 border-b border-gray-100">
-                                            <div className="flex items-start gap-3">
-                                               <div className="p-2 bg-emerald-100 rounded-lg"><Sparkles className="h-4 w-4 text-emerald-600" /></div>
-                                               <div>
-                                                  <p className="font-medium text-gray-900 mb-1">Total Cost Burden</p>
-                                                  <p className="text-sm text-gray-600">Total costs reduced to 83.1% of revenue, the lowest level this year, confirming effective cost control measures.</p>
-                                               </div>
-                                            </div>
-                                         </div>
-                                         <div className="p-4">
-                                            <div className="h-36">
-                                               <ResponsiveContainer width="100%" height="100%">
-                                                  <BarChart data={[
-                                                     { label: 'Jul', value: 88 },
-                                                     { label: 'Aug', value: 86 },
-                                                     { label: 'Sep', value: 83 }
-                                                  ]} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                                                     <XAxis dataKey="label" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                                     <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                                     <Tooltip formatter={(v: number) => `${v}%`} contentStyle={{ fontSize: 12 }} />
-                                                     <Bar dataKey="value" fill="#10b981" name="Value" radius={[4, 4, 0, 0]} />
-                                                  </BarChart>
-                                               </ResponsiveContainer>
-                                            </div>
-                                            <div className="mt-3 pt-3 border-t border-gray-100">
-                                               <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
-                                               <div className="flex flex-wrap gap-1.5">
-                                                  <button onClick={() => handleInsightClick("Cost reduction drivers")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Cost reduction drivers</button>
-                                                  <button onClick={() => handleInsightClick("Forecast next month")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Forecast next month</button>
-                                                  <button onClick={() => handleInsightClick("Compare to budget")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Compare to budget</button>
-                                               </div>
-                                            </div>
-                                         </div>
-                                      </PopoverContent>
-                                   </Popover>
-                                </>
-                             )}
-
-                         {/* Operating Margin - Standalone Row */}
-                         <Popover>
-                           <PopoverTrigger asChild>
-                              <div className="grid grid-cols-6 px-4 py-4 bg-white hover:bg-blue-50 transition-colors w-full text-left cursor-pointer">
-                                 <div className="col-span-2 flex items-center gap-2 pl-6">
-                                    <span className="font-bold text-gray-900">Operating Margin</span>
-                                    <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 rounded">Elaborated</span>
-                                 </div>
-                                 <div className="text-right font-bold text-gray-900">16.8%</div>
-                                 <div className="text-right text-gray-500">13.3%</div>
-                                 <div className="text-right font-bold text-emerald-600">+3.5 pts</div>
-                                 <div className="text-right"><span className="text-emerald-600 font-bold">↑</span></div>
-                              </div>
-                           </PopoverTrigger>
-                           <PopoverContent className="w-[380px] p-0" align="start">
-                              <div className="p-4 border-b border-gray-100">
-                                 <div className="flex items-start gap-3">
-                                    <div className="p-2 bg-emerald-100 rounded-lg"><Sparkles className="h-4 w-4 text-emerald-600" /></div>
-                                    <div>
-                                       <p className="font-medium text-gray-900 mb-1">Sustainability Check</p>
-                                       <p className="text-sm text-gray-600">Operating Margin reached 16.8%, exceeding the 15% target for the first time this quarter.</p>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div className="p-4">
-                                 <div className="h-36">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                       <BarChart data={[
-                                          { label: 'Jul', value: 12 },
-                                          { label: 'Aug', value: 14 },
-                                          { label: 'Sep', value: 16 }
-                                       ]} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                                          <XAxis dataKey="label" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                          <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-                                          <Tooltip formatter={(v: number) => `${v}%`} contentStyle={{ fontSize: 12 }} />
-                                          <Bar dataKey="value" fill="#10b981" name="Value" radius={[4, 4, 0, 0]} />
-                                       </BarChart>
-                                    </ResponsiveContainer>
-                                 </div>
-                                 <div className="mt-3 pt-3 border-t border-gray-100">
-                                    <p className="text-xs text-gray-500 mb-2">Ask follow-up questions:</p>
-                                    <div className="flex flex-wrap gap-1.5">
-                                       <button onClick={() => handleInsightClick("Sustainability check")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Sustainability check</button>
-                                       <button onClick={() => handleInsightClick("YoY comparison")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">YoY comparison</button>
-                                       <button onClick={() => handleInsightClick("Regional benchmark")} className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">Regional benchmark</button>
-                                    </div>
-                                 </div>
-                              </div>
-                           </PopoverContent>
-                        </Popover>
-                      </div>
-
-                      {/* Footer elements removed as requested */}
-                   </section>
-                   )}
-                   {/* 1. Executive Narrative */}
-                   {isSectionVisible("executive-narrative") && (
-                   <section id="executive-narrative" className="scroll-mt-4" style={{ order: getSectionOrderIndex("executive-narrative") }}>
                       <div className="flex items-center justify-between mb-4">
                          <div className="flex items-center gap-3">
                             <h2 className="text-xl font-serif font-bold text-gray-900">Executive Narrative</h2>
@@ -13470,6 +13054,372 @@ export default function PnlRelease() {
                    </section>
                    </section>
                    )}
+{selectedRole === "owner" && (
+                       <section data-testid="profitability-section-main" className="bg-white rounded-xl border border-gray-200 p-6 mt-8">
+                          <div className="flex items-center justify-between mb-6">
+                             <div>
+                                <h2 className="text-lg font-serif font-bold text-gray-900 flex items-center gap-2">
+                                   <BarChart3 className="h-5 w-5 text-gray-600" />
+                                   Profitability Analysis
+                                </h2>
+                                <p className="text-sm text-gray-500 mt-1">Month-over-month performance summary</p>
+                             </div>
+                             
+                             <div className="flex items-center gap-3">
+                                {/* Print/Export Button */}
+                             </div>
+                          </div>
+
+                          {/* Profitability Table */}
+                          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                             {/* Table Header */}
+                             <div className="grid grid-cols-6 bg-gray-50 border-b border-gray-200 px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <div className="col-span-2">Metric</div>
+                                <div className="text-right">Oct 2025</div>
+                                <div className="text-right">Sep 2025</div>
+                                <div className="text-right">Change</div>
+                                <div className="text-right">Trend</div>
+                             </div>
+
+                             {/* Gross Profit Row */}
+                             <HoverAnalysisCard
+                                title="Gross Profit Analysis"
+                                description="Higher revenue driven by increased patio seating capacity (+$3.2k) and improved waste reduction in kitchen (-$600 COGS)."
+                                data={[
+                                  { label: 'Jul', value: 48 },
+                                  { label: 'Aug', value: 52 },
+                                  { label: 'Sep', value: 58, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Menu pricing impact", "COGS trend vs Revenue", "Waste reduction details"]}
+                                onQuestionClick={handleInsightClick}
+                             >
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Gross Profit change from September to October 2025. October: $81,247.54, September: $77,371.95, Change: +$3,875.59 (+5.0%). What drove this improvement?")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-gross-profit"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Gross Profit change from September to October 2025. October: $81,247.54, September: $77,371.95, Change: +$3,875.59 (+5.0%). What drove this improvement?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-medium text-gray-900">Gross Profit</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Revenue minus Cost of Goods Sold</p>
+                                            <p className="text-gray-300">Shows money remaining after direct costs. Higher is better.</p>
+                                            <p className="text-gray-400 mt-1">Typical range: $50k-$100k for restaurants this size</p>
+                                         </div>
+                                      </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   </div>
+                                   <div className="text-right font-semibold text-gray-900">$81,247.54</div>
+                                   <div className="text-right text-gray-500">$77,371.95</div>
+                                   <div className="text-right font-medium text-emerald-600">+$3,875.59</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingUp className="h-4 w-4" />
+                                         <span className="text-sm font-medium">+5.0%</span>
+                                      </span>
+                                   </div>
+                                </div>
+                             </HoverAnalysisCard>
+
+                             {/* Gross Profit Margin Row */}
+                             <HoverAnalysisCard
+                                title="Gross Margin Analysis"
+                                description="Margin expanded by 0.2 pts despite labor pressure, largely due to successful menu engineering and vendor consolidation."
+                                data={[
+                                  { label: 'Jul', value: 55 },
+                                  { label: 'Aug', value: 56 },
+                                  { label: 'Sep', value: 58, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Analyze margin growth", "Compare to industry avg", "Menu engineering results"]}
+                                onQuestionClick={handleInsightClick}
+                             >
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Gross Profit Margin change from September to October 2025. October: 58.4%, September: 58.2%, Change: +0.2 pts. Is this a healthy margin for a restaurant?")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-gross-margin"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Gross Profit Margin change from September to October 2025. October: 58.4%, September: 58.2%, Change: +0.2 pts. Is this a healthy margin for a restaurant?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-medium text-gray-900">Gross Profit Margin</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Gross Profit ÷ Revenue</p>
+                                            <p className="text-gray-300">Percentage of revenue kept after direct costs. Key profitability indicator.</p>
+                                            <p className="text-gray-400 mt-1">Healthy range: 55-65% for full-service restaurants</p>
+                                         </div>
+                                      </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   </div>
+                                   <div className="text-right font-semibold text-gray-900">58.4%</div>
+                                   <div className="text-right text-gray-500">58.2%</div>
+                                   <div className="text-right font-medium text-emerald-600">+0.2 pts</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingUp className="h-4 w-4" />
+                                         <span className="text-sm font-medium">↑</span>
+                                      </span>
+                                   </div>
+                                </div>
+                             </HoverAnalysisCard>
+
+                             {/* Operating Expenses Row */}
+                             <HoverAnalysisCard
+                                title="OpEx Analysis"
+                                description="Expenses decreased $1.8k primarily from renegotiated linen contracts (-$450/mo) and reduced utility usage."
+                                data={[
+                                  { label: 'Jul', value: 45 },
+                                  { label: 'Aug', value: 44 },
+                                  { label: 'Sep', value: 41, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Utility usage breakdown", "Labor vs OpEx", "Vendor spend details"]}
+                                onQuestionClick={handleInsightClick}
+                             >
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Operating Expenses change from September to October 2025. October: $57,823.45, September: $59,649.58, Change: -$1,826.13 (-3.1%). What categories drove this decrease?")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-opex"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Operating Expenses change from September to October 2025. October: $57,823.45, September: $59,649.58, Change: -$1,826.13 (-3.1%). What categories drove this decrease?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-medium text-gray-900">Operating Expenses</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Total non-COGS expenses</p>
+                                            <p className="text-gray-300">Includes payroll, rent, marketing, utilities, and admin costs.</p>
+                                            <p className="text-gray-400 mt-1">Lower is better (without sacrificing quality)</p>
+                                         </div>
+                                      </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   </div>
+                                   <div className="text-right font-semibold text-gray-900">$57,823.45</div>
+                                   <div className="text-right text-gray-500">$59,649.58</div>
+                                   <div className="text-right font-medium text-emerald-600">-$1,826.13</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingDown className="h-4 w-4" />
+                                         <span className="text-sm font-medium">🟢</span>
+                                      </span>
+                                   </div>
+                                </div>
+                             </HoverAnalysisCard>
+
+                             {/* Operating Expense Ratio Row */}
+                             <HoverAnalysisCard
+                                title="Efficiency Trends"
+                                description="OpEx Ratio improved by 3.3 pts, indicating better fixed cost leverage on higher sales volume."
+                                data={[
+                                  { label: 'Jul', value: 45 },
+                                  { label: 'Aug', value: 44 },
+                                  { label: 'Sep', value: 41, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Efficiency trends", "Fixed vs Variable costs", "Break-even analysis"]}
+                                onQuestionClick={handleInsightClick}
+                             >
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Operating Expense Ratio change from September to October 2025. October: 41.5%, September: 44.8%, Change: -3.3 pts. This seems like a significant improvement - what drove it?")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-opex-ratio"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Operating Expense Ratio change from September to October 2025. October: 41.5%, September: 44.8%, Change: -3.3 pts. This seems like a significant improvement - what drove it?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-medium text-gray-900">Operating Expense Ratio</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Operating Expenses ÷ Revenue</p>
+                                            <p className="text-gray-300">Shows what percentage of revenue goes to operations.</p>
+                                            <p className="text-gray-400 mt-1">Healthy range: 35-45% for restaurants</p>
+                                         </div>
+                                      </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   </div>
+                                   <div className="text-right font-semibold text-gray-900">41.5%</div>
+                                   <div className="text-right text-gray-500">44.8%</div>
+                                   <div className="text-right font-medium text-emerald-600">-3.3 pts</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingDown className="h-4 w-4" />
+                                         <span className="text-sm font-medium">🟢</span>
+                                      </span>
+                                   </div>
+                                </div>
+                             </HoverAnalysisCard>
+
+                             {/* Expense as % of Revenue Row */}
+                             <HoverAnalysisCard
+                                title="Total Cost Burden"
+                                description="Total costs reduced to 83.1% of revenue, the lowest level this year, confirming effective cost control measures."
+                                data={[
+                                  { label: 'Jul', value: 88 },
+                                  { label: 'Aug', value: 86 },
+                                  { label: 'Sep', value: 83, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Cost reduction drivers", "Forecast next month", "Compare to budget"]}
+                                onQuestionClick={handleInsightClick}
+                             >
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my total Expense as % of Revenue from September to October 2025. October: 83.1%, September: 86.7%, Change: -3.6 pts. This is a big improvement - break down what contributed.")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-expense-pct"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my total Expense as % of Revenue from September to October 2025. October: 83.1%, September: 86.7%, Change: -3.6 pts. This is a big improvement - break down what contributed.");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-medium text-gray-900">Expense as % of Revenue</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">(COGS + Operating Expenses) ÷ Revenue</p>
+                                            <p className="text-gray-300">Total cost burden relative to sales. Lower means more profit.</p>
+                                            <p className="text-gray-400 mt-1">Target: Below 90% for healthy restaurants</p>
+                                         </div>
+                                      </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   </div>
+                                   <div className="text-right font-semibold text-gray-900">83.1%</div>
+                                   <div className="text-right text-gray-500">86.7%</div>
+                                   <div className="text-right font-medium text-emerald-600">-3.6 pts</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingDown className="h-4 w-4" />
+                                         <span className="text-sm font-medium">🟢</span>
+                                      </span>
+                                   </div>
+                                </div>
+                             </HoverAnalysisCard>
+
+                             {/* Net Operating Income Row - Highlighted */}
+                             <HoverAnalysisCard
+                                title="NOI Drivers"
+                                description="Net Operating Income surged 32.2% driven by combined effects of revenue growth and strict OpEx management."
+                                data={[
+                                  { label: 'Jul', value: 12 },
+                                  { label: 'Aug', value: 14 },
+                                  { label: 'Sep', value: 17, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Profitability drivers", "Cash flow impact", "Owner distribution potential"]}
+                                onQuestionClick={handleInsightClick}
+                             >
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Net Operating Income change from September to October 2025. October: $23,424.09, September: $17,722.37, Change: +$5,701.72 (+32.2%). This is a significant jump - what are the key drivers?")}
+                                   className="grid grid-cols-6 px-4 py-4 border-b border-gray-100 bg-emerald-50/50 hover:bg-emerald-100/50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-noi"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Net Operating Income change from September to October 2025. October: $23,424.09, September: $17,722.37, Change: +$5,701.72 (+32.2%). This is a significant jump - what are the key drivers?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-bold text-gray-900">Net Operating Income</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Gross Profit – Operating Expenses</p>
+                                            <p className="text-gray-300">The bottom line. Money left after all operating costs.</p>
+                                            <p className="text-gray-400 mt-1">This is what pays loans, dividends, and reinvestment</p>
+                                         </div>
+                                      </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   </div>
+                                   <div className="text-right font-bold text-gray-900">$23,424.09</div>
+                                   <div className="text-right text-gray-500">$17,722.37</div>
+                                   <div className="text-right font-bold text-emerald-600">+$5,701.72</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingUp className="h-4 w-4" />
+                                         <span className="text-sm font-bold">+32.2%</span>
+                                      </span>
+                                   </div>
+                                </div>
+                             </HoverAnalysisCard>
+
+                             {/* Operating Margin Row - Final */}
+                             <HoverAnalysisCard
+                                title="Sustainability Check"
+                                description="Operating Margin reached 16.8%, exceeding the 15% target for the first time this quarter."
+                                data={[
+                                  { label: 'Jul', value: 12 },
+                                  { label: 'Aug', value: 14 },
+                                  { label: 'Sep', value: 16, color: 'bg-emerald-500' }
+                                ]}
+                                questions={["Sustainability check", "YoY comparison", "Regional benchmark"]}
+                                onQuestionClick={handleInsightClick}
+                             >
+                                <div 
+                                   onClick={() => handleInsightClick("Analyze my Operating Margin change from September to October 2025. October: 16.8%, September: 13.3%, Change: +3.5 pts. This is a strong improvement - is this sustainable?")}
+                                   className="grid grid-cols-6 px-4 py-4 bg-gray-50/50 hover:bg-blue-50 transition-colors w-full text-left group cursor-pointer relative z-10"
+                                   data-testid="row-profitability-operating-margin"
+                                   role="button"
+                                   tabIndex={0}
+                                   onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                         handleInsightClick("Analyze my Operating Margin change from September to October 2025. October: 16.8%, September: 13.3%, Change: +3.5 pts. This is a strong improvement - is this sustainable?");
+                                      }
+                                   }}
+                                >
+                                   <div className="col-span-2 flex items-center gap-2">
+                                      <span className="font-bold text-gray-900">Operating Margin</span>
+                                      <div className="relative group/tooltip">
+                                         <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                                         <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50">
+                                            <p className="font-medium mb-1">Net Operating Income ÷ Revenue</p>
+                                            <p className="text-gray-300">The ultimate profitability metric. What % of sales becomes profit.</p>
+                                            <p className="text-gray-400 mt-1">Industry benchmark: 10-15% is good, 15%+ is excellent</p>
+                                         </div>
+                                      </div>
+                                      <MessageSquare className="h-3.5 w-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                   </div>
+                                   <div className="text-right font-bold text-gray-900">16.8%</div>
+                                   <div className="text-right text-gray-500">13.3%</div>
+                                   <div className="text-right font-bold text-emerald-600">+3.5 pts</div>
+                                   <div className="text-right">
+                                      <span className="inline-flex items-center gap-1 text-emerald-600">
+                                         <TrendingUp className="h-4 w-4" />
+                                         <span className="text-sm font-bold">🟢</span>
+                                      </span>
+                                   </div>
+                                </div>
+                             </HoverAnalysisCard>
+                          </div>
+
+                       </section>
+)}
 
                    {/* Accountant Note */}
                    {isSectionVisible("accountant-note") && (
