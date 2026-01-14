@@ -1,0 +1,186 @@
+Curated View → Insight-Generated Reports (All Roles)
+Title
+
+Curated View: “View Breakdown” Generates Role-Specific Insight Reports
+
+Context
+
+In /accounting/pnl, each role (Owner, GM, Chef) has a Curated View with Primary Insight Cards.
+Each Primary Insight Card includes a “View Breakdown” button.
+
+We want this button to:
+
+Generate a contextual report based on the insight
+
+Open that report in the existing Report page
+
+Adapt the report content to the user’s role
+
+This is an extension of existing functionality, not a new system.
+
+Goal
+
+Enable a single-click path from:
+
+“Here’s what needs attention” → “Here’s exactly why” → “Here’s what to do”
+
+for Owner, GM, and Chef, using the same interaction pattern.
+
+Scope
+Affected Areas
+
+/accounting/pnl
+
+Curated View (Owner, GM, Chef)
+
+Primary Insight Card component
+
+Existing Report page & report generator
+
+Core Behavior (All Roles)
+1. Insight-Driven Report Generation
+
+Each Primary Insight Card already contains:
+
+Insight type (e.g. labor_over_target, food_cost_variance, sales_drop)
+
+Metric + delta
+
+Time range & comparison period
+
+Role context
+
+When View Breakdown is clicked:
+
+Generate a report payload from the card metadata:
+
+Insight type
+
+Role
+
+Metrics
+
+Date range
+
+Comparison range
+
+Relevant dimensions
+
+No recomputation of insights.
+
+2. Navigation
+
+Navigate to the existing Report page
+
+Open the generated report in read mode
+
+Tag the report as source = curated_insight
+
+Example (conceptual):
+
+/reports?source=curated_insight&role=gm&insight=labor_over_target
+
+Role-Specific Report Behavior
+👨‍🍳 Chef
+
+Focus on kitchen controllables:
+
+Food cost per plate
+
+Menu item variance
+
+Waste / yield signals
+
+Category drivers
+
+Narrative: What changed in execution and ingredients
+
+🧑‍💼 GM
+
+Focus on operational drivers:
+
+Labor by role / shift
+
+Sales vs staffing alignment
+
+Daypart or schedule issues
+
+Promo or volume effects
+
+Narrative: What changed in operations and scheduling
+
+🧑‍💻 Owner
+
+Focus on financial outcomes:
+
+Margin impact
+
+Sales vs COGS vs Labor contribution
+
+Trend vs plan
+
+Cash flow implications
+
+Narrative: What changed financially and why it matters
+
+UI & UX Requirements
+
+No new cards or buttons
+
+Same View Breakdown interaction for all roles
+
+Report visuals + language adapt by role
+
+Clear indication the report was auto-generated from an insight
+
+Non-Goals
+
+❌ No duplication of report UI
+
+❌ No manual report builder changes
+
+❌ No new insight logic
+
+❌ No cross-role data leakage
+
+Technical Notes
+
+Insight cards should pass a structured payload:
+
+{
+  role,
+  insight_type,
+  metric,
+  delta,
+  date_range,
+  comparison_range
+}
+
+
+Report generator selects:
+
+Data slices
+
+Visuals
+
+Narrative template
+based on role + insight_type
+
+Acceptance Criteria
+
+ “View Breakdown” works for Owner, GM, and Chef
+
+ Clicking opens the Report page
+
+ Report content matches the originating insight
+
+ Report adapts correctly by role
+
+ No data loss on /accounting/pnl
+
+Product Principle (Important)
+
+Curated View = Decision
+Report = Explanation
+
+No duplication. No overwhelm. One clear story per click.

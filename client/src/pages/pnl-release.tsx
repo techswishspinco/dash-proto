@@ -4278,12 +4278,14 @@ const PrimaryInsightCard = ({
           <div className="flex flex-col gap-2">
             <button 
               onClick={() => {
-                onAddAction({
-                  title: primaryInsight.cta ? primaryInsight.cta : `Investigate ${primaryInsight.metric} Variance`,
-                  source: 'pnl_insight',
-                  metric: primaryInsight.metric,
-                  context: primaryInsight.message
-                });
+                // Handle Report Generation based on Role
+                if (role === "chef") {
+                    handleGenerateChefInsightReport();
+                } else if (role === "gm") {
+                    handleGenerateGMInsightReport(primaryInsight);
+                } else if (role === "owner") {
+                    handleGenerateOwnerInsightReport(primaryInsight);
+                }
               }}
               className={cn(
                 "px-4 py-2 rounded-lg text-sm font-medium transition-colors border shadow-sm flex items-center gap-2",
@@ -4291,6 +4293,20 @@ const PrimaryInsightCard = ({
                 primaryInsight.type === "warning" ? "bg-white text-amber-700 border-amber-200 hover:bg-amber-50" :
                 "bg-white text-emerald-700 border-emerald-200 hover:bg-emerald-50"
               )}
+            >
+              <ArrowRight className="h-4 w-4" />
+              View Breakdown
+            </button>
+            <button
+              onClick={() => {
+                  onAddAction({
+                    title: primaryInsight.cta ? primaryInsight.cta : `Investigate ${primaryInsight.metric} Variance`,
+                    source: 'pnl_insight',
+                    metric: primaryInsight.metric,
+                    context: primaryInsight.message
+                  });
+              }} 
+              className="px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 flex items-center gap-2 shadow-sm"
             >
               <List className="h-4 w-4" />
               {primaryInsight.cta || "Add to Actions"}
@@ -4609,6 +4625,99 @@ export default function PnlRelease() {
           };
           handleReportGenerated(newReport);
       }, 1500);
+  };
+
+  const handleGenerateGMInsightReport = (insight: PrimaryInsight) => {
+    toast({
+        title: "Generating Insight Report",
+        description: "Analyzing operational labor variance...",
+    });
+
+    setTimeout(() => {
+        const newReport: {id: string, type: string, data: ReportData, createdAt: number} = {
+            id: `report-insight-gm-${Date.now()}`,
+            type: 'labor',
+            data: {
+                title: "Insight Report: Labor Efficiency Analysis",
+                dateRange: "September 2025",
+                entity: locationName,
+                dataSources: ["P&L", "Scheduling", "Time & Attendance"],
+                summary: [
+                    insight.message,
+                    insight.detail,
+                    "Weekend overtime is the primary driver of the variance."
+                ],
+                metrics: [
+                    { label: "FOH Labor %", value: "16.4%", change: "+2.4%", trend: "up" },
+                    { label: "Overtime Hours", value: "142 hrs", change: "+45%", trend: "up" },
+                    { label: "Sales / Labor Hr", value: "$45.20", change: "-$4.80", trend: "down" }
+                ],
+                tableData: {
+                    headers: ["Role", "Regular Hrs", "OT Hrs", "Variance Cost", "Impact"],
+                    rows: [
+                        ["FOH Server", "1,250", "42", "$1,200", "High"],
+                        ["FOH Bar", "420", "15", "$450", "Medium"],
+                        ["FOH Host", "310", "5", "$120", "Low"]
+                    ]
+                },
+                analysis: "FOH labor exceeded budget by 2.4% primarily due to unmanaged overtime on Friday and Saturday shifts. Staffing levels remained high during lull periods (2pm-5pm), reducing Sales Per Labor Hour efficiency.",
+                recommendations: [
+                    "Implement strict cut times for FOH staff.",
+                    "Review weekend scheduling templates against forecasted sales.",
+                    "Limit overtime approval to GM only."
+                ]
+            },
+            createdAt: Date.now()
+        };
+        handleReportGenerated(newReport);
+    }, 1500);
+  };
+
+  const handleGenerateOwnerInsightReport = (insight: PrimaryInsight) => {
+    toast({
+        title: "Generating Insight Report",
+        description: "Analyzing financial impact...",
+    });
+
+    setTimeout(() => {
+        const newReport: {id: string, type: string, data: ReportData, createdAt: number} = {
+            id: `report-insight-owner-${Date.now()}`,
+            type: 'profitability',
+            data: {
+                title: "Insight Report: Profitability Impact",
+                dateRange: "September 2025",
+                entity: locationName,
+                dataSources: ["P&L", "Balance Sheet", "Cash Flow"],
+                summary: [
+                    insight.message,
+                    insight.detail,
+                    "Combined Prime Cost pressure is eroding Net Margin."
+                ],
+                metrics: [
+                    { label: "Net Margin", value: "3.5%", change: "-10.5%", trend: "down" },
+                    { label: "Prime Cost", value: "68.2%", change: "+5.2%", trend: "up" },
+                    { label: "OpEx", value: "$14,500", change: "+$2,100", trend: "up" }
+                ],
+                tableData: {
+                    headers: ["Category", "Actual %", "Target %", "Variance %", "Impact $"],
+                    rows: [
+                        ["COGS", "45.0%", "30.0%", "+15.0%", "-$18,400"],
+                        ["Labor", "23.2%", "24.0%", "-0.8%", "+$1,200"],
+                        ["Rent & Occ", "8.5%", "8.0%", "+0.5%", "-$650"],
+                        ["Net Income", "3.5%", "14.0%", "-10.5%", "-$13,850"]
+                    ]
+                },
+                analysis: "Profitability has been severely impacted by a massive spike in COGS (Commissary & Ice Cream), dragging Net Margin down to 3.5%. While labor is controlled, the material cost variance is unsustainable and requires immediate vendor or recipe intervention.",
+                recommendations: [
+                    "Conduct full audit of Commissary invoices.",
+                    "Freeze discretionary spending until Prime Cost stabilizes.",
+                    "Review menu pricing strategy for low-margin items."
+                ]
+            },
+            createdAt: Date.now()
+        };
+        handleReportGenerated(newReport);
+    }, 1500);
   };
 
   // Close TOC dropdown on outside click
