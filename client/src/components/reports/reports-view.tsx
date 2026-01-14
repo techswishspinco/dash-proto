@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { ReportData, MOCK_REPORTS, ReportType } from "./mock-data";
 import { ReportContent } from "./report-content";
 import { Button } from "@/components/ui/button";
-import { Sparkles, FileText, ArrowRight, Clock, ChevronRight, TrendingUp, ChevronLeft, PanelLeftClose, PanelLeftOpen, Search, Archive, RotateCcw } from "lucide-react";
+import { Sparkles, FileText, ArrowRight, Clock, ChevronRight, TrendingUp, ChevronLeft, PanelLeftClose, PanelLeftOpen, Search, Archive, RotateCcw, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ReportsViewProps {
@@ -42,26 +42,40 @@ export function ReportsView({ reports, activeReportId, onSelectReport, onGenerat
 
   // Helper for Sidebar List Item
   const SidebarItem = ({ report, isActive, onClick }: { report: any, isActive: boolean, onClick: () => void }) => (
-    <button
-        onClick={onClick}
-        className={cn(
-            "w-full text-left px-3 py-3 rounded-lg text-sm transition-colors border relative group",
-            isActive
-                ? "bg-indigo-50 border-indigo-100 text-indigo-900 shadow-sm"
-                : "bg-white border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-200"
-        )}
-    >
-        <div className="flex items-center justify-between mb-1">
-            <div className="font-medium truncate pr-2">{report.data.title}</div>
-            {report.status === 'archived' && (
-                <span className="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">Archived</span>
+    <div className="relative group">
+        <button
+            onClick={onClick}
+            className={cn(
+                "w-full text-left px-3 py-3 rounded-lg text-sm transition-colors border relative",
+                isActive
+                    ? "bg-indigo-50 border-indigo-100 text-indigo-900 shadow-sm"
+                    : "bg-white border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-200"
             )}
-        </div>
-        <div className="text-xs text-gray-400 flex items-center gap-1">
-            <Clock className="h-3 w-3" />
-            {new Date(report.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-        </div>
-    </button>
+        >
+            <div className="flex items-center justify-between mb-1">
+                <div className="font-medium truncate pr-6">{report.data.title}</div>
+                {report.status === 'archived' && (
+                    <span className="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">Archived</span>
+                )}
+            </div>
+            <div className="text-xs text-gray-400 flex items-center gap-1">
+                <Clock className="h-3 w-3" />
+                {new Date(report.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+            </div>
+        </button>
+        {report.status !== 'archived' && (
+            <button
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onArchiveReport(report.id);
+                }}
+                className="absolute top-2 right-2 p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md opacity-0 group-hover:opacity-100 transition-all z-10"
+                title="Archive Report"
+            >
+                <X className="h-3.5 w-3.5" />
+            </button>
+        )}
+    </div>
   );
 
   // If a report is active, show it
@@ -215,7 +229,7 @@ export function ReportsView({ reports, activeReportId, onSelectReport, onGenerat
                                 Generated {new Date(activeReport.createdAt).toLocaleString()}
                             </div>
                             {/* Archive/Restore Actions */}
-                            {activeReport.status === 'archived' ? (
+                            {activeReport.status === 'archived' && (
                                 <Button 
                                     variant="outline" 
                                     size="sm"
@@ -223,15 +237,6 @@ export function ReportsView({ reports, activeReportId, onSelectReport, onGenerat
                                     className="text-emerald-600 border-emerald-200 hover:bg-emerald-50"
                                 >
                                     <RotateCcw className="h-3.5 w-3.5 mr-1.5" /> Restore Report
-                                </Button>
-                            ) : (
-                                <Button 
-                                    variant="outline" 
-                                    size="sm"
-                                    onClick={() => onArchiveReport(activeReport.id)}
-                                    className="text-gray-500 hover:text-gray-700 hover:bg-gray-50"
-                                >
-                                    <Archive className="h-3.5 w-3.5 mr-1.5" /> Archive Report
                                 </Button>
                             )}
                         </div>
