@@ -5074,35 +5074,6 @@ export default function PnlRelease() {
     }, 1500);
   };
 
-                    { label: "Net Margin", value: "3.5%", change: "-10.5%", trend: "down" },
-                    { label: "Prime Cost", value: "68.2%", change: "+5.2%", trend: "up" },
-                    { label: "OpEx", value: "$14,500", change: "+$2,100", trend: "up" }
-                ],
-                tableData: {
-                    headers: ["Category", "Actual %", "Target %", "Variance %", "Impact $"],
-                    rows: [
-                        ["COGS", "45.0%", "30.0%", "+15.0%", "-$18,400"],
-                        ["Labor", "23.2%", "24.0%", "-0.8%", "+$1,200"],
-                        ["Rent & Occ", "8.5%", "8.0%", "+0.5%", "-$650"],
-                        ["Net Income", "3.5%", "14.0%", "-10.5%", "-$13,850"]
-                    ]
-                },
-                analysis: "Profitability has been severely impacted by a massive spike in COGS (Commissary & Ice Cream), dragging Net Margin down to 3.5%. While labor is controlled, the material cost variance is unsustainable and requires immediate vendor or recipe intervention.",
-                recommendations: [
-                    "Conduct full audit of Commissary invoices.",
-                    "Freeze discretionary spending until Prime Cost stabilizes.",
-                    "Review menu pricing strategy for low-margin items."
-                ]
-            },
-            createdAt: Date.now(),
-            status: 'active' as const,
-            source: 'curated_insight' as const,
-            role: 'owner'
-        };
-        handleReportGenerated(newReport);
-    }, 1500);
-  };
-
   // Close TOC dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
