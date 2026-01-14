@@ -4991,27 +4991,89 @@ export default function PnlRelease() {
     }, 1500);
   };
 
-  const handleGenerateOwnerInsightReport = (insight: PrimaryInsight) => {
+
+  const handleGenerateFoodCostReport = () => {
     toast({
-        title: "Generating Insight Report",
-        description: "Analyzing financial impact...",
+        title: "Generating Food Cost Report",
+        description: "Analyzing commissary prices and plate costs...",
     });
 
     setTimeout(() => {
         const newReport = {
-            id: `report-insight-owner-${Date.now()}`,
-            type: 'profitability',
+            id: `report-food-cost-${Date.now()}`,
+            type: 'inventory',
             data: {
-                title: "Insight Report: Profitability Impact",
-                dateRange: "September 2025",
+                title: "SPOT COMMISSARY FOOD PRICE & COST FALL/WINTER 2024",
+                dateRange: "Updated 10/14/2024",
                 entity: locationName,
-                dataSources: ["P&L", "Balance Sheet", "Cash Flow"],
+                dataSources: ["Commissary Price List", "Menu Mix", "Recipe Cards"],
                 summary: [
-                    insight.message,
-                    insight.detail,
-                    "Combined Prime Cost pressure is eroding Net Margin."
+                    "Detailed breakdown of food costs across Tapas, Condiments, Showcase, and Takeout categories.",
+                    "Key cost drivers identified: Milky Puff (31% FC) and Matcha Lava (29% FC).",
+                    "Takeout Egg Tarts showing highest margin opportunity at 36% cost."
                 ],
                 metrics: [
+                    { label: "Milky Puff FC", value: "31%", change: "+2%", trend: "up" },
+                    { label: "Matcha Lava FC", value: "29%", change: "+1%", trend: "up" },
+                    { label: "Cookie Camp FC", value: "28%", change: "0%", trend: "flat" }
+                ],
+                tableData: {
+                    headers: ["Item", "Type", "Cost/Plate", "FC %", "Price"],
+                    rows: [
+                        ["Milky Puff", "TAPAS", "$4.53", "31%", "$14.45"],
+                        ["Matcha Lava", "TAPAS", "$4.19", "29%", "$14.45"],
+                        ["Cookie Camp", "TAPAS", "$4.01", "28%", "$14.45"],
+                        ["Harvest", "TAPAS", "$3.84", "27%", "$14.45"],
+                        ["Golden Toast", "TAPAS", "$3.17", "22%", "$14.45"],
+                        ["Egg Tarts", "T/O", "$2.50", "36%", "$7.00"]
+                    ]
+                },
+                analysis: `
+### Top Item Breakdown: Milky Puff
+**Total Food Cost Per Plate:** $4.53 (31% of $14.45 Selling Price)
+
+**Cost Components:**
+*   **Puff Pastry Choux:** $1.67 (From Commissary)
+*   **White Choc. Honeycomb:** $1.12
+*   **Cornflakes, Honey:** $0.50
+*   **Banana:** $0.25
+*   **Ice Cream Condensed Milk:** $1.00
+
+### Top Item Breakdown: Matcha Lava
+**Total Food Cost Per Plate:** $4.19 (29% of $14.45 Selling Price)
+
+**Cost Components:**
+*   **Matcha Lava Cake:** $0.75 (From Commissary)
+*   **Matcha Ball:** $1.93
+*   **Cookie Crumbs:** $0.14
+*   **Matcha Powder:** $0.25
+*   **Ice Cream Green Tea:** $1.12
+
+### Top Item Breakdown: Cookie Camp
+**Total Food Cost Per Plate:** $4.01 (28% of $14.45 Selling Price)
+
+**Cost Components:**
+*   **Cookie DH:** $1.89 (From Commissary)
+*   **Cookie Crumbs:** $0.14
+*   **Pretzel:** $0.10
+*   **Choc Sauce:** $0.88
+*   **Ice Cream Condensed:** $1.00
+                `,
+                recommendations: [
+                    "Review portioning for White Choc. Honeycomb in Milky Puff ($1.12/plate impact).",
+                    "Negotiate bulk pricing for Ice Cream bases as they are a major cost component across all top items.",
+                    "Promote Golden Toast (22% FC) to improve overall mix margin."
+                ]
+            },
+            createdAt: Date.now(),
+            status: 'active' as const,
+            source: 'curated_insight' as const,
+            role: 'chef'
+        };
+        handleReportGenerated(newReport);
+    }, 1500);
+  };
+
                     { label: "Net Margin", value: "3.5%", change: "-10.5%", trend: "down" },
                     { label: "Prime Cost", value: "68.2%", change: "+5.2%", trend: "up" },
                     { label: "OpEx", value: "$14,500", change: "+$2,100", trend: "up" }
@@ -12739,7 +12801,10 @@ export default function PnlRelease() {
                                        {/* List */}
                                        <div className="space-y-3">
                                           {/* Item 1 */}
-                                          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl group hover:bg-gray-100 transition-all cursor-pointer border border-transparent hover:border-gray-200">
+                                          <div 
+                                             onClick={() => handleGenerateFoodCostReport()}
+                                             className="flex items-center justify-between p-4 bg-gray-50 rounded-xl group hover:bg-gray-100 transition-all cursor-pointer border border-transparent hover:border-gray-200"
+                                          >
                                              <span className="font-semibold text-gray-900 text-sm">Milky Puff</span>
                                              <div className="flex items-center gap-6">
                                                 <div className="text-right">
@@ -12755,7 +12820,10 @@ export default function PnlRelease() {
                                              </div>
                                           </div>
                                           {/* Item 2 */}
-                                          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl group hover:bg-gray-100 transition-all cursor-pointer border border-transparent hover:border-gray-200">
+                                          <div 
+                                             onClick={() => handleGenerateFoodCostReport()}
+                                             className="flex items-center justify-between p-4 bg-gray-50 rounded-xl group hover:bg-gray-100 transition-all cursor-pointer border border-transparent hover:border-gray-200"
+                                          >
                                              <span className="font-semibold text-gray-900 text-sm">Matcha Lava</span>
                                              <div className="flex items-center gap-6">
                                                 <div className="text-right">
@@ -12771,7 +12839,10 @@ export default function PnlRelease() {
                                              </div>
                                           </div>
                                           {/* Item 3 */}
-                                          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl group hover:bg-gray-100 transition-all cursor-pointer border border-transparent hover:border-gray-200">
+                                          <div 
+                                             onClick={() => handleGenerateFoodCostReport()}
+                                             className="flex items-center justify-between p-4 bg-gray-50 rounded-xl group hover:bg-gray-100 transition-all cursor-pointer border border-transparent hover:border-gray-200"
+                                          >
                                              <span className="font-semibold text-gray-900 text-sm">Cookie Camp</span>
                                              <div className="flex items-center gap-6">
                                                 <div className="text-right">
