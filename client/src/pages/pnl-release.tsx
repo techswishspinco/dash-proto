@@ -12973,18 +12973,6 @@ export default function PnlRelease() {
                             </div>
                          </div>
 
-                        {/* Primary Insight Card (Role-Based) - Nested Inside Health Card */}
-                        <div className="mt-4">
-                           <PrimaryInsightCard 
-                              role={selectedRole}
-                              trends={aggregatedTrends}
-                              onAddAction={handleAddActionItem}
-                              onAskAI={(query) => {
-                                setFloatingChatTrigger(query);
-                                setShowChat(true);
-                              }}
-                           />
-                        </div>
 
                         {/* Profitability Toggle */}
                         <div className="mt-4 flex justify-center">
@@ -13174,6 +13162,21 @@ export default function PnlRelease() {
 
                       </div>
                    </section>
+                   )}
+
+                   {/* Primary Insight Card (Role-Based) - Moved Outside Health Card */}
+                   {selectedRole === "owner" && (
+                      <div className="mt-4">
+                         <PrimaryInsightCard 
+                            role={selectedRole}
+                            trends={aggregatedTrends}
+                            onAddAction={handleAddActionItem}
+                            onAskAI={(query) => {
+                              setFloatingChatTrigger(query);
+                              setShowChat(true);
+                            }}
+                         />
+                      </div>
                    )}
 
                    {/* Financial Overview - Owner Only */}
