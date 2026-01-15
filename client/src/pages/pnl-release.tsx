@@ -3546,6 +3546,44 @@ function SidePanelAssistant({
         return;
     }
 
+    // Check for Correlation Intent
+    if (lowerText.includes("correlation") || lowerText.includes("affect") || lowerText.includes("impact") || (lowerText.includes("relationship") && lowerText.includes("between")) || (lowerText.includes("did") && lowerText.includes("cause"))) {
+         const initialResponse: FloatingMessage = {
+            id: (Date.now() + 1).toString(),
+            role: "assistant",
+            content: "Analyzing data correlation across the last 3 periods..."
+        };
+        setMessages(prev => [...prev, initialResponse]);
+        
+        await new Promise(r => setTimeout(r, 1500));
+
+        // Mock Correlation Logic
+        let correlationMsg = "";
+        
+        if ((lowerText.includes("labor") && lowerText.includes("profit")) || (lowerText.includes("labor") && lowerText.includes("margin"))) {
+            correlationMsg = "**Strong Negative Correlation Detected (-0.85)**\n\nWhen Labor Cost % increases, Net Profit Margin consistently decreases. This suggests labor overruns are directly eating into profitability, rather than driving sufficient additional revenue to cover the cost.";
+        } else if (lowerText.includes("sales") && lowerText.includes("labor")) {
+             correlationMsg = "**Moderate Positive Correlation (+0.62)**\n\nHigher sales volumes generally drive higher labor costs, but the efficiency varies. On peak Friday nights, labor efficiency improves (sales rise faster than labor costs), whereas Tuesday lunch shifts show poor efficiency.";
+        } else if ((lowerText.includes("marketing") || lowerText.includes("promo")) && lowerText.includes("sales")) {
+             correlationMsg = "**Weak Positive Correlation (+0.24)**\n\nMarketing spend shows a delayed impact on sales. Promotions run in Week 1 typically correlate with sales lifts in Week 2, but the immediate same-week impact is minimal.";
+        } else {
+             correlationMsg = "**Analysis Complete**\n\nI've analyzed the relationship between these metrics. Over the last quarter, they move relatively independently (Correlation: 0.12), suggesting other factors (like seasonality or COGS variance) are driving the changes you're seeing.";
+        }
+
+        const resultMsg: FloatingMessage = {
+            id: (Date.now() + 2).toString(),
+            role: "assistant",
+            content: correlationMsg,
+             followUpQuestions: [
+                { type: "report", label: "View Efficiency Report", report_type: "labor_efficiency", params: { compare: "last_year" } },
+                { type: "chat", label: "Identify outliers", intent: "Show me the specific days with worst labor efficiency" }
+            ]
+        };
+        setMessages(prev => [...prev, resultMsg]);
+        setIsTyping(false);
+        return;
+    }
+
     let content = "";
     let artifact = false;
     let report = undefined;
@@ -4024,6 +4062,7 @@ function SidePanelAssistant({
                 "How can I improve my food cost percentage?",
                 "What's driving the change in net profit?",
                 "Compare this month to last month",
+                "Did labor affect profit?"
               ].map((prompt, i) => (
                 <button
                   key={i}

@@ -1,0 +1,170 @@
+Enable Data Correlation Analysis in Chat Assistant
+Title
+
+Add Data Correlation Capability to Chat Assistant (Explain “Why” Across Metrics)
+
+Context
+
+Today, the product surfaces individual metric changes (e.g. sales up, marketing up, labor up), but users still have to mentally connect why those changes happened.
+
+Example user question we want to support:
+
+“Did the increase in marketing lead to higher sales?”
+
+or
+
+“Why did sales go up this month?”
+
+We want the chat assistant to be able to:
+
+Correlate multiple metrics
+
+Explain directional relationships
+
+Clearly state confidence vs uncertainty
+
+This aligns with the core product philosophy:
+
+Explain why something changed, not just that it changed.
+
+Goal
+
+Enable the chat assistant to perform basic data correlation analysis across available metrics and explain the relationship in plain language.
+
+Example output:
+
+“Sales increased 8.2% this month, which correlates with a 15% increase in marketing spend. Historically, similar marketing increases have coincided with higher weekday dinner sales.”
+
+Scope
+
+✅ Chat assistant only
+✅ Read-only analytics
+❌ No automatic actions
+❌ No predictive guarantees
+
+Supported Correlations (Initial)
+
+The assistant should be able to correlate changes across:
+
+Marketing spend ↔ Sales
+
+Labor hours ↔ Sales volume
+
+COGS ↔ Menu mix
+
+Channel sales ↔ Total revenue
+
+Daypart sales ↔ Labor allocation
+
+(Only when both metrics exist in the data)
+
+Correlation Rules
+
+Use directional correlation, not causal claims
+
+Phrase results as:
+
+“correlates with”
+
+“is associated with”
+
+“tends to move with”
+
+Never state certainty unless mathematically obvious
+
+Data Inputs
+
+The assistant may use:
+
+Time-series metrics (MoM, WoW, period comparisons)
+
+Budget vs actual deltas
+
+Channel-level breakdowns
+
+Category-level rollups
+
+No external data sources.
+
+Assistant Behavior
+1. Trigger
+
+When a user asks:
+
+“Why did X increase/decrease?”
+
+“Did X affect Y?”
+
+“What caused this change?”
+
+The assistant should attempt correlation automatically.
+
+2. Correlation Logic (MVP)
+
+Compare % change across the same time window
+
+Identify aligned directional movement
+
+Check historical consistency (if available)
+
+If insufficient data:
+
+Say so explicitly
+
+Example:
+
+“There isn’t enough historical data to confirm a relationship, but this month both metrics moved up.”
+
+3. Explain in Plain Language
+
+Responses must:
+
+Name both metrics
+
+State direction and magnitude
+
+Explain how they may be connected
+
+Highlight uncertainty when applicable
+
+UI / Output Format
+
+Narrative explanation (default)
+
+Optional bullet summary:
+
+Metric A change
+
+Metric B change
+
+Relationship confidence (Low / Medium / High)
+
+No charts required in this ticket.
+
+Out of Scope
+
+❌ Advanced statistical modeling
+
+❌ Forecasting
+
+❌ Automated recommendations
+
+❌ Action enforcement
+
+Acceptance Criteria
+
+✅ Assistant can compare two or more metrics
+✅ Uses correlation language (not causation)
+✅ Explains relationships in plain English
+✅ Clearly states uncertainty when data is weak
+✅ Fails gracefully when correlation isn’t possible
+
+Notes for AI Agent
+
+This is an explanatory intelligence feature
+
+Accuracy > confidence
+
+Never invent relationships
+
+Prefer fewer, clearer correlations over many weak ones
