@@ -11897,7 +11897,6 @@ export default function PnlRelease() {
                                   <th className="text-right px-6 py-3 font-medium text-gray-500">Budget</th>
                                   <th className="text-right px-6 py-3 font-medium text-gray-500">Variance $</th>
                                   <th className="text-right px-6 py-3 font-medium text-gray-500">% of Revenue</th>
-                                  <th className="text-right px-6 py-3 font-medium text-gray-500">Status</th>
                                </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
@@ -11914,11 +11913,6 @@ export default function PnlRelease() {
                                         ({getLaborVariance('total-labor', PERIOD_REVENUE).formattedPct})
                                      </span>
                                   </td>
-                                  <td className="px-6 py-4 text-right">
-                                     <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", getLaborVariance('total-labor', PERIOD_REVENUE).statusColor)}>
-                                        {getLaborVariance('total-labor', PERIOD_REVENUE).statusText}
-                                     </span>
-                                  </td>
                                </tr>
                                <tr className="hover:bg-gray-50 cursor-pointer" onClick={() => toggleRow("boh-labor")}>
                                   <td className="px-6 py-4 text-gray-700 pl-10 flex items-center gap-2">
@@ -11932,11 +11926,6 @@ export default function PnlRelease() {
                                   </td>
                                   <td className="px-6 py-4 text-right text-gray-600">
                                      {((laborActuals['boh-labor'] / PERIOD_REVENUE) * 100).toFixed(1)}%
-                                  </td>
-                                  <td className="px-6 py-4 text-right">
-                                     <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", getLaborVariance('boh-labor', PERIOD_REVENUE).statusColor)}>
-                                        {getLaborVariance('boh-labor', PERIOD_REVENUE).statusText}
-                                     </span>
                                   </td>
                                </tr>
                                {expandedRows.has("boh-labor") && (
@@ -11952,11 +11941,6 @@ export default function PnlRelease() {
                                         <td className="px-6 py-3 text-right text-gray-500">${getLaborBudgetForCategory('line-cook', PERIOD_REVENUE).toLocaleString()}</td>
                                         <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('line-cook', PERIOD_REVENUE).color)}>{getLaborVariance('line-cook', PERIOD_REVENUE).formattedDollar}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">{((laborActuals['line-cook'] / PERIOD_REVENUE) * 100).toFixed(1)}%</td>
-                                        <td className="px-6 py-3 text-right">
-                                           <span className={cn("px-1.5 py-0.5 rounded text-[10px] font-medium", getLaborVariance('line-cook', PERIOD_REVENUE).statusColor)}>
-                                              {getLaborVariance('line-cook', PERIOD_REVENUE).statusText}
-                                           </span>
-                                        </td>
                                      </tr>
                                   </PopoverTrigger>
                                   <PopoverContent className="w-[380px] p-0" align="start">
@@ -12008,11 +11992,6 @@ export default function PnlRelease() {
                                         <td className="px-6 py-3 text-right text-gray-500">${getLaborBudgetForCategory('prep-cook', PERIOD_REVENUE).toLocaleString()}</td>
                                         <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('prep-cook', PERIOD_REVENUE).color)}>{getLaborVariance('prep-cook', PERIOD_REVENUE).formattedDollar}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">{((laborActuals['prep-cook'] / PERIOD_REVENUE) * 100).toFixed(1)}%</td>
-                                        <td className="px-6 py-3 text-right">
-                                           <span className={cn("px-1.5 py-0.5 rounded text-[10px] font-medium", getLaborVariance('prep-cook', PERIOD_REVENUE).statusColor)}>
-                                              {getLaborVariance('prep-cook', PERIOD_REVENUE).statusText}
-                                           </span>
-                                        </td>
                                      </tr>
                                   </PopoverTrigger>
                                   <PopoverContent className="w-[380px] p-0" align="start">
@@ -12063,11 +12042,6 @@ export default function PnlRelease() {
                                         <td className="px-6 py-3 text-right text-gray-500">${getLaborBudgetForCategory('dishwasher', PERIOD_REVENUE).toLocaleString()}</td>
                                         <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('dishwasher', PERIOD_REVENUE).color)}>{getLaborVariance('dishwasher', PERIOD_REVENUE).formattedDollar}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">{((laborActuals['dishwasher'] / PERIOD_REVENUE) * 100).toFixed(1)}%</td>
-                                        <td className="px-6 py-3 text-right">
-                                           <span className={cn("px-1.5 py-0.5 rounded text-[10px] font-medium", getLaborVariance('dishwasher', PERIOD_REVENUE).statusColor)}>
-                                              {getLaborVariance('dishwasher', PERIOD_REVENUE).statusText}
-                                           </span>
-                                        </td>
                                      </tr>
                                   </PopoverTrigger>
                                   <PopoverContent className="w-[380px] p-0" align="start">
@@ -12122,11 +12096,6 @@ export default function PnlRelease() {
                                   <td className="px-6 py-4 text-right text-gray-600">
                                      {((laborActuals['foh-labor'] / PERIOD_REVENUE) * 100).toFixed(1)}%
                                   </td>
-                                  <td className="px-6 py-4 text-right">
-                                     <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", getLaborVariance('foh-labor', PERIOD_REVENUE).statusColor)}>
-                                        {getLaborVariance('foh-labor', PERIOD_REVENUE).statusText}
-                                     </span>
-                                  </td>
                                </tr>
                                {expandedRows.has("foh-labor") && (
                                <>
@@ -12141,11 +12110,6 @@ export default function PnlRelease() {
                                         <td className="px-6 py-3 text-right text-gray-500">${getLaborBudgetForCategory('server', PERIOD_REVENUE).toLocaleString()}</td>
                                         <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('server', PERIOD_REVENUE).color)}>{getLaborVariance('server', PERIOD_REVENUE).formattedDollar}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">{((laborActuals['server'] / PERIOD_REVENUE) * 100).toFixed(1)}%</td>
-                                        <td className="px-6 py-3 text-right">
-                                           <span className={cn("px-1.5 py-0.5 rounded text-[10px] font-medium", getLaborVariance('server', PERIOD_REVENUE).statusColor)}>
-                                              {getLaborVariance('server', PERIOD_REVENUE).statusText}
-                                           </span>
-                                        </td>
                                      </tr>
                                   </PopoverTrigger>
                                   <PopoverContent className="w-[380px] p-0" align="start">
@@ -12197,11 +12161,6 @@ export default function PnlRelease() {
                                         <td className="px-6 py-3 text-right text-gray-500">${getLaborBudgetForCategory('bartender', PERIOD_REVENUE).toLocaleString()}</td>
                                         <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('bartender', PERIOD_REVENUE).color)}>{getLaborVariance('bartender', PERIOD_REVENUE).formattedDollar}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">{((laborActuals['bartender'] / PERIOD_REVENUE) * 100).toFixed(1)}%</td>
-                                        <td className="px-6 py-3 text-right">
-                                           <span className={cn("px-1.5 py-0.5 rounded text-[10px] font-medium", getLaborVariance('bartender', PERIOD_REVENUE).statusColor)}>
-                                              {getLaborVariance('bartender', PERIOD_REVENUE).statusText}
-                                           </span>
-                                        </td>
                                      </tr>
                                   </PopoverTrigger>
                                   <PopoverContent className="w-[380px] p-0" align="start">
@@ -12252,11 +12211,6 @@ export default function PnlRelease() {
                                         <td className="px-6 py-3 text-right text-gray-500">${getLaborBudgetForCategory('host', PERIOD_REVENUE).toLocaleString()}</td>
                                         <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('host', PERIOD_REVENUE).color)}>{getLaborVariance('host', PERIOD_REVENUE).formattedDollar}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">{((laborActuals['host'] / PERIOD_REVENUE) * 100).toFixed(1)}%</td>
-                                        <td className="px-6 py-3 text-right">
-                                           <span className={cn("px-1.5 py-0.5 rounded text-[10px] font-medium", getLaborVariance('host', PERIOD_REVENUE).statusColor)}>
-                                              {getLaborVariance('host', PERIOD_REVENUE).statusText}
-                                           </span>
-                                        </td>
                                      </tr>
                                   </PopoverTrigger>
                                   <PopoverContent className="w-[380px] p-0" align="start">
@@ -12311,11 +12265,6 @@ export default function PnlRelease() {
                                   <td className="px-6 py-4 text-right text-gray-600">
                                      {((laborActuals['management'] / PERIOD_REVENUE) * 100).toFixed(1)}%
                                   </td>
-                                  <td className="px-6 py-4 text-right">
-                                     <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", getLaborVariance('management', PERIOD_REVENUE).statusColor)}>
-                                        {getLaborVariance('management', PERIOD_REVENUE).statusText}
-                                     </span>
-                                  </td>
                                </tr>
                                {expandedRows.has("management") && (
                                <>
@@ -12330,11 +12279,6 @@ export default function PnlRelease() {
                                         <td className="px-6 py-3 text-right text-gray-500">${getLaborBudgetForCategory('gm', PERIOD_REVENUE).toLocaleString()}</td>
                                         <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('gm', PERIOD_REVENUE).color)}>{getLaborVariance('gm', PERIOD_REVENUE).formattedDollar}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">{((laborActuals['gm'] / PERIOD_REVENUE) * 100).toFixed(1)}%</td>
-                                        <td className="px-6 py-3 text-right">
-                                           <span className={cn("px-1.5 py-0.5 rounded text-[10px] font-medium", getLaborVariance('gm', PERIOD_REVENUE).statusColor)}>
-                                              {getLaborVariance('gm', PERIOD_REVENUE).statusText}
-                                           </span>
-                                        </td>
                                      </tr>
                                   </PopoverTrigger>
                                   <PopoverContent className="w-[380px] p-0" align="start">
@@ -12385,11 +12329,6 @@ export default function PnlRelease() {
                                         <td className="px-6 py-3 text-right text-gray-500">${getLaborBudgetForCategory('supervisor', PERIOD_REVENUE).toLocaleString()}</td>
                                         <td className={cn("px-6 py-3 text-right text-xs", getLaborVariance('supervisor', PERIOD_REVENUE).color)}>{getLaborVariance('supervisor', PERIOD_REVENUE).formattedDollar}</td>
                                         <td className="px-6 py-3 text-right text-gray-500">{((laborActuals['supervisor'] / PERIOD_REVENUE) * 100).toFixed(1)}%</td>
-                                        <td className="px-6 py-3 text-right">
-                                           <span className={cn("px-1.5 py-0.5 rounded text-[10px] font-medium", getLaborVariance('supervisor', PERIOD_REVENUE).statusColor)}>
-                                              {getLaborVariance('supervisor', PERIOD_REVENUE).statusText}
-                                           </span>
-                                        </td>
                                      </tr>
                                   </PopoverTrigger>
                                   <PopoverContent className="w-[380px] p-0" align="start">
@@ -12440,11 +12379,6 @@ export default function PnlRelease() {
                                   </td>
                                   <td className="px-6 py-4 text-right text-gray-600">
                                      {((laborActuals['payroll-taxes'] / PERIOD_REVENUE) * 100).toFixed(1)}%
-                                  </td>
-                                  <td className="px-6 py-4 text-right">
-                                     <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", getLaborVariance('payroll-taxes', PERIOD_REVENUE).statusColor)}>
-                                        {getLaborVariance('payroll-taxes', PERIOD_REVENUE).statusText}
-                                     </span>
                                   </td>
                                </tr>
                             </tbody>
@@ -12685,7 +12619,6 @@ export default function PnlRelease() {
                                   <th className="text-right px-6 py-3 font-medium text-gray-500">Budget</th>
                                   <th className="text-right px-6 py-3 font-medium text-gray-500">Variance $</th>
                                   <th className="text-right px-6 py-3 font-medium text-gray-500">% of Revenue</th>
-                                  <th className="text-right px-6 py-3 font-medium text-gray-500">Status</th>
                                </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
