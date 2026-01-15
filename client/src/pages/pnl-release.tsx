@@ -2420,7 +2420,7 @@ function InsightCard({ insight, onDelete, onUpdate }: { insight: any, onDelete: 
   );
 }
 
-function GoalProgress({ label, current, target, unit = "%", inverted = false, onTrendClick }: { label: string, current: number, target: number, unit?: string, inverted?: boolean, onTrendClick?: () => void }) {
+function GoalProgress({ label, current, target, unit = "%", inverted = false, onTrendClick, onExplainClick }: { label: string, current: number, target: number, unit?: string, inverted?: boolean, onTrendClick?: () => void, onExplainClick?: () => void }) {
   const progress = Math.min((current / target) * 100, 100);
   const isGood = inverted ? current <= target : current >= target;
 
@@ -2432,6 +2432,18 @@ function GoalProgress({ label, current, target, unit = "%", inverted = false, on
         onTrendClick && "cursor-pointer hover:shadow-md"
       )}
     >
+      {onExplainClick && (
+        <button 
+          onClick={(e) => {
+             e.stopPropagation();
+             onExplainClick();
+          }}
+          className="absolute top-2 right-2 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
+          title="Explain why"
+        >
+          <Sparkles className="h-3.5 w-3.5" />
+        </button>
+      )}
       <div className="flex justify-between items-end mb-2 relative z-10">
         <div>
           <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider block mb-1">{label}</span>
@@ -14088,8 +14100,18 @@ export default function PnlRelease() {
                               {/* Income Card */}
                               <div 
                                  onClick={() => openTrendModal('net-sales')}
-                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
+                                 <button 
+                                    onClick={(e) => {
+                                       e.stopPropagation();
+                                       handleInsightClick(`Analyze my Income of $${dashboardMetrics.income.value.toLocaleString()}. Correlate with marketing spend and customer count if available.`);
+                                    }}
+                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
+                                    title="Explain why"
+                                 >
+                                    <Sparkles className="h-3.5 w-3.5" />
+                                 </button>
                                  <div className="flex items-center justify-between mb-3">
                                     <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Income</span>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
@@ -14113,8 +14135,18 @@ export default function PnlRelease() {
                               {/* Marketing Spend Card */}
                               <div 
                                  onClick={() => openTrendModal('marketing')}
-                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
+                                 <button 
+                                    onClick={(e) => {
+                                       e.stopPropagation();
+                                       handleInsightClick(`Analyze marketing spend of $${dashboardMetrics.marketing.value.toLocaleString()} (${dashboardMetrics.marketing.percentOfRev.toFixed(1)}% of revenue). Correlate with new customer acquisition and sales growth.`);
+                                    }}
+                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
+                                    title="Explain why"
+                                 >
+                                    <Sparkles className="h-3.5 w-3.5" />
+                                 </button>
                                  <div className="flex items-center justify-between mb-3">
                                     <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Marketing</span>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
@@ -14131,8 +14163,18 @@ export default function PnlRelease() {
                               {/* Operating Expenses Card */}
                               <div 
                                  onClick={() => openTrendModal('controllable-expenses')}
-                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
+                                 <button 
+                                    onClick={(e) => {
+                                       e.stopPropagation();
+                                       handleInsightClick(`Analyze Operating Expenses of $${dashboardMetrics.opex.value.toLocaleString()} (${dashboardMetrics.opex.percentOfRev.toFixed(1)}% of revenue). Correlate with sales volume to check efficiency.`);
+                                    }}
+                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
+                                    title="Explain why"
+                                 >
+                                    <Sparkles className="h-3.5 w-3.5" />
+                                 </button>
                                  <div className="flex items-center justify-between mb-3">
                                     <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Op. Expenses</span>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
@@ -14149,8 +14191,18 @@ export default function PnlRelease() {
                               {/* Growth Card */}
                               <div 
                                  onClick={() => openTrendModal('net-sales')}
-                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
+                                 <button 
+                                    onClick={(e) => {
+                                       e.stopPropagation();
+                                       handleInsightClick(`Analyze ${dashboardMetrics.growth.value.toFixed(1)}% revenue growth YoY. Correlate with marketing initiatives and seasonal trends.`);
+                                    }}
+                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
+                                    title="Explain why"
+                                 >
+                                    <Sparkles className="h-3.5 w-3.5" />
+                                 </button>
                                  <div className="flex items-center justify-between mb-3">
                                     <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Growth</span>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
@@ -14180,8 +14232,18 @@ export default function PnlRelease() {
                               {/* Cash Flow Card */}
                               <div 
                                  onClick={() => openTrendModal('cash-flow')}
-                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
+                                 <button 
+                                    onClick={(e) => {
+                                       e.stopPropagation();
+                                       handleInsightClick(`Analyze Cash Flow of $${dashboardMetrics.cashFlow.balance.toLocaleString()}. Correlate with NOI ($${dashboardMetrics.income.value.toLocaleString()}) and capital expenditures.`);
+                                    }}
+                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
+                                    title="Explain why"
+                                 >
+                                    <Sparkles className="h-3.5 w-3.5" />
+                                 </button>
                                  <div className="flex items-center justify-between mb-3">
                                     <div className="flex items-center gap-2">
                                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Cash Flow</span>
@@ -14216,8 +14278,18 @@ export default function PnlRelease() {
                               {/* Spend Visibility Card */}
                               <div 
                                  onClick={() => openTrendModal('labor')}
-                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
+                                 <button 
+                                    onClick={(e) => {
+                                       e.stopPropagation();
+                                       handleInsightClick(`Analyze Total Management Compensation of $${dashboardMetrics.compensation.total.toLocaleString()}. Correlate with retention rates and revenue per manager.`);
+                                    }}
+                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
+                                    title="Explain why"
+                                 >
+                                    <Sparkles className="h-3.5 w-3.5" />
+                                 </button>
                                  <div className="flex items-center justify-between mb-3">
                                     <div className="flex items-center gap-2">
                                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Compensation Overview</span>
@@ -14261,10 +14333,40 @@ export default function PnlRelease() {
                    <section>
                       <h2 className="text-lg font-serif font-bold text-gray-900 mb-6">Financial Overview</h2>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                         <GoalProgress label="Total Sales" current={dashboardMetrics.kpis.sales.current} target={dashboardMetrics.kpis.sales.target} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
-                         <GoalProgress label="Net Profit %" current={dashboardMetrics.kpis.netProfit.current} target={dashboardMetrics.kpis.netProfit.target} unit="%" onTrendClick={() => openTrendModal('net-income')} />
-                         <GoalProgress label="COGS %" current={dashboardMetrics.kpis.cogs.current} target={dashboardMetrics.kpis.cogs.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                         <GoalProgress label="Labor %" current={dashboardMetrics.kpis.labor.current} target={dashboardMetrics.kpis.labor.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
+                         <GoalProgress 
+                           label="Total Sales" 
+                           current={dashboardMetrics.kpis.sales.current} 
+                           target={dashboardMetrics.kpis.sales.target} 
+                           unit="k" 
+                           onTrendClick={() => openTrendModal('net-sales')}
+                           onExplainClick={() => handleInsightClick(`Analyze Total Sales of $${dashboardMetrics.kpis.sales.current}k. Compare with target ($${dashboardMetrics.kpis.sales.target}k) and identify top drivers.`)}
+                         />
+                         <GoalProgress 
+                           label="Net Profit %" 
+                           current={dashboardMetrics.kpis.netProfit.current} 
+                           target={dashboardMetrics.kpis.netProfit.target} 
+                           unit="%" 
+                           onTrendClick={() => openTrendModal('net-income')}
+                           onExplainClick={() => handleInsightClick(`Analyze Net Profit of ${dashboardMetrics.kpis.netProfit.current}%. Compare with target (${dashboardMetrics.kpis.netProfit.target}%) and explain variance.`)}
+                         />
+                         <GoalProgress 
+                           label="COGS %" 
+                           current={dashboardMetrics.kpis.cogs.current} 
+                           target={dashboardMetrics.kpis.cogs.target} 
+                           unit="%" 
+                           inverted={true} 
+                           onTrendClick={() => openTrendModal('cogs')}
+                           onExplainClick={() => handleInsightClick(`Analyze COGS of ${dashboardMetrics.kpis.cogs.current}%. Compare with target (${dashboardMetrics.kpis.cogs.target}%) and identify cost drivers.`)}
+                         />
+                         <GoalProgress 
+                           label="Labor %" 
+                           current={dashboardMetrics.kpis.labor.current} 
+                           target={dashboardMetrics.kpis.labor.target} 
+                           unit="%" 
+                           inverted={true} 
+                           onTrendClick={() => openTrendModal('labor')}
+                           onExplainClick={() => handleInsightClick(`Analyze Labor Cost of ${dashboardMetrics.kpis.labor.current}%. Compare with target (${dashboardMetrics.kpis.labor.target}%) and suggest efficiency improvements.`)}
+                         />
                       </div>
                    </section>
                    )}
@@ -14338,10 +14440,41 @@ export default function PnlRelease() {
                                Secondary Metrics
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 opacity-75 hover:opacity-100 transition-opacity">
-                               <GoalProgress label="COGS %" current={dashboardMetrics.kpis.cogs.current} target={dashboardMetrics.kpis.cogs.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                               <GoalProgress label="Food Cost %" current={dashboardMetrics.kpis.foodCost.current} target={dashboardMetrics.kpis.foodCost.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('cogs')} />
-                               <GoalProgress label="BOH Labor %" current={dashboardMetrics.kpis.bohLabor.current} target={dashboardMetrics.kpis.bohLabor.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
-                               <GoalProgress label="Ticket Time" current={dashboardMetrics.kpis.ticketTime.current} target={dashboardMetrics.kpis.ticketTime.target} unit="m" inverted={true} />
+                               <GoalProgress 
+                                 label="COGS %" 
+                                 current={dashboardMetrics.kpis.cogs.current} 
+                                 target={dashboardMetrics.kpis.cogs.target} 
+                                 unit="%" 
+                                 inverted={true} 
+                                 onTrendClick={() => openTrendModal('cogs')}
+                                 onExplainClick={() => handleInsightClick(`Analyze COGS of ${dashboardMetrics.kpis.cogs.current}%. Compare with target (${dashboardMetrics.kpis.cogs.target}%) and identify kitchen waste issues.`)}
+                               />
+                               <GoalProgress 
+                                 label="Food Cost %" 
+                                 current={dashboardMetrics.kpis.foodCost.current} 
+                                 target={dashboardMetrics.kpis.foodCost.target} 
+                                 unit="%" 
+                                 inverted={true} 
+                                 onTrendClick={() => openTrendModal('cogs')}
+                                 onExplainClick={() => handleInsightClick(`Analyze Food Cost of ${dashboardMetrics.kpis.foodCost.current}%. Compare with target (${dashboardMetrics.kpis.foodCost.target}%) and suggest menu engineering adjustments.`)}
+                               />
+                               <GoalProgress 
+                                 label="BOH Labor %" 
+                                 current={dashboardMetrics.kpis.bohLabor.current} 
+                                 target={dashboardMetrics.kpis.bohLabor.target} 
+                                 unit="%" 
+                                 inverted={true} 
+                                 onTrendClick={() => openTrendModal('labor')}
+                                 onExplainClick={() => handleInsightClick(`Analyze BOH Labor of ${dashboardMetrics.kpis.bohLabor.current}%. Compare with target (${dashboardMetrics.kpis.bohLabor.target}%) and suggest scheduling optimizations.`)}
+                               />
+                               <GoalProgress 
+                                 label="Ticket Time" 
+                                 current={dashboardMetrics.kpis.ticketTime.current} 
+                                 target={dashboardMetrics.kpis.ticketTime.target} 
+                                 unit="m" 
+                                 inverted={true}
+                                 onExplainClick={() => handleInsightClick(`Analyze Ticket Time of ${dashboardMetrics.kpis.ticketTime.current}m. Compare with target (${dashboardMetrics.kpis.ticketTime.target}m) and identify bottlenecks.`)}
+                               />
                             </div>
                          </section>
                       </div>
@@ -14354,10 +14487,38 @@ export default function PnlRelease() {
                    <section>
                       <h2 className="text-lg font-serif font-bold text-gray-900 mb-6">Operations Overview</h2>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                         <GoalProgress label="Total Sales" current={dashboardMetrics.kpis.sales.current} target={dashboardMetrics.kpis.sales.target} unit="k" onTrendClick={() => openTrendModal('net-sales')} />
-                         <GoalProgress label="FOH Labor %" current={dashboardMetrics.kpis.fohLabor.current} target={dashboardMetrics.kpis.fohLabor.target} unit="%" inverted={true} onTrendClick={() => openTrendModal('labor')} />
-                         <GoalProgress label="Ticket Time" current={dashboardMetrics.kpis.ticketTime.current} target={dashboardMetrics.kpis.ticketTime.target} unit="m" inverted={true} />
-                         <GoalProgress label="Throughput" current={dashboardMetrics.kpis.throughput.current} target={dashboardMetrics.kpis.throughput.target} unit="/hr" />
+                         <GoalProgress 
+                           label="Total Sales" 
+                           current={dashboardMetrics.kpis.sales.current} 
+                           target={dashboardMetrics.kpis.sales.target} 
+                           unit="k" 
+                           onTrendClick={() => openTrendModal('net-sales')}
+                           onExplainClick={() => handleInsightClick(`Analyze Total Sales of $${dashboardMetrics.kpis.sales.current}k. Compare with target ($${dashboardMetrics.kpis.sales.target}k) and identify daily trends.`)}
+                         />
+                         <GoalProgress 
+                           label="FOH Labor %" 
+                           current={dashboardMetrics.kpis.fohLabor.current} 
+                           target={dashboardMetrics.kpis.fohLabor.target} 
+                           unit="%" 
+                           inverted={true} 
+                           onTrendClick={() => openTrendModal('labor')}
+                           onExplainClick={() => handleInsightClick(`Analyze FOH Labor of ${dashboardMetrics.kpis.fohLabor.current}%. Compare with target (${dashboardMetrics.kpis.fohLabor.target}%) and suggest front-of-house staffing adjustments.`)}
+                         />
+                         <GoalProgress 
+                           label="Ticket Time" 
+                           current={dashboardMetrics.kpis.ticketTime.current} 
+                           target={dashboardMetrics.kpis.ticketTime.target} 
+                           unit="m" 
+                           inverted={true}
+                           onExplainClick={() => handleInsightClick(`Analyze Ticket Time of ${dashboardMetrics.kpis.ticketTime.current}m. Compare with target (${dashboardMetrics.kpis.ticketTime.target}m) and identify service delays.`)}
+                         />
+                         <GoalProgress 
+                           label="Throughput" 
+                           current={dashboardMetrics.kpis.throughput.current} 
+                           target={dashboardMetrics.kpis.throughput.target} 
+                           unit="/hr"
+                           onExplainClick={() => handleInsightClick(`Analyze Throughput of ${dashboardMetrics.kpis.throughput.current}/hr. Compare with target (${dashboardMetrics.kpis.throughput.target}/hr) and suggest capacity improvements.`)}
+                         />
                       </div>
                    </section>
                    )}
