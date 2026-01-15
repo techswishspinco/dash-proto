@@ -14102,18 +14102,20 @@ export default function PnlRelease() {
                                  onClick={() => openTrendModal('net-sales')}
                                  className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
-                                 <button 
-                                    onClick={(e) => {
-                                       e.stopPropagation();
-                                       handleInsightClick(`Analyze my Income of $${dashboardMetrics.income.value.toLocaleString()}. Correlate with marketing spend and customer count if available.`);
-                                    }}
-                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
-                                    title="Explain why"
-                                 >
-                                    <Sparkles className="h-3.5 w-3.5" />
-                                 </button>
                                  <div className="flex items-center justify-between mb-3">
-                                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Income</span>
+                                    <div className="flex items-center gap-2">
+                                       <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Income</span>
+                                       <button 
+                                          onClick={(e) => {
+                                             e.stopPropagation();
+                                             handleInsightClick(`Analyze my Income of $${dashboardMetrics.income.value.toLocaleString()}. Correlate with marketing spend and customer count if available.`);
+                                          }}
+                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          title="Explain why"
+                                       >
+                                          <Sparkles className="h-3 w-3" />
+                                       </button>
+                                    </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                        <DollarSign className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
                                     </div>
@@ -14137,18 +14139,20 @@ export default function PnlRelease() {
                                  onClick={() => openTrendModal('marketing')}
                                  className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
-                                 <button 
-                                    onClick={(e) => {
-                                       e.stopPropagation();
-                                       handleInsightClick(`Analyze marketing spend of $${dashboardMetrics.marketing.value.toLocaleString()} (${dashboardMetrics.marketing.percentOfRev.toFixed(1)}% of revenue). Correlate with new customer acquisition and sales growth.`);
-                                    }}
-                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
-                                    title="Explain why"
-                                 >
-                                    <Sparkles className="h-3.5 w-3.5" />
-                                 </button>
                                  <div className="flex items-center justify-between mb-3">
-                                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Marketing</span>
+                                    <div className="flex items-center gap-2">
+                                       <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Marketing</span>
+                                       <button 
+                                          onClick={(e) => {
+                                             e.stopPropagation();
+                                             handleInsightClick(`Analyze marketing spend of $${dashboardMetrics.marketing.value.toLocaleString()} (${dashboardMetrics.marketing.percentOfRev.toFixed(1)}% of revenue). Correlate with new customer acquisition and sales growth.`);
+                                          }}
+                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          title="Explain why"
+                                       >
+                                          <Sparkles className="h-3 w-3" />
+                                       </button>
+                                    </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                        <Target className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
                                     </div>
@@ -14165,18 +14169,20 @@ export default function PnlRelease() {
                                  onClick={() => openTrendModal('controllable-expenses')}
                                  className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
-                                 <button 
-                                    onClick={(e) => {
-                                       e.stopPropagation();
-                                       handleInsightClick(`Analyze Operating Expenses of $${dashboardMetrics.opex.value.toLocaleString()} (${dashboardMetrics.opex.percentOfRev.toFixed(1)}% of revenue). Correlate with sales volume to check efficiency.`);
-                                    }}
-                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
-                                    title="Explain why"
-                                 >
-                                    <Sparkles className="h-3.5 w-3.5" />
-                                 </button>
                                  <div className="flex items-center justify-between mb-3">
-                                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Op. Expenses</span>
+                                    <div className="flex items-center gap-2">
+                                       <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Op. Expenses</span>
+                                       <button 
+                                          onClick={(e) => {
+                                             e.stopPropagation();
+                                             handleInsightClick(`Analyze Operating Expenses of $${dashboardMetrics.opex.value.toLocaleString()} (${dashboardMetrics.opex.percentOfRev.toFixed(1)}% of revenue). Correlate with sales volume to check efficiency.`);
+                                          }}
+                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          title="Explain why"
+                                       >
+                                          <Sparkles className="h-3 w-3" />
+                                       </button>
+                                    </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                        <CreditCard className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
                                     </div>
@@ -14193,18 +14199,20 @@ export default function PnlRelease() {
                                  onClick={() => openTrendModal('net-sales')}
                                  className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
-                                 <button 
-                                    onClick={(e) => {
-                                       e.stopPropagation();
-                                       handleInsightClick(`Analyze ${dashboardMetrics.growth.value.toFixed(1)}% revenue growth YoY. Correlate with marketing initiatives and seasonal trends.`);
-                                    }}
-                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
-                                    title="Explain why"
-                                 >
-                                    <Sparkles className="h-3.5 w-3.5" />
-                                 </button>
                                  <div className="flex items-center justify-between mb-3">
-                                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Growth</span>
+                                    <div className="flex items-center gap-2">
+                                       <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Growth</span>
+                                       <button 
+                                          onClick={(e) => {
+                                             e.stopPropagation();
+                                             handleInsightClick(`Analyze ${dashboardMetrics.growth.value.toFixed(1)}% revenue growth YoY. Correlate with marketing initiatives and seasonal trends.`);
+                                          }}
+                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          title="Explain why"
+                                       >
+                                          <Sparkles className="h-3 w-3" />
+                                       </button>
+                                    </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                        {dashboardMetrics.growth.trend === 'up' ? (
                                            <TrendingUp className="h-4 w-4 text-emerald-500 group-hover:text-blue-600 transition-colors" />
@@ -14234,19 +14242,19 @@ export default function PnlRelease() {
                                  onClick={() => openTrendModal('cash-flow')}
                                  className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
-                                 <button 
-                                    onClick={(e) => {
-                                       e.stopPropagation();
-                                       handleInsightClick(`Analyze Cash Flow of $${dashboardMetrics.cashFlow.balance.toLocaleString()}. Correlate with NOI ($${dashboardMetrics.income.value.toLocaleString()}) and capital expenditures.`);
-                                    }}
-                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
-                                    title="Explain why"
-                                 >
-                                    <Sparkles className="h-3.5 w-3.5" />
-                                 </button>
                                  <div className="flex items-center justify-between mb-3">
                                     <div className="flex items-center gap-2">
                                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Cash Flow</span>
+                                       <button 
+                                          onClick={(e) => {
+                                             e.stopPropagation();
+                                             handleInsightClick(`Analyze Cash Flow of $${dashboardMetrics.cashFlow.balance.toLocaleString()}. Correlate with NOI ($${dashboardMetrics.income.value.toLocaleString()}) and capital expenditures.`);
+                                          }}
+                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          title="Explain why"
+                                       >
+                                          <Sparkles className="h-3 w-3" />
+                                       </button>
                                     </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                        <Wallet className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
@@ -14280,19 +14288,19 @@ export default function PnlRelease() {
                                  onClick={() => openTrendModal('labor')}
                                  className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow cursor-pointer group relative overflow-hidden"
                               >
-                                 <button 
-                                    onClick={(e) => {
-                                       e.stopPropagation();
-                                       handleInsightClick(`Analyze Total Management Compensation of $${dashboardMetrics.compensation.total.toLocaleString()}. Correlate with retention rates and revenue per manager.`);
-                                    }}
-                                    className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
-                                    title="Explain why"
-                                 >
-                                    <Sparkles className="h-3.5 w-3.5" />
-                                 </button>
                                  <div className="flex items-center justify-between mb-3">
                                     <div className="flex items-center gap-2">
                                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Compensation Overview</span>
+                                       <button 
+                                          onClick={(e) => {
+                                             e.stopPropagation();
+                                             handleInsightClick(`Analyze Total Management Compensation of $${dashboardMetrics.compensation.total.toLocaleString()}. Correlate with retention rates and revenue per manager.`);
+                                          }}
+                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          title="Explain why"
+                                       >
+                                          <Sparkles className="h-3 w-3" />
+                                       </button>
                                     </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                                        <Users className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
