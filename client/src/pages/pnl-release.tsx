@@ -13722,12 +13722,6 @@ export default function PnlRelease() {
                                  {' '}({currentGMData.dateLabel})
                               </p>
                            </div>
-                           <button 
-                              onClick={() => { setActiveTab("detailed"); setTimeout(() => navigateToPnlNode('gross-profit'), 100); }}
-                              className="text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1"
-                           >
-                              View Details <ChevronRight className="h-3 w-3" />
-                           </button>
                         </div>
                         <table className="w-full text-sm">
                            <thead>
