@@ -7323,7 +7323,7 @@ export default function PnlRelease() {
                                       e.stopPropagation();
                                       handleInsightClick("Analyze my Income growth of +3.7% ($124,500). Correlate with marketing spend and customer count if available.");
                                    }}
-                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-purple-100 z-20"
+                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
                                    title="Explain why"
                                 >
                                    <Sparkles className="h-3.5 w-3.5" />
@@ -7360,7 +7360,7 @@ export default function PnlRelease() {
                                       e.stopPropagation();
                                       handleInsightClick("Analyze marketing spend of $3,200 (2.6% of revenue). Correlate with new customer acquisition and sales growth.");
                                    }}
-                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-purple-100 z-20"
+                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
                                    title="Explain why"
                                 >
                                    <Sparkles className="h-3.5 w-3.5" />
@@ -7396,7 +7396,7 @@ export default function PnlRelease() {
                                       e.stopPropagation();
                                       handleInsightClick("Analyze Operating Expenses of $44,500 (35.7% of revenue). Correlate with sales volume to check efficiency.");
                                    }}
-                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-purple-100 z-20"
+                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
                                    title="Explain why"
                                 >
                                    <Sparkles className="h-3.5 w-3.5" />
@@ -7432,7 +7432,7 @@ export default function PnlRelease() {
                                       e.stopPropagation();
                                       handleInsightClick("Analyze 3.7% revenue growth YoY. Correlate with marketing initiatives and seasonal trends.");
                                    }}
-                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-purple-100 z-20"
+                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
                                    title="Explain why"
                                 >
                                    <Sparkles className="h-3.5 w-3.5" />
@@ -7473,7 +7473,7 @@ export default function PnlRelease() {
                                       e.stopPropagation();
                                       handleInsightClick("Analyze Cash Flow positive change of +$8,450. Correlate with NOI and capital expenditures.");
                                    }}
-                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-purple-100 z-20"
+                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
                                    title="Explain why"
                                 >
                                    <Sparkles className="h-3.5 w-3.5" />
@@ -7527,7 +7527,7 @@ export default function PnlRelease() {
                                       e.stopPropagation();
                                       handleInsightClick("Analyze Total Management Compensation of $31,000. Correlate with retention rates and revenue per manager.");
                                    }}
-                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-purple-100 z-20"
+                                   className="absolute top-3 right-3 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
                                    title="Explain why"
                                 >
                                    <Sparkles className="h-3.5 w-3.5" />
