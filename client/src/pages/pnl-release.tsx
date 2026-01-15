@@ -4806,6 +4806,17 @@ export default function PnlRelease() {
   const [activeGMFilter, setActiveGMFilter] = useState<string | null>(null);
   const [insightModalMetric, setInsightModalMetric] = useState<string | null>(null);
   const [isProfitabilityExpanded, setIsProfitabilityExpanded] = useState(false);
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set(["boh-labor"]));
+
+  const toggleRow = (rowId: string) => {
+    const newExpanded = new Set(expandedRows);
+    if (newExpanded.has(rowId)) {
+      newExpanded.delete(rowId);
+    } else {
+      newExpanded.add(rowId);
+    }
+    setExpandedRows(newExpanded);
+  };
 
   const handleArchiveReport = (id: string) => {
       setReportsList(prev => prev.map(report => 
@@ -11909,8 +11920,11 @@ export default function PnlRelease() {
                                      </span>
                                   </td>
                                </tr>
-                               <tr className="hover:bg-gray-50">
-                                  <td className="px-6 py-4 text-gray-700 pl-10">BOH Labor</td>
+                               <tr className="hover:bg-gray-50 cursor-pointer" onClick={() => toggleRow("boh-labor")}>
+                                  <td className="px-6 py-4 text-gray-700 pl-10 flex items-center gap-2">
+                                     <ChevronDown className={cn("h-4 w-4 transition-transform", expandedRows.has("boh-labor") ? "rotate-0" : "-rotate-90")} />
+                                     BOH Labor
+                                  </td>
                                   <td className="px-6 py-4 text-right">${laborActuals['boh-labor'].toLocaleString()}</td>
                                   <td className="px-6 py-4 text-right text-gray-500">${getLaborBudgetForCategory('boh-labor', PERIOD_REVENUE).toLocaleString()}</td>
                                   <td className={cn("px-6 py-4 text-right font-medium", getLaborVariance('boh-labor', PERIOD_REVENUE).color)}>
@@ -11925,6 +11939,8 @@ export default function PnlRelease() {
                                      </span>
                                   </td>
                                </tr>
+                               {expandedRows.has("boh-labor") && (
+                               <>
                                <Popover>
                                   <PopoverTrigger asChild>
                                      <tr className="hover:bg-amber-50/40 cursor-pointer">
@@ -12091,6 +12107,8 @@ export default function PnlRelease() {
                                      </div>
                                   </PopoverContent>
                                </Popover>
+                               </>
+                               )}
                                <tr className="hover:bg-gray-50">
                                   <td className="px-6 py-4 text-gray-700 pl-10">FOH Labor</td>
                                   <td className="px-6 py-4 text-right">${laborActuals['foh-labor'].toLocaleString()}</td>

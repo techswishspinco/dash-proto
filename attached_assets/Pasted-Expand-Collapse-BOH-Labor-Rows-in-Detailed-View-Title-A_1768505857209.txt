@@ -1,0 +1,125 @@
+Expand/Collapse BOH Labor Rows in Detailed View
+Title
+
+Add Expand/Collapse for BOH Labor in Labor Deep Dive (Detailed View Only)
+
+Context
+
+In Accounting → P&L → Labor Deep Dive (Detailed View), the labor table already visually communicates hierarchy through indentation:
+
+BOH Labor (parent row)
+
+Line Cook
+
+Prep Cook
+
+Dishwasher
+
+(See attached screenshot.)
+
+However, these child rows are currently always visible, even though the indenting strongly implies a collapsible structure. This creates visual clutter and prevents users from focusing on top-level drivers.
+
+Goal
+
+Turn the existing visual hierarchy in Detailed View into a functional expand / collapse interaction, where clicking BOH Labor toggles visibility of its indented role rows.
+
+This change is UI-only and applies only to Detailed View (not Curated View).
+
+Scope
+
+✅ Labor Deep Dive
+✅ Detailed View only
+❌ Curated View (no changes)
+
+Requirements
+1. Parent Row Interaction
+
+The BOH Labor row must be clickable
+
+Clicking it toggles:
+
+Show / hide all indented child rows:
+
+Line Cook
+
+Prep Cook
+
+Dishwasher
+
+No changes to:
+
+Table columns
+
+Dollar values
+
+Percentages
+
+Calculations
+
+2. Child Row Behavior
+
+Line Cook, Prep Cook, Dishwasher:
+
+Are treated as children of BOH Labor
+
+Follow the visibility state of BOH Labor
+
+Retain their current indentation, spacing, and badges (e.g. “Elaborated”)
+
+3. Visual Indicator
+
+Add a subtle expand/collapse indicator to BOH Labor only
+
+Chevron / caret / arrow
+
+Changes orientation when collapsed vs expanded
+
+Do not add indicators to child rows.
+
+4. Default State
+
+Default: Expanded
+
+The page should load exactly as it does today
+
+Collapse occurs only after user interaction
+
+5. Data & Math Integrity
+
+This is a presentation-layer change only
+
+BOH Labor totals:
+
+Do not change
+
+Do not re-aggregate
+
+Do not depend on expand/collapse state
+
+Out of Scope
+
+❌ No data model changes
+
+❌ No recalculations
+
+❌ No new drilldowns
+
+❌ No animations beyond simple show/hide
+
+❌ No changes to FOH Labor in this ticket
+
+Acceptance Criteria
+
+✅ BOH Labor row toggles child rows in Detailed View
+✅ Child rows hide/show together
+✅ Indentation and styling remain unchanged
+✅ Default load matches current UI
+✅ Curated View is unaffected
+
+Implementation Notes (for AI Agent)
+
+Use existing indent depth to infer hierarchy
+
+Avoid hardcoding role names
+
+Design pattern should be reusable for other labor groups later (e.g. FOH)
