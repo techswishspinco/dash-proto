@@ -2533,11 +2533,11 @@ type LegacyActionItem = {
 
 // Available actions that can be added to cart
 const availableActions: LegacyActionItem[] = [
-  { id: "switch-avocado", title: "Switch Avocado Supplier", description: "GreenLeaf offers $48/case vs current $62", impact: 600, category: "cogs", icon: "truck" },
+  { id: "review-pastry", title: "Review Pastry Supplier", description: "Alternative supplier offers 15% discount on White Chocolate", impact: 600, category: "cogs", icon: "truck" },
   { id: "adjust-delivery", title: "Adjust Delivery Window", description: "Move Sysco to 8-10AM to avoid overtime", impact: 350, category: "ops", icon: "clock" },
   { id: "lock-scheduling", title: "Lock Mid-Shift Cuts", description: "Make Tue/Wed staffing changes permanent", impact: 480, category: "labor", icon: "users" },
-  { id: "expand-brunch", title: "Expand Brunch Menu", description: "Add 2 new benedict options for weekends", impact: 800, category: "sales", icon: "trending" },
-  { id: "lime-vendor", title: "Negotiate Lime Pricing", description: "Request volume discount from current vendor", impact: 180, category: "cogs", icon: "truck" },
+  { id: "promote-seasonal", title: "Promote Seasonal Items", description: "Launch 2 new fall pastries for weekend", impact: 800, category: "sales", icon: "trending" },
+  { id: "pastry-vendor", title: "Negotiate Ingredient Pricing", description: "Request volume discount from chocolate vendor", impact: 180, category: "cogs", icon: "truck" },
   { id: "bonus-sarah", title: "Approve Sarah's Bonus", description: "Send $500 efficiency bonus for Q4", impact: 0, category: "labor", icon: "users" },
 ];
 
@@ -2993,7 +2993,7 @@ function FloatingAssistantBar({
                       {msg.artifact && (
                         <div className="space-y-2 mt-3">
                           {[
-                            { id: "switch-avocado", title: "Switch Avocado Supplier", desc: "GreenLeaf offers $48/case vs current $62", impact: 600, icon: "arrow", color: "amber" },
+                            { id: "review-pastry", title: "Review Pastry Supplier", desc: "Alternative supplier offers 15% discount on White Chocolate", impact: 600, icon: "arrow", color: "amber" },
                             { id: "adjust-delivery", title: "Adjust Delivery Window", desc: "Move Sysco to 8-10AM to avoid overtime", impact: 350, icon: "clock", color: "purple" },
                             { id: "lock-scheduling", title: "Lock Mid-Shift Cuts", desc: "Make Tue/Wed staffing changes permanent", impact: 480, icon: "users", color: "blue" },
                           ].map((action) => (
@@ -3935,7 +3935,7 @@ function SidePanelAssistant({
                 {msg.artifact && (
                   <div className="space-y-2 mt-3">
                     {[
-                      { id: "switch-avocado", title: "Switch Avocado Supplier", desc: "GreenLeaf offers $48/case vs current $62", impact: 600, icon: "arrow", color: "amber" },
+                      { id: "review-pastry", title: "Review Pastry Supplier", desc: "Alternative supplier offers 15% discount on White Chocolate", impact: 600, icon: "arrow", color: "amber" },
                       { id: "adjust-delivery", title: "Adjust Delivery Window", desc: "Move Sysco to 8-10AM to avoid overtime", impact: 350, icon: "clock", color: "purple" },
                       { id: "lock-scheduling", title: "Lock Mid-Shift Cuts", desc: "Make Tue/Wed staffing changes permanent", impact: 480, icon: "users", color: "blue" },
                     ].map((action) => (
@@ -4141,24 +4141,24 @@ function OwnerChat({ isOpen, onClose, triggerQuery, onOpenReport }: { isOpen: bo
 
     const lowerText = text.toLowerCase();
 
-    if (lowerText.includes("food cost") || lowerText.includes("produce") || lowerText.includes("avocados") || lowerText.includes("cogs") || lowerText.includes("limes")) {
-       responseText = "I analyzed the **Produce** category:\n\n• **Avocados**: $45 → $62 (+37%)\n• **Limes**: $32 → $41 (+28%)\n\nThese items caused $980 in variance. Here are actions you can add to your plan:";
-       suggestedActions = ["switch-avocado", "lime-vendor"];
+    if (lowerText.includes("food cost") || lowerText.includes("pastry") || lowerText.includes("chocolate") || lowerText.includes("cogs") || lowerText.includes("ingredients")) {
+       responseText = "I analyzed the **Pastry** category:\n\n• **White Chocolate**: $14.50 → $16.25 (+12%)\n• **Puff Pastry**: $38 → $41 (+8%)\n\nThese items caused $980 in variance. Here are actions you can add to your plan:";
+       suggestedActions = ["review-pastry", "pastry-vendor"];
     } else if (lowerText.includes("labor") || lowerText.includes("efficiency") || lowerText.includes("scheduling")) {
        responseText = "**Labor Analysis:**\n\nLabor % improved from 35% → 32%!\n\n**Key Win**: Mid-shift cuts on Tue/Wed saved 40 hours.\n**Manager**: Sarah earned her efficiency bonus.\n\nHere are actions to lock in these wins:";
        suggestedActions = ["lock-scheduling", "bonus-sarah"];
     } else if (lowerText.includes("overtime")) {
         responseText = "**Overtime Breakdown:**\n\n• Kitchen Prep: 12 hours ($350 impact)\n• Cause: Late Sysco delivery on 10/14\n\nHere's how to prevent this next month:";
         suggestedActions = ["adjust-delivery"];
-    } else if (lowerText.includes("sales") || lowerText.includes("brunch")) {
-       responseText = "**Sales Insight:**\n\nWeekend Brunch is down 13.8%!\n\n**Top Item**: Smoked Salmon Benedict (+40 units)\n**Upsells**: 18% Mimosa attach rate = $1,200 extra\n\nCapitalize on this momentum:";
-       suggestedActions = ["expand-brunch"];
+    } else if (lowerText.includes("sales") || lowerText.includes("tapas")) {
+       responseText = "**Sales Insight:**\n\nWeekend Tapas sales are down 5%!\n\n**Top Item**: Matcha Lava Cake (+40 units)\n**Upsells**: 18% Coffee attach rate = $1,200 extra\n\nCapitalize on this momentum:";
+       suggestedActions = ["promote-seasonal"];
     } else if (lowerText.includes("email")) {
        responseText = "I'll draft that email for you:\n\n---\n\n**Subject**: Great work on October!\n\nTeam,\n\nI'm thrilled to share that we beat our efficiency goals this month. Labor costs dropped 6% thanks to smart scheduling. Let's keep it up!\n\nBest,\nOwner\n\n---\n\n*Email ready to send via your preferred method.*";
        suggestedActions = [];
     } else {
        responseText = "Here are some suggested improvements based on your October report:";
-       suggestedActions = ["switch-avocado", "adjust-delivery", "lock-scheduling"];
+       suggestedActions = ["review-pastry", "adjust-delivery", "lock-scheduling"];
     }
 
     const aiMsg = { 
@@ -7949,7 +7949,7 @@ export default function PnlRelease() {
                                                   className="text-amber-700 hover:text-amber-900 underline decoration-dotted underline-offset-2"
                                                >31% vs 30%</button> goal
                                             </p>
-                                            <p className="text-xs text-muted-foreground">Produce prices spiked: Avocados +37%, Limes +28%</p>
+                                            <p className="text-xs text-muted-foreground">Ingredient costs rose: White Choc +12%, Puff Pastry +8%</p>
                                          </div>
                                       </div>
                                       <div className="flex items-center gap-3">
@@ -7980,8 +7980,8 @@ export default function PnlRelease() {
                                                   </div>
                                                   <div className="flex justify-between items-center">
                                                      <div>
-                                                        <p className="text-sm font-medium text-gray-900">Switch Avocado Supplier</p>
-                                                        <p className="text-xs text-gray-500">COGS • Produce</p>
+                                                        <p className="text-sm font-medium text-gray-900">Review Pastry Supplier</p>
+                                                        <p className="text-xs text-gray-500">COGS • Pastry</p>
                                                      </div>
                                                      <span className="text-sm font-semibold text-emerald-600">+$800/mo</span>
                                                   </div>
@@ -14443,8 +14443,8 @@ export default function PnlRelease() {
                                <button 
                                   onClick={() => {
                                      const contextByRange = {
-                                        today: `[CONTEXT]\nRole: Executive Chef\nPeriod: Monday, Jan 12\nIssue: Food cost running above target\nMetrics:\n• Today's Food Cost %: 23.3%\n• Target: 24% (within range but trending up)\n• Waste log: 2.1% of inventory\n• High-cost items: Ribeye (4 over-portions), Salmon (3 remakes)\n\nHelp me identify where we're losing margin on food cost and what kitchen adjustments to make.`,
-                                        week: `[CONTEXT]\nRole: Executive Chef\nPeriod: Week of Jan 6-12 (WTD)\nIssue: Protein waste elevated this week\nMetrics:\n• Weekly waste: 2.4% of inventory (target: 1.8%)\n• Ribeye: 18 over-portions logged\n• Salmon: 12 remakes\n• Chicken: 8 temperature rejects\n\nHelp me address the protein waste pattern and create accountability measures for the line.`,
+                                        today: `[CONTEXT]\nRole: Executive Chef\nPeriod: Monday, Jan 12\nIssue: Food cost running above target\nMetrics:\n• Today's Food Cost %: 23.3%\n• Target: 24% (within range but trending up)\n• Waste log: 2.1% of inventory\n• High-cost items: Matcha Lava (4 over-baked), Milky Puff (3 defects)\n\nHelp me identify where we're losing margin on food cost and what kitchen adjustments to make.`,
+                                        week: `[CONTEXT]\nRole: Executive Chef\nPeriod: Week of Jan 6-12 (WTD)\nIssue: Protein waste elevated this week\nMetrics:\n• Weekly waste: 2.4% of inventory (target: 1.8%)\n• Matcha Lava: 18 over-baked logged\n• Milky Puff: 12 defects\n• Cookies: 8 burnt batches\n\nHelp me address the protein waste pattern and create accountability measures for the line.`,
                                         month: `[CONTEXT]\nRole: Executive Chef\nPeriod: January 2026 (MTD)\nIssue: COGS trending above budget\nMetrics:\n• MTD COGS: 31.2% (budget: 30%)\n• Primary driver: Protein waste at 2.3% (target: 1.5%)\n• Secondary: Over-ordering on perishables\n• Potential savings: $1,840/month if waste hits target\n\nHelp me build a waste reduction plan to get COGS back on target.`,
                                         year: `[CONTEXT]\nRole: Executive Chef\nPeriod: 2026 (YTD)\nIssue: COGS baseline and opportunities\nMetrics:\n• YTD COGS: 31.2%\n• Target: 30%\n• Main opportunity: Protein portioning consistency\n• Estimated annual savings at target: $22,000\n\nHelp me create annual food cost goals and identify the biggest cost reduction opportunities.`
                                      };
@@ -14465,14 +14465,14 @@ export default function PnlRelease() {
                                         <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                                      </div>
                                      <div className="text-xs text-gray-600 mt-0.5">
-                                        {chefTimeRange === 'today' ? 'Ribeye over-portions and salmon remakes driving waste — review portioning with line.' :
+                                        {chefTimeRange === 'today' ? 'Matcha Lava over-baked and salmon defects driving waste — review portioning with line.' :
                                          chefTimeRange === 'week' ? '38 protein waste incidents logged — ribeye and salmon are top offenders.' :
                                          chefTimeRange === 'month' ? 'COGS at 31.2% vs 30% budget — protein waste is primary driver.' :
                                          'Opportunity to save $22K annually by hitting 30% COGS target.'}
                                      </div>
                                      <div className="flex items-center gap-2 mt-2">
                                         <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
-                                           {chefTimeRange === 'today' ? 'Items: Ribeye, Salmon' :
+                                           {chefTimeRange === 'today' ? 'Items: Matcha Lava, Milky Puff' :
                                             chefTimeRange === 'week' ? 'Waste: 2.4%' :
                                             chefTimeRange === 'month' ? 'COGS: 31.2%' :
                                             'Target: 30%'}
@@ -14573,7 +14573,7 @@ export default function PnlRelease() {
                                                     className="text-amber-700 hover:text-amber-900 underline decoration-dotted underline-offset-2"
                                                  >31% vs 30%</button> goal
                                               </p>
-                                              <p className="text-xs text-muted-foreground">Produce prices spiked: Avocados +37%, Limes +28%</p>
+                                              <p className="text-xs text-muted-foreground">Ingredient costs rose: White Choc +12%, Puff Pastry +8%</p>
                                            </div>
                                         </div>
                                         <div className="flex items-center gap-3">
@@ -14604,8 +14604,8 @@ export default function PnlRelease() {
                                                     </div>
                                                     <div className="flex justify-between items-center">
                                                        <div>
-                                                          <p className="text-sm font-medium text-gray-900">Switch Avocado Supplier</p>
-                                                          <p className="text-xs text-gray-500">COGS • Produce</p>
+                                                          <p className="text-sm font-medium text-gray-900">Review Pastry Supplier</p>
+                                                          <p className="text-xs text-gray-500">COGS • Pastry</p>
                                                        </div>
                                                        <span className="text-sm font-semibold text-emerald-600">+$800</span>
                                                     </div>

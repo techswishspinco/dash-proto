@@ -1,0 +1,141 @@
+Sync Curated View Data to Uploaded JSON & PDF Sources
+Title
+
+Fix Curated View Data Mismatch — Ensure 100% Fidelity to Uploaded JSONs & PDF
+
+Context
+
+We uploaded 2 JSON files and 1 PDF that define the authoritative data and terminology for the restaurant being analyzed.
+
+However, parts of the UI—specifically Curated View → Owner View → Missed Targets—are still showing placeholder or incorrect items that do not exist in the source documents.
+
+Example:
+
+Items like “avocado” and “lime” appear in Missed Targets
+
+The analyzed restaurant does not sell these items
+
+These terms do not appear in either JSON nor the PDF
+
+This indicates the UI is not fully bound to the uploaded source data.
+
+Goal
+
+Ensure all displayed data, labels, and words in Curated View are derived only from the uploaded JSONs and PDF, with zero placeholders, mock data, or hardcoded examples remaining.
+
+Scope (Do Not Expand)
+
+❌ Do NOT add new insights or logic
+
+❌ Do NOT change layout or card structure
+
+❌ Do NOT invent or infer missing data
+
+✅ ONLY reconcile UI → source documents
+
+Requirements
+1. Source-of-Truth Enforcement
+
+Treat the 2 uploaded JSONs + PDF as authoritative
+
+UI must reflect:
+
+Exact menu items
+
+Exact wording
+
+Exact categories
+
+Exact metrics
+
+If a value does not exist in those documents:
+
+It must not appear in the UI
+
+2. Curated View – Owner View Fix
+
+Audit Missed Targets section
+
+Remove any items not found in source docs
+
+e.g. “avocado”, “lime”
+
+Replace with:
+
+Valid items from the uploaded data OR
+
+Hide the row entirely if no valid data exists
+
+3. Global Curated View Audit
+
+Perform a sweep across:
+
+Primary Insight cards
+
+Missed Targets
+
+Goal explanations
+
+Supporting text under charts
+
+Check for:
+
+Hardcoded food items
+
+Placeholder examples
+
+Generic restaurant copy
+
+All must map directly to:
+
+JSON keys/values
+
+PDF text/content
+
+4. Binding Rules
+
+All Curated View components must:
+
+Read from parsed JSON data
+
+Use derived values only
+
+Never reference static demo strings
+
+If fallback logic exists:
+
+It must be data-driven
+
+No food/item examples allowed unless present in source
+
+Acceptance Criteria
+
+✅ No menu items appear unless present in JSON or PDF
+✅ No placeholder food terms anywhere in Curated View
+✅ Missed Targets shows only valid restaurant-specific data
+✅ Every word shown can be traced back to source docs
+✅ If data is missing → UI hides or collapses gracefully
+
+Verification Steps
+
+Open Curated View → Owner View
+
+Inspect Missed Targets
+
+Cross-check every item against:
+
+JSON #1
+
+JSON #2
+
+Uploaded PDF
+
+Confirm zero mismatches
+
+Notes for AI Agent
+
+This is a data integrity fix, not a UI redesign
+
+Treat unknown values as invalid, not improvable
+
+Accuracy > completeness
