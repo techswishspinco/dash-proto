@@ -13772,6 +13772,26 @@ export default function PnlRelease() {
                      />
                    )}
 
+                   {/* Primary Insight Card (Owner Only) */}
+                   {selectedRole === "owner" && (
+                      <div className="mb-6">
+                         <PrimaryInsightCard 
+                            role={selectedRole}
+                            trends={aggregatedTrends}
+                            onAddAction={handleAddActionItem}
+                            onAskAI={(query) => {
+                              setFloatingChatTrigger(query);
+                              setShowChat(true);
+                            }}
+                            onGenerateReport={(role, insight) => {
+                                 if (role === 'gm') handleGenerateGMInsightReport(insight);
+                                 else if (role === 'chef') handleGenerateChefInsightReport();
+                                 else if (role === 'owner') handleGenerateOwnerInsightReport(insight);
+                            }}
+                         />
+                      </div>
+                   )}
+
                    {/* Executive Summary Cards - Owner Only */}
                    {selectedRole === "owner" && (
                    <section data-testid="executive-summary-section-main">
@@ -14084,25 +14104,6 @@ export default function PnlRelease() {
                    </section>
                    )}
 
-                   {/* Primary Insight Card (Role-Based) - Moved Outside Health Card */}
-                   {selectedRole === "owner" && (
-                      <div className="mt-4">
-                         <PrimaryInsightCard 
-                            role={selectedRole}
-                            trends={aggregatedTrends}
-                            onAddAction={handleAddActionItem}
-                            onAskAI={(query) => {
-                              setFloatingChatTrigger(query);
-                              setShowChat(true);
-                            }}
-                            onGenerateReport={(role, insight) => {
-                                 if (role === 'gm') handleGenerateGMInsightReport(insight);
-                                 else if (role === 'chef') handleGenerateChefInsightReport();
-                                 else if (role === 'owner') handleGenerateOwnerInsightReport(insight);
-                            }}
-                         />
-                      </div>
-                   )}
 
                    {/* Financial Overview - Owner Only */}
                    {selectedRole === "owner" && (
