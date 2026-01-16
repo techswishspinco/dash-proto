@@ -3127,6 +3127,75 @@ function FloatingAssistantBar({
 function generateMockResponse(query: string): { content: string; showArtifact?: boolean; followUpQuestions?: FollowUpAction[] } {
   const q = query.toLowerCase();
   
+  // Specific "Explain Section" Logic
+  if (q.includes("explain") && q.includes("section")) {
+    if (q.includes("revenue")) {
+      return {
+        content: `**1. Definition**
+The Revenue Analysis section breaks down your top-line sales performance by channel (Dine-in, Delivery, Takeout), day part, and customer segment. It tells you *where* your money is coming from and *how* it's trending.
+
+**2. Key Metrics to Watch**
+• **Channel Mix**: Currently 67% Dine-in / 33% Off-premise. A shift >5% indicates a changing business model.
+• **Average Check**: $42.50 (Dinner) vs $18.20 (Lunch).
+• **Guest Count Trend**: +2.5% YoY. This is the healthiest form of growth (vs price increases).
+
+**3. Actionable Steps**
+• **Optimize Delivery Menu**: Since delivery is 21% of sales, ensure high-margin items are featured on DoorDash.
+• **Upsell Training**: Dinner check average is flat; run a contest to boost dessert attachment rate.
+• **Lunch Traffic**: Volume is soft on Tuesdays; consider a "Local Business Lunch" promo.`,
+        showArtifact: false,
+        followUpQuestions: [
+          { type: "report", label: "View Channel Mix", report_type: "sales_drivers", params: { decomposition: true } },
+          { type: "chat", label: "Lunch vs Dinner", intent: "Compare lunch and dinner performance" }
+        ]
+      };
+    }
+    
+    if (q.includes("profit") || q.includes("margin")) {
+      return {
+        content: `**1. Definition**
+The Profitability/Margin section reveals how much revenue you keep after paying expenses. It highlights your Net Operating Income (NOI) and key margin ratios (Prime Cost, EBITDA).
+
+**2. Key Metrics to Watch**
+• **Net Profit Margin**: Currently 13.3% (Target: 15%).
+• **Prime Cost**: 54.2% (COGS + Labor). This is your most controllable metric. Target is <60%.
+• **Flow-Through**: 32.2%. This measures how much of every *extra* dollar of sales turns into profit.
+
+**3. Actionable Steps**
+• **Reduce Waste**: Food cost is slightly high (31%). Implement a daily waste log.
+• **Labor Scheduling**: Cut 10 hours from the Tuesday/Wednesday prep schedule to align with demand.
+• **Review Fixed Costs**: Renegotiate the linen contract to save $450/month.`,
+        showArtifact: false,
+        followUpQuestions: [
+          { type: "report", label: "Margin Analysis", report_type: "margin_decomposition", params: { period: "current" } },
+          { type: "chat", label: "Prime Cost Trend", intent: "Show me the Prime Cost trend for the last 6 months" }
+        ]
+      };
+    }
+
+    if (q.includes("labor") || q.includes("workforce")) {
+      return {
+        content: `**1. Definition**
+The Labor Analysis section tracks your workforce efficiency and costs. It splits labor into Management (Fixed) and Hourly (Variable) buckets.
+
+**2. Key Metrics to Watch**
+• **Labor Cost %**: 33.0% of Sales. (Benchmark: 30-35%).
+• **Sales Per Labor Hour (SPLH)**: $48.50. A measure of productivity.
+• **Overtime %**: 4.2% of total hours. Ideally should be <2%.
+
+**3. Actionable Steps**
+• **Enforce Clock-ins**: Prevent early clock-ins to save ~15 mins per shift per employee.
+• **Cross-Train Staff**: Enable dishwashers to help with prep during downtime to boost SPLH.
+• **Manager Floor Time**: Ensure managers are cutting staff aggressively when sales slow down post-rush.`,
+        showArtifact: false,
+        followUpQuestions: [
+          { type: "report", label: "Overtime Report", report_type: "overtime_analysis", params: { role_breakdown: true } },
+          { type: "chat", label: "Analyze SPLH", intent: "How has Sales Per Labor Hour changed vs last month?" }
+        ]
+      };
+    }
+  }
+
   if (q.includes("health") || q.includes("score")) {
     return {
       content: `**Summary Insight**
