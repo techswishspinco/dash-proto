@@ -2438,10 +2438,10 @@ function GoalProgress({ label, current, target, unit = "%", inverted = false, on
              e.stopPropagation();
              onExplainClick();
           }}
-          className="absolute top-2 right-2 p-1.5 bg-purple-50 text-purple-600 rounded-lg transition-all hover:bg-purple-100 z-20"
+          className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all z-20 opacity-0 group-hover:opacity-100"
           title="Explain why"
         >
-          <Sparkles className="h-3.5 w-3.5" />
+          <HelpCircle className="h-3.5 w-3.5" />
         </button>
       )}
       <div className="flex justify-between items-end mb-2 relative z-10">
@@ -14110,10 +14110,10 @@ export default function PnlRelease() {
                                              e.stopPropagation();
                                              handleInsightClick(`Analyze my Income of $${dashboardMetrics.income.value.toLocaleString()}. Correlate with marketing spend and customer count if available.`);
                                           }}
-                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          className="p-1 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-all opacity-0 group-hover:opacity-100"
                                           title="Explain why"
                                        >
-                                          <Sparkles className="h-3 w-3" />
+                                          <HelpCircle className="h-3 w-3" />
                                        </button>
                                     </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
@@ -14147,10 +14147,10 @@ export default function PnlRelease() {
                                              e.stopPropagation();
                                              handleInsightClick(`Analyze marketing spend of $${dashboardMetrics.marketing.value.toLocaleString()} (${dashboardMetrics.marketing.percentOfRev.toFixed(1)}% of revenue). Correlate with new customer acquisition and sales growth.`);
                                           }}
-                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          className="p-1 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-all opacity-0 group-hover:opacity-100"
                                           title="Explain why"
                                        >
-                                          <Sparkles className="h-3 w-3" />
+                                          <HelpCircle className="h-3 w-3" />
                                        </button>
                                     </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
@@ -14177,10 +14177,10 @@ export default function PnlRelease() {
                                              e.stopPropagation();
                                              handleInsightClick(`Analyze Operating Expenses of $${dashboardMetrics.opex.value.toLocaleString()} (${dashboardMetrics.opex.percentOfRev.toFixed(1)}% of revenue). Correlate with sales volume to check efficiency.`);
                                           }}
-                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          className="p-1 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-all opacity-0 group-hover:opacity-100"
                                           title="Explain why"
                                        >
-                                          <Sparkles className="h-3 w-3" />
+                                          <HelpCircle className="h-3 w-3" />
                                        </button>
                                     </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
@@ -14207,10 +14207,10 @@ export default function PnlRelease() {
                                              e.stopPropagation();
                                              handleInsightClick(`Analyze ${dashboardMetrics.growth.value.toFixed(1)}% revenue growth YoY. Correlate with marketing initiatives and seasonal trends.`);
                                           }}
-                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          className="p-1 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-all opacity-0 group-hover:opacity-100"
                                           title="Explain why"
                                        >
-                                          <Sparkles className="h-3 w-3" />
+                                          <HelpCircle className="h-3 w-3" />
                                        </button>
                                     </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
@@ -14250,10 +14250,10 @@ export default function PnlRelease() {
                                              e.stopPropagation();
                                              handleInsightClick(`Analyze Cash Flow of $${dashboardMetrics.cashFlow.balance.toLocaleString()}. Correlate with NOI ($${dashboardMetrics.income.value.toLocaleString()}) and capital expenditures.`);
                                           }}
-                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          className="p-1 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-all opacity-0 group-hover:opacity-100"
                                           title="Explain why"
                                        >
-                                          <Sparkles className="h-3 w-3" />
+                                          <HelpCircle className="h-3 w-3" />
                                        </button>
                                     </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
@@ -14296,10 +14296,10 @@ export default function PnlRelease() {
                                              e.stopPropagation();
                                              handleInsightClick(`Analyze Total Management Compensation of $${dashboardMetrics.compensation.total.toLocaleString()}. Correlate with retention rates and revenue per manager.`);
                                           }}
-                                          className="p-1 bg-purple-50 text-purple-600 rounded-md transition-all hover:bg-purple-100 opacity-0 group-hover:opacity-100"
+                                          className="p-1 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-all opacity-0 group-hover:opacity-100"
                                           title="Explain why"
                                        >
-                                          <Sparkles className="h-3 w-3" />
+                                          <HelpCircle className="h-3 w-3" />
                                        </button>
                                     </div>
                                     <div className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
