@@ -103,7 +103,8 @@ interface PnLContextValue {
   laborEfficiencyActuals: Record<string, number>;
   getLaborEfficiencyStatus: (id: string, isInverse?: boolean) => any;
   handleEfficiencyTargetChange: (id: string, value: number) => void;
-  isCustomEfficiencyTargets: boolean;
+  resetEfficiencyTarget: (id: string) => void;
+  isCustomEfficiencyTargets: Record<string, boolean>;
   cogsBudgetPct: number;
   isCustomCogsBudget: boolean;
   cogsActuals: Record<string, number>;
@@ -225,21 +226,71 @@ export function PnLProvider({ children, canEdit, isOwnerView, urlRole, locationN
   const [isCustomLaborBudget, setIsCustomLaborBudget] = useState(false);
   const ytdSummary = getYTDSummary();
   const PERIOD_REVENUE = Math.round(ytdSummary.income);
-  const laborActuals: Record<string, number> = { "total-labor": Math.round(ytdSummary.labor) };
+  const totalLabor = Math.round(ytdSummary.labor);
+  const laborActuals: Record<string, number> = {
+    "total-labor": totalLabor,
+    "boh-labor": Math.round(totalLabor * 0.40),
+    "line-cook": Math.round(totalLabor * 0.18),
+    "prep-cook": Math.round(totalLabor * 0.12),
+    "dishwasher": Math.round(totalLabor * 0.10),
+    "foh-labor": Math.round(totalLabor * 0.32),
+    "server": Math.round(totalLabor * 0.16),
+    "bartender": Math.round(totalLabor * 0.10),
+    "host": Math.round(totalLabor * 0.06),
+    "management": Math.round(totalLabor * 0.18),
+    "gm": Math.round(totalLabor * 0.10),
+    "supervisor": Math.round(totalLabor * 0.08),
+    "payroll-taxes": Math.round(totalLabor * 0.10)
+  };
   const [laborEfficiencyTargets, setLaborEfficiencyTargets] = useState<Record<string, number>>({ "sales-per-hour": 50.0, "hours-per-guest": 0.68, "overtime-pct": 4.0 });
-  const [isCustomEfficiencyTargets, setIsCustomEfficiencyTargets] = useState(false);
+  const [isCustomEfficiencyTargets, setIsCustomEfficiencyTargets] = useState<Record<string, boolean>>({
+    "sales-per-hour": false,
+    "hours-per-guest": false,
+    "overtime-pct": false
+  });
   const laborEfficiencyActuals = { "sales-per-hour": 48.2, "hours-per-guest": 0.71, "overtime-pct": 7.4 };
   const [cogsBudgetPct, setCogsBudgetPct] = useState(25);
   const [isCustomCogsBudget, setIsCustomCogsBudget] = useState(false);
-  const cogsActuals: Record<string, number> = { "total-cogs": Math.round(ytdSummary.cogs) };
+  const cogsActuals: Record<string, number> = {
+    "total-cogs": Math.round(ytdSummary.cogs),
+    "food-cost": Math.round(ytdSummary.cogs * 0.65),
+    "beverage-cost": Math.round(ytdSummary.cogs * 0.25),
+    "paper-supplies": Math.round(ytdSummary.cogs * 0.10)
+  };
   const isNYLocation = selectedState?.code === "NY";
   const [primeCostTargetLower, setPrimeCostTargetLower] = useState(isNYLocation ? 58 : 55);
   const [primeCostTargetUpper, setPrimeCostTargetUpper] = useState(isNYLocation ? 65 : 60);
   const [isCustomPrimeCostTarget, setIsCustomPrimeCostTarget] = useState(false);
-  const [controllableBudgets, setControllableBudgets] = useState<Record<string, number>>({ "total-controllable": 39800 });
-  const controllableActuals: Record<string, number> = { "total-controllable": 38600 };
-  const [occupancyBudgets, setOccupancyBudgets] = useState<Record<string, number>>({ "total-occupancy": 28500 });
-  const occupancyActuals: Record<string, number> = { "total-occupancy": 28500 };
+  const [controllableBudgets, setControllableBudgets] = useState<Record<string, number>>({
+    "total-controllable": 39800,
+    "marketing": 4500,
+    "repairs": 4000,
+    "utilities": 9000,
+    "cc-fees": 12300,
+    "delivery": 10000
+  });
+  const controllableActuals: Record<string, number> = {
+    "total-controllable": 38600,
+    "marketing": 4200,
+    "repairs": 3800,
+    "utilities": 8500,
+    "cc-fees": 12100,
+    "delivery": 10000
+  };
+  const [occupancyBudgets, setOccupancyBudgets] = useState<Record<string, number>>({
+    "total-occupancy": 28500,
+    "rent": 15000,
+    "cam": 3500,
+    "insurance": 4500,
+    "depreciation": 5500
+  });
+  const occupancyActuals: Record<string, number> = {
+    "total-occupancy": 28500,
+    "rent": 15000,
+    "cam": 3500,
+    "insurance": 4500,
+    "depreciation": 5500
+  };
   const [healthComparisonPeriod, setHealthComparisonPeriod] = useState<"week" | "month" | "quarter" | "year">("month");
   const [trendModalMetric, setTrendModalMetric] = useState<MetricTrendData | null>(null);
   const [activeGMFilter, setActiveGMFilter] = useState<string | null>(null);
@@ -278,7 +329,12 @@ export function PnLProvider({ children, canEdit, isOwnerView, urlRole, locationN
   const getLaborEfficiencyStatus = useCallback(() => ({ status: "ON TRACK", color: "bg-emerald-100" }), []);
   const handleEfficiencyTargetChange = useCallback((id: string, value: number) => {
     setLaborEfficiencyTargets(prev => ({ ...prev, [id]: value }));
-    setIsCustomEfficiencyTargets(true);
+    setIsCustomEfficiencyTargets(prev => ({ ...prev, [id]: true }));
+  }, []);
+  const resetEfficiencyTarget = useCallback((id: string) => {
+    const defaults: Record<string, number> = { "sales-per-hour": 50.0, "hours-per-guest": 0.68, "overtime-pct": 4.0 };
+    setLaborEfficiencyTargets(prev => ({ ...prev, [id]: defaults[id] ?? prev[id] }));
+    setIsCustomEfficiencyTargets(prev => ({ ...prev, [id]: false }));
   }, []);
   const getCogsBudgetForCategory = useCallback((id: string) => Math.round(PERIOD_REVENUE * (cogsBudgetPct / 100)), [PERIOD_REVENUE, cogsBudgetPct]);
   const getCogsVariance = useCallback(() => ({ varianceDollar: 0, formattedDollar: "$0", color: "text-gray-600" }), []);
@@ -562,7 +618,7 @@ export function PnLProvider({ children, canEdit, isOwnerView, urlRole, locationN
     isProfitabilityExpanded, setIsProfitabilityExpanded, note, setNote, healthTargets, setHealthTargets, updateHealthTarget, healthActuals, getHealthVariance,
     healthSnapshotMode, setHealthSnapshotMode, laborBudgetPct, isCustomLaborBudget, laborActuals,
     getLaborBudgetForCategory, getLaborVariance, handleLaborBudgetChange, resetLaborBudgetToDefault,
-    laborEfficiencyTargets, setLaborEfficiencyTargets, laborEfficiencyActuals, getLaborEfficiencyStatus, handleEfficiencyTargetChange, isCustomEfficiencyTargets,
+    laborEfficiencyTargets, setLaborEfficiencyTargets, laborEfficiencyActuals, getLaborEfficiencyStatus, handleEfficiencyTargetChange, resetEfficiencyTarget, isCustomEfficiencyTargets,
     cogsBudgetPct, isCustomCogsBudget, cogsActuals, getCogsBudgetForCategory, getCogsVariance, handleCogsBudgetChange, resetCogsBudgetToDefault,
     primeCostTargetLower, primeCostTargetUpper, isCustomPrimeCostTarget, handlePrimeCostTargetChange, resetPrimeCostTarget, getPrimeCostTargetLabel,
     controllableBudgets, setControllableBudgets, controllableActuals, getControllableVariance,

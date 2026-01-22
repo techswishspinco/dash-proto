@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { usePnL } from "@/contexts/PnLContext";
-import { 
-  ChevronRight, 
-  ChevronDown, 
-  Sparkles, 
+import {
+  ChevronRight,
+  ChevronLeft,
+  ChevronDown,
+  Sparkles,
   X,
   Target,
   TrendingUp,
@@ -11,49 +12,63 @@ import {
   Lightbulb,
   BarChart3,
   HelpCircle,
-  GripVertical,
-  ArrowUp,
-  ArrowDown,
   AlertTriangle,
-  Trophy,
-  DollarSign,
   CheckCircle2,
   Users,
   Clock,
-  Layers
+  Calendar,
+  Package
 } from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
-  LineChart,
-  Line,
-  Cell,
-  PieChart as RechartsPieChart,
-  Pie,
-  ComposedChart
+  Cell
 } from "recharts";
-import { Progress } from "@/components/ui/progress";
-import { PnLDashboard, PnLTreeItem, AnalysisPanel, PNL_TO_TREND_METRIC, findAncestorIds, findParentIdsForSearch, filterItemsBySearch, getSuggestions } from "@/components/pnl/PnLTreeView";
-import { getCompletePLHierarchy, flattenHierarchy, getYTDSummary } from "@/data/pl-parser";
 import { hierarchicalPnlData } from "@/data/pnl/hierarchical-pnl-data";
 import { ticketTimeData, gmTimeRangeData, type TimeRangeType } from "@/data/pnl/detailed-view-data";
 import { format, addMonths, subMonths, addWeeks, subWeeks, startOfWeek, endOfWeek } from "date-fns";
+
+// --- Period Navigator Component ---
+const PeriodNavigator = ({
+  cadence,
+  date,
+  onPrev,
+  onNext
+}: {
+  cadence: "week" | "month",
+  date: Date,
+  onPrev: () => void,
+  onNext: () => void
+}) => {
+  const display = cadence === "month"
+    ? format(date, 'MMMM yyyy')
+    : `${format(startOfWeek(date), 'MMM d')} - ${format(endOfWeek(date), 'MMM d')}`;
+
+  return (
+    <div className="flex items-center bg-white border border-gray-200 rounded-md shadow-sm ml-2">
+      <button onClick={onPrev} className="p-1.5 hover:bg-gray-50 text-gray-500 rounded-l-md border-r border-gray-100 transition-colors">
+        <ChevronLeft className="h-3.5 w-3.5" />
+      </button>
+      <div className="px-3 text-xs font-medium text-gray-700 min-w-[120px] text-center select-none">
+        {display}
+      </div>
+      <button onClick={onNext} className="p-1.5 hover:bg-gray-50 text-gray-500 rounded-r-md border-l border-gray-100 transition-colors">
+        <ChevronRight className="h-3.5 w-3.5" />
+      </button>
+    </div>
+  );
+};
 
 export function DetailedView() {
   const ctx = usePnL();
@@ -80,21 +95,15 @@ export function DetailedView() {
     openTrendModal,
     viewModes,
     setViewModes,
-    canEdit,
-    highlightedPnlNodeId,
-    setHighlightedPnlNodeId,
-    isProfitabilityExpanded,
-    setIsProfitabilityExpanded,
     expandedRows,
     toggleRow,
     note,
     setNote,
     selectedState,
+    setSelectedState,
     primeCostTargetLower,
     primeCostTargetUpper,
     isCustomPrimeCostTarget,
-    handlePrimeCostTargetChange,
-    resetPrimeCostTarget,
     getPrimeCostTargetLabel,
     laborBudgetPct,
     isCustomLaborBudget,
@@ -107,6 +116,7 @@ export function DetailedView() {
     laborEfficiencyActuals,
     getLaborEfficiencyStatus,
     handleEfficiencyTargetChange,
+    resetEfficiencyTarget,
     isCustomEfficiencyTargets,
     cogsBudgetPct,
     isCustomCogsBudget,
@@ -135,17 +145,147 @@ export function DetailedView() {
     setSelectedChefDate,
     handleGenerateFoodCostReport,
     PERIOD_REVENUE,
+    setInsightModalMetric,
+    setFloatingChatTrigger,
+    setShowChat,
   } = ctx;
 
-  // Get data from JSON
-  const ytdSummary = getYTDSummary();
-  
   // Local computed values
   const currentTicketData = ticketTimeData[chefTimeRange as TimeRangeType] || ticketTimeData.month;
   const currentGMData = gmTimeRangeData[gmTimeRange as TimeRangeType] || gmTimeRangeData.month;
   
   // Compute actual prime cost percentage
   const actualPrimeCostPct = 62.1; // From data
+
+  // Additional computed values
+  const isNYLocation = selectedState?.code === "NY";
+  const primeCostTargetMidpoint = (primeCostTargetLower + primeCostTargetUpper) / 2;
+  const laborVariancePts = actualPrimeCostPct * 0.38 - 24; // Approx labor variance
+  const cogsVariancePts = actualPrimeCostPct * 0.62 - 30; // Approx COGS variance
+  const primeCostVarianceTotal = actualPrimeCostPct - primeCostTargetMidpoint;
+
+  // What Happened narrative data based on time range
+  const getWhatHappenedNarrative = () => {
+    switch (gmTimeRange) {
+      case 'today':
+        return {
+          issues: [
+            {
+              id: 'lunch-overstaffed',
+              icon: 'users',
+              iconBg: 'bg-red-100',
+              iconColor: 'text-red-600',
+              title: 'Lunch overstaffed vs normal Monday',
+              description: `Labor was +7.2 pts higher than normal for demand — likely overstaffed during Lunch shift.`,
+              tags: [{ label: 'Shift: Lunch', color: 'bg-gray-100 text-gray-600' }, { label: 'Labor % +7.2 pts', color: 'bg-red-100 text-red-700' }],
+              context: `[CONTEXT]\nRole: General Manager\nDay: Monday, Jan 12\nShift: Lunch\nIssue: Lunch was overstaffed vs typical Monday\nMetrics:\n• Labor %: 38.5% (+7.2 pts vs avg)\n• Sales: $1,840 (-8.3% vs avg)\n\nHelp me understand why lunch was overstaffed today and what I should do about tomorrow's schedule.`
+            },
+            {
+              id: 'sales-below',
+              icon: 'trending-down',
+              iconBg: 'bg-amber-100',
+              iconColor: 'text-amber-600',
+              title: 'Sales below weekday average',
+              description: 'Sales dropped -6.9% versus a typical Monday. Demand issue, not staffing.',
+              tags: [{ label: 'Day: Monday', color: 'bg-gray-100 text-gray-600' }, { label: 'Sales -$360', color: 'bg-amber-100 text-amber-700' }],
+              context: `[CONTEXT]\nRole: General Manager\nDay: Monday, Jan 12\nIssue: Sales below weekday average\nMetrics:\n• Today's Sales: $4,820\n• Avg Monday Sales: $5,180\n• Variance: -6.9% ($360 below average)\n\nHelp me understand why sales were down today and what I can do to improve tomorrow.`
+            },
+            {
+              id: 'high-cogs',
+              icon: 'package',
+              iconBg: 'bg-orange-100',
+              iconColor: 'text-orange-600',
+              title: 'Food cost ran slightly high',
+              description: 'COGS % was +1.6 pts above normal — check waste, comps, or portioning.',
+              tags: [{ label: 'All Day', color: 'bg-gray-100 text-gray-600' }, { label: 'COGS % +1.6 pts', color: 'bg-orange-100 text-orange-700' }],
+              context: `[CONTEXT]\nRole: General Manager\nDay: Monday, Jan 12\nIssue: Food cost ran higher than normal\nMetrics:\n• Today's COGS %: 32.4%\n• Avg Monday COGS %: 30.8%\n• Variance: +1.6 pts above normal\n\nHelp me investigate why food cost was high today.`
+            }
+          ],
+          actions: ['Review Lunch schedule', 'Check portion sizes', 'Monitor afternoon traffic']
+        };
+      case 'week':
+        return {
+          issues: [
+            {
+              id: 'week-labor-pattern',
+              icon: 'users',
+              iconBg: 'bg-red-100',
+              iconColor: 'text-red-600',
+              title: 'Lunch shifts consistently ran above labor targets',
+              description: 'This week, lunch shifts averaged +1.8 pts above target. Today followed the same pattern.',
+              tags: [{ label: 'Week Pattern', color: 'bg-gray-100 text-gray-600' }, { label: 'Labor % +1.8 pts avg', color: 'bg-red-100 text-red-700' }],
+              context: `[CONTEXT]\nRole: General Manager\nPeriod: Week of Jan 6-12\nIssue: Recurring lunch overstaffing pattern\nMetrics:\n• Week Labor %: 30.8% (+1.8 pts vs target)\n• Pattern: Lunch shifts consistently high\n• Today followed the same pattern\n\nHelp me understand this weekly pattern and how to adjust scheduling.`
+            },
+            {
+              id: 'week-sales-trend',
+              icon: 'trending-down',
+              iconBg: 'bg-amber-100',
+              iconColor: 'text-amber-600',
+              title: 'Weekly sales tracking below target',
+              description: 'Week-to-date sales are -8.8% below average. Weekday lunches are the primary driver.',
+              tags: [{ label: 'WTD', color: 'bg-gray-100 text-gray-600' }, { label: 'Sales -8.8%', color: 'bg-amber-100 text-amber-700' }],
+              context: `[CONTEXT]\nRole: General Manager\nPeriod: Week of Jan 6-12\nIssue: Weekly sales below target\nMetrics:\n• WTD Sales: $28,450 (-8.8% vs avg)\n• Primary driver: Weekday lunch traffic\n\nHelp me identify strategies to recover this week's sales gap.`
+            }
+          ],
+          actions: ['Adjust weekly lunch schedule', 'Review weekday promotions', 'Analyze traffic patterns']
+        };
+      case 'month':
+        return {
+          issues: [
+            {
+              id: 'month-prime-cost',
+              icon: 'alert-triangle',
+              iconBg: 'bg-red-100',
+              iconColor: 'text-red-600',
+              title: 'Month-to-date prime cost above target',
+              description: 'MTD prime cost is +1.7 pts above target, driven primarily by weekday labor overages. Today\'s performance did not materially change the trend.',
+              tags: [{ label: 'MTD', color: 'bg-gray-100 text-gray-600' }, { label: 'Prime Cost +1.7 pts', color: 'bg-red-100 text-red-700' }],
+              context: `[CONTEXT]\nRole: General Manager\nPeriod: January 2026 MTD\nIssue: Elevated prime cost for the month\nMetrics:\n• MTD Prime Cost: 61.0% (+1.7 pts vs target)\n• Primary driver: Weekday labor overages\n• Today's result aligned with trend\n\nHelp me develop a plan to bring prime cost back to target this month.`
+            },
+            {
+              id: 'month-sales-gap',
+              icon: 'trending-down',
+              iconBg: 'bg-amber-100',
+              iconColor: 'text-amber-600',
+              title: 'Monthly sales pacing behind budget',
+              description: 'MTD sales are -12% below average. Need strong weekend performance to recover.',
+              tags: [{ label: 'MTD', color: 'bg-gray-100 text-gray-600' }, { label: 'Sales -12%', color: 'bg-amber-100 text-amber-700' }],
+              context: `[CONTEXT]\nRole: General Manager\nPeriod: January 2026 MTD\nIssue: Monthly sales pacing behind\nMetrics:\n• MTD Sales: $42,680 (-12% vs budget)\n• Need weekend recovery\n\nHelp me plan how to recover the sales gap this month.`
+            }
+          ],
+          actions: ['Review monthly staffing model', 'Plan weekend promotions', 'Optimize shift coverage']
+        };
+      case 'year':
+      default:
+        return {
+          issues: [
+            {
+              id: 'ytd-margins',
+              icon: 'check-circle',
+              iconBg: 'bg-emerald-100',
+              iconColor: 'text-emerald-600',
+              title: 'Year-to-date margins remain healthy',
+              description: 'YTD margins are holding despite recent labor pressure. Today\'s results align with the broader trend.',
+              tags: [{ label: 'YTD', color: 'bg-gray-100 text-gray-600' }, { label: 'Prime Cost +1.1 pts', color: 'bg-amber-100 text-amber-700' }],
+              context: `[CONTEXT]\nRole: General Manager\nPeriod: 2026 YTD\nIssue: Overall margin health check\nMetrics:\n• YTD Prime Cost: 60.3% (+1.1 pts vs target)\n• Margins healthy but showing slight pressure\n• Labor is primary variance driver\n\nHelp me understand the YTD trend and what to watch going forward.`
+            },
+            {
+              id: 'ytd-labor-trend',
+              icon: 'users',
+              iconBg: 'bg-amber-100',
+              iconColor: 'text-amber-600',
+              title: 'Labor costs trending slightly above target',
+              description: 'YTD labor is +0.6 pts above target. Consistent but manageable pressure.',
+              tags: [{ label: 'YTD', color: 'bg-gray-100 text-gray-600' }, { label: 'Labor +0.6 pts', color: 'bg-amber-100 text-amber-700' }],
+              context: `[CONTEXT]\nRole: General Manager\nPeriod: 2026 YTD\nIssue: Labor cost trend\nMetrics:\n• YTD Labor %: 29.8% (+0.6 pts vs target)\n• Trend: Consistent but manageable\n\nHelp me identify opportunities to optimize labor for the rest of the year.`
+            }
+          ],
+          actions: ['Review annual staffing trends', 'Analyze seasonal patterns', 'Plan Q1 optimization']
+        };
+    }
+  };
+
+  const whatHappenedData = getWhatHappenedNarrative();
 
   return (
 <div className="p-8">
@@ -873,7 +1013,7 @@ export function DetailedView() {
                        {healthSnapshotMode === "actual" ? variance.formattedDollarVar : variance.formattedPctVar}
                      </td>
                      <td className="px-6 py-4 text-right">
-                       <span className={cn("px-2.5 py-1 rounded-full text-xs font-semibold", statusColors[variance.status])}>
+                       <span className={cn("px-2.5 py-1 rounded-full text-xs font-semibold", statusColors[variance.status as keyof typeof statusColors])}>
                          {variance.status}
                        </span>
                      </td>
@@ -2792,8 +2932,8 @@ export function DetailedView() {
              <PeriodNavigator 
                cadence={chefTimeRange}
                date={selectedChefDate}
-               onPrev={() => setSelectedChefDate(d => chefTimeRange === 'month' ? subMonths(d, 1) : subWeeks(d, 1))}
-               onNext={() => setSelectedChefDate(d => chefTimeRange === 'month' ? addMonths(d, 1) : addWeeks(d, 1))}
+               onPrev={() => setSelectedChefDate((d: Date) => chefTimeRange === 'month' ? subMonths(d, 1) : subWeeks(d, 1))}
+               onNext={() => setSelectedChefDate((d: Date) => chefTimeRange === 'month' ? addMonths(d, 1) : addWeeks(d, 1))}
              />
            )}
          </div>
@@ -2930,8 +3070,8 @@ export function DetailedView() {
              <PeriodNavigator 
                cadence={gmTimeRange}
                date={selectedGMDate}
-               onPrev={() => setSelectedGMDate(d => gmTimeRange === 'month' ? subMonths(d, 1) : subWeeks(d, 1))}
-               onNext={() => setSelectedGMDate(d => gmTimeRange === 'month' ? addMonths(d, 1) : addWeeks(d, 1))}
+               onPrev={() => setSelectedGMDate((d: Date) => gmTimeRange === 'month' ? subMonths(d, 1) : subWeeks(d, 1))}
+               onNext={() => setSelectedGMDate((d: Date) => gmTimeRange === 'month' ? addMonths(d, 1) : addWeeks(d, 1))}
              />
            )}
          </div>
@@ -3285,7 +3425,6 @@ export function DetailedView() {
    )}
 
       </div>
-</div>
-)}
+    </div>
   );
 }
