@@ -1,0 +1,61 @@
+// State Prime Cost Benchmarks - Industry averages by state
+export interface StateBenchmark {
+  code: string;
+  name: string;
+  primeCost: number;
+  foodCost: number;
+  laborCost: number;
+}
+
+export const stateBenchmarks: StateBenchmark[] = [
+  { code: "AL", name: "Alabama", primeCost: 58.5, foodCost: 30.0, laborCost: 28.5 },
+  { code: "AK", name: "Alaska", primeCost: 64.0, foodCost: 34.0, laborCost: 30.0 },
+  { code: "AZ", name: "Arizona", primeCost: 60.5, foodCost: 31.5, laborCost: 29.0 },
+  { code: "AR", name: "Arkansas", primeCost: 57.5, foodCost: 29.5, laborCost: 28.0 },
+  { code: "CA", name: "California", primeCost: 65.0, foodCost: 33.0, laborCost: 32.0 },
+  { code: "CO", name: "Colorado", primeCost: 61.5, foodCost: 31.0, laborCost: 30.5 },
+  { code: "CT", name: "Connecticut", primeCost: 63.0, foodCost: 32.0, laborCost: 31.0 },
+  { code: "DE", name: "Delaware", primeCost: 60.0, foodCost: 31.0, laborCost: 29.0 },
+  { code: "FL", name: "Florida", primeCost: 59.5, foodCost: 30.5, laborCost: 29.0 },
+  { code: "GA", name: "Georgia", primeCost: 59.0, foodCost: 30.0, laborCost: 29.0 },
+  { code: "HI", name: "Hawaii", primeCost: 66.0, foodCost: 36.0, laborCost: 30.0 },
+  { code: "ID", name: "Idaho", primeCost: 58.0, foodCost: 30.0, laborCost: 28.0 },
+  { code: "IL", name: "Illinois", primeCost: 62.0, foodCost: 31.5, laborCost: 30.5 },
+  { code: "IN", name: "Indiana", primeCost: 58.5, foodCost: 30.0, laborCost: 28.5 },
+  { code: "IA", name: "Iowa", primeCost: 57.5, foodCost: 29.5, laborCost: 28.0 },
+  { code: "KS", name: "Kansas", primeCost: 58.0, foodCost: 30.0, laborCost: 28.0 },
+  { code: "KY", name: "Kentucky", primeCost: 58.0, foodCost: 29.5, laborCost: 28.5 },
+  { code: "LA", name: "Louisiana", primeCost: 59.0, foodCost: 30.5, laborCost: 28.5 },
+  { code: "ME", name: "Maine", primeCost: 60.5, foodCost: 31.5, laborCost: 29.0 },
+  { code: "MD", name: "Maryland", primeCost: 62.0, foodCost: 31.5, laborCost: 30.5 },
+  { code: "MA", name: "Massachusetts", primeCost: 64.0, foodCost: 32.5, laborCost: 31.5 },
+  { code: "MI", name: "Michigan", primeCost: 59.5, foodCost: 30.5, laborCost: 29.0 },
+  { code: "MN", name: "Minnesota", primeCost: 60.0, foodCost: 30.5, laborCost: 29.5 },
+  { code: "MS", name: "Mississippi", primeCost: 57.0, foodCost: 29.0, laborCost: 28.0 },
+  { code: "MO", name: "Missouri", primeCost: 58.5, foodCost: 30.0, laborCost: 28.5 },
+  { code: "MT", name: "Montana", primeCost: 59.0, foodCost: 31.0, laborCost: 28.0 },
+  { code: "NE", name: "Nebraska", primeCost: 58.0, foodCost: 30.0, laborCost: 28.0 },
+  { code: "NV", name: "Nevada", primeCost: 61.0, foodCost: 31.0, laborCost: 30.0 },
+  { code: "NH", name: "New Hampshire", primeCost: 61.0, foodCost: 31.5, laborCost: 29.5 },
+  { code: "NJ", name: "New Jersey", primeCost: 63.5, foodCost: 32.0, laborCost: 31.5 },
+  { code: "NM", name: "New Mexico", primeCost: 59.0, foodCost: 30.5, laborCost: 28.5 },
+  { code: "NY", name: "New York", primeCost: 64.5, foodCost: 32.5, laborCost: 32.0 },
+  { code: "NC", name: "North Carolina", primeCost: 59.0, foodCost: 30.0, laborCost: 29.0 },
+  { code: "ND", name: "North Dakota", primeCost: 58.0, foodCost: 30.0, laborCost: 28.0 },
+  { code: "OH", name: "Ohio", primeCost: 59.0, foodCost: 30.0, laborCost: 29.0 },
+  { code: "OK", name: "Oklahoma", primeCost: 57.5, foodCost: 29.5, laborCost: 28.0 },
+  { code: "OR", name: "Oregon", primeCost: 62.5, foodCost: 31.5, laborCost: 31.0 },
+  { code: "PA", name: "Pennsylvania", primeCost: 61.0, foodCost: 31.0, laborCost: 30.0 },
+  { code: "RI", name: "Rhode Island", primeCost: 62.0, foodCost: 31.5, laborCost: 30.5 },
+  { code: "SC", name: "South Carolina", primeCost: 58.5, foodCost: 30.0, laborCost: 28.5 },
+  { code: "SD", name: "South Dakota", primeCost: 57.5, foodCost: 29.5, laborCost: 28.0 },
+  { code: "TN", name: "Tennessee", primeCost: 58.5, foodCost: 30.0, laborCost: 28.5 },
+  { code: "TX", name: "Texas", primeCost: 59.5, foodCost: 30.5, laborCost: 29.0 },
+  { code: "UT", name: "Utah", primeCost: 59.0, foodCost: 30.5, laborCost: 28.5 },
+  { code: "VT", name: "Vermont", primeCost: 61.0, foodCost: 32.0, laborCost: 29.0 },
+  { code: "VA", name: "Virginia", primeCost: 60.5, foodCost: 31.0, laborCost: 29.5 },
+  { code: "WA", name: "Washington", primeCost: 63.5, foodCost: 32.0, laborCost: 31.5 },
+  { code: "WV", name: "West Virginia", primeCost: 57.5, foodCost: 29.5, laborCost: 28.0 },
+  { code: "WI", name: "Wisconsin", primeCost: 59.0, foodCost: 30.0, laborCost: 29.0 },
+  { code: "WY", name: "Wyoming", primeCost: 58.5, foodCost: 30.5, laborCost: 28.0 },
+];
